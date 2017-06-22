@@ -1,24 +1,33 @@
 {% extends "base.html" %}
 
-{% block title %}
-Alveo Transcription Tool
-{% endblock %}
+{% block title %}Alveo Transcription Tool{% endblock %}
 
 {% block content %}
 {% if not logged_in %}
 <p id="hello">Welcome to the Alveo Transcription Tool. You're just one step away from being able to begin transcribing!</p>
 <p id="alveo-button">Login via Alveo</p>
 {% else %}
-<table id="transcriber" width="100%"> <!-- Flex 90% space -->
+{# Load the primary application which consists of two major views:
+       Clip/File selection.
+         Each user is either:
+           * Assigned a set of clips to work on, or,
+           * Can query for a set of clips to work on
+         These clips are pulled in advance by the Flask application from a remote server.
+       Clip/File transcriber
+           * Shouldn't have an explicit save button but should Auto-Save appropriately (time/action based)
+           * Segment joining is a stretch goal. Preprocessor assumed to work as intended always.
+
+    So basically, get OAuth fully functional then work with some mock clip/file data to get the frontend going.
+#}
+
+<!-- Ideally don't want to use a table here. Flexbox would be preferred. Will confirm browser compat. -->
+<table id="transcriber" width="100%">
     <tr>
         <td>Play</td>
         <td>Speaker</td>
         <td>Transcription Field</td>
     </tr>
 </table>
-<!-- if entries >1, for each row -->
-<!-- add button to link rows -->
-<!-- css draw curve to each button from each row -->
 
 <script>
     /* We must change the AngularJS variable notation so that Jinja2 does not

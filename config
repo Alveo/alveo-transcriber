@@ -14,3 +14,14 @@ DEBUG = True # Off for testing/production
 DEVELOPMENT = True # Off for production
 
 MAX_CONTENT_LENGTH = 1 * 1024 * 1024 # After 1mb, throw RequestEntityTooLarge exception
+
+# Mail handling
+MAIL_SERVER = "" # smtp.gmail.com?
+MAIL_PORT = 587
+MAIL_USE_TLS = True
+MAIL_USERNAME = "errors@alveo" # TODO
+MAIL_PASSWORD = '' # TODO
+MAIL_DEFAULT_SENDER = MAIL_USERNAME
+
+ERROR_HEADER_500 = 'AlveoTT: Internal Error Encountered'
+ADMINS = ['david.irving@mq.edu.au']

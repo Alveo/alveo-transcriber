@@ -4,6 +4,8 @@ from threading import Thread
 from flask import render_template
 from flask_mail import Message
 
+from application import app
+
 # Flask error for 403
 def not_allowed(error):
     context = {

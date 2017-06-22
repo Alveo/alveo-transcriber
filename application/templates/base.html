@@ -9,18 +9,16 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Alveo Transcription Tool</title>
+    <title>{% block title %}{% endblock %}</title>
+
     
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.css">
-    <link rel="stylesheet" href="stylesheet.css">
-
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheet.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
     
-    <!-- TODO fav icons -->
-    <link rel="shortcut icon" href="favicon.ico">
-    <link rel="icon" type="image/png" href="favicon-16.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon-16.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32.png') }}">
 </head>
 
 <body>
@@ -33,40 +31,8 @@
 
 <header><p>Alveo Transcription Tool</p></header>
 
-<!-- Login view -->
 <main>
-    <p>Welcome to the Alveo transcription tool. This website uses OAuth with the main Alveo application.</p>
-    <a href="#login">Login Image</a>
-</main>
-
-<!-- Selection view -->
-<main>
-</main>
-
-<!-- Transcription view -->
-<main> <!-- Flex -->
-    <table id="transcriber" width="100%"> <!-- Flex 90% space -->
-        <tr>
-            <td>Play</td>
-            <td>Speaker</td>
-            <td>Transcription Field</td>
-        </tr>
-    </table>
-    <!-- if entries >1, for each row -->
-    <!-- add button to link rows -->
-    <!-- css draw curve to each button from each row -->
-    <script>
-        /* We must change the AngularJS variable notation so that Jinja2 does not
-            interfere with it. The other way to go about it is to use Jinja2 to output
-            a string with curly braces instead.
-            e.g {{ '{{ angular_variable }}' }} */
-        var app = angular.module('Application', []);
-
-        app.config(['$interpolateProvider', function($interpolateProvider) {
-          $interpolateProvider.startSymbol('{a');
-          $interpolateProvider.endSymbol('a}');
-        }]);
-    </script>
+{% block content %}{% endblock %}
 </main>
 
 <footer><p>Site &copy; YEAR COMPANY all rights reserved</p></footer>

@@ -27,5 +27,5 @@ ERROR_HEADER_500 = 'AlveoTT: Internal Error Encountered'
 ADMINS = ['david.irving@mq.edu.au']
 
 # OAuth2
-ALVEO_APP_ID = ''
-ALVEO_APP_SECRET = ''
+OAUTH_ALVEO_APPID = ''
+OAUTH_ALVEO_APPSEC = ''

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}
+Alveo Transcription Tool
+{% endblock %}
+
+{% block content %}
+<table id="transcriber" width="100%"> <!-- Flex 90% space -->
+    <tr>
+        <td>Play</td>
+        <td>Speaker</td>
+        <td>Transcription Field</td>
+    </tr>
+</table>
+<!-- if entries >1, for each row -->
+<!-- add button to link rows -->
+<!-- css draw curve to each button from each row -->
+
+<script>
+    /* We must change the AngularJS variable notation so that Jinja2 does not
+        interfere with it. The other way to go about it is to use Jinja2 to output
+        a string with curly braces instead.
+        e.g {{ '{{ angular_variable }}' }} */
+    var app = angular.module('Application', []);
+
+    app.config(['$interpolateProvider', function($interpolateProvider) {
+      $interpolateProvider.startSymbol('{a');
+      $interpolateProvider.endSymbol('a}');
+    }]);
+</script>
+{% endblock %}

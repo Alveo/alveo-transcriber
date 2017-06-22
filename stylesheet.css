@@ -1,1 +1,31 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:300,700,300italic,700italic|Oswald:700);
 
+*, *:before, *:after { 
+    box-sizing: inherit;
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+body {
+    font-weight: lighter;
+
+    /* Below is essential for footer position */
+    position: relative;
+    display: table;
+}
+
+footer {
+    font-size: 12px;
+    text-align: center;
+
+    position: absolute;
+    right: 0; bottom: 0; left: 0;
+    padding-bottom: 8px;
+}

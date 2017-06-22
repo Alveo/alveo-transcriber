@@ -38,7 +38,7 @@ class AlveoCallbackView(MethodView):
 
             return oauth_id
 
-        oauth_id = callback() # supports multiple arguments, e.g oauth_id, firstname
+        oauth_id = callback()
 
         if oauth_id is None: # No valid oauth_id
             flash('Authentication failed.')
@@ -52,7 +52,7 @@ class AlveoCallbackView(MethodView):
 
         login_user(user, True)
 
-        return redirect(url_for('index'))
+        return redirect(url_for('index_view'))
 
 alveo_authorise_view = AlveoAuthoriseView.as_view('alveo_authorise_view')
 alveo_callback_view = AlveoCallbackView.as_view('alveo_callback_view')

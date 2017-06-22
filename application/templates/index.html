@@ -5,6 +5,10 @@ Alveo Transcription Tool
 {% endblock %}
 
 {% block content %}
+{% if not logged_in %}
+<p id="hello">Welcome to the Alveo Transcription Tool. You're just one step away from being able to begin transcribing!</p>
+<p id="alveo-button">Login via Alveo</p>
+{% else %}
 <table id="transcriber" width="100%"> <!-- Flex 90% space -->
     <tr>
         <td>Play</td>
@@ -28,4 +32,5 @@ Alveo Transcription Tool
       $interpolateProvider.endSymbol('a}');
     }]);
 </script>
+{% endif %}
 {% endblock %}

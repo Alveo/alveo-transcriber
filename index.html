@@ -1,45 +1,62 @@
-<html>
-    <head>
-        <!-- Newer version? -->
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
-    </head>
-    <body>
-        <!-- This site requires JavaScript to be enabled. Please whitelist this website if you wish to use it. -->
+<!DOCTYPE html >
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="keywords" content="alveo, transcription">
+    <meta name="description" content="Alveo Transcription Tool is an easy to use web tool to provide annotations for audio.">
+    <meta name="author" content="David Irving">
 
-        <nav>
-            <a href="#alveo-main">Alveo</a>
-            <a href="#about">About</a>
-            <a href="#logout">Logout</a>
-        </nav>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <header><p>Alveo Transcription Tool</p></header>
+    <title>Alveo Transcription Tool</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.css">
+    <link rel="stylesheet" href="stylesheet.css">
 
-        <!-- Login view -->
-        <main>
-            <p>Welcome to the Alveo transcription tool. This website uses OAuth with the main Alveo application.</p>
-            <a href="#login">Login Image</a>
-        </main>
 
-        <!-- Selection view -->
-        <main>
-        </main>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    
+    <!-- TODO fav icons -->
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="icon" type="image/png" href="favicon-16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+</head>
 
-        <!-- Transcription view -->
-        <main> <!-- Flex -->
-            <table id="transcriber" width="100%"> <!-- Flex 90% space -->
-                <tr>
-                    <td>Play</td>
-                    <td>Speaker</td>
-                    <td>Transcription Field</td>
-                </tr>
-            </table>
-            <!-- if entries >1, for each row -->
-            <!-- add button to link rows -->
-            <!-- css draw curve to each button from each row -->
+<body>
+<!-- This site requires JavaScript to be enabled. Please whitelist this website if you wish to use it. -->
+<nav>
+    <a href="#alveo-main">Alveo</a>
+    <a href="#about">About</a>
+    <a href="#logout">Logout</a>
+</nav>
 
-            <button id="submit">Done</button>
-        </main>
+<header><p>Alveo Transcription Tool</p></header>
 
-        <footer><p>Made by David Irving for Macquarie Univeristy (Change this)</p></footer>
-    </body>
+<!-- Login view -->
+<main>
+    <p>Welcome to the Alveo transcription tool. This website uses OAuth with the main Alveo application.</p>
+    <a href="#login">Login Image</a>
+</main>
+
+<!-- Selection view -->
+<main>
+</main>
+
+<!-- Transcription view -->
+<main> <!-- Flex -->
+    <table id="transcriber" width="100%"> <!-- Flex 90% space -->
+        <tr>
+            <td>Play</td>
+            <td>Speaker</td>
+            <td>Transcription Field</td>
+        </tr>
+    </table>
+    <!-- if entries >1, for each row -->
+    <!-- add button to link rows -->
+    <!-- css draw curve to each button from each row -->
+</main>
+
+<footer><p>Site &copy; YEAR COMPANY all rights reserved</p></footer>
+</body>
 </html>

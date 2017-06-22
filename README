@@ -4,8 +4,8 @@ Python dependencies:
   Flask
   Flask-SQLAlchemy
   Flask-Mail
+  Flask-Login
   pytz
-  psycopg2 [PostgreSQL] -- May not be needed with LowlaDB
   Gunicorn [Production/Testing]
   Flask-Migrate [Optional]
   Flask-Script [Optional]

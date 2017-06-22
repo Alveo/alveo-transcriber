@@ -5,6 +5,7 @@ Python dependencies:
   Flask-SQLAlchemy
   Flask-Mail
   Flask-Login
+  rauth
   pytz
   Gunicorn [Production/Testing]
   Flask-Migrate [Optional]

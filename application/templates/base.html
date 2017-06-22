@@ -24,9 +24,11 @@
 <body>
 <!-- This site requires JavaScript to be enabled. Please whitelist this website if you wish to use it. -->
 <nav>
+    {% if logged_in %}
+    <a href="/logout">Logout</a>
+    {% endif %}
     <a href="#alveo-main">Alveo</a>
     <a href="#about">About</a>
-    <a href="#logout">Logout</a>
 </nav>
 
 <header><p>Alveo Transcription Tool</p></header>

@@ -39,7 +39,25 @@
 <p id="alveo-button">Login via Alveo</p>
 </div>
 
-<div ng-if="view===0 && logged_in">
+<div id="clips" ng-if="view===0 && logged_in">
+    <p id="clips-info">Please select a clip to transcribe.</p>
+    <div class="clip">
+        <div class="name">Clip Name Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah</div>
+        <div class="duration">3 minutes 17 seconds (11 segments)</div>
+    </div>
+    <div class="clip">
+        <div class="name">WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW</div>
+        <div class="duration">3 minutes 17 seconds (11 segments)</div>
+    </div>
+    <div class="clip">
+        <div class="name">Clip Name Blah Blah Blah</div>
+        <div class="duration">3 minutes 17 seconds (11 segments)</div>
+    </div>
+    <div class="clip">
+        <div class="name">Clip Name Blah Blah Blah</div>
+        <div class="duration">3 minutes 17 seconds (11 segments)</div>
+    </div>
+
 <!-- Load the primary application which consists of two major views:
        Clip/File selection.
          Each user is either:
@@ -52,7 +70,9 @@
 
     So basically, get OAuth fully functional then work with some mock clip/file data to get the frontend going.
 -->
+</div>
 
+<div ng-if="view===1 && logged_in">
 <!-- Ideally don't want to use a table here. Flexbox would be preferred. Will confirm browser compat. -->
 <table id="transcriber" width="100%">
     <tr>
@@ -69,7 +89,7 @@
     var app = angular.module('Alveo', []);
 
     app.controller('user', function($scope) {
-        $scope.logged_in = false;
+        $scope.logged_in = true;
         $scope.view = 0;
         $scope.host_addr = "127.0.0.1:5000";
     });

@@ -1,0 +1,67 @@
+<!DOCTYPE html >
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="keywords" content="alveo, transcription">
+    <meta name="description" content="Alveo Transcription Tool is an easy to use web tool to provide annotations for audio.">
+    <meta name="author" content="David Irving">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Alveo Transcription Tool</title>
+    
+    <link rel="stylesheet" href="stylesheet.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="icon" type="image/png" href="favicon-16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+</head>
+
+<body>
+<noscript>
+<p id="javascript-check">This resource requires JavaScript to be enabled. Please whitelist us if you wish to use the application.</p>
+</noscript>
+<nav>
+    <!-- If logged in -->
+    <a href="/logout">Logout</a>
+
+    <a href="http://alveo.edu.au/" target="_blank">Alveo</a>
+    <a href="#about">About</a>
+</nav>
+<header><p>Alveo Transcription Tool</p></header>
+
+<!-- If !logged in -->
+<p id="hello">Welcome to the Alveo Transcription Tool. You're just one step away from being able to begin transcribing!</p>
+<p id="alveo-button">Login via Alveo</p>
+
+{# Load the primary application which consists of two major views:
+       Clip/File selection.
+         Each user is either:
+           * Assigned a set of clips to work on, or,
+           * Can query for a set of clips to work on
+         These clips are pulled in advance by the Flask application from a remote server.
+       Clip/File transcriber
+           * Shouldn't have an explicit save button but should Auto-Save appropriately (time/action based)
+           * Segment joining is a stretch goal. Preprocessor assumed to work as intended always.
+
+    So basically, get OAuth fully functional then work with some mock clip/file data to get the frontend going.
+#}
+
+<!-- Ideally don't want to use a table here. Flexbox would be preferred. Will confirm browser compat. -->
+<table id="transcriber" width="100%">
+    <tr>
+        <td>Play</td>
+        <td>Speaker</td>
+        <td>Transcription Field</td>
+    </tr>
+</table>
+
+<script>
+    var app = angular.module('Alveo', []);
+</script>
+<footer><p>Site &copy; YEAR COMPANY all rights reserved</p></footer>
+</body>
+</html>

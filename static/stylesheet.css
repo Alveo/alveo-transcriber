@@ -116,7 +116,7 @@ footer {
 
 .clip .name {
     height: 60%;
-    padding: 1em 1em 1em 0.3em;
+    padding: 1em;
     margin: 0 1em 0 1em;
     text-overflow: ellipsis;
     overflow: hidden;

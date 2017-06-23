@@ -11,22 +11,22 @@
 
     <title>Alveo Transcription Tool</title>
     
-    <link rel="stylesheet" href="stylesheet.css">
+    <link rel="stylesheet" href="/static/stylesheet.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
     
-    <link rel="shortcut icon" href="favicon.ico">
-    <link rel="icon" type="image/png" href="favicon-16.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+    <link rel="shortcut icon" href="/static/favicon.ico">
+    <link rel="icon" type="image/png" href="/static/favicon-16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32.png">
 </head>
 
-<body>
+<body ng-app="Alveo" ng-controller="user">
 <noscript>
 <p id="javascript-check">This resource requires JavaScript to be enabled. Please whitelist us if you wish to use the application.</p>
 </noscript>
 <nav>
     <!-- If logged in -->
-    <a href="/logout">Logout</a>
+    <a ng-if="logged_in" href="/logout">Logout</a>
 
     <a href="http://alveo.edu.au/" target="_blank">Alveo</a>
     <a href="#about">About</a>
@@ -34,10 +34,13 @@
 <header><p>Alveo Transcription Tool</p></header>
 
 <!-- If !logged in -->
+<div ng-if="!logged_in">
 <p id="hello">Welcome to the Alveo Transcription Tool. You're just one step away from being able to begin transcribing!</p>
 <p id="alveo-button">Login via Alveo</p>
+</div>
 
-{# Load the primary application which consists of two major views:
+<div ng-if="view===0 && logged_in">
+<!-- Load the primary application which consists of two major views:
        Clip/File selection.
          Each user is either:
            * Assigned a set of clips to work on, or,
@@ -48,7 +51,7 @@
            * Segment joining is a stretch goal. Preprocessor assumed to work as intended always.
 
     So basically, get OAuth fully functional then work with some mock clip/file data to get the frontend going.
-#}
+-->
 
 <!-- Ideally don't want to use a table here. Flexbox would be preferred. Will confirm browser compat. -->
 <table id="transcriber" width="100%">
@@ -58,10 +61,18 @@
         <td>Transcription Field</td>
     </tr>
 </table>
+</div>
+
+<footer><p>Site &copy; YEAR COMPANY all rights reserved</p></footer>
 
 <script>
     var app = angular.module('Alveo', []);
+
+    app.controller('user', function($scope) {
+        $scope.logged_in = false;
+        $scope.view = 0;
+        $scope.host_addr = "127.0.0.1:5000";
+    });
 </script>
-<footer><p>Site &copy; YEAR COMPANY all rights reserved</p></footer>
 </body>
 </html>

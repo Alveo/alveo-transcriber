@@ -10,7 +10,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>{% block title %}{% endblock %}</title>
-
     
     <link rel="stylesheet" href="{{ url_for('static', filename='stylesheet.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
@@ -22,21 +21,14 @@
 </head>
 
 <body>
-<!-- This site requires JavaScript to be enabled. Please whitelist this website if you wish to use it. -->
+<p id="javascript-check">This resource requires JavaScript to be enabled. Please whitelist us if you wish to use the application.</p>
 <nav>
-    {% if logged_in %}
-    <a href="/logout">Logout</a>
-    {% endif %}
+    {% if logged_in %}<a href="/logout">Logout</a>{% endif %}
     <a href="#alveo-main">Alveo</a>
     <a href="#about">About</a>
 </nav>
-
 <header><p>Alveo Transcription Tool</p></header>
-
-<main>
-{% block content %}{% endblock %}
-</main>
-
+<main>{% block content %}{% endblock %}</main>
 <footer><p>Site &copy; YEAR COMPANY all rights reserved</p></footer>
 </body>
 </html>

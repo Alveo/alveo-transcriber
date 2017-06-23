@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="/static/stylesheet.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.10/ngStorage.min.js"></script>
     
     <link rel="shortcut icon" href="/static/favicon.ico">
     <link rel="icon" type="image/png" href="/static/favicon-16.png">
@@ -26,7 +27,7 @@
 </noscript>
 <nav>
     <!-- If logged in -->
-    <a ng-if="logged_in" href="" ng-click="logout()">Logout</a>
+    <a ng-if="svars.logged_in" href="" ng-click="logout()">Logout</a>
 
     <a href="http://alveo.edu.au/" target="_blank">Alveo</a>
     <a href="#about">About</a>
@@ -34,14 +35,14 @@
 <header><p>Alveo Transcription Tool</p></header>
 
 <!-- If !logged in -->
-<div ng-if="!logged_in">
+<div ng-if="!svars.logged_in">
 <p id="hello">Welcome to the Alveo Transcription Tool. You're just one step away from being able to begin transcribing!</p>
 <p id="alveo-button" ng-click="login()">Login via Alveo</p>
 </div>
 
-<div id="clips" ng-if="selecting && logged_in">
+<div id="clips" ng-if="svars.selecting && svars.logged_in">
     <p id="clips-info">Please select a clip to transcribe.</p>
-    <div class="clip" ng-repeat="x in clips" ng-click="edit(x.id)">
+    <div class="clip" ng-repeat="x in svars.clips" ng-click="edit(x.id)">
         <div class="name" ng-bind="x.label"></div>
         <div class="info">
             <div class="duration" ng-bind="x.duration | durationFormat"></div>
@@ -53,20 +54,20 @@
     </div>
 </div>
 
-<div ng-if="!selecting && logged_in">
-<p id="clip-transcriber-header">Transcribing: {{clips[clip].label}}</p>
-<p id="clip-transcriber-complete" ng-click="complete()">Save &amp; Return</p>
+<div ng-if="!svars.selecting && svars.logged_in">
+    <p id="clip-transcriber-header">Transcribing: {{svars.clips[svars.clip].label}}</p>
+    <p id="clip-transcriber-complete" ng-click="complete()">Save &amp; Return</p>
 
-<div id="transcriber">
-    <div class="annotator" ng-repeat="x in clips[clip].segments">
-        <p class="timestamp">{{x.start}} to {{x.end}}</p>
-        <div class="annotator-fields">
-            <input class="speaker" type="text" placeholder="Speaker" ng-model="x.speaker"></input>
-            <input class="annotation" type="text" placeholder="Annotation" ng-model="x.annotation"></input>
+    <div id="transcriber">
+        <div class="annotator" ng-repeat="x in svars.clips[svars.clip].segments">
+            <p class="timestamp">{{x.start}} to {{x.end}}</p>
+            <div class="annotator-fields">
+                <input class="speaker" type="text" placeholder="Speaker" ng-model="x.speaker"></input>
+                <input class="annotation" type="text" placeholder="Annotation" ng-model="x.annotation"></input>
+            </div>
+            <div class="playbar"></div>
         </div>
-        <div class="playbar"></div>
     </div>
-</div>
 <!--
 <table id="transcriber" width="100%">
     <tr>
@@ -81,7 +82,7 @@
 <footer><p>Site &copy; YEAR COMPANY all rights reserved</p></footer>
 
 <script>
-    var app = angular.module('Alveo', []);
+    var app = angular.module('Alveo', ['ngStorage']);
 
     app.filter('durationFormat', function () {
     return function (input) {
@@ -94,41 +95,13 @@
         return formatted;
     };});
 
-    app.controller('user', function($scope, $http) {
-        $scope.logged_in = true;
-        $scope.selecting = false;
-        /* defaults
-        $scope.selecting = true;
-        */
-        $scope.clip = 0;
-        $scope.host_addr = "127.0.0.1:5000";
-
-        $scope.logout = function() {
-            $http.get('/logout')
-            $scope.logged_in = false;
-            /* Clear all cached files */
-        };
-
-        $scope.login = function() {
-            /* Check cache to see if there are sufficient clips */
-            /*  If not, make a request for a new set of clips */
-            $scope.logged_in = true;
-            $scope.selecting = true;
-        }
-
-        $scope.edit = function(id) {
-            $scope.selecting = false;
-            $scope.clip = id;
-        }
-
-        $scope.complete = function() {
-            /* save scope.clip annotations */
-
-            $scope.selecting = true;
-        }
-
-        $scope.clips = [
-            {
+    app.controller('user', function($scope, $http, $localStorage) {
+        $scope.svars = $localStorage.$default({
+            'logged_in': true,
+            'clip': 0,
+            'host_addr': "127.0.0.1:5000",
+            'selecting': true,
+            'clips': [{
                 "id": "0",
                 "label": "TestWWWWWWWWWW",
                 "audio_url": "",
@@ -203,8 +176,32 @@
                         "speaker": "2",
                         "annotation": "",
                     }]
-            }
-        ]
+            }]
+        });
+
+        $scope.logout = function() {
+            $http.get('/logout')
+            $scope.svars.logged_in = false;
+            /* Clear all cached files */
+        };
+
+        $scope.login = function() {
+            /* Check cache to see if there are sufficient clips */
+            /*  If not, make a request for a new set of clips */
+            $scope.svars.logged_in = true;
+            $scope.svars.selecting = true;
+        }
+
+        $scope.edit = function(id) {
+            $scope.svars.selecting = false;
+            $scope.svars.clip = id;
+        }
+
+        $scope.complete = function() {
+            /* save scope.clip annotations */
+
+            $scope.svars.selecting = true;
+        }
     });
 </script>
 </body>

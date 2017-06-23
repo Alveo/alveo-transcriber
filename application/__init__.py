@@ -4,7 +4,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_mail import Mail
-from flask_login import LoginManager, UserMixin
+from flask_login import LoginManager
 from rauth import OAuth2Service
 
 app = Flask(__name__)

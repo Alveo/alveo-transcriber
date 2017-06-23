@@ -7,7 +7,7 @@ from application import app, oauth_alveo
 class AlveoAuthoriseView(MethodView):
     def get(self):
         if not current_user.is_anonymous:
-            return redirect(url_for('index_view'))
+            return redirect(url_for('root'))
 
         return redirect(oauth_alveo.get_authorize_url(
             scope='email',
@@ -19,7 +19,7 @@ class AlveoAuthoriseView(MethodView):
 class AlveoCallbackView(MethodView):
     def get(self):
         if not current_user.is_anonymous:
-            return redirect(url_for('index_view'))
+            return redirect(url_for('root'))
 
         def callback():
             request_token = session.pop('request_token', None)
@@ -42,7 +42,7 @@ class AlveoCallbackView(MethodView):
 
         if oauth_id is None: # No valid oauth_id
             flash('Authentication failed.')
-            return redirect(url_for('index_view'))
+            return redirect(url_for('root'))
 
         user = User.query.filter_by(oauth_id=oauth_id).first()
         if not user: # Create one
@@ -52,7 +52,7 @@ class AlveoCallbackView(MethodView):
 
         login_user(user, True)
 
-        return redirect(url_for('index_view'))
+        return redirect(url_for('root'))
 
 alveo_authorise_view = AlveoAuthoriseView.as_view('alveo_authorise_view')
 alveo_callback_view = AlveoCallbackView.as_view('alveo_callback_view')

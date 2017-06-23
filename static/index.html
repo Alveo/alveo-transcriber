@@ -41,21 +41,14 @@
 
 <div id="clips" ng-if="view===0 && logged_in">
     <p id="clips-info">Please select a clip to transcribe.</p>
-    <div class="clip">
-        <div class="name">Clip Name Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah</div>
-        <div class="duration">3 minutes 17 seconds (11 segments)</div>
-    </div>
-    <div class="clip">
-        <div class="name">WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW</div>
-        <div class="duration">3 minutes 17 seconds (11 segments)</div>
-    </div>
-    <div class="clip">
-        <div class="name">Clip Name Blah Blah Blah</div>
-        <div class="duration">3 minutes 17 seconds (11 segments)</div>
-    </div>
-    <div class="clip">
-        <div class="name">Clip Name Blah Blah Blah</div>
-        <div class="duration">3 minutes 17 seconds (11 segments)</div>
+    <div class="clip" ng-repeat="x in clips">
+        <div class="name" ng-bind="x.label"></div>
+        <div class="duration">{{x.duration | durationFormat }}
+            <ng-pluralize count="x.segments.length"
+                          when="{'1': '(1 segment)',
+                          'other': '({} segments)'}">
+            </ng-pluralize>
+        </div>
     </div>
 
 <!-- Load the primary application which consists of two major views:
@@ -88,10 +81,61 @@
 <script>
     var app = angular.module('Alveo', []);
 
+    app.filter('durationFormat', function () {
+    return function (input) {
+        var seconds = Math.floor((input % 60000) / 1000);
+        var minutes = Math.floor(input / 60000);
+
+        var formatted = (minutes > 0 ? minutes+' minutes': '');
+        formatted += (seconds > 0 ? ' '+seconds+' seconds': '');
+        return formatted;
+    };});
+
     app.controller('user', function($scope) {
         $scope.logged_in = true;
         $scope.view = 0;
         $scope.host_addr = "127.0.0.1:5000";
+
+        $scope.clips = [
+            {
+                "@id": "1",
+                "label": "TestWWWWWWWWWW",
+                "audio_url": "",
+                "duration": 4730,
+                "segments": [
+                    {
+                        "start": 0,
+                        "end": 1,
+                        "speaker": "1",
+                        "annotation": "",
+                    },
+                    {
+                        "start": 2,
+                        "end": 3,
+                        "speaker": 2,
+                        "annotation": "",
+                    }]
+            },
+            {
+                "id": "2",
+                "label": "Test Test Test Test Test Test Test Test Test Test Test Test",
+                "audio_url": "",
+                "duration": "63812",
+                "segments": [
+                    {
+                        "start": 0,
+                        "end": 1,
+                        "speaker": "1",
+                        "annotation": "",
+                    },
+                    {
+                        "start": 2,
+                        "end": 3,
+                        "speaker": 2,
+                        "annotation": "",
+                    }]
+            }
+        ]
     });
 </script>
 </body>

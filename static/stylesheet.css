@@ -137,3 +137,26 @@ footer {
 .clip .duration {
     display: inline-block;
 }
+
+#clip-transcriber-header {
+    margin: 1em auto 1em auto;
+    text-align: center;
+    font-size: 16px;
+    width: 60%;
+}
+
+#clip-transcriber-complete {
+    margin: 1em auto 1em auto;
+    text-align: center;
+    font-size: 22px;
+    background: #000000;
+    color: #FFFFFF;
+    width: 180px;
+    height: 40px;
+    padding: 0.4em;
+}
+
+#clip-transcriber-complete:hover {
+    background: #444444;
+    cursor: pointer;
+}

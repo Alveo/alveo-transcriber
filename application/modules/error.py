@@ -31,7 +31,4 @@ def server_error(error):
     message = Message(recipients=app.config['ADMINS'], subject=app.config['ERROR_HEADER_500'], body=traceback.format_exc())
     send_async_email(message)
 
-    context = {
-            }
-
     return redirect('/')

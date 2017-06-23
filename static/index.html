@@ -41,7 +41,7 @@
 
 <div id="clips" ng-if="selecting && logged_in">
     <p id="clips-info">Please select a clip to transcribe.</p>
-    <div class="clip" ng-repeat="x in clips">
+    <div class="clip" ng-repeat="x in clips" ng-click="edit(x.id)">
         <div class="name" ng-bind="x.label"></div>
         <div class="info">
             <div class="duration" ng-bind="x.duration | durationFormat"></div>
@@ -66,7 +66,8 @@
 -->
 </div>
 
-<div ng-if="view===1 && logged_in">
+<div ng-if="!selecting && logged_in">
+<p>Editing {{clip}}</p>
 <!-- Ideally don't want to use a table here. Flexbox would be preferred. Will confirm browser compat. -->
 <table id="transcriber" width="100%">
     <tr>
@@ -104,13 +105,20 @@
             /* Clear all cached files */
         };
 
-        $scope.login = function () {
+        $scope.login = function() {
             $scope.logged_in = true;
+            $scope.selecting = true;
+            $scope.clip = 0;
+        }
+
+        $scope.edit = function(id) {
+            $scope.selecting = false;
+            $scope.clip = id;
         }
 
         $scope.clips = [
             {
-                "@id": "1",
+                "id": "1",
                 "label": "TestWWWWWWWWWW",
                 "audio_url": "",
                 "duration": 4730,

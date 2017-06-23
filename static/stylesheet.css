@@ -21,6 +21,16 @@ body {
     display: table;
 }
 
+#javascript-check {
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+    background: red;
+    color: #FFFFFF;
+    font-size: 16px;
+    padding: 0.2em 0 0.2em 0;
+}
+
 nav {
     text-align: right;
     margin: 0.5em 1em;
@@ -34,7 +44,7 @@ nav a {
 header {
     text-align: center;
     font-size: 60px;
-    margin-top: 1em;
+    margin-top: 0.6em;
 }
 
 footer {
@@ -50,7 +60,7 @@ footer {
     font-size: 36px;
     text-align: center;
     width: 75%;
-    margin: 1em auto 0 auto;
+    margin: 0.5em auto 0 auto;
 
 }
 

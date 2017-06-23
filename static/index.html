@@ -51,25 +51,23 @@
             </ng-pluralize>
         </div>
     </div>
-
-<!-- Load the primary application which consists of two major views:
-       Clip/File selection.
-         Each user is either:
-           * Assigned a set of clips to work on, or,
-           * Can query for a set of clips to work on
-         These clips are pulled in advance by the Flask application from a remote server.
-       Clip/File transcriber
-           * Shouldn't have an explicit save button but should Auto-Save appropriately (time/action based)
-           * Segment joining is a stretch goal. Preprocessor assumed to work as intended always.
-
-    So basically, get OAuth fully functional then work with some mock clip/file data to get the frontend going.
--->
 </div>
 
 <div ng-if="!selecting && logged_in">
 <p id="clip-transcriber-header">Transcribing: {{clips[clip].label}}</p>
-<p id="clip-transcriber-complete" ng-click="complete()">Save &amp; Exit</p>
-<!-- Ideally don't want to use a table here. Flexbox would be preferred. Will confirm browser compat. -->
+<p id="clip-transcriber-complete" ng-click="complete()">Save &amp; Return</p>
+
+<div id="transcriber">
+    <div class="annotator" ng-repeat="x in clips[clip].segments">
+        <p class="timestamp">{{x.start}} to {{x.end}}</p>
+        <div class="annotator-fields">
+            <input class="speaker" type="text" placeholder="Speaker" ng-model="x.speaker"></input>
+            <input class="annotation" type="text" placeholder="Annotation" ng-model="x.annotation"></input>
+        </div>
+        <div class="playbar"></div>
+    </div>
+</div>
+<!--
 <table id="transcriber" width="100%">
     <tr>
         <td>Play</td>
@@ -77,6 +75,7 @@
         <td>Transcription Field</td>
     </tr>
 </table>
+-->
 </div>
 
 <footer><p>Site &copy; YEAR COMPANY all rights reserved</p></footer>
@@ -111,6 +110,8 @@
         };
 
         $scope.login = function() {
+            /* Check cache to see if there are sufficient clips */
+            /*  If not, make a request for a new set of clips */
             $scope.logged_in = true;
             $scope.selecting = true;
         }
@@ -134,17 +135,24 @@
                 "duration": 4730,
                 "segments": [
                     {
-                        "start": 0,
-                        "end": 1,
+                        "start": 0.000,
+                        "end": 7.1239,
                         "speaker": "1",
                         "annotation": "",
                     },
                     {
-                        "start": 2,
-                        "end": 3,
+                        "start": 8.2383,
+                        "end": 14.2395,
                         "speaker": 2,
                         "annotation": "",
-                    }]
+                    },
+                    {
+                        "start": 16.2333,
+                        "end": 19.2395,
+                        "speaker": "",
+                        "annotation": "",
+                    }
+                ]
             },
             {
                 "id": "1",
@@ -153,15 +161,15 @@
                 "duration": "63812",
                 "segments": [
                     {
-                        "start": 0,
-                        "end": 1,
+                        "start": 0.000,
+                        "end": 5.732,
                         "speaker": "1",
                         "annotation": "",
                     },
                     {
-                        "start": 2,
-                        "end": 3,
-                        "speaker": 2,
+                        "start": 6.9271,
+                        "end": 11.3293,
+                        "speaker": "",
                         "annotation": "",
                     }]
             },
@@ -172,27 +180,27 @@
                 "duration": "4232000",
                 "segments": [
                     {
-                        "start": 0,
-                        "end": 1,
+                        "start": 0.000,
+                        "end": 1.763,
                         "speaker": "1",
                         "annotation": "",
                     },
                     {
-                        "start": 0,
-                        "end": 1,
-                        "speaker": "1",
+                        "start": 2.132,
+                        "end": 6.423,
+                        "speaker": "",
                         "annotation": "",
                     },
                     {
-                        "start": 0,
-                        "end": 1,
+                        "start": 7.432,
+                        "end": 11.1292,
                         "speaker": "1",
-                        "annotation": "",
+                        "annotation": "Testing",
                     },
                     {
-                        "start": 2,
-                        "end": 3,
-                        "speaker": 2,
+                        "start": 14.3923,
+                        "end": 23.2391,
+                        "speaker": "2",
                         "annotation": "",
                     }]
             }

@@ -1,12 +1,42 @@
-{% extends "base.html" %}
+<!DOCTYPE html >
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="keywords" content="alveo, transcription">
+    <meta name="description" content="Alveo Transcription Tool is an easy to use web tool to provide annotations for audio.">
+    <meta name="author" content="David Irving">
 
-{% block title %}Alveo Transcription Tool{% endblock %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-{% block content %}
-{% if not logged_in %}
+    <title>Alveo Transcription Tool</title>
+    
+    <link rel="stylesheet" href="stylesheet.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="icon" type="image/png" href="favicon-16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+</head>
+
+<body>
+<noscript>
+<p id="javascript-check">This resource requires JavaScript to be enabled. Please whitelist us if you wish to use the application.</p>
+</noscript>
+<nav>
+    <!-- If logged in -->
+    <a href="/logout">Logout</a>
+
+    <a href="http://alveo.edu.au/" target="_blank">Alveo</a>
+    <a href="#about">About</a>
+</nav>
+<header><p>Alveo Transcription Tool</p></header>
+
+<!-- If !logged in -->
 <p id="hello">Welcome to the Alveo Transcription Tool. You're just one step away from being able to begin transcribing!</p>
 <p id="alveo-button">Login via Alveo</p>
-{% else %}
+
 {# Load the primary application which consists of two major views:
        Clip/File selection.
          Each user is either:
@@ -30,16 +60,8 @@
 </table>
 
 <script>
-    /* We must change the AngularJS variable notation so that Jinja2 does not
-        interfere with it. The other way to go about it is to use Jinja2 to output
-        a string with curly braces instead.
-        e.g {{ '{{ angular_variable }}' }} */
-    var app = angular.module('Application', []);
-
-    app.config(['$interpolateProvider', function($interpolateProvider) {
-      $interpolateProvider.startSymbol('{a');
-      $interpolateProvider.endSymbol('a}');
-    }]);
+    var app = angular.module('Alveo', []);
 </script>
-{% endif %}
-{% endblock %}
+<footer><p>Site &copy; YEAR COMPANY all rights reserved</p></footer>
+</body>
+</html>

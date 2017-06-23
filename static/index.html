@@ -26,7 +26,7 @@
 </noscript>
 <nav>
     <!-- If logged in -->
-    <a ng-if="logged_in" href="/logout">Logout</a>
+    <a ng-if="logged_in" href="" ng-click="logout()">Logout</a>
 
     <a href="http://alveo.edu.au/" target="_blank">Alveo</a>
     <a href="#about">About</a>
@@ -36,15 +36,16 @@
 <!-- If !logged in -->
 <div ng-if="!logged_in">
 <p id="hello">Welcome to the Alveo Transcription Tool. You're just one step away from being able to begin transcribing!</p>
-<p id="alveo-button">Login via Alveo</p>
+<p id="alveo-button" ng-click="login()">Login via Alveo</p>
 </div>
 
-<div id="clips" ng-if="view===0 && logged_in">
+<div id="clips" ng-if="selecting && logged_in">
     <p id="clips-info">Please select a clip to transcribe.</p>
     <div class="clip" ng-repeat="x in clips">
         <div class="name" ng-bind="x.label"></div>
-        <div class="duration">{{x.duration | durationFormat }}
-            <ng-pluralize count="x.segments.length"
+        <div class="info">
+            <div class="duration" ng-bind="x.duration | durationFormat"></div>
+            <ng-pluralize class="segments" count="x.segments.length"
                           when="{'1': '(1 segment)',
                           'other': '({} segments)'}">
             </ng-pluralize>
@@ -91,10 +92,21 @@
         return formatted;
     };});
 
-    app.controller('user', function($scope) {
+    app.controller('user', function($scope, $http) {
         $scope.logged_in = true;
-        $scope.view = 0;
+        $scope.selecting = true;
+        $scope.clip = 0;
         $scope.host_addr = "127.0.0.1:5000";
+
+        $scope.logout = function() {
+            $http.get('/logout')
+            $scope.logged_in = false;
+            /* Clear all cached files */
+        };
+
+        $scope.login = function () {
+            $scope.logged_in = true;
+        }
 
         $scope.clips = [
             {

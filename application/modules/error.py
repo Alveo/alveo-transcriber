@@ -1,22 +1,18 @@
 import traceback
 from threading import Thread
 
-from flask import render_template
+from flask import redirect
 from flask_mail import Message
 
 from application import app
 
-# Flask error for 403
+# 403 handler
 def not_allowed(error):
-    context = {
-            }
-    return render_template('403.html', **context), 403
+    return redirect('/')
 
-# Flask error for 404
+# 404 handler
 def not_found(error):
-    context = {
-            }
-    return render_template('404.html', **context), 404
+    return redirect('/')
 
 
 def async(f):
@@ -30,7 +26,7 @@ def send_async_email(message):
     with app.app_context():
         app.config['MAILADDR'].send(message)
 
-# Flask error for 500
+# 500 handler
 def server_error(error):
     message = Message(recipients=app.config['ADMINS'], subject=app.config['ERROR_HEADER_500'], body=traceback.format_exc())
     send_async_email(message)
@@ -38,4 +34,4 @@ def server_error(error):
     context = {
             }
 
-    return render_template('500.html', **context), 500
+    return redirect('/')

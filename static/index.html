@@ -37,9 +37,11 @@
     <a href="#about">About</a>
 </nav>
 <header><p>Alveo Transcription Tool</p></header>
-<session ng-if="!vm.loggedin" template="login" loggedin="vm.loggedin"></session>
-<selector ng-if="vm.loggedin && vm.cache.selecting" selecting="vm.cache.selecting" clip="vm.cache.clip" clips="vm.cache.clips"></selector>
-<annotator ng-if="!vm.cache.selecting && vm.loggedin" selecting="vm.cache.selecting" clip="vm.cache.clips[vm.cache.clip]"></annotator>
+<session ng-show="!vm.loggedin" template="login" loggedin="vm.loggedin"></session>
+<div ng-if="vm.loggedin">
+    <selector ng-show="vm.cache.selecting" selecting="vm.cache.selecting" clip="vm.cache.clip" clips="vm.cache.clips"></selector>
+    <annotator ng-show="!vm.cache.selecting" selecting="vm.cache.selecting" clip="vm.cache.clips[vm.cache.clip]"></annotator>
+</div>
 <footer><p>Site &copy; YEAR COMPANY all rights reserved</p></footer>
 </body>
 </html>

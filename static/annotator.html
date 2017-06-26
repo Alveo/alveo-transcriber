@@ -1,0 +1,13 @@
+<p id="clip-transcriber-header">Transcribing: {{$ctrl.clips[$ctrl.clip].label}}</p>
+<p id="clip-transcriber-complete" ng-click="$ctrl.complete()">Save &amp; Return</p>
+
+<div id="transcriber">
+    <div class="annotator" ng-repeat="x in $ctrl.clips[$ctrl.clip].segments">
+        <p class="timestamp">{{x.start}} to {{x.end}}</p>
+        <div class="annotator-fields">
+            <input class="speaker" type="text" placeholder="Speaker" ng-model="x.speaker"></input>
+            <input class="annotation" type="text" placeholder="Annotation" ng-model="x.annotation"></input>
+        </div>
+        <div class="playbar"></div>
+    </div>
+</div>

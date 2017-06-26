@@ -1,10 +1,12 @@
 angular.module('Alveo', ['ngStorage'])
-.controller('AlveoController', function AlveoController() {
-    // $scope.svars = $localStorage.$default({
+.controller('AlveoController', function AlveoController($scope, $localStorage) {
     this.loggedin = false;
-    this.selecting = true;
-    this.clip = 0;
-    this.clips = [{
+    this.cache = $localStorage.$default({
+            'selecting': true,
+            'clip': 0,
+            'host_addr': "127.0.0.1:5000",
+            'clips':
+        [{
             "id": "0",
             "label": "TestWWWWWWWWWW",
             "audio_url": "",
@@ -80,4 +82,5 @@ angular.module('Alveo', ['ngStorage'])
                     "annotation": "",
                 }]
         }]
+    })
 });

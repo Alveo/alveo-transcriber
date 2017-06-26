@@ -38,8 +38,8 @@
 </nav>
 <header><p>Alveo Transcription Tool</p></header>
 <session ng-if="!vm.loggedin" template="login" loggedin="vm.loggedin"></session>
-<selector ng-if="vm.loggedin && vm.selecting" selecting="vm.selecting" clip="vm.clip" clips="vm.clips"></selector>
-<annotator ng-if="!vm.selecting && vm.loggedin" selecting="vm.selecting" clip="vm.clips[vm.clip]"></annotator>
+<selector ng-if="vm.loggedin && vm.cache.selecting" selecting="vm.cache.selecting" clip="vm.cache.clip" clips="vm.cache.clips"></selector>
+<annotator ng-if="!vm.cache.selecting && vm.loggedin" selecting="vm.cache.selecting" clip="vm.cache.clips[vm.cache.clip]"></annotator>
 <footer><p>Site &copy; YEAR COMPANY all rights reserved</p></footer>
 </body>
 </html>

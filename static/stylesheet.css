@@ -15,13 +15,10 @@ html, body {
 
 body {
     font-weight: lighter;
-
-    /* Below is essential for footer position */
-    position: relative;
-    display: table;
-}
-
-main {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    /*justify-content: center;*/
 }
 
 #javascript-check {
@@ -51,12 +48,9 @@ header {
 }
 
 footer {
+    margin-top: 3em;
     font-size: 12px;
     text-align: center;
-
-    position: absolute;
-    right: 0; bottom: 0; left: 0;
-    padding-bottom: 8px;
 }
 
 #hello {

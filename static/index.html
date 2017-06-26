@@ -16,6 +16,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.10/ngStorage.min.js"></script>
     
+    <script src="/static/alveo.js"></script>
+    <script src="/static/session.js"></script>
+    <script src="/static/selector.js"></script>
+    <script src="/static/annotator.js"></script>
+    
     <link rel="shortcut icon" href="/static/favicon.ico">
     <link rel="icon" type="image/png" href="/static/favicon-16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32.png">
@@ -26,173 +31,15 @@
 <p id="javascript-check">This resource requires JavaScript to be enabled. Please whitelist us if you wish to use the application.</p>
 </noscript>
 <nav>
-    <!-- If logged in -->
-    <session template="logout" loggedin="vm.loggedin"></session>
+    <session ng-if="vm.loggedin" template="logout" loggedin="vm.loggedin"></session>
 
     <a href="http://alveo.edu.au/" target="_blank">Alveo</a>
     <a href="#about">About</a>
 </nav>
 <header><p>Alveo Transcription Tool</p></header>
-
 <session ng-if="!vm.loggedin" template="login" loggedin="vm.loggedin"></session>
 <selector ng-if="vm.loggedin && vm.selecting" selecting="vm.selecting" clip="vm.clip" clips="vm.clips"></selector>
 <annotator ng-if="!vm.selecting && vm.loggedin" selecting="vm.selecting" clip="vm.clip" clips="vm.clips"></annotator>
-
 <footer><p>Site &copy; YEAR COMPANY all rights reserved</p></footer>
-
-<script>
-    var app = angular.module('Alveo', ['ngStorage']);
-
-    angular.module('Alveo').filter('durationFormat', function () {
-    return function (input) {
-        var seconds = Math.floor((input % 60000) / 1000);
-        var minutes = Math.floor(input / 60000);
-
-        var formatted = (minutes > 0 ? minutes+' minutes': '');
-        formatted += (seconds > 0 ? ' '+seconds+' seconds': '');
-
-        return formatted;
-    };});
-
-    angular.module('Alveo')
-    .controller('AlveoController', function AlveoController() {
-        // $scope.svars = $localStorage.$default({
-        this.loggedin = false;
-        this.selecting = true;
-        this.clip = 0;
-        this.clips = [{
-                "id": "0",
-                "label": "TestWWWWWWWWWW",
-                "audio_url": "",
-                "duration": 4730,
-                "segments": [
-                    {
-                        "start": 0.000,
-                        "end": 7.1239,
-                        "speaker": "1",
-                        "annotation": "",
-                    },
-                    {
-                        "start": 8.2383,
-                        "end": 14.2395,
-                        "speaker": 2,
-                        "annotation": "",
-                    },
-                    {
-                        "start": 16.2333,
-                        "end": 19.2395,
-                        "speaker": "",
-                        "annotation": "",
-                    }
-                ]
-            },
-            {
-                "id": "1",
-                "label": "Test Test Test Test Test Test Test Test Test Test Test Test",
-                "audio_url": "",
-                "duration": "63812",
-                "segments": [
-                    {
-                        "start": 0.000,
-                        "end": 5.732,
-                        "speaker": "1",
-                        "annotation": "",
-                    },
-                    {
-                        "start": 6.9271,
-                        "end": 11.3293,
-                        "speaker": "",
-                        "annotation": "",
-                    }]
-            },
-            {
-                "id": "2",
-                "label": "Audio.wav",
-                "audio_url": "",
-                "duration": "4232000",
-                "segments": [
-                    {
-                        "start": 0.000,
-                        "end": 1.763,
-                        "speaker": "1",
-                        "annotation": "",
-                    },
-                    {
-                        "start": 2.132,
-                        "end": 6.423,
-                        "speaker": "",
-                        "annotation": "",
-                    },
-                    {
-                        "start": 7.432,
-                        "end": 11.1292,
-                        "speaker": "1",
-                        "annotation": "Testing",
-                    },
-                    {
-                        "start": 14.3923,
-                        "end": 23.2391,
-                        "speaker": "2",
-                        "annotation": "",
-                    }]
-            }]
-    })
-    .component('session', {
-        controller: function($http) {
-            function login() {
-                this.loggedin = true;
-            }
-            function logout() {
-                this.loggedin = false;
-                $http.get('/logout')
-                // $scope.svars.selecting = true;
-            }
-            this.logout = logout;
-            this.login = login;
-        },
-        bindings: {
-            loggedin: '=',
-            template: '@'
-        },
-        templateUrl: function ($element, $attrs) {
-            var templates = {
-                'logout': 'static/logout.html',
-                'login': 'static/login.html',
-            }
-            return templates[$attrs.template];
-        }
-    })
-    .component('selector', {
-        controller: function($http) {
-            function edit(id) {
-                this.selecting = false;
-                this.clip = id;
-            }
-            this.edit = edit;
-        },
-        bindings: {
-            selecting: '=',
-            clip: '=',
-            loggedin: '<',
-            clips: '<',
-        },
-        templateUrl: 'static/selector.html'
-    })
-    .component('annotator', {
-        controller: function() {
-            function complete() {
-                this.selecting = true;
-            }
-            this.complete = complete;
-        },
-        bindings: {
-            selecting: '=',
-            clip: '=',
-            loggedin: '<',
-            clips: '<',
-        },
-        templateUrl: 'static/annotator.html'
-    });
-</script>
 </body>
 </html>

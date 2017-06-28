@@ -20,6 +20,7 @@
     <script src="js/session.js"></script>
     <script src="js/selector.js"></script>
     <script src="js/annotator.js"></script>
+    <script src="js/sync.js"></script>
 
     <link rel="shortcut icon" href="favicon.ico">
     <link rel="icon" type="image/png" href="favicon-16.png">
@@ -39,6 +40,7 @@
 <header><p>Alveo Transcription Tool</p></header>
 <session ng-show="!vm.loggedin" template="login" loggedin="vm.loggedin"></session>
 <div ng-if="vm.loggedin">
+    <sync data="vm.cache.clips"></sync>
     <selector ng-show="vm.cache.selecting" selecting="vm.cache.selecting" clip="vm.cache.clip" clips="vm.cache.clips"></selector>
     <annotator ng-show="!vm.cache.selecting" selecting="vm.cache.selecting" clip="vm.cache.clips[vm.cache.clip]"></annotator>
 </div>

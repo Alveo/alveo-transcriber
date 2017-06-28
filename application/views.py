@@ -1,3 +1,5 @@
+from flask import redirect
+
 from application import app
 from application.modules.users import logout_view
 from application.modules.oauth import alveo_authorise_view, alveo_callback_view
@@ -16,5 +18,5 @@ def init():
     pass
 
 @app.route('/')
-def root():
-    return app.send_static_file('index.html')
+def serve():
+    return redirect('/static/index.html')

@@ -10,7 +10,6 @@ angular.module('Alveo')
     bindings: {
         selecting: '=',
         clip: '=',
-        loggedin: '<',
         clips: '<',
     },
     templateUrl: 'static/selector.html'

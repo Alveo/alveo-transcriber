@@ -18,8 +18,8 @@ angular.module('Alveo')
     },
     templateUrl: function ($element, $attrs) {
         var templates = {
-            'logout': 'static/logout.html',
-            'login': 'static/login.html',
+            'logout': '/static/logout.html',
+            'login': '/static/login.html',
         }
         return templates[$attrs.template];
     }

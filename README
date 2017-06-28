@@ -1,12 +1,21 @@
+# alveo-trancriber
+Web based speech transcription tool for the Alveo project
 
+# Python dependencies
+Flask
+Flask-SQLAlchemy
+Flask-Mail
+Flask-Login
+rauth
+pytz
+Gunicorn [Production/Testing]
+Flask-Migrate [Optional]
+Flask-Script [Optional]
 
-Python dependencies:
-  Flask
-  Flask-SQLAlchemy
-  Flask-Mail
-  Flask-Login
-  rauth
-  pytz
-  Gunicorn [Production/Testing]
-  Flask-Migrate [Optional]
-  Flask-Script [Optional]
+# Unit testing dependencies
+karma
+karma-jasmine
+karma-<browser>-launcher
+jasmine
+jasmine-core
+ng-html2js

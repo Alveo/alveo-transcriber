@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SessionService } from './session.service';
 
 @Component({
   selector: 'app-root',
@@ -7,6 +8,8 @@ import { Component } from '@angular/core';
 })
 
 export class AppComponent {
+  constructor(private sessionService: SessionService) { }
+
   title = 'app';
 
   loggedin = false;

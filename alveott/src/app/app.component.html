@@ -3,6 +3,8 @@
 
 <header><p>Alveo Transcription Tool</p></header>
 
+<auth *ngIf="!this.sessionService.isLoggedIn()"></auth>
+
 <!--
 <session ng-show="!vm.loggedin" template="login" loggedin="vm.loggedin"></session>
 <div ng-if="vm.loggedin">

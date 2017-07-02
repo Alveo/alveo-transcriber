@@ -10,6 +10,6 @@ import { OnInit } from '@angular/core';
 export class SessionComponent implements OnInit {
   constructor(private sessionService: SessionService) { }
   ngOnInit(): void {
-    this.sessionService.login();
+    //this.sessionService.login();
   }
 }

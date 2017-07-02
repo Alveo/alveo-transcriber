@@ -1,5 +1,7 @@
-# Created by https://www.gitignore.io/api/vim,macos,linux,emacs,python,windows
+# Static files are deployed through Node in alveott subfolder
+/static/
 
+# Created by https://www.gitignore.io/api/vim,macos,linux,emacs,python,windows
 ### Emacs ###
 # -*- mode: gitignore; -*-
 *~

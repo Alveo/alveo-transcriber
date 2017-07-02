@@ -1,1 +1,186 @@
-/* You can add global styles to this file, and also import other style files */
+@import url(https://fonts.googleapis.com/css?family=Roboto:300,700,300italic,700italic|Oswald:700);
+
+*, *:before, *:after { 
+    box-sizing: inherit;
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+body {
+    font-weight: lighter;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    /*justify-content: center;*/
+}
+
+#javascript-check {
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+    background: red;
+    color: #FFFFFF;
+    font-size: 16px;
+    padding: 0.2em 0 0.2em 0;
+}
+
+nav {
+    text-align: right;
+    margin: 0.5em 1em;
+}
+
+nav a {
+    padding: 0.2em;
+    text-decoration: none;
+}
+
+header {
+    text-align: center;
+    font-size: 60px;
+    margin-top: 0.6em;
+}
+
+footer {
+    margin-top: 3em;
+    font-size: 12px;
+    text-align: center;
+}
+
+#hello {
+    font-size: 36px;
+    text-align: center;
+    width: 75%;
+    margin: 0.5em auto 0 auto;
+
+}
+
+#alveo-button {
+    text-align: center;
+    background: #555555;
+    width: 30%;
+    margin: 2em auto;
+    font-size: 36px;
+    color: #FFFFFF;
+    border: 3px solid #00AAFF;
+}
+
+#alveo-button:hover {
+    background: #444444;
+    cursor: pointer;
+}
+
+@keyframes flicker {
+  0%   { opacity:1; }
+  50%  { opacity:0.4; }
+  100% { opacity:1; }
+}
+#clips-info {
+    margin: 1em 0 1em 0;
+    text-align: center;
+    font-size: 22px;
+    animation: flicker 1.75s infinite;
+}
+
+#clips {
+    width: 80%;
+    margin: auto;
+    text-align: center;
+}
+
+.clip {
+    width: 300px;
+    height: 80px;
+    background: #000000;
+    color: #FFFFFF;
+    margin: 1em 0em 0em 1em;
+    display: inline-block;
+}
+
+.clip:hover {
+    cursor: pointer;
+    background: #444444;
+}
+
+.clip .name {
+    height: 60%;
+    padding: 1em;
+    margin: 0 1em 0 1em;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.clip .info {
+    padding-top: 0.6em;
+    width: 85%;
+    margin: auto;
+    font-size: 14px;
+    text-align: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.clip .duration {
+    display: inline-block;
+}
+
+#clip-transcriber-header {
+    margin: 1em auto 1em auto;
+    text-align: center;
+    font-size: 16px;
+    width: 60%;
+}
+
+#clip-transcriber-complete {
+    margin: 1em auto 1em auto;
+    text-align: center;
+    font-size: 22px;
+    background: #000000;
+    color: #FFFFFF;
+    width: 180px;
+    height: 40px;
+    padding: 0.4em;
+}
+
+#clip-transcriber-complete:hover {
+    background: #444444;
+    cursor: pointer;
+}
+
+#transcriber {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin: auto;
+}
+
+.annotator {
+    padding: 0.3em;
+}
+
+.annotator .timestamp {
+}
+
+.annotator-fields {
+    display: flex;
+    flex-direction: row;
+}
+
+.annotator-fields .speaker {
+    width: 20%;
+    height: 2.5em;
+}
+
+.annotator-fields .annotation {
+    flex: 1 1 auto;
+    margin-left: 1.4em;
+    height: 2.5em;
+}

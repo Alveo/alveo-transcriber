@@ -1,13 +1,39 @@
 import { TestBed, async } from '@angular/core/testing';
 
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
+
 import { AppComponent } from './app.component';
+import { NavComponent } from './nav.component';
+import { AuthComponent } from './auth.component';
+import { SelectorComponent } from './selector.component';
+import { AnnotatorComponent } from './annotator.component';
+import { SessionComponent } from './session.component';
+import { SessionService } from './session.service';
+import { DataService } from './data.service';
+import { DurationPipe } from './duration.pipe';
+
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        AppComponent
+        AppComponent,
+        NavComponent,
+        SessionComponent,
+        AuthComponent,
+        AnnotatorComponent,
+        SelectorComponent,
+        DurationPipe,
       ],
+      imports: [
+        BrowserModule,
+        FormsModule,
+        HttpModule
+      ],
+      providers: [SessionService, DataService],
     }).compileComponents();
   }));
 
@@ -23,10 +49,11 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('app');
   }));
 
-  it('should render title in a h1 tag', async(() => {
+  it('should render title in a header p tag', async(() => {
+    // querySelector('#thing').outerHTML
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to app!!');
+    expect(compiled.querySelector('header p').textContent).toContain('Alveo Transcription Tool');
   }));
 });

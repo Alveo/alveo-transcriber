@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { SessionService } from './session.service';
+import { DataService } from './data.service';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +9,8 @@ import { SessionService } from './session.service';
 })
 
 export class AppComponent {
-  constructor(private sessionService: SessionService) { }
+  constructor(private sessionService: SessionService, 
+              private dataService: DataService) { }
 
   title = 'app';
 

@@ -5,14 +5,9 @@
 
 <auth [hidden]="this.sessionService.isLoggedIn()"></auth>
 <div *ngIf="this.sessionService.isLoggedIn()">
-  <selector></selector>
+<selector [hidden]="this.dataService.selected != null"></selector>
+<!-- Will this cache the template? It'll error out otherwise because selected will be null -->
+<annotator *ngIf="this.dataService.selected != null"></annotator>
 </div>
 
-<!--
-<div ng-if="vm.loggedin">
-  <sync data="vm.cache.clips"></sync>
-  <selector ng-show="vm.cache.selecting" selecting="vm.cache.selecting" clip="vm.cache.clip" clips="vm.cache.clips"></selector>
-  <annotator ng-show="!vm.cache.selecting" selecting="vm.cache.selecting" clip="vm.cache.clips[vm.cache.clip]"></annotator>
-</div>
--->
 <footer><p>Site &copy; YEAR COMPANY all rights reserved</p></footer>

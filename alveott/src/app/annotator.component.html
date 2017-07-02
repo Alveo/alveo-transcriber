@@ -1,0 +1,13 @@
+<p id="clip-transcriber-header">Transcribing: {{this.dataService.selected.label}}</p>
+<p id="clip-transcriber-complete" (click)="this.dataService.selected=null">Save &amp; Return</p>
+
+<div id="transcriber">
+    <div class="annotator" *ngFor="let segment of this.dataService.selected.segments">
+        <p class="timestamp">{{segment.start}} to {{segment.end}}</p>
+        <div class="annotator-fields">
+            <input class="speaker" type="text" placeholder="Speaker" [(ngModel)]="segment.speaker">
+            <input class="annotation" type="text" placeholder="Annotation" [(ngModel)]="segment.annotation">
+        </div>
+        <div class="playbar"></div>
+    </div>
+</div>

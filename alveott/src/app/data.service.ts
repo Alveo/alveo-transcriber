@@ -1,11 +1,37 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { HttpModule } from '@angular/http';
 
 @Injectable()
 export class DataService {
+  // TODO sync clips from /request-dat
+  // deploy script
+  
   selected = null;
   clips = [];
 
+  private online$: boolean = navigator.onLine;
+  constructor() {
+    window.addEventListener('online', () => {this.online$ = true});
+    window.addEventListener('offline', () => {this.online$ = false});
+  };
+
+  syncObs = () => {
+    return Observable
+        .interval(5000);
+  }
+
   pullData():void {
+    var vm = this;
+    this.syncObs().subscribe(
+      function() {
+        if (vm.online$) {
+          console.log("Online");
+        } else {
+          console.log("Offline");
+        };
+      });
+
     this.clips = [
       {
             "id": "0",

@@ -13,12 +13,4 @@ export class AppComponent {
               private dataService: DataService) { }
 
   title = 'app';
-
-  loggedin = false;
-
-  // The following should be in offline cache
-  selecting = true;
-  clip = 0;
-  host_addr = "127.0.0.1:5000";
-  clips = [];
 }

@@ -1,13 +1,5 @@
-<!--
-<li *ngFor="let hero of heroes"
-    [class.selected]="hero === selectedHero"
-    (click)="onSelect(hero)">
-  <span class="badge">{{hero.id}}</span> {{hero.name}}
-</li>
--->
-
-<div id="clips">
-  <p id="clips-info">Please select a clip to transcribe.</p>
+<div id="selector">
+  <p id="subheader">Please select a clip to transcribe.</p>
   <div class="clip" *ngFor="let clip of this.dataService.clips" (click)="onSelect(clip)">
     <div class="name" >{{clip.label}}</div>
     <div class="info">

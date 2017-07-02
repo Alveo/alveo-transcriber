@@ -1,13 +1,18 @@
 <session></session>
+
 <nav></nav>
 
 <header><p>Alveo Transcription Tool</p></header>
 
+<!-- Auth view -->
 <auth [hidden]="this.sessionService.isLoggedIn()"></auth>
 <div *ngIf="this.sessionService.isLoggedIn()">
-<selector [hidden]="this.dataService.selected != null"></selector>
-<!-- Will this cache the template? It'll error out otherwise because selected will be null -->
-<annotator *ngIf="this.dataService.selected != null"></annotator>
+  <!-- Selector view -->
+  <selector [hidden]="this.dataService.selected != null"></selector>
+
+  <!-- Anonotator view -->
+  <!-- Will this cache the template? It'll error out otherwise because selected will be null -->
+  <annotator *ngIf="this.dataService.selected != null"></annotator>
 </div>
 
 <footer><p>Site &copy; YEAR COMPANY all rights reserved</p></footer>

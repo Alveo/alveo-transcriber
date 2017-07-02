@@ -1,0 +1,10 @@
+:host {
+    text-align: right;
+    margin: 0.5em 1em;
+}
+
+:host a {
+    padding: 0.2em;
+    text-decoration: none;
+}
+

@@ -1,5 +1,5 @@
-<p id="clip-transcriber-header">Transcribing: {{this.dataService.selected.label}}</p>
-<p id="clip-transcriber-complete" (click)="this.dataService.selected=null">Save &amp; Return</p>
+<p id="header">Transcribing: {{this.dataService.selected.label}}</p>
+<p id="return-button" (click)="this.dataService.selected=null">Save &amp; Return</p>
 
 <div id="transcriber">
     <div class="annotator" *ngFor="let segment of this.dataService.selected.segments">

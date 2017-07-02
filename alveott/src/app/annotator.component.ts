@@ -4,6 +4,7 @@ import { DataService } from './data.service';
 @Component({
   selector: 'annotator',
   templateUrl: './annotator.component.html',
+  styleUrls: ['./annotator.component.css'],
 })
 
 export class AnnotatorComponent {

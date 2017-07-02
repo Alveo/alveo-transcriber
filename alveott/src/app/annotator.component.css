@@ -1,0 +1,52 @@
+#header {
+    margin: 1em auto 1em auto;
+    text-align: center;
+    font-size: 16px;
+    width: 60%;
+}
+
+#return-button {
+    margin: 1em auto 1em auto;
+    text-align: center;
+    font-size: 22px;
+    background: #000000;
+    color: #FFFFFF;
+    width: 180px;
+    height: 40px;
+    padding: 0.4em;
+}
+
+#return-button:hover {
+    background: #444444;
+    cursor: pointer;
+}
+
+#transcriber {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin: auto;
+}
+
+.annotator {
+    padding: 0.3em;
+}
+
+.annotator .timestamp {
+}
+
+.annotator-fields {
+    display: flex;
+    flex-direction: row;
+}
+
+.annotator-fields .speaker {
+    width: 20%;
+    height: 2.5em;
+}
+
+.annotator-fields .annotation {
+    flex: 1 1 auto;
+    margin-left: 1.4em;
+    height: 2.5em;
+}

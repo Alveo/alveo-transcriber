@@ -1,0 +1,54 @@
+@keyframes flicker {
+  0%   { opacity:1; }
+  50%  { opacity:0.4; }
+  100% { opacity:1; }
+} #subheader {
+    margin: 1em 0 1em 0;
+    text-align: center;
+    font-size: 22px;
+    animation: flicker 1.75s infinite;
+}
+
+#selector {
+    width: 80%;
+    margin: auto;
+    text-align: center;
+}
+
+.clip {
+    width: 300px;
+    height: 80px;
+    background: #000000;
+    color: #FFFFFF;
+    margin: 1em 0em 0em 1em;
+    display: inline-block;
+}
+
+.clip:hover {
+    cursor: pointer;
+    background: #444444;
+}
+
+.clip .name {
+    height: 60%;
+    padding: 1em;
+    margin: 0 1em 0 1em;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.clip .info {
+    padding-top: 0.6em;
+    width: 85%;
+    margin: auto;
+    font-size: 14px;
+    text-align: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.clip .duration {
+    display: inline-block;
+}

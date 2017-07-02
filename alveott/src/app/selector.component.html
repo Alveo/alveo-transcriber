@@ -1,0 +1,21 @@
+<!--
+<li *ngFor="let hero of heroes"
+    [class.selected]="hero === selectedHero"
+    (click)="onSelect(hero)">
+  <span class="badge">{{hero.id}}</span> {{hero.name}}
+</li>
+-->
+
+<div id="clips">
+  <p id="clips-info">Please select a clip to transcribe.</p>
+  <div class="clip" *ngFor="let clip of this.dataService.clips" (click)="onSelect(clip)">
+    <div class="name" >{{clip.label}}</div>
+    <div class="info">
+      <div class="duration">{{clip.duration | duration}}</div>
+      <div [ngPlural]="clip.segments.length" style="display:inline">
+        <ng-template ngPluralCase="1">(1 segment)</ng-template>
+        <ng-template ngPluralCase="other">({{clip.segments.length}} segments)</ng-template>
+      </div>
+    </div>
+  </div>
+</div>

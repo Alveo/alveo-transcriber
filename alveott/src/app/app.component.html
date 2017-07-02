@@ -3,10 +3,12 @@
 
 <header><p>Alveo Transcription Tool</p></header>
 
-<auth *ngIf="!this.sessionService.isLoggedIn()"></auth>
+<auth [hidden]="this.sessionService.isLoggedIn()"></auth>
+<div *ngIf="this.sessionService.isLoggedIn()">
+  <selector></selector>
+</div>
 
 <!--
-<session ng-show="!vm.loggedin" template="login" loggedin="vm.loggedin"></session>
 <div ng-if="vm.loggedin">
   <sync data="vm.cache.clips"></sync>
   <selector ng-show="vm.cache.selecting" selecting="vm.cache.selecting" clip="vm.cache.clip" clips="vm.cache.clips"></selector>

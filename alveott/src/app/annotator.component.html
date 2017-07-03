@@ -1,3 +1,4 @@
+<div *ngIf="this.dataService.selected != null">
 <p id="header">Transcribing: {{this.dataService.selected.label}}</p>
 <p id="return-button" (click)="this.dataService.selected=null">Save &amp; Return</p>
 
@@ -10,4 +11,5 @@
         </div>
         <div class="playbar"></div>
     </div>
+</div>
 </div>

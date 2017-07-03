@@ -11,8 +11,7 @@
   <selector [hidden]="this.dataService.selected != null"></selector>
 
   <!-- Anonotator view -->
-  <!-- Will this cache the template? It'll error out otherwise because selected will be null -->
-  <annotator *ngIf="this.dataService.selected != null"></annotator>
+  <annotator [hidden]="this.dataService.selected == null"></annotator>
 </div>
 
 <footer><p>Site &copy; YEAR COMPANY all rights reserved</p></footer>

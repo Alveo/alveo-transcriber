@@ -12,6 +12,7 @@ import { SessionComponent } from './session.component';
 
 import { SessionService } from './session.service';
 import { DataService } from './data.service';
+import { MonitorService } from './monitor.service';
 
 import { DurationPipe } from './duration.pipe';
 
@@ -30,7 +31,7 @@ import { DurationPipe } from './duration.pipe';
     FormsModule,
     HttpModule
   ],
-  providers: [SessionService, DataService],
+  providers: [SessionService, DataService, MonitorService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

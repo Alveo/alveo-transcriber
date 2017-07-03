@@ -11,8 +11,11 @@ import { AuthComponent } from './auth.component';
 import { SelectorComponent } from './selector.component';
 import { AnnotatorComponent } from './annotator.component';
 import { SessionComponent } from './session.component';
+
 import { SessionService } from './session.service';
 import { DataService } from './data.service';
+import { MonitorService } from './monitor.service';
+
 import { DurationPipe } from './duration.pipe';
 
 
@@ -33,7 +36,7 @@ describe('AppComponent', () => {
         FormsModule,
         HttpModule
       ],
-      providers: [SessionService, DataService],
+      providers: [SessionService, DataService, MonitorService],
     }).compileComponents();
   }));
 
@@ -55,5 +58,16 @@ describe('AppComponent', () => {
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('header p').textContent).toContain('Alveo Transcription Tool');
+  }));
+
+  it('should show \'Logout\' only when logged in', async(() => {
+    //component.sessionService.logIn();
+    // querySelector('#thing').outerHTML
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    const compiled = fixture.debugElement.nativeElement;
+    compiled.querySelector('#login-button').click();
+    fixture.detectChanges();
+    expect(compiled.querySelector('nav a').textContent).toContain('Logout');
   }));
 });

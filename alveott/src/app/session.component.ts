@@ -7,7 +7,12 @@ import { Clip } from './clip';
 
 @Component({
   selector: 'session',
-  template: '',
+  template: `
+  <div *ngIf="this.dataService.blobdata!=undefined">
+  <audio controls><source src="data:audio/ogg;base64,{{this.dataService.blobdata}}" type="audio/ogg"></audio>
+  </div>
+  {{this.dataService.gen64if()}}
+  `,
 })
 
 export class SessionComponent implements OnInit {
@@ -16,6 +21,7 @@ export class SessionComponent implements OnInit {
               private dataService: DataService) { }
   ngOnInit(): void {
     this.dataService.getData();
+    this.dataService.getFile();
   }
 
 }

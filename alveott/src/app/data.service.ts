@@ -4,14 +4,49 @@ import { Http, Response } from '@angular/http';
 import { Clip } from './clip';
 import { MonitorService } from './monitor.service';
 
+import { ResponseContentType } from '@angular/http';
+
 @Injectable()
 export class DataService {
   selected = null;
   private fetchUrl = 'http://127.0.0.1:5000/request-data'
   clips = [];
   errorMessage: string;
+  blob: Blob;
+  blobdata: string;
 
   constructor(private http: Http, private monitorService: MonitorService) {};
+
+  getFile(): void {
+    this.downloadIt()
+          .subscribe(
+          blob => this.blob = blob,
+          error => this.errorMessage = <any>error);
+  }
+  private downloadIt(): Observable<Blob> {
+    return this.http.get('http://127.0.0.1:5000/request-audio', {responseType: ResponseContentType.Blob}) 
+                    .map(this.blobExtract)
+                    .catch(this.handleError);
+  }
+  private blobExtract(res: Response) {
+    var blob = new Blob([res.blob()], {type: 'audio/ogg'});
+    return blob;
+  }
+  
+  gen64if(): void {
+    if (this.blob!=null) {
+      if (this.blobdata==undefined) {
+      var reader = new FileReader();
+      reader.onload =this._readerhandle.bind(this);
+      reader.readAsBinaryString(this.blob);
+      }
+    }
+  }
+
+  _readerhandle(reader) {
+    this.blobdata= btoa(reader.target.result);
+  }
+
 
   getData(): void {
     this.fetchData()

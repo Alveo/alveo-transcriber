@@ -16,6 +16,8 @@ import { MonitorService } from './monitor.service';
 
 import { DurationPipe } from './duration.pipe';
 
+import { AppRoutingModule } from './app-routing.module';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,7 +31,8 @@ import { DurationPipe } from './duration.pipe';
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    AppRoutingModule,
   ],
   providers: [SessionService, DataService, MonitorService],
   bootstrap: [AppComponent]

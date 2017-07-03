@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { SessionService } from './session.service';
 
 @Component({
@@ -8,5 +9,14 @@ import { SessionService } from './session.service';
 })
 
 export class AuthComponent {
-  constructor(public sessionService: SessionService) { }
+  constructor(
+    public router: Router,
+    public sessionService: SessionService) { }
+
+  login(): void {
+    this.sessionService.login();
+
+    // And if successful (Not implemented)
+    this.router.navigate(['./selector']);
+  }
 }

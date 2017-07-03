@@ -1,17 +1,9 @@
-<session></session>
-
 <nav></nav>
-
 <header><p>Alveo Transcription Tool</p></header>
-
-<!-- Auth view -->
-<auth [hidden]="this.sessionService.isLoggedIn()"></auth>
-<div *ngIf="this.sessionService.isLoggedIn()">
-  <!-- Selector view -->
-  <selector [hidden]="this.dataService.selected != null"></selector>
-
-  <!-- Anonotator view -->
-  <annotator [hidden]="this.dataService.selected == null"></annotator>
-</div>
-
+<session></session> <!-- temporary initialiser -->
+<router-outlet></router-outlet>
 <footer><p>Site &copy; YEAR COMPANY all rights reserved</p></footer>
+
+<!-- guard from / if logged in, go to selector
+  guard from /selector and /annotator if not logged in, go to /
+-->

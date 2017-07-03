@@ -1,6 +1,5 @@
-<div *ngIf="this.dataService.selected != null">
 <p id="header">Transcribing: {{this.dataService.selected.label}}</p>
-<p id="return-button" (click)="this.dataService.selected=null">Save &amp; Return</p>
+<p id="return-button" (click)="this.back()" >Save &amp; Return</p>
 
 <div id="transcriber">
     <div class="annotator" *ngFor="let segment of this.dataService.selected.segments">
@@ -11,5 +10,4 @@
         </div>
         <div class="playbar"></div>
     </div>
-</div>
 </div>

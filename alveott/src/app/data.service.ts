@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpModule } from '@angular/http';
+import { Http, Response } from '@angular/http';
+import { Clip } from './clip';
 
 @Injectable()
 export class DataService {
@@ -9,10 +10,25 @@ export class DataService {
   // deploy script
   //
   selected = null;
+  private fetchUrl = 'http://127.0.0.1:5000/request-data'
   clips = [];
+  errorMessage: string;
+
+  //this.dataService.pullData().then(clips => this.clips = clips);
+  //var vm = this;
+  /* TODO Breaks unit tests, 'look at takeuntil()' to get around it
+   * this.syncObs().subscribe(
+    function() {
+      if (vm.online$) {
+        console.log("Online");
+      } else {
+        console.log("Offline");
+      };
+    });
+   */
 
   private online$: boolean = navigator.onLine;
-  constructor() {
+  constructor(private http: Http) {
     window.addEventListener('online', () => {this.online$ = true});
     window.addEventListener('offline', () => {this.online$ = false});
   };
@@ -22,96 +38,34 @@ export class DataService {
         .interval(5000);
   }
 
-  pullData():void {
-    var vm = this;
-    /* TODO Breaks unit tests, 'look at takeuntil()' to get around it
-     * this.syncObs().subscribe(
-      function() {
-        if (vm.online$) {
-          console.log("Online");
-        } else {
-          console.log("Offline");
-        };
-      });
-     */
+  getData(): void {
+    this.fetchData()
+          .subscribe(
+          clips => this.clips = clips,
+          error => this.errorMessage = <any>error);
+  }
 
-    this.clips = [
-      {
-            "id": "0",
-            "label": "TestWWWWWWWWWW",
-            "audio_url": "",
-            "duration": 4730,
-            "segments": [
-                {
-                    "start": 0.000,
-                    "end": 7.1239,
-                    "speaker": "1",
-                    "annotation": "",
-                },
-                {
-                    "start": 8.2383,
-                    "end": 14.2395,
-                    "speaker": 2,
-                    "annotation": "",
-                },
-                {
-                    "start": 16.2333,
-                    "end": 19.2395,
-                    "speaker": "",
-                    "annotation": "",
-                }
-            ]
-        },
-        {
-            "id": "1",
-            "label": "Test Test Test Test Test Test Test Test Test Test Test Test",
-            "audio_url": "",
-            "duration": "63812",
-            "segments": [
-                {
-                    "start": 0.000,
-                    "end": 5.732,
-                    "speaker": "1",
-                    "annotation": "",
-                },
-                {
-                    "start": 6.9271,
-                    "end": 11.3293,
-                    "speaker": "",
-                    "annotation": "",
-                }]
-        },
-        {
-            "id": "2",
-            "label": "Audio.wav",
-            "audio_url": "",
-            "duration": "4232000",
-            "segments": [
-                {
-                    "start": 0.000,
-                    "end": 1.763,
-                    "speaker": "1",
-                    "annotation": "",
-                },
-                {
-                    "start": 2.132,
-                    "end": 6.423,
-                    "speaker": "",
-                    "annotation": "",
-                },
-                {
-                    "start": 7.432,
-                    "end": 11.1292,
-                    "speaker": "1",
-                    "annotation": "Testing",
-                },
-                {
-                    "start": 14.3923,
-                    "end": 23.2391,
-                    "speaker": "2",
-                    "annotation": "",
-                }]
-        } 
-    ];
+  private fetchData(): Observable<Clip[]> {
+    return this.http.get(this.fetchUrl)
+                    .map(this.extractData)
+                    .catch(this.handleError);
+  }
+
+  private extractData(res: Response) {
+    let data = res.json();
+    return data || [];
+  }
+  private handleError (error: Response | any) {
+    // In a real world app, you might use a remote logging infrastructure
+    let errMsg: string;
+    if (error instanceof Response) {
+      const body = error.json() || '';
+      const err = body.error || JSON.stringify(body);
+      errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
+    } else {
+      errMsg = error.message ? error.message : error.toString();
+    }
+    console.error(errMsg);
+    return Observable.throw(errMsg);
   }
 }

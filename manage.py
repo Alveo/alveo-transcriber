@@ -5,6 +5,7 @@ import sys
 sys.dont_write_bytecode = True
 
 import getopt
+import subprocess
 
 from flask_script import Manager, Command
 from flask_migrate import MigrateCommand
@@ -27,6 +28,10 @@ def gendb(type):
 
     else:
         print("Error: unknown database type '"+type+"'")
+
+@manager.command
+def build():
+    subprocess.call(['./deploy-static.sh'])
 
 @manager.command
 def runserver(force=False):

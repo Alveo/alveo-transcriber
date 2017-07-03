@@ -1,6 +1,9 @@
 import json
 from flask import redirect
 
+# Delay emulation only
+import time
+
 from application import app
 from application.modules.users import logout_view
 from application.modules.oauth import alveo_authorise_view, alveo_callback_view
@@ -22,8 +25,14 @@ def init():
 def serve():
     return redirect('/static/index.html')
 
+@app.route('/request-audio')
+def requestaudio():
+    return app.send_static_file('audio.ogg')
+
 @app.route('/request-data')
 def request():
+    # Emulate a delay
+    time.sleep(2);
     # Confirm user is authenticated
     #  Confirm user can receive more
     #   Pull data out

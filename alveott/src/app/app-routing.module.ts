@@ -5,30 +5,38 @@ import { AuthComponent } from './auth.component';
 import { SelectorComponent } from './selector.component';
 import { AnnotatorComponent } from './annotator.component';
 
+import { RequiresAuthGuard } from './requires-auth.guard';
 
 const routes: Routes = [
-      {
-        path: '',
-        redirectTo: '/login',
-        pathMatch: 'full',
-      },
       {
         path: 'login',
         component: AuthComponent
       },
       {
         path: 'selector',
-        component: SelectorComponent
+        component: SelectorComponent,
+        canActivate: [RequiresAuthGuard],
+        children: [
+        ]
       },
       {
         path: 'annotator',
-        component: AnnotatorComponent
+        component: AnnotatorComponent,
+        canActivate: [RequiresAuthGuard],
+      },
+      {
+        path: '**',
+        redirectTo: 'login',
+        pathMatch: 'full',
       },
     ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [
+    RequiresAuthGuard,
+  ]
 })
 
 export class AppRoutingModule {}

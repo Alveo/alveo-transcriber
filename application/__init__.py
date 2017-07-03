@@ -29,4 +29,13 @@ oauth_alveo = OAuth2Service(
     base_url='https://example.com/'
 )
 
+# Allow cross origin headers only on dev mode
+if app.config['DEVELOPMENT'] == True:
+    @app.after_request
+    def after_request(response):
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+        response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
+        return response
+
 import application.views

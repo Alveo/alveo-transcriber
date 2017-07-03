@@ -27,7 +27,7 @@ def request():
     # Confirm user is authenticated
     #  Confirm user can receive more
     #   Pull data out
-    return json.dumps({'clips':[{
+    return json.dumps([{
             "id": "0",
             "label": "TestWWWWWWWWWW",
             "audio_url": "",
@@ -102,4 +102,4 @@ def request():
                     "speaker": "2",
                     "annotation": "",
                 }]
-        }]})
+        }])

@@ -8,5 +8,5 @@ import { SessionService } from './session.service';
 })
 
 export class AuthComponent {
-  constructor(private sessionService: SessionService) { }
+  constructor(public sessionService: SessionService) { }
 }

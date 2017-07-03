@@ -9,8 +9,8 @@ import { DataService } from './data.service';
 })
 
 export class AppComponent {
-  constructor(private sessionService: SessionService, 
-              private dataService: DataService) { }
+  constructor(public sessionService: SessionService, 
+              public dataService: DataService) { }
 
   title = 'app';
 }

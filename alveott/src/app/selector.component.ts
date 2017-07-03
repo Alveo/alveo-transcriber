@@ -9,7 +9,7 @@ import { DurationPipe } from './duration.pipe';
 })
 
 export class SelectorComponent {
-  constructor(private dataService: DataService) { }
+  constructor(public dataService: DataService) { }
 
   onSelect(clip): void {
     this.dataService.selected = clip;

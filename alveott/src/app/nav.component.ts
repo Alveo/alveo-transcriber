@@ -8,5 +8,5 @@ import { SessionService } from './session.service';
 })
 
 export class NavComponent {
-  constructor(private sessionService: SessionService) { }
+  constructor(public sessionService: SessionService) { }
 }

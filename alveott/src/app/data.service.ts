@@ -2,41 +2,16 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Http, Response } from '@angular/http';
 import { Clip } from './clip';
+import { MonitorService } from './monitor.service';
 
 @Injectable()
 export class DataService {
-  // TODO sync clips from /request-dat
-  // TODO more useful tests
-  // deploy script
-  //
   selected = null;
   private fetchUrl = 'http://127.0.0.1:5000/request-data'
   clips = [];
   errorMessage: string;
 
-  //this.dataService.pullData().then(clips => this.clips = clips);
-  //var vm = this;
-  /* TODO Breaks unit tests, 'look at takeuntil()' to get around it
-   * this.syncObs().subscribe(
-    function() {
-      if (vm.online$) {
-        console.log("Online");
-      } else {
-        console.log("Offline");
-      };
-    });
-   */
-
-  private online$: boolean = navigator.onLine;
-  constructor(private http: Http) {
-    window.addEventListener('online', () => {this.online$ = true});
-    window.addEventListener('offline', () => {this.online$ = false});
-  };
-
-  syncObs = () => {
-    return Observable
-        .interval(5000);
-  }
+  constructor(private http: Http, private monitorService: MonitorService) {};
 
   getData(): void {
     this.fetchData()

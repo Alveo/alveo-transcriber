@@ -18,12 +18,6 @@ export class DataService {
 
   constructor(private http: Http, private monitorService: MonitorService) {};
 
-  /*
-  getFile(): void {
-    this.http.get('http://127.0.0.1:5000/request-audio') 
-          .subscribe(
-            data => {this.blobtest = data.arrayBuffer()});
-   */
   getFile(): void {
     this.downloadIt()
           .subscribe(

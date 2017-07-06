@@ -11,6 +11,7 @@ import { AuthComponent } from './auth.component';
 import { SelectorComponent } from './selector.component';
 import { AnnotatorComponent } from './annotator.component';
 import { SessionComponent } from './session.component';
+import { PlayerComponent } from './player.component';
 
 import { SessionService } from './session.service';
 import { DataService } from './data.service';
@@ -18,6 +19,9 @@ import { MonitorService } from './monitor.service';
 
 import { DurationPipe } from './duration.pipe';
 
+import { AppRoutingModule } from './app-routing.module';
+
+import { APP_BASE_HREF } from '@angular/common';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -29,14 +33,17 @@ describe('AppComponent', () => {
         AuthComponent,
         AnnotatorComponent,
         SelectorComponent,
+        PlayerComponent,
         DurationPipe,
       ],
       imports: [
         BrowserModule,
         FormsModule,
-        HttpModule
+        HttpModule,
+        AppRoutingModule
       ],
-      providers: [SessionService, DataService, MonitorService],
+      providers: [SessionService, DataService, MonitorService,
+      {provide: APP_BASE_HREF, useValue: '/'}],
     }).compileComponents();
   }));
 

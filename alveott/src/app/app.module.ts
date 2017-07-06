@@ -9,6 +9,7 @@ import { AuthComponent } from './auth.component';
 import { SelectorComponent } from './selector.component';
 import { AnnotatorComponent } from './annotator.component';
 import { SessionComponent } from './session.component';
+import { PlayerComponent } from './player.component';
 
 import { SessionService } from './session.service';
 import { DataService } from './data.service';
@@ -26,6 +27,7 @@ import { AppRoutingModule } from './app-routing.module';
     AuthComponent,
     AnnotatorComponent,
     SelectorComponent,
+    PlayerComponent,
     DurationPipe,
   ],
   imports: [

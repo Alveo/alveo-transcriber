@@ -1,0 +1,9 @@
+#waveform {
+  display: inline-block;
+  width: 80%;
+  text-align: center;
+  margin: auto;
+}
+
+#waveform wave canvas {
+}

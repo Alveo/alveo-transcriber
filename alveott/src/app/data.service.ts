@@ -14,9 +14,16 @@ export class DataService {
   errorMessage: string;
   blob: Blob;
   blobdata: string;
+  blobtest: ArrayBuffer;
 
   constructor(private http: Http, private monitorService: MonitorService) {};
 
+  /*
+  getFile(): void {
+    this.http.get('http://127.0.0.1:5000/request-audio') 
+          .subscribe(
+            data => {this.blobtest = data.arrayBuffer()});
+   */
   getFile(): void {
     this.downloadIt()
           .subscribe(
@@ -28,6 +35,7 @@ export class DataService {
                     .map(this.blobExtract)
                     .catch(this.handleError);
   }
+
   private blobExtract(res: Response) {
     var blob = new Blob([res.blob()], {type: 'audio/ogg'});
     return blob;
@@ -47,6 +55,19 @@ export class DataService {
     this.blobdata= btoa(reader.target.result);
   }
 
+  genABif(): void {
+    if (this.blob!=null) {
+      if (this.blobtest==undefined) {
+      var reader = new FileReader();
+      reader.onload =this._readerhandle2.bind(this);
+      reader.readAsArrayBuffer(this.blob);
+      }
+    }
+  }
+
+  _readerhandle2(reader) {
+    this.blobtest= reader.target.result;
+  }
 
   getData(): void {
     this.fetchData()

@@ -1,6 +1,8 @@
 <p id="header">Transcribing: {{this.dataService.selected.label}}</p>
 <p id="return-button" (click)="this.back()" >Save &amp; Return</p>
 
+<player></player>
+
 <div id="transcriber">
     <div class="annotator" *ngFor="let segment of this.dataService.selected.segments">
         <p class="timestamp">{{segment.start}} to {{segment.end}}</p>

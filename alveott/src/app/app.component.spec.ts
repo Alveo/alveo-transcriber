@@ -1,5 +1,5 @@
 import { TestBed, async } from '@angular/core/testing';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { BrowserModule } from '@angular/platform-browser';
@@ -23,9 +23,9 @@ import { DurationPipe } from './duration.pipe';
 
 import { AppRoutingModule } from './app-routing.module';
 
-import { APP_BASE_HREF } from '@angular/common';
-
 describe('AppComponent', () => {
+  let sessionService = new SessionService();
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
@@ -45,8 +45,8 @@ describe('AppComponent', () => {
         AppRoutingModule
       ],
       providers: [SessionService, DataService, MonitorService,
-      {provide: APP_BASE_HREF, useValue: '/auth'}],
-    }).compileComponents();
+        {provide: SessionService, useValue: sessionService},
+      ]}).compileComponents();
   }));
 
   it('should create the app', async(() => {
@@ -55,28 +55,36 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   }));
 
-  it(`should have as title 'app'`, async(() => {
+  it(`should have the title 'app'`, async(() => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
     expect(app.title).toEqual('app');
   }));
 
   it('should render title in a header p tag', async(() => {
-    // querySelector('#thing').outerHTML
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('header p').textContent).toContain('Alveo Transcription Tool');
   }));
 
-  it('should show \'Logout\' only when logged in', async(() => {
-    //component.sessionService.logIn();
-    // querySelector('#thing').outerHTML
+  it('should log in and take you to the selector view', async(() => {
     const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    compiled.querySelector('#login-button').click();
+
+    let path = TestBed.get(Router);
+    path.navigate(['./login']);
+
     fixture.detectChanges();
-    expect(compiled.querySelector('nav a').textContent).toContain('Logout');
+    fixture.whenStable().then(() => {
+      expect(compiled.querySelector('#welcome-text').textContent).toContain('Welcome');
+      compiled.querySelector('#login-button').click();
+      fixture.detectChanges();
+
+      fixture.whenStable().then(() => {
+        expect(compiled.querySelector('#selector').textContent).toContain('Please select a clip to transcribe.');
+      });
+    });
+    // console.log(compiled.innerHTML);
   }));
 });

@@ -16,8 +16,6 @@ const routes: Routes = [
         path: 'selector',
         component: SelectorComponent,
         canActivate: [RequiresAuthGuard],
-        children: [
-        ]
       },
       {
         path: 'annotator',

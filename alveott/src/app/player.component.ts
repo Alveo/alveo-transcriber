@@ -1,8 +1,10 @@
 import { OnInit } from '@angular/core';
-import { Component, HostListener } from '@angular/core';
-import { DataService } from './data.service';
+import { Component, Input, HostListener } from '@angular/core';
+
 import * as wavesurfer from 'wavesurfer.js';
 import RegionsPlugin from 'wavesurfer.js/src/plugin/regions.js';
+
+import { Clip } from './clip';
 
 @Component({
   selector: 'player',
@@ -13,8 +15,8 @@ import RegionsPlugin from 'wavesurfer.js/src/plugin/regions.js';
 export class PlayerComponent implements OnInit {
   player: wavesurfer;
   loaded: boolean;
-
-  constructor(public dataService: DataService) { }
+  @Input() clip: Clip;
+  @Input() audioData: ArrayBuffer;
 
   play(): void {
     this.player.play();
@@ -41,8 +43,8 @@ export class PlayerComponent implements OnInit {
     return Math.floor(this.player.getDuration());
   }
 
-  loadRegions(dataService: DataService): void {
-    dataService.selected.segments.forEach((segment) => {
+  loadRegions(): void {
+    this.clip.segments.forEach((segment) => {
       this.player.addRegion({
         start: segment.start,
         end: segment.end,
@@ -63,11 +65,11 @@ export class PlayerComponent implements OnInit {
       ]
     });
 
-    this.player.loadArrayBuffer(this.dataService.raw());
+    this.player.loadArrayBuffer(this.audioData);
 
     var vm = this;
     this.player.on('ready', () => {
-      vm.loadRegions(vm.dataService);
+      vm.loadRegions();
     });
 
     // Forces Angular to update component every second

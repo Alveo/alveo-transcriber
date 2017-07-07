@@ -1,5 +1,5 @@
 import { OnInit } from '@angular/core';
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { DataService } from './data.service';
 import * as wavesurfer from 'wavesurfer.js';
 import RegionsPlugin from 'wavesurfer.js/src/plugin/regions.js';
@@ -46,8 +46,8 @@ export class PlayerComponent implements OnInit {
 
     this.player = wavesurfer.create({
       container: '#waveform',
-      waveColor: 'violet',
-      progressColor: 'purple',
+      waveColor: 'black',
+      progressColor: 'white',
       plugins: [
         RegionsPlugin.create()
       ]
@@ -63,5 +63,11 @@ export class PlayerComponent implements OnInit {
         color: 'hsla(100, 100%, 30%, 0.1)'
       });
     });
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event): void {
+    this.player.drawer.containerWidth = event.target.innerWidth;
+    this.player.drawBuffer();
   }
 }

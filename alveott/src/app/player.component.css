@@ -1,9 +1,10 @@
-#waveform {
-  display: inline-block;
+#player-container {
   width: 80%;
   text-align: center;
   margin: auto;
 }
 
-#waveform wave canvas {
+#waveform {
+  position: relative;
+  margin-bottom: 1em;
 }

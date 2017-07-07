@@ -1,58 +1,55 @@
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, async, inject } from '@angular/core/testing';
+import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
-
-import { AppComponent } from './app.component';
-import { NavComponent } from './nav.component';
 import { AuthComponent } from './auth.component';
-import { SelectorComponent } from './selector.component';
-import { AnnotatorComponent } from './annotator.component';
-import { BreadboardComponent } from './breadboard.component';
-import { PlayerComponent } from './player.component';
 
 import { SessionService } from './session.service';
-import { DataService } from './data.service';
-import { MonitorService } from './monitor.service';
-
-import { AppRoutingModule } from './app-routing.module';
-
-import { DurationPipe } from './duration.pipe';
-
-import { APP_BASE_HREF } from '@angular/common';
 
 describe('AuthComponent', () => {
+  let sessionService = new SessionService();
+  let router = { navigate: jasmine.createSpy('navigate') };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        AppComponent,
-        NavComponent,
-        BreadboardComponent,
-        AuthComponent,
-        AnnotatorComponent,
-        SelectorComponent,
-        PlayerComponent,
-        DurationPipe,
-      ],
-      imports: [
-        BrowserModule,
-        FormsModule,
-        HttpModule,
-        AppRoutingModule
-      ],
-      providers: [SessionService, DataService, MonitorService,
-      {provide: APP_BASE_HREF, useValue: '/'}],
-    }).compileComponents();
+      declarations: [AuthComponent],
+      imports: [RouterTestingModule],
+      providers: [
+        {provide: Router, useValue: router},
+        {provide: SessionService, useValue: sessionService},
+      ]}).compileComponents();
   }));
 
-  it('should show welcome text when logged out by default', async(() => {
-    //component.sessionService.logIn();
-    // querySelector('#thing').outerHTML
+  it('should show all the relevant elements', async(() => {
     const fixture = TestBed.createComponent(AuthComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
+
     expect(compiled.querySelector('#welcome-text').textContent).toContain('Welcome');
+    expect(compiled.querySelector('#login-button')).not.toBe(null);
+  }));
+
+  it('should expect to be logged out by default', async(() => {
+    expect(sessionService.isLoggedIn()).toBe(false);
+  }));
+
+  it('should redirect set SessionService.loggedIn to true', async(() => {
+    const fixture = TestBed.createComponent(AuthComponent);
+    fixture.detectChanges();
+
+    // Confirm there has been no redirection attempts
+    expect(router.navigate).not.toHaveBeenCalled();
+
+    // Attempt mock login
+    const compiled = fixture.debugElement.nativeElement;
+    compiled.querySelector('#login-button').click();
+    fixture.detectChanges();
+
+    // Confirm mock login redirects to selector route
+    expect(router.navigate).toHaveBeenCalledWith(['./selector']);
+  }));
+
+  it('should expect to be logged in after having pressed the Login button', async(() => {
+    expect(sessionService.isLoggedIn()).toBe(true);
   }));
 });

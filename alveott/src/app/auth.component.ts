@@ -14,9 +14,11 @@ export class AuthComponent {
     public sessionService: SessionService) { }
 
   login(): void {
+    console.log(this.sessionService.isLoggedIn());
     this.sessionService.login();
 
     // And if successful (Not implemented)
+    //  do:
     this.router.navigate(['./selector']);
   }
 }

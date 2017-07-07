@@ -41,6 +41,16 @@ export class PlayerComponent implements OnInit {
     return Math.floor(this.player.getDuration());
   }
 
+  loadRegions(dataService: DataService): void {
+    dataService.selected.segments.forEach((segment) => {
+      this.player.addRegion({
+        start: segment.start,
+        end: segment.end,
+        color: 'hsla(100, 100%, 30%, 0.1)'
+      })
+    });
+  }
+
   ngOnInit(): void {
     this.loaded = false;
 
@@ -56,12 +66,8 @@ export class PlayerComponent implements OnInit {
     this.player.loadArrayBuffer(this.dataService.raw());
 
     var vm = this;
-    this.player.on('ready', function() {
-      vm.player.addRegion({
-        start: 8,
-        end: 25,
-        color: 'hsla(100, 100%, 30%, 0.1)'
-      });
+    this.player.on('ready', () => {
+      vm.loadRegions(vm.dataService);
     });
 
     // Forces Angular to update component every second

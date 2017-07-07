@@ -2,6 +2,7 @@ import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { DataService } from './data.service';
 import * as wavesurfer from 'wavesurfer.js';
+import RegionsPlugin from 'wavesurfer.js/src/plugin/regions.js';
 
 @Component({
   selector: 'player',
@@ -42,12 +43,25 @@ export class PlayerComponent implements OnInit {
 
   ngOnInit(): void {
     this.loaded = false;
+
     this.player = wavesurfer.create({
       container: '#waveform',
       waveColor: 'violet',
-      progressColor: 'purple'
+      progressColor: 'purple',
+      plugins: [
+        RegionsPlugin.create()
+      ]
     });
 
     this.player.loadArrayBuffer(this.dataService.raw());
+
+    var vm = this;
+    this.player.on('ready', function() {
+      vm.player.addRegion({
+        start: 8,
+        end: 25,
+        color: 'hsla(100, 100%, 30%, 0.1)'
+      });
+    });
   }
 }

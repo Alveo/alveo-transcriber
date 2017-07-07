@@ -34,11 +34,11 @@ export class PlayerComponent implements OnInit {
   }
 
   getPos(): number {
-    return this.player.getCurrentTime();
+    return Math.floor(this.player.getCurrentTime());
   }
 
   getDuration(): number {
-    return this.player.getDuration();
+    return Math.floor(this.player.getDuration());
   }
 
   ngOnInit(): void {
@@ -63,6 +63,9 @@ export class PlayerComponent implements OnInit {
         color: 'hsla(100, 100%, 30%, 0.1)'
       });
     });
+
+    // Forces Angular to update component every second
+    setInterval(() => {}, 1000);
   }
 
   @HostListener('window:resize', ['$event'])

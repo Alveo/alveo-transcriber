@@ -12,9 +12,7 @@ export class DataService {
   private fetchUrl = 'http://127.0.0.1:5000/request-data'
   clips = [];
   errorMessage: string;
-  blob: Blob;
-  blobdata: string;
-  blobtest: ArrayBuffer;
+  blob: ArrayBuffer;
 
   constructor(private http: Http, private monitorService: MonitorService) {};
 
@@ -24,43 +22,10 @@ export class DataService {
           blob => this.blob = blob,
           error => this.errorMessage = <any>error);
   }
-  private downloadIt(): Observable<Blob> {
-    return this.http.get('http://127.0.0.1:5000/request-audio', {responseType: ResponseContentType.Blob}) 
-                    .map(this.blobExtract)
+  private downloadIt(): Observable<ArrayBuffer> {
+    return this.http.get('http://127.0.0.1:5000/request-audio', {responseType: ResponseContentType.ArrayBuffer}) 
+    .map(response => (<Response>response).arrayBuffer())
                     .catch(this.handleError);
-  }
-
-  private blobExtract(res: Response) {
-    var blob = new Blob([res.blob()], {type: 'audio/ogg'});
-    return blob;
-  }
-  
-  gen64if(): void {
-    if (this.blob!=null) {
-      if (this.blobdata==undefined) {
-      var reader = new FileReader();
-      reader.onload =this._readerhandle.bind(this);
-      reader.readAsBinaryString(this.blob);
-      }
-    }
-  }
-
-  _readerhandle(reader) {
-    this.blobdata= btoa(reader.target.result);
-  }
-
-  genABif(): void {
-    if (this.blob!=null) {
-      if (this.blobtest==undefined) {
-      var reader = new FileReader();
-      reader.onload =this._readerhandle2.bind(this);
-      reader.readAsArrayBuffer(this.blob);
-      }
-    }
-  }
-
-  _readerhandle2(reader) {
-    this.blobtest= reader.target.result;
   }
 
   getData(): void {
@@ -68,6 +33,10 @@ export class DataService {
           .subscribe(
           clips => this.clips = clips,
           error => this.errorMessage = <any>error);
+  }
+
+  raw(): ArrayBuffer {
+    return this.blob.slice(0);
   }
 
   private fetchData(): Observable<Clip[]> {
@@ -80,6 +49,7 @@ export class DataService {
     let data = res.json();
     return data || [];
   }
+
   private handleError (error: Response | any) {
     let errMsg: string;
     if (error instanceof Response) {

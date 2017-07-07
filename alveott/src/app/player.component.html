@@ -2,15 +2,10 @@
 
 <div id="waveform"></div>
 
-{{this.loadClip()}}
-<!-- Should we retrieve all available clips before hand? -->
+<p>{{this.getPos()}} / {{this.getDuration()}}</p>
 
-<div *ngIf="this.loaded">
-  <p>{{this.getPos()}} / {{this.getDuration()}}</p>
-
-  <p (click)="this.play()">Play</p>
-  <p (click)="this.stop()">Stop</p>
-  <p (click)="this.pause()">Pause</p>
-  <p (click)="this.seek(3.7)">Seek to 3.7 seconds</p>
-  <p (click)="this.seek(0.0)">Reset (Seek 0)</p>
-</div>
+<p (click)="this.play()">Play</p>
+<p (click)="this.stop()">Stop</p>
+<p (click)="this.pause()">Pause</p>
+<p (click)="this.seek(3.7)">Seek to 3.7 seconds</p>
+<p (click)="this.seek(0.0)">Reset (Seek 0)</p>

@@ -48,14 +48,6 @@ export class PlayerComponent implements OnInit {
       progressColor: 'purple'
     });
 
-    this.dataService.gen64if();
-    this.dataService.genABif();
-  }
-
-  loadClip(): void {
-    console.log("Loaded");
-    this.player.loadArrayBuffer(this.dataService.blobtest);
-
-    this.loaded = true;
+    this.player.loadArrayBuffer(this.dataService.raw());
   }
 }

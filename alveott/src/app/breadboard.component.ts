@@ -8,8 +8,6 @@ import { Clip } from './clip';
 @Component({
   selector: 'breadboard',
   template: `
-  {{this.dataService.gen64if()}}
-  {{this.dataService.genABif()}}
   `,
 })
 

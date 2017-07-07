@@ -1,4 +1,6 @@
 import { TestBed, async } from '@angular/core/testing';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -10,7 +12,7 @@ import { NavComponent } from './nav.component';
 import { AuthComponent } from './auth.component';
 import { SelectorComponent } from './selector.component';
 import { AnnotatorComponent } from './annotator.component';
-import { SessionComponent } from './session.component';
+import { BreadboardComponent } from './breadboard.component';
 import { PlayerComponent } from './player.component';
 
 import { SessionService } from './session.service';
@@ -29,7 +31,7 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent,
         NavComponent,
-        SessionComponent,
+        BreadboardComponent,
         AuthComponent,
         AnnotatorComponent,
         SelectorComponent,
@@ -43,7 +45,7 @@ describe('AppComponent', () => {
         AppRoutingModule
       ],
       providers: [SessionService, DataService, MonitorService,
-      {provide: APP_BASE_HREF, useValue: '/'}],
+      {provide: APP_BASE_HREF, useValue: '/auth'}],
     }).compileComponents();
   }));
 

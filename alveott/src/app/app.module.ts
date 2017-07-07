@@ -8,7 +8,7 @@ import { NavComponent } from './nav.component';
 import { AuthComponent } from './auth.component';
 import { SelectorComponent } from './selector.component';
 import { AnnotatorComponent } from './annotator.component';
-import { SessionComponent } from './session.component';
+import { BreadboardComponent } from './breadboard.component';
 import { PlayerComponent } from './player.component';
 
 import { SessionService } from './session.service';
@@ -23,7 +23,7 @@ import { AppRoutingModule } from './app-routing.module';
   declarations: [
     AppComponent,
     NavComponent,
-    SessionComponent,
+    BreadboardComponent,
     AuthComponent,
     AnnotatorComponent,
     SelectorComponent,

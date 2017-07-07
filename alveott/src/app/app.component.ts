@@ -10,8 +10,15 @@ import { DataService } from './data.service';
 })
 
 export class AppComponent {
+  year: number;
   constructor(public sessionService: SessionService, 
-              public dataService: DataService) { }
+              public dataService: DataService) {
+    this.year = new Date().getFullYear();
+  }
 
   title = 'app';
+
+  currentYear(): number {
+    return this.year;
+  }
 }

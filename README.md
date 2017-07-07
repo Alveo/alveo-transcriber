@@ -2,21 +2,23 @@
 Web based speech transcription tool for the Alveo project
 
 # Setup 
-1. (Optional) Set up a virtualenv
-2. Install flask deps
+1. Recommended: Set up a python3 virtual environment
+
+2. Install Flask dependencies
   - pip install -r requirements.txt
 
-3. Install angular deps
+3. Install Angular dependencies
   - cd alveott
   - node install
 
-4. Build app
+4. Build the application (development)
   - python manage.py gendb sample
   - python manage.py build
 
-5. python manage.py runserver
+5. Run the Flask application (serves the Angular app)
+  - python manage.py runserver
 
 # Testing/Development
-The Angular frontend can be ran from the alveott directory with:
+The AlveoTT frontend can be ran from its directory with:
 - npm start
 - npm test

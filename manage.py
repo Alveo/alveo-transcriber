@@ -31,7 +31,7 @@ def gendb(type):
 
 @manager.command
 def build():
-    subprocess.call(['./deploy-static.sh'])
+    subprocess.call(['./utility/deploy-static.sh'])
 
 @manager.command
 def runserver(force=False):

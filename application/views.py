@@ -27,7 +27,7 @@ def serve():
 
 @app.route('/request-audio')
 def requestaudio():
-    return app.send_static_file('audio.ogg')
+    return app.send_static_file('sample/audio.ogg')
 
 @app.route('/request-data')
 def request():

@@ -1,0 +1,8 @@
+<div class="annotator" *ngFor="let segment of this.clip.segments">
+  <p class="timestamp">{{segment.start}} to {{segment.end}}</p>
+  <div class="annotator-fields">
+    <input class="speaker" type="text" placeholder="Speaker" [(ngModel)]="segment.speaker">
+    <input class="annotation" type="text" placeholder="Annotation" [(ngModel)]="segment.annotation">
+  </div>
+  <div class="playbar"></div>
+</div>

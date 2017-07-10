@@ -4,6 +4,7 @@ import { Component, Input, HostListener } from '@angular/core';
 import * as wavesurfer from 'wavesurfer.js';
 import RegionsPlugin from 'wavesurfer.js/src/plugin/regions.js';
 import TimelinePlugin from 'wavesurfer.js/src/plugin/timeline.js';
+import MinimapPlugin from 'wavesurfer.js/src/plugin/minimap.js';
 
 import { Clip } from './clip';
 
@@ -66,14 +67,14 @@ export class PlayerComponent implements OnInit {
       container: '#waveform',
       waveColor: 'black',
       progressColor: 'white',
-      barHeight: 200,
-      height: 300,
+      height: 200,
       controls: true,
       plugins: [
         RegionsPlugin.create(),
         TimelinePlugin.create({
           container: '#timeline'
         }),
+        MinimapPlugin.create(),
       ]
     });
 

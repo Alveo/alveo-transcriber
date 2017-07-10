@@ -123,6 +123,10 @@ export class PlayerComponent implements OnInit {
       this.playCtrlService.activeSegment = this.findSegment(region);
     });
 
+    this.player.on('region-updated', (region: Region) => {
+      this.playCtrlService.activeSegment = this.findSegment(region);
+    });
+
     this.player.on('region-update-end', (region: Region) => {
       let segment = this.findSegment(region);
       segment.start = region.start;

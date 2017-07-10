@@ -23,6 +23,10 @@
   font-size: 24px;
   vertical-align: middle;
   padding: 0.5rem 1rem 0.5rem 1rem;
+
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 #return-button {

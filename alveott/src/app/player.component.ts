@@ -1,10 +1,14 @@
 import { OnInit } from '@angular/core';
 import { Component, Input, HostListener } from '@angular/core';
+import { Segment } from './segment';
 
 import * as wavesurfer from 'wavesurfer.js';
 import RegionsPlugin from 'wavesurfer.js/src/plugin/regions.js';
+import Region from 'wavesurfer.js/src/plugin/regions.js';
 import TimelinePlugin from 'wavesurfer.js/src/plugin/timeline.js';
 import MinimapPlugin from 'wavesurfer.js/src/plugin/minimap.js';
+
+import { PlayerControlService } from './player-control.service';
 
 import { Clip } from './clip';
 
@@ -19,6 +23,9 @@ export class PlayerComponent implements OnInit {
   _playing: boolean;
   @Input() clip: Clip;
   @Input() audioData: ArrayBuffer;
+  @Input() selected: Segment;
+
+  constructor(public playCtrlService: PlayerControlService) { }
 
   play(): void {
     this.player.play();
@@ -50,7 +57,7 @@ export class PlayerComponent implements OnInit {
 
   loadRegions(): void {
     this.clip.segments.forEach((segment) => {
-      this.player.addRegion({
+      var region = this.player.addRegion({
         start: segment.start,
         end: segment.end,
         color: 'hsla(100, 100%, 30%, 0.1)'
@@ -85,6 +92,10 @@ export class PlayerComponent implements OnInit {
       vm.loadRegions();
     });
 
+    this.player.on('region-click', (region: Region) => {
+      vm.setActiveSegment(region);
+    });
+
     // Forces Angular to update component every second
     setInterval(() => {}, 1000);
   }
@@ -99,5 +110,20 @@ export class PlayerComponent implements OnInit {
 
   playing(): boolean {
     return this._playing;
+  }
+
+  findSegment(start: number, end: number): Segment {
+    var match = null;
+    for (var segment of this.clip.segments) {
+      if (segment.start == start && segment.end == end) {
+        match = segment;
+        break;
+      }
+    }
+    return match;
+  }
+
+  setActiveSegment(region: Region): void {
+    this.playCtrlService.activeSegment = this.findSegment(region.start, region.end);
   }
 }

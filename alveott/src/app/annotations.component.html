@@ -1,4 +1,4 @@
-<div class="annotation" *ngFor="let segment of this.clip.segments">
+<div class="annotation" *ngFor="let segment of this.clip.segments" [class.highlight]="segment===this.playCtrlService.activeSegment">
   <p class="timestamp">{{segment.start}} to {{segment.end}}</p>
   <div class="fields">
     <input class="speaker" type="text" placeholder="Speaker" [(ngModel)]="segment.speaker">

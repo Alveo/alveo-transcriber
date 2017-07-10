@@ -12,6 +12,10 @@
 .timestamp {
 }
 
+.highlight {
+  background: yellow;
+}
+
 .fields {
     display: flex;
     flex-direction: row;

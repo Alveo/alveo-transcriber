@@ -15,6 +15,7 @@ import { AnnotationsComponent } from './annotations.component';
 import { SessionService } from './session.service';
 import { DataService } from './data.service';
 import { MonitorService } from './monitor.service';
+import { PlayerControlService } from './player-control.service';
 
 import { DurationPipe } from './duration.pipe';
 
@@ -38,7 +39,7 @@ import { AppRoutingModule } from './app-routing.module';
     HttpModule,
     AppRoutingModule,
   ],
-  providers: [SessionService, DataService, MonitorService],
+  providers: [SessionService, DataService, MonitorService, PlayerControlService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

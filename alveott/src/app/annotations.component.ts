@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
 
+import { PlayerControlService } from './player-control.service';
+
 import { Clip } from './clip';
 
 @Component({
@@ -9,5 +11,7 @@ import { Clip } from './clip';
 })
 
 export class AnnotationsComponent {
+  constructor(public playCtrlService: PlayerControlService) { }
+
   @Input() clip: Clip;
 }

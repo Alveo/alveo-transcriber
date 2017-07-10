@@ -1,7 +1,10 @@
 <div id="player-container">
 <div id="waveform"></div>
 <p>{{this.getPos()}} / {{this.getDuration()}}</p>
+<div id="timeline"></div>
 <p (click)="this.play()">Play</p>
 <p (click)="this.stop()">Stop</p>
 <p (click)="this.pause()">Pause</p>
+<p (click)="this.zoom()">Zoom</p>
+<p (click)="this.unzoom()">Unzoom</p>
 </div>

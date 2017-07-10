@@ -1,22 +1,41 @@
+#controller {
+  height: 600px;
+}
+
+#controller-float {
+  width: 80%;
+  margin: auto;
+  padding: 2em;
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  background: linear-gradient(to bottom, white 97%, rgba(255, 255, 255, 0) 100%);
+}
+
+#top-halign {
+  display: flex;
+  padding-bottom: 0.6rem;
+}
+
 #header {
-    margin: 1em auto 1em auto;
-    text-align: center;
-    font-size: 16px;
-    width: 60%;
+  flex: 1 1 auto;
+  font-size: 24px;
+  vertical-align: middle;
+  padding: 0.5rem 1rem 0.5rem 1rem;
 }
 
 #return-button {
-    margin: 1em auto 1em auto;
-    text-align: center;
-    font-size: 22px;
-    background: #000000;
-    color: #FFFFFF;
-    width: 180px;
-    height: 40px;
-    padding: 0.4em;
+  flex: 0 0 auto;
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  text-align: center;
+  font-size: 22px;
+  background: #000000;
+  color: #FFFFFF;
 }
 
 #return-button:hover {
-    background: #444444;
-    cursor: pointer;
+  background: #444444;
+  cursor: pointer;
 }
+

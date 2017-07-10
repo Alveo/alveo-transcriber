@@ -3,6 +3,7 @@ import { Component, Input, HostListener } from '@angular/core';
 
 import * as wavesurfer from 'wavesurfer.js';
 import RegionsPlugin from 'wavesurfer.js/src/plugin/regions.js';
+import TimelinePlugin from 'wavesurfer.js/src/plugin/timeline.js';
 
 import { Clip } from './clip';
 
@@ -51,6 +52,8 @@ export class PlayerComponent implements OnInit {
         color: 'hsla(100, 100%, 30%, 0.1)'
       })
     });
+
+    this.zoom();
   }
 
   ngOnInit(): void {
@@ -60,8 +63,14 @@ export class PlayerComponent implements OnInit {
       container: '#waveform',
       waveColor: 'black',
       progressColor: 'white',
+      barHeight: 200,
+      height: 300,
+      controls: true,
       plugins: [
-        RegionsPlugin.create()
+        RegionsPlugin.create(),
+        TimelinePlugin.create({
+          container: '#timeline'
+        }),
       ]
     });
 
@@ -76,9 +85,11 @@ export class PlayerComponent implements OnInit {
     setInterval(() => {}, 1000);
   }
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event): void {
-    this.player.drawer.containerWidth = event.target.innerWidth;
-    this.player.drawBuffer();
+  zoom(): void {
+    this.player.zoom(50);
+  }
+
+  unzoom(): void {
+    this.player.zoom(5);
   }
 }

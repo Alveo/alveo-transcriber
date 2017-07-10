@@ -19,6 +19,7 @@ import { PlayerControlService } from './player-control.service';
 
 import { AnnotationPipe } from './annotation.pipe';
 import { DurationPipe } from './duration.pipe';
+import { DurationShortPipe } from './duration-short.pipe';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -34,6 +35,7 @@ import { AppRoutingModule } from './app-routing.module';
     AnnotationsComponent,
     AnnotationPipe,
     DurationPipe,
+    DurationShortPipe,
   ],
   imports: [
     BrowserModule,

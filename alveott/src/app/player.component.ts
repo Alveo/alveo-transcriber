@@ -1,6 +1,6 @@
 import { OnInit } from '@angular/core';
 import { Component, Input, HostListener } from '@angular/core';
-import { Segment } from './segment';
+import { Router, NavigationStart, Event } from '@angular/router';
 
 import * as wavesurfer from 'wavesurfer.js';
 import RegionsPlugin from 'wavesurfer.js/src/plugin/regions.js';
@@ -11,6 +11,7 @@ import MinimapPlugin from 'wavesurfer.js/src/plugin/minimap.js';
 import { PlayerControlService } from './player-control.service';
 
 import { Clip } from './clip';
+import { Segment } from './segment';
 
 @Component({
   selector: 'player',
@@ -25,7 +26,14 @@ export class PlayerComponent implements OnInit {
   @Input() audioData: ArrayBuffer;
   @Input() selected: Segment;
 
-  constructor(public playCtrlService: PlayerControlService) { }
+  constructor(public router: Router,
+    public playCtrlService: PlayerControlService) { 
+    router.events.subscribe( (event:Event) => {
+      if (event instanceof NavigationStart) {
+        this.player.destroy();
+      }
+    });
+  }
 
   play(): void {
     this.player.play();

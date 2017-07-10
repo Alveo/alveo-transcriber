@@ -85,10 +85,11 @@ export class PlayerComponent implements OnInit {
         start: segment.start,
         end: segment.end,
         color: 'hsla(100, 100%, 30%, 0.1)'
-      }) // Doesn't return the region object :/
+      }) // Doesn't return the region object FYI
 
-      console.log(this.player.regions);
-      this.addCache(segment, this.player);
+      // It's hacky: retrieves the last added region
+      var region = this.player.regions.list[Object.keys(this.player.regions.list).pop()];
+      this.addCache(segment, region);
     });
 
     this.zoom();
@@ -114,13 +115,18 @@ export class PlayerComponent implements OnInit {
 
     this.player.loadArrayBuffer(this.audioData);
 
-    var vm = this;
     this.player.on('ready', () => {
-      vm.loadRegions();
+      this.loadRegions();
     });
 
     this.player.on('region-click', (region: Region) => {
-      vm.setActiveSegment(region);
+      this.playCtrlService.activeSegment = this.findSegment(region);
+    });
+
+    this.player.on('region-update-end', (region: Region) => {
+      let segment = this.findSegment(region);
+      segment.start = region.start;
+      segment.end = region.end;
     });
 
     // Forces Angular to update component every second
@@ -140,7 +146,7 @@ export class PlayerComponent implements OnInit {
   }
 
   findSegment(region: Region): Segment {
-    var match = null;
+    let match = null;
     for (var cache of this.regionCache) {
       console.log(cache);
       if (cache.region == region) {
@@ -149,9 +155,5 @@ export class PlayerComponent implements OnInit {
       }
     }
     return match;
-  }
-
-  setActiveSegment(region: Region): void {
-    this.playCtrlService.activeSegment = this.findSegment(region);
   }
 }

@@ -17,6 +17,7 @@ import { DataService } from './data.service';
 import { MonitorService } from './monitor.service';
 import { PlayerControlService } from './player-control.service';
 
+import { AnnotationPipe } from './annotation.pipe';
 import { DurationPipe } from './duration.pipe';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -31,6 +32,7 @@ import { AppRoutingModule } from './app-routing.module';
     SelectorComponent,
     PlayerComponent,
     AnnotationsComponent,
+    AnnotationPipe,
     DurationPipe,
   ],
   imports: [

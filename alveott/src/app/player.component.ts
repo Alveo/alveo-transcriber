@@ -13,18 +13,30 @@ import { PlayerControlService } from './player-control.service';
 import { Clip } from './clip';
 import { Segment } from './segment';
 
+class Cache {
+  segment: Segment;
+  region: Region;
+
+  constructor(segment: Segment, region: Region) {
+    this.segment = segment;
+    this.region = region;
+  }
+}
+
 @Component({
   selector: 'player',
   templateUrl: './player.component.html',
   styleUrls: ['./player.component.css'],
 })
-
 export class PlayerComponent implements OnInit {
   player: wavesurfer;
   _playing: boolean;
   @Input() clip: Clip;
   @Input() audioData: ArrayBuffer;
   @Input() selected: Segment;
+
+
+  regionCache: Cache[] = [];
 
   constructor(public router: Router,
     public playCtrlService: PlayerControlService) { 
@@ -63,13 +75,20 @@ export class PlayerComponent implements OnInit {
     return Math.floor(this.player.getDuration());
   }
 
+  addCache(segment: Segment, region: Region): void {
+    this.regionCache.push(new Cache(segment, region));
+  }
+
   loadRegions(): void {
     this.clip.segments.forEach((segment) => {
-      var region = this.player.addRegion({
+      this.player.addRegion({
         start: segment.start,
         end: segment.end,
         color: 'hsla(100, 100%, 30%, 0.1)'
-      })
+      }) // Doesn't return the region object :/
+
+      console.log(this.player.regions);
+      this.addCache(segment, this.player);
     });
 
     this.zoom();
@@ -120,11 +139,12 @@ export class PlayerComponent implements OnInit {
     return this._playing;
   }
 
-  findSegment(start: number, end: number): Segment {
+  findSegment(region: Region): Segment {
     var match = null;
-    for (var segment of this.clip.segments) {
-      if (segment.start == start && segment.end == end) {
-        match = segment;
+    for (var cache of this.regionCache) {
+      console.log(cache);
+      if (cache.region == region) {
+        match = cache.segment;
         break;
       }
     }
@@ -132,6 +152,6 @@ export class PlayerComponent implements OnInit {
   }
 
   setActiveSegment(region: Region): void {
-    this.playCtrlService.activeSegment = this.findSegment(region.start, region.end);
+    this.playCtrlService.activeSegment = this.findSegment(region);
   }
 }

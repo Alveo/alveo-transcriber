@@ -1,4 +1,4 @@
-<div class="annotation" *ngFor="let segment of this.getSegmentsOrdered()" [class.highlight]="segment===this.playCtrlService.activeSegment">
+<div class="annotation" *ngFor="let segment of this.getSegmentsOrdered()" [class.highlight]="segment===this.playCtrlService.activeSegment" (click)="this.setRegion(segment)">
   <p class="timestamp">{{segment.start | annotation}} to {{segment.end | annotation }}</p>
   <div class="fields">
     <input class="speaker" type="text" placeholder="Speaker" [(ngModel)]="segment.speaker">

@@ -133,6 +133,14 @@ export class PlayerComponent implements OnInit {
       segment.end = region.end;
     });
 
+    /*
+    this.playCtrlService.on('region-change', (segment: Segment) => {
+      let region = this.findRegion(segment);
+      console.log(region);
+      // Do something to the region
+    });
+     */
+
     // Forces Angular to update component every second
     setInterval(() => {}, 1000);
   }
@@ -152,9 +160,19 @@ export class PlayerComponent implements OnInit {
   findSegment(region: Region): Segment {
     let match = null;
     for (var cache of this.regionCache) {
-      console.log(cache);
       if (cache.region == region) {
         match = cache.segment;
+        break;
+      }
+    }
+    return match;
+  }
+
+  findRegion(segment: Segment): Region{
+    let match = null;
+    for (var cache of this.regionCache) {
+      if (cache.segment == segment) {
+        match = cache.region;
         break;
       }
     }

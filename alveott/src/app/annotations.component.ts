@@ -22,4 +22,8 @@ export class AnnotationsComponent {
     });
     return this.clip.segments;
   }
+
+  setRegion(segment: Segment): void {
+    this.playCtrlService.activeSegment = segment;
+  }
 }

@@ -15,20 +15,23 @@ import { Clip } from './clip';
 
 export class PlayerComponent implements OnInit {
   player: wavesurfer;
-  loaded: boolean;
+  _playing: boolean;
   @Input() clip: Clip;
   @Input() audioData: ArrayBuffer;
 
   play(): void {
     this.player.play();
+    this._playing = true;
   }
 
   stop(): void {
     this.player.stop();
+    this._playing = false;
   }
 
   pause(): void {
     this.player.pause();
+    this._playing = false;
   }
 
   seek(position: number): void {
@@ -57,7 +60,7 @@ export class PlayerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loaded = false;
+    this._playing = false;
 
     this.player = wavesurfer.create({
       container: '#waveform',
@@ -91,5 +94,9 @@ export class PlayerComponent implements OnInit {
 
   unzoom(): void {
     this.player.zoom(5);
+  }
+
+  playing(): boolean {
+    return this._playing;
   }
 }

@@ -1,10 +1,24 @@
 <div id="player-container">
 <div id="waveform"></div>
 <div id="timeline"></div>
-<p>{{this.getPos()}} / {{this.getDuration()}}</p>
-<p (click)="this.play()">Play</p>
-<p (click)="this.stop()">Stop</p>
-<p (click)="this.pause()">Pause</p>
-<p (click)="this.zoom()">Zoom</p>
-<p (click)="this.unzoom()">Unzoom</p>
+
+<div id="controls">
+<p class="fi-volume icon" (click)="this.pause()"></p>
+<div *ngIf="!this.playing()">
+<p class="fi-play icon" (click)="this.play()"></p>
+</div> <div *ngIf="this.playing()">
+<p class="fi-pause icon" (click)="this.pause()"></p>
+</div>
+
+<p class="fi-previous icon" (click)="this.pause()"></p> <!-- Next segment -->
+<p class="fi-next icon" (click)="this.pause()"></p> <!-- Prev segment -->
+<p id="duration">{{this.getPos()}} / {{this.getDuration()}}</p>
+<span class="divider"></span>
+
+<p class="fi-zoom-in icon" (click)="this.zoom()"></p>
+<p class="fi-zoom-out icon" (click)="this.unzoom()"></p>
+
+<p class="fi-arrows-in icon" (click)="this.zoom()"></p>
+<p class="fi-arrows-out icon" (click)="this.unzoom()"></p>
+</div>
 </div>

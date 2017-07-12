@@ -14,10 +14,10 @@ import MinimapPlugin from 'wavesurfer.js.git/dist/plugin/wavesurfer.minimap.min'
 
 /* WaveSurfer NPM headers */ 
 import WaveSurfer from 'wavesurfer.js';
-import Region from 'wavesurfer.js/src/plugin/regions';
-import RegionsPlugin from 'wavesurfer.js/src/plugin/regions';
-import TimelinePlugin from 'wavesurfer.js/src/plugin/timeline';
-import MinimapPlugin from 'wavesurfer.js/src/plugin/minimap';
+import Region from 'wavesurfer.js/dist/plugin/wavesurfer.regions';
+import RegionsPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.regions';
+import TimelinePlugin from 'wavesurfer.js/dist/plugin/wavesurfer.timeline';
+import MinimapPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.minimap';
 
 import { PlayerControlService } from './player-control.service';
 
@@ -102,8 +102,6 @@ export class PlayerComponent implements OnInit {
       var region = this.player.regions.list[Object.keys(this.player.regions.list).pop()];
       this.addCache(segment, region);
     });
-
-    this.zoom();
   }
 
   ngOnInit(): void {
@@ -116,18 +114,26 @@ export class PlayerComponent implements OnInit {
       height: 200,
       controls: true,
       plugins: [
+        MinimapPlugin.create(),
         RegionsPlugin.create(),
         TimelinePlugin.create({
           container: '#timeline'
         }),
-        MinimapPlugin.create(),
       ]
     });
 
     this.player.loadArrayBuffer(this.audioData);
 
+    var slider = document.querySelector('[data-action="zoom"]');
+    slider.addEventListener('input', () => {
+      var value = (slider as HTMLInputElement).value;
+      this.player.zoom(Number(value));
+    });
+
     this.player.on('ready', () => {
       this.loadRegions();
+      this.player.zoom(30);
+      (slider as HTMLInputElement).value = this.player.params.minPxPerSec;
     });
 
     this.player.on('region-click', (region: Region) => {
@@ -148,10 +154,6 @@ export class PlayerComponent implements OnInit {
       this.stop();
     });
 
-    this.player.on('zoom', () => {
-      this.player.drawBuffer();
-    });
-
     /*
     this.playCtrlService.on('region-change', (segment: Segment) => {
       let region = this.findRegion(segment);
@@ -162,14 +164,6 @@ export class PlayerComponent implements OnInit {
 
     // Forces Angular to update component every second
     setInterval(() => {}, 1000);
-  }
-
-  zoom(): void {
-    this.player.zoom(Number(200));
-  }
-
-  unzoom(): void {
-    this.player.zoom(Number(0));
   }
 
   playing(): boolean {

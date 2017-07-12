@@ -28,3 +28,18 @@
   font-size: 48px;
   padding: 0.2rem 0.5rem 0.2rem 0.5rem;
 }
+
+.icon:hover {
+  background: #CCCCCC;
+}
+
+.icon-noclick {
+  font-size: 36px;
+  padding: 0.2rem 0.5rem 0.2rem 0.5rem;
+  color: #CCCCCC;
+}
+
+#zoom-slider {
+  padding: 0.8rem 0.5rem 0.2rem 0.5rem;
+  outline: none;
+}

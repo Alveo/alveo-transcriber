@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
+import { DBService } from './db.service';
+
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav.component';
 import { AuthComponent } from './auth.component';
@@ -43,7 +45,13 @@ import { AppRoutingModule } from './app-routing.module';
     HttpModule,
     AppRoutingModule,
   ],
-  providers: [SessionService, DataService, MonitorService, PlayerControlService],
+  providers: [
+    SessionService, 
+    DataService,
+    MonitorService,
+    PlayerControlService,
+    DBService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

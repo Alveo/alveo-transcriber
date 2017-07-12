@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
+import { Http, Response, ResponseContentType } from '@angular/http';
 import { Observable } from 'rxjs';
-import { Http, Response } from '@angular/http';
-import { Clip } from './clip';
-import { MonitorService } from './monitor.service';
 
-import { ResponseContentType } from '@angular/http';
+import { Clip } from './clip';
+
+import { MonitorService } from './monitor.service';
+import { DBService } from './db.service';
 
 @Injectable()
 export class DataService {
@@ -14,7 +15,15 @@ export class DataService {
   errorMessage: string;
   blob: ArrayBuffer;
 
-  constructor(private http: Http, private monitorService: MonitorService) {};
+  constructor(
+    private http: Http,
+    private monitorService: MonitorService,
+    public database: DBService,
+  ) {}
+
+  startStore(): void {
+    setInterval(() => {this.database.put("clips", {clips: this.clips})}, 1000);
+  }
 
   getFile(): void {
     this.downloadIt()

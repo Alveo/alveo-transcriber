@@ -2,11 +2,22 @@ import { OnInit } from '@angular/core';
 import { Component, Input, HostListener } from '@angular/core';
 import { Router, NavigationStart, Event } from '@angular/router';
 
-import * as wavesurfer from 'wavesurfer.js';
-import RegionsPlugin from 'wavesurfer.js/src/plugin/regions.js';
-import Region from 'wavesurfer.js/src/plugin/regions.js';
-import TimelinePlugin from 'wavesurfer.js/src/plugin/timeline.js';
-import MinimapPlugin from 'wavesurfer.js/src/plugin/minimap.js';
+/* WaveSurfer Git headers */
+/* pull with git clone -b next --single-branch https://github.com/katspaugh/wavesurfer.js.git . */
+/*
+import WaveSurfer from 'wavesurfer.js.git';
+import Region from 'wavesurfer.js.git/dist/plugin/wavesurfer.regions.min';
+import RegionsPlugin from 'wavesurfer.js.git/dist/plugin/wavesurfer.regions.min';
+import TimelinePlugin from 'wavesurfer.js.git/dist/plugin/wavesurfer.timeline.min';
+import MinimapPlugin from 'wavesurfer.js.git/dist/plugin/wavesurfer.minimap.min';
+*/
+
+/* WaveSurfer NPM headers */ 
+import WaveSurfer from 'wavesurfer.js';
+import Region from 'wavesurfer.js/src/plugin/regions';
+import RegionsPlugin from 'wavesurfer.js/src/plugin/regions';
+import TimelinePlugin from 'wavesurfer.js/src/plugin/timeline';
+import MinimapPlugin from 'wavesurfer.js/src/plugin/minimap';
 
 import { PlayerControlService } from './player-control.service';
 
@@ -29,7 +40,7 @@ class Cache {
   styleUrls: ['./player.component.css'],
 })
 export class PlayerComponent implements OnInit {
-  player: wavesurfer;
+  player: WaveSurfer;
   _playing: boolean;
   @Input() clip: Clip;
   @Input() audioData: ArrayBuffer;
@@ -98,7 +109,7 @@ export class PlayerComponent implements OnInit {
   ngOnInit(): void {
     this._playing = false;
 
-    this.player = wavesurfer.create({
+    this.player = WaveSurfer.create({
       container: '#waveform',
       waveColor: 'black',
       progressColor: 'white',
@@ -137,6 +148,10 @@ export class PlayerComponent implements OnInit {
       this.stop();
     });
 
+    this.player.on('zoom', () => {
+      this.player.drawBuffer();
+    });
+
     /*
     this.playCtrlService.on('region-change', (segment: Segment) => {
       let region = this.findRegion(segment);
@@ -150,11 +165,11 @@ export class PlayerComponent implements OnInit {
   }
 
   zoom(): void {
-    this.player.zoom(50);
+    this.player.zoom(Number(200));
   }
 
   unzoom(): void {
-    this.player.zoom(5);
+    this.player.zoom(Number(0));
   }
 
   playing(): boolean {

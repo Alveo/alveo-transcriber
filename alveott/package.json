@@ -25,7 +25,7 @@
     "rxjs": "^5.1.0",
     "wavesurfer.js": "^2.0.0-beta01",
     "zone.js": "^0.8.4",
-    "pouchdb": "^@6.2.0 "
+    "pouchdb": "^6.2.0"
   },
   "devDependencies": {
     "@angular/cli": "1.2.0",

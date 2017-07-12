@@ -3,8 +3,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
-import { DBService } from './db.service';
-
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav.component';
 import { AuthComponent } from './auth.component';
@@ -18,6 +16,7 @@ import { SessionService } from './session.service';
 import { DataService } from './data.service';
 import { MonitorService } from './monitor.service';
 import { PlayerControlService } from './player-control.service';
+import { DBService } from './db.service';
 
 import { AnnotationPipe } from './annotation.pipe';
 import { DurationPipe } from './duration.pipe';

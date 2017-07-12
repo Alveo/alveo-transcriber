@@ -14,12 +14,17 @@ import { SelectorComponent } from './selector.component';
 import { AnnotatorComponent } from './annotator.component';
 import { BreadboardComponent } from './breadboard.component';
 import { PlayerComponent } from './player.component';
+import { AnnotationsComponent } from './annotations.component';
 
 import { SessionService } from './session.service';
 import { DataService } from './data.service';
 import { MonitorService } from './monitor.service';
+import { PlayerControlService } from './player-control.service';
+import { DBService } from './db.service';
 
+import { AnnotationPipe } from './annotation.pipe';
 import { DurationPipe } from './duration.pipe';
+import { DurationShortPipe } from './duration-short.pipe';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -36,7 +41,10 @@ describe('AppComponent', () => {
         AnnotatorComponent,
         SelectorComponent,
         PlayerComponent,
+        AnnotationsComponent,
+        AnnotationPipe,
         DurationPipe,
+        DurationShortPipe,
       ],
       imports: [
         BrowserModule,
@@ -44,7 +52,11 @@ describe('AppComponent', () => {
         HttpModule,
         AppRoutingModule
       ],
-      providers: [SessionService, DataService, MonitorService,
+      providers: [
+        SessionService,
+        DataService,
+        MonitorService,
+        DBService,
         {provide: SessionService, useValue: sessionService},
       ]}).compileComponents();
   }));
@@ -68,23 +80,23 @@ describe('AppComponent', () => {
     expect(compiled.querySelector('header p').textContent).toContain('Alveo Transcription Tool');
   }));
 
-  it('should log in and take you to the selector view', async(() => {
+  // Bad idea to async call a test that depends on whenStable() (Angular4.2.5)
+  it('should log in and take you to the selector view', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const compiled = fixture.debugElement.nativeElement;
+    fixture.detectChanges();
 
     let path = TestBed.get(Router);
     path.navigate(['./login']);
 
-    fixture.detectChanges();
     fixture.whenStable().then(() => {
       expect(compiled.querySelector('#welcome-text').textContent).toContain('Welcome');
       compiled.querySelector('#login-button').click();
-      fixture.detectChanges();
 
       fixture.whenStable().then(() => {
-        expect(compiled.querySelector('#selector').textContent).toContain('Please select a clip to transcribe.');
+        expect(compiled.querySelector('#subheader').textContent).toContain('Please select a clip to transcribe.');
       });
     });
     // console.log(compiled.innerHTML);
-  }));
+  });
 });

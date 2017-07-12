@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService } from './data.service';
+import { AudioService } from './audio.service';
 
 @Component({
   selector: 'annotator',
@@ -11,7 +12,9 @@ import { DataService } from './data.service';
 export class AnnotatorComponent {
   constructor(
     public router: Router,
-    public dataService: DataService) { }
+    public dataService: DataService,
+    public audioService: AudioService,
+  ) { }
 
   back(): void {
     this.dataService.selected=null

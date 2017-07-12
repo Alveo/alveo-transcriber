@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { DataService } from './data.service';
+import { AudioService } from './audio.service';
 
 import { Clip } from './clip';
 
@@ -16,11 +17,12 @@ import { Clip } from './clip';
 export class BreadboardComponent {
   constructor(
     public dataService: DataService,
+    public audioService: AudioService,
   ) {}
 
   click_remote(): void {
-    this.dataService.getData();
-    this.dataService.getFile();
+    this.dataService.pull('http://127.0.0.1:5000/request-data');
+    this.audioService.pull('http://127.0.0.1:5000/request-audio');
     this.dataService.startStore();
   }
 
@@ -29,7 +31,7 @@ export class BreadboardComponent {
       this.dataService.clips = results.clips;
       console.log(results.clips);
     });
-    this.dataService.getFile();
+    this.audioService.pull('http://127.0.0.1:5000/request-audio');
     this.dataService.startStore();
   }
 }

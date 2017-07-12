@@ -17,6 +17,7 @@ import { DataService } from './data.service';
 import { MonitorService } from './monitor.service';
 import { PlayerControlService } from './player-control.service';
 import { DBService } from './db.service';
+import { AudioService } from './audio.service';
 
 import { AnnotationPipe } from './annotation.pipe';
 import { DurationPipe } from './duration.pipe';
@@ -49,6 +50,7 @@ import { AppRoutingModule } from './app-routing.module';
     DataService,
     MonitorService,
     PlayerControlService,
+    AudioService,
     DBService,
   ],
   bootstrap: [AppComponent]

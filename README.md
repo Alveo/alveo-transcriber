@@ -9,7 +9,7 @@ Web based speech transcription tool for the Alveo project
 
 3. Install Angular dependencies
   - cd alveott
-  - node install
+  - npm install
 
 4. Build the application (development)
   - python manage.py gendb sample

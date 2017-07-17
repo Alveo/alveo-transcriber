@@ -10,7 +10,7 @@ import subprocess
 from flask_script import Manager, Command
 from flask_migrate import MigrateCommand
 
-from application import app
+from pyapplication import app
 import utility.manage_db as alveodb
 
 manager = Manager(app)

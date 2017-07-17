@@ -1,6 +1,6 @@
 from datetime import timedelta
 
-from application import app, db
+from pyapplication import app, db
 
 def gen_sample():
     db.drop_all()

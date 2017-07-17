@@ -4,7 +4,7 @@ from threading import Thread
 from flask import redirect
 from flask_mail import Message
 
-from application import app
+from pyapplication import app
 
 # 403 handler
 def not_allowed(error):

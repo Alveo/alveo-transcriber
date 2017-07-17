@@ -2,7 +2,7 @@ from flask import redirect, url_for, session, request, flash
 from flask.views import MethodView
 from flask_login import current_user
 
-from application import app, oauth_alveo
+from pyapplication import app, oauth_alveo
 
 class AlveoAuthoriseView(MethodView):
     def get(self):

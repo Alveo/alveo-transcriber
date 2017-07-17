@@ -38,4 +38,4 @@ if app.config['DEVELOPMENT'] == True:
         response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
         return response
 
-import application.views
+import pyapplication.routes

@@ -1,6 +1,6 @@
 from pyapplication import app, db
 
-class Clip(UserMixin, db.Model):
+class Clip(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     audio_url = db.Column(db.String(256), nullable=False)

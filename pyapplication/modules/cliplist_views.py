@@ -1,4 +1,5 @@
 from flask import request
+from flask.views import MethodView
 
 from pyapplication import app
 from pyapplication.modules.cliplist_model import ClipItemList
@@ -15,7 +16,7 @@ class ClipListPull(MethodView):
             export += {
                 'id': clip_item.id,
                 'title': clip_item.title,
-                'data': clip_item.metadata,
+                'data': clip_item.data,
             }
 
         return exports
@@ -48,4 +49,4 @@ class ClipListPull(MethodView):
 
         return json.dumps(export_items(clip_list)) # Display all items from list
 
-clip_list_pull = clip_list_pull.as_view('clip_list_pull')
+clip_list_pull = ClipListPull.as_view('clip_list_pull')

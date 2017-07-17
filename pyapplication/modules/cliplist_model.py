@@ -1,7 +1,7 @@
 from pyapplication import db
 from pyapplication.modules.user_model import User
 
-class ClipItemList(UserMixin, db.Model):
+class ClipItemList(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)

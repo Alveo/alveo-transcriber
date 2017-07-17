@@ -29,3 +29,6 @@ ADMINS = ['david.irving@mq.edu.au']
 # OAuth2
 OAUTH_ALVEO_APPID = ''
 OAUTH_ALVEO_APPSEC = ''
+
+# Time configuration
+TIMEZONE = 'Australia/Sydney'

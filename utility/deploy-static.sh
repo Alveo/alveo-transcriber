@@ -4,7 +4,7 @@ set -e
 
 root_dir=$(pwd)
 static_dir=$root_dir/static
-app_dir=$root_dir/alveott
+app_dir=$root_dir/ngapplication
 sample_dir=$root_dir/sample
 app_href='/static/'
 

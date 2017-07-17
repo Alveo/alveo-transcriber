@@ -46,7 +46,7 @@ class ClipListPull(MethodView):
         if current_user.is_anonymous:
             abort(404)
 
-        clip_list_id = request.args.get('clip_list_id', type=int)
+        clip_list_id = request.args.get('list_id', type=int)
 
         clip_list = None 
         if clip_list_id is not None:

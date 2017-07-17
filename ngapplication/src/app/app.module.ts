@@ -10,6 +10,7 @@ import { SelectorComponent } from './selector.component';
 import { AnnotatorComponent } from './annotator.component';
 import { BreadboardComponent } from './breadboard.component';
 import { PlayerComponent } from './player.component';
+import { ItemListsComponent } from './itemlists.component';
 import { AnnotationsComponent } from './annotations.component';
 
 import { SessionService } from './session.service';
@@ -35,6 +36,7 @@ import { AppRoutingModule } from './app-routing.module';
     SelectorComponent,
     PlayerComponent,
     AnnotationsComponent,
+    ItemListsComponent,
     AnnotationPipe,
     DurationPipe,
     DurationShortPipe,

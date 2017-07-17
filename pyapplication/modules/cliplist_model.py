@@ -1,6 +1,8 @@
 from pyapplication import db
 from pyapplication.modules.user_model import User
 
+from pyapplication.modules.helpers import get_current_datetime
+
 class ClipItemList(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
@@ -11,7 +13,7 @@ class ClipItemList(db.Model):
     last_edit = db.Column(db.DateTime, nullable=False)
 
     def __init__(self, title=None, last_edit=None, user=None):
-        self.tilte = title
+        self.title = title
         self.user = user
 
         if last_edit is None:

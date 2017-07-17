@@ -1,4 +1,5 @@
 from pyapplication import db
+from pyapplication.modules.helpers import get_current_datetime
 from pyapplication.modules.clip_model import Clip
 from pyapplication.modules.cliplist_model import ClipItemList
 
@@ -13,10 +14,10 @@ class ClipItem(db.Model):
 
     last_edit = db.Column(db.DateTime, nullable=False)
     data = db.Column(db.String(4096), nullable=False)
-    tilte = db.Column(db.String(128), nullable=False)
+    title = db.Column(db.String(128), nullable=False)
 
     def __init__(self, title=None, last_edit=None, clip_list=None, clip=None, data=None):
-        self.tilte = title
+        self.title = title
         self.clip_list = clip_list
         self.clip = clip
         self.data = data

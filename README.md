@@ -2,6 +2,8 @@
 Web based speech transcription tool for the Alveo project
 
 # Setup 
+It's recommended to install ng-cli 
+
 1. Install Angular dependencies
   - npm install
 
@@ -12,7 +14,7 @@ Web based speech transcription tool for the Alveo project
 
 ## Building
 ### Development
-- npm build
+- ng build
 
 ## Production
-- npm build --aot --prod
+- ng build --aot --prod

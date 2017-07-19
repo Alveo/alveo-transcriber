@@ -23,7 +23,7 @@
     "@angular/platform-browser-dynamic": "4.3.0",
     "@angular/router": "4.3.0",
     "core-js": "2.4.1",
-    "pouchdb": "6.2.0",
+    "pouchdb": "^6.3.4",
     "rxjs": "5.4.2",
     "wavesurfer.js": "2.0.0-beta01",
     "zone.js": "0.8.12"

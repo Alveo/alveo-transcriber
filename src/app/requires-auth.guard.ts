@@ -4,11 +4,11 @@ import { CanActivate, Router,
          RouterStateSnapshot
 } from "@angular/router";
 
-import { SessionService } from './session.service';
+import { AppUtilService } from './app-util.service';
 
 @Injectable()
 export class RequiresAuthGuard implements CanActivate {
-  constructor(private sessionService: SessionService,
+  constructor(private appService: AppUtilService,
               private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
@@ -18,10 +18,9 @@ export class RequiresAuthGuard implements CanActivate {
   }
 
   checkLogin(url: string): boolean {
-    if (this.sessionService.isLoggedIn()) { return true; }
+    if (this.appService.auth.isLoggedIn()) { return true; }
 
-    //this.sessionService.redirectUrl = url;
-    this.router.navigate(['/login']);
+    this.router.navigate([this.appService.auth.redirectLoginUrl]);
     return false;
   }
 }

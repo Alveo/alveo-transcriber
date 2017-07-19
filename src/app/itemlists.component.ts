@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { DataService } from './data.service';
+
+import { AppUtilService } from './app-util.service';
 
 @Component({
   selector: 'itemlists',
@@ -11,7 +12,7 @@ import { DataService } from './data.service';
 export class ItemListsComponent {
   constructor(
     public router: Router,
-    public dataService: DataService) { }
+    public appService: AppUtilService) { }
 
   onSelect(clip): void {
     //this.router.navigate(['./itemlist'], { queryParams: { item: item }});

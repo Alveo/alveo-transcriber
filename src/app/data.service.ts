@@ -2,9 +2,8 @@ import { Injectable } from '@angular/core';
 import { Http, Response, ResponseContentType } from '@angular/http';
 import { Observable } from 'rxjs';
 
+import { AppUtilService } from './app-util.service';
 import { Clip } from './clip';
-
-import { DBService } from './db.service';
 
 @Injectable()
 export class DataService {
@@ -14,11 +13,10 @@ export class DataService {
 
   constructor(
     private http: Http,
-    public database: DBService,
-  ) {}
+    public appService: AppUtilService) {}
 
   startStore(): void {
-    setInterval(() => {this.database.put("clips", {clips: this.clips})}, 1000);
+    setInterval(() => {this.appService.database.put("clips", {clips: this.clips})}, 1000);
   }
 
   pull(url: string): void {

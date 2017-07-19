@@ -7,7 +7,7 @@ import { AppUtilService } from './app-util.service';
   styleUrls: ['./mock-auth.component.css'],
 })
 
-export class AuthComponent {
+export class MockAuthComponent {
   constructor(public appService: AppUtilService) { }
 
   actionLogin(): void {

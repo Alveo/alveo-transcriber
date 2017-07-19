@@ -1,8 +1,5 @@
 import { Component } from '@angular/core';
 
-import { SessionService } from './session.service';
-import { DataService } from './data.service';
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -11,12 +8,11 @@ import { DataService } from './data.service';
 
 export class AppComponent {
   year: number;
-  constructor(public sessionService: SessionService, 
-              public dataService: DataService) {
+  title = 'app';
+
+  constructor() {
     this.year = new Date().getFullYear();
   }
-
-  title = 'app';
 
   currentYear(): number {
     return this.year;

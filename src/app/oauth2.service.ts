@@ -4,6 +4,7 @@ import { AuthInterface } from './auth.interface'
 @Injectable()
 export class OAuth2Service implements AuthInterface {
   loggedIn = false;
+  redirectLoginUrl = '/login';
 
   isLoggedIn(): boolean {
     return this.loggedIn;

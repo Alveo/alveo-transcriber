@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { PlayerControlService } from './player-control.service';
+import { AppUtilService } from './app-util.service';
 
 import { Clip } from './clip';
 import { Segment } from './segment';
@@ -12,7 +12,7 @@ import { Segment } from './segment';
 })
 
 export class AnnotationsComponent {
-  constructor(public playCtrlService: PlayerControlService) { }
+  constructor(public appService: AppUtilService) { }
 
   @Input() clip: Clip;
 
@@ -24,6 +24,6 @@ export class AnnotationsComponent {
   }
 
   setRegion(segment: Segment): void {
-    this.playCtrlService.activeSegment = segment;
+    this.appService.audioPlayer.activeSegment = segment;
   }
 }

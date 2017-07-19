@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { DataService } from './data.service';
+
+import { AppUtilService } from './app-util.service';
 import { DurationPipe } from './duration.pipe';
 
 @Component({
@@ -12,10 +13,10 @@ import { DurationPipe } from './duration.pipe';
 export class SelectorComponent {
   constructor(
     public router: Router,
-    public dataService: DataService) { }
+    public appService: AppUtilService) { }
 
   onSelect(clip): void {
-    this.dataService.selected = clip;
+    this.appService.data.selected = clip;
     this.router.navigate(['./annotator']);
   }
 }

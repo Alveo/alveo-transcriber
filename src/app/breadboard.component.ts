@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { DataService } from './data.service';
-import { AudioService } from './audio.service';
+import { AppUtilService } from './app-util.service';
 
 import { Clip } from './clip';
 
@@ -15,23 +14,20 @@ import { Clip } from './clip';
 })
 
 export class BreadboardComponent {
-  constructor(
-    public dataService: DataService,
-    public audioService: AudioService,
-  ) {}
+  constructor(public appService: AppUtilService) {}
 
   click_remote(): void {
-    this.dataService.pull('http://127.0.0.1:5000/request-data');
-    this.audioService.pull('http://127.0.0.1:5000/request-audio');
-    this.dataService.startStore();
+    this.appService.data.pull('http://127.0.0.1:5000/request-data');
+    this.appService.audioService.pull('http://127.0.0.1:5000/request-audio');
+    this.appService.data.startStore();
   }
 
   click_local(): void {
-    this.dataService.database.get("clips").then(results => {
-      this.dataService.clips = results.clips;
+    this.appService.database.get("clips").then(results => {
+      this.appService.data.clips = results.clips;
       console.log(results.clips);
     });
-    this.audioService.pull('http://127.0.0.1:5000/request-audio');
-    this.dataService.startStore();
+    this.appService.audioService.pull('http://127.0.0.1:5000/request-audio');
+    this.appService.data.startStore();
   }
 }

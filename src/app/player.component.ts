@@ -19,7 +19,7 @@ import RegionsPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.regions';
 import TimelinePlugin from 'wavesurfer.js/dist/plugin/wavesurfer.timeline';
 import MinimapPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.minimap';
 
-import { PlayerControlService } from './player-control.service';
+import { AppUtilService } from './app-util.service';
 
 import { Clip } from './clip';
 import { Segment } from './segment';
@@ -50,7 +50,7 @@ export class PlayerComponent implements OnInit {
   regionCache: Cache[] = [];
 
   constructor(public router: Router,
-    public playCtrlService: PlayerControlService) { 
+    public appService: AppUtilService) { 
     router.events.subscribe( (event:Event) => {
       if (event instanceof NavigationStart) {
         this.player.destroy();
@@ -137,11 +137,11 @@ export class PlayerComponent implements OnInit {
     });
 
     this.player.on('region-click', (region: Region) => {
-      this.playCtrlService.activeSegment = this.findSegment(region);
+      this.appService.audioPlayer.activeSegment = this.findSegment(region);
     });
 
     this.player.on('region-updated', (region: Region) => {
-      this.playCtrlService.activeSegment = this.findSegment(region);
+      this.appService.audioPlayer.activeSegment = this.findSegment(region);
     });
 
     this.player.on('region-update-end', (region: Region) => {
@@ -153,14 +153,6 @@ export class PlayerComponent implements OnInit {
     this.player.on('finish', () => {
       this.stop();
     });
-
-    /*
-    this.playCtrlService.on('region-change', (segment: Segment) => {
-      let region = this.findRegion(segment);
-      console.log(region);
-      // Do something to the region
-    });
-     */
 
     // Forces Angular to update component every second
     setInterval(() => {}, 1000);

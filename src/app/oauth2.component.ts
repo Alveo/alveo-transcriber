@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { AppUtilService } from './app-util.service';
 
 @Component({
-  selector: 'mock-auth',
-  templateUrl: './mock-auth.component.html',
-  styleUrls: ['./mock-auth.component.css'],
+  selector: 'oauth2',
+  templateUrl: './oauth2.component.html',
+  styleUrls: ['./oauth2.component.css'],
 })
 
-export class AuthComponent {
+export class OAuth2Component {
   constructor(public appService: AppUtilService) { }
 
   actionLogin(): void {

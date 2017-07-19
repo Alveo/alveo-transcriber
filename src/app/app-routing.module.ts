@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AuthComponent } from './auth.component';
+import { OAuth2Component } from './oauth2.component';
 import { SelectorComponent } from './selector.component';
 import { AnnotatorComponent } from './annotator.component';
 import { ItemListsComponent } from './itemlists.component';
@@ -12,7 +12,7 @@ import { RequiresAuthGuard } from './requires-auth.guard';
 const routes: Routes = [
       {
         path: 'login',
-        component: AuthComponent
+        component: OAuth2Component
       },
       {
         path: 'itemlists',

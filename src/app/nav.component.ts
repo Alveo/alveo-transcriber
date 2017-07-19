@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SessionService } from './session.service';
+import { AppUtilService } from './app-util.service';
 
 @Component({
   selector: 'nav',
@@ -8,5 +8,13 @@ import { SessionService } from './session.service';
 })
 
 export class NavComponent {
-  constructor(public sessionService: SessionService) { }
+  constructor(public appService: AppUtilService) { }
+
+  queryLoggedIn(): void {
+    this.appService.auth.isLoggedIn();
+  }
+
+  actionLogout(): void {
+    this.appService.auth.initiateLogout();
+  }
 }

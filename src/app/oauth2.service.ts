@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AuthInterface } from './auth.interface'
 
 @Injectable()
-export class MockAuthService implements AuthInterface {
+export class OAuth2Service implements AuthInterface {
   loggedIn = false;
 
   isLoggedIn(): boolean {

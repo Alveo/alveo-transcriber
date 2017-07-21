@@ -16,6 +16,10 @@ const routes: Routes = [
         component: OAuth2Component
       },
       {
+        path: 'oauth/callback',
+        component: OAuth2Component
+      },
+      {
         path: 'itemlists',
         component: ItemListsComponent
       },
@@ -42,7 +46,7 @@ const routes: Routes = [
     ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {useHash: true})],
+  imports: [RouterModule.forRoot(routes, {useHash: false})],
   exports: [RouterModule],
   providers: [
     RequiresAuthGuard,

@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { AppUtilService } from './app-util.service';
 import { DurationPipe } from './duration.pipe';
 
+import { Clip } from './clip';
+
 @Component({
   selector: 'selector',
   templateUrl: './selector.component.html',
@@ -18,5 +20,9 @@ export class SelectorComponent {
   onSelect(clip): void {
     this.appService.data.selected = clip;
     this.router.navigate(['./annotator']);
+  }
+
+  getClips(): Clip[] {
+    return this.appService.data.clips;
   }
 }

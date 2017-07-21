@@ -1,6 +1,6 @@
 <div id="selector">
   <p id="subheader">Please select a clip to transcribe.</p>
-  <div class="clip" *ngFor="let clip of this.dataService.clips" (click)="onSelect(clip)">
+  <div class="clip" *ngFor="let clip of this.getClips()" (click)="onSelect(clip)">
     <div class="name" >{{clip.label}}</div>
     <div class="info">
       <div class="duration">{{clip.duration | duration}}</div>

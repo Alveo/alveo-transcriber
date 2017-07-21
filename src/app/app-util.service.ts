@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { Http } from '@angular/http';
 
@@ -18,8 +19,8 @@ export class AppUtilService {
   audioPlayer: PlayerControlService;
   audioService: AudioService;
 
-  constructor(http: Http) {
-    this.auth = new OAuth2Service();
+  constructor(http: Http, route: ActivatedRoute) {
+    this.auth = new OAuth2Service(http);
     this.database = new DBService();
     this.data = new DataService(http, this);
     this.monitor = new MonitorService();

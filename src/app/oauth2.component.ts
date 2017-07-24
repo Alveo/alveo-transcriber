@@ -23,7 +23,7 @@ export class OAuth2Component implements OnInit, OnDestroy {
   ngOnInit() {
     this.param_sub = this.route.queryParams.subscribe(params => {
       if (params['code'] != undefined) {
-        this.appService.auth.registerToken(params['code'])
+        this.appService.auth.callback(params['code'])
         this.appService.auth.login()
         this.router.navigate(['./itemlists']);
       }

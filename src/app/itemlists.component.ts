@@ -15,13 +15,10 @@ export class ItemListsComponent implements OnInit {
     public appService: AppUtilService) { }
 
   ngOnInit() {
-    this.appService.alveo.pullToken(this.appService.auth.key);
-    setTimeout(() => {this.appService.alveo.pullAPI()}, 3000);
-    setTimeout(() => {this.appService.alveo.pullLists()}, 5000);
+    setTimeout(() => {this.appService.alveo.pullLists()}, 1000);
   }
 
   getLists(): any {
-    console.log(this.appService.alveo.lists);
     return this.appService.alveo.lists;
   }
 

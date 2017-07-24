@@ -9,7 +9,6 @@ import { OAuth2Component } from './oauth2.component';
 //import { MockAuthComponent } from './mock-auth.component';
 import { SelectorComponent } from './selector.component';
 import { AnnotatorComponent } from './annotator.component';
-import { BreadboardComponent } from './breadboard.component';
 import { PlayerComponent } from './player.component';
 import { ItemListsComponent } from './itemlists.component';
 import { AnnotationsComponent } from './annotations.component';
@@ -26,7 +25,6 @@ import { AppRoutingModule } from './app-routing.module';
   declarations: [
     AppComponent,
     NavComponent,
-    BreadboardComponent,
     OAuth2Component,
     //MockAuthComponent,
     AnnotatorComponent,

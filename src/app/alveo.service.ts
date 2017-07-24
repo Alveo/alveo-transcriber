@@ -7,19 +7,30 @@ import { AppUtilService } from './app-util.service';
 
 @Injectable()
 export class AlveoService {
-  lists: any;
+  storage: any = {
+    lists: [],
+    list: {},
+  };
 
   constructor(
     public http: Http,
     public appService: AppUtilService) {}
 
-  pullLists(): void {
+  apiRequest(url, key): void {
     let header = this.appService.auth.buildHeader();
     header.append('X-Api-Key', this.appService.auth.apiKey);
 
-    this.http.get(this.appService.auth.baseURL + '/item_lists', this.appService.auth.buildOptions(header))
-                .subscribe(data => this.lists = data.json().own, //what about cat 'shared'?
+    this.http.get(url, this.appService.auth.buildOptions(header))
+                .subscribe(data => this.storage[key] = data.json().own, //what about cat 'shared'?
                            error => ErrorHandler(error, this));
+  }
+
+  pullLists(): void { 
+    this.apiRequest(this.appService.auth.baseURL + '/item_lists', 'lists');
+  }
+
+  pullList(url: string): void {
+    this.apiRequest(url, 'list');
   }
 
   startStore(): void {

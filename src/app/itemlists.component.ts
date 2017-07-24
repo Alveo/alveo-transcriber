@@ -23,6 +23,7 @@ export class ItemListsComponent implements OnInit {
   }
 
   onSelect(list): void {
-    //this.router.navigate(['./itemlist'], { queryParams: { item: item }});
+    this.appService.alveo.pullList(list.item_list_url);
+    this.router.navigate(['./itemlist']);
   }
 }

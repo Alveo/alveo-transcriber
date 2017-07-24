@@ -1,8 +1,8 @@
 # alveo-transcriber
 Web based speech transcription tool for the Alveo project
 
-# Setup 
-1. Install Angular dependencies
+## Setup 
+1. Install dependencies
   - npm install
 
 2. Run the application
@@ -10,9 +10,9 @@ Web based speech transcription tool for the Alveo project
   or
   - npm test
 
-## Building
-### Development
+### Building
+##### Development
 - npm run-script build
 
-## Production
+##### Production
 - npm run-script buildprod

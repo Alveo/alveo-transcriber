@@ -16,21 +16,22 @@ export class AlveoService {
     public http: Http,
     public appService: AppUtilService) {}
 
-  apiRequest(url, key): void {
+  apiRequest(url, successCallback): void {
     let header = this.appService.auth.buildHeader();
     header.append('X-Api-Key', this.appService.auth.apiKey);
 
     this.http.get(url, this.appService.auth.buildOptions(header))
-                .subscribe(data => this.storage[key] = data.json().own, //what about cat 'shared'?
+                .subscribe(data => successCallback(data),
                            error => ErrorHandler(error, this));
   }
 
   pullLists(): void { 
-    this.apiRequest(this.appService.auth.baseURL + '/item_lists', 'lists');
+    this.apiRequest(this.appService.auth.baseURL + '/item_lists',
+      (data) => this.storage.lists = data.json().own); // cat shared list?
   }
 
   pullList(url: string): void {
-    this.apiRequest(url, 'list');
+    this.apiRequest(url, (data) => this.storage.list = data.json());
   }
 
   startStore(): void {

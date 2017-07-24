@@ -10,8 +10,8 @@ import { AppUtilService } from './app-util.service';
 export class NavComponent {
   constructor(public appService: AppUtilService) { }
 
-  queryLoggedIn(): void {
-    this.appService.auth.isLoggedIn();
+  queryLoggedIn(): boolean {
+    return this.appService.auth.isLoggedIn();
   }
 
   actionLogout(): void {

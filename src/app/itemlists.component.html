@@ -1,3 +1,6 @@
-<div id="itemlists">
-  <p id="subheader">Item Lists</p>
+<div id="subheader">Your item lists</div>
+<div class="list" *ngFor="let list of this.getLists()" (click)="onSelect(list)">
+  <p class="name">{{list.name}}</p>
+  <p class="bodytext">Items </p>
+  <p class="count">({{list.num_items}})</p>
 </div>

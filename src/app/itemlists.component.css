@@ -1,0 +1,23 @@
+#subheader {
+  font-size: 48px;
+  text-align: center;
+}
+
+.bodytext, .count {
+  display: inline-block;
+}
+
+.list {
+  background: #444444;
+  padding: 1em;
+  margin: 1em;
+  width: 240px;
+  text-align: center;
+  color: #CCCCCC;
+  display: inline-block;
+}
+
+.list:hover {
+  background: #555555;
+  color: #DDDDDD;
+}

@@ -1,0 +1,6 @@
+<h5>Items inside of {{this.getList().name}}</h5>
+<div class="center">
+  <div class="items" *ngFor="let item of this.getList()" (click)="onSelect(item)">
+    <p class="name">{{item}}</p>
+  </div>
+</div>

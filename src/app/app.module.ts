@@ -11,6 +11,7 @@ import { SelectorComponent } from './selector.component';
 import { AnnotatorComponent } from './annotator.component';
 import { PlayerComponent } from './player.component';
 import { ItemListsComponent } from './itemlists.component';
+import { ItemListComponent } from './itemlist.component';
 import { AnnotationsComponent } from './annotations.component';
 
 import { AppUtilService } from './app-util.service';
@@ -32,6 +33,7 @@ import { AppRoutingModule } from './app-routing.module';
     PlayerComponent,
     AnnotationsComponent,
     ItemListsComponent,
+    ItemListComponent,
     AnnotationPipe,
     DurationPipe,
     DurationShortPipe,

@@ -18,11 +18,12 @@ export class SelectorComponent {
     public appService: AppUtilService) { }
 
   onSelect(clip): void {
-    this.appService.data.selected = clip;
+    //this.appService.data.selected = clip;
     this.router.navigate(['./annotator']);
   }
 
   getClips(): Clip[] {
-    return this.appService.data.clips;
+    return null;
+    //return this.appService.data.clips;
   }
 }

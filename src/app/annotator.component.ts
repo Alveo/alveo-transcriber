@@ -16,7 +16,7 @@ export class AnnotatorComponent {
   ) { }
 
   back(): void {
-    this.appService.data.selected=null
+    //this.appService.data.selected=null
     this.router.navigate(['./selector']);
   }
 }

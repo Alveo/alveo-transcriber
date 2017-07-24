@@ -6,6 +6,7 @@ import { OAuth2Component } from './oauth2.component';
 import { SelectorComponent } from './selector.component';
 import { AnnotatorComponent } from './annotator.component';
 import { ItemListsComponent } from './itemlists.component';
+import { ItemListComponent } from './itemlist.component';
 
 import { RequiresAuthGuard } from './requires-auth.guard';
 
@@ -21,13 +22,14 @@ const routes: Routes = [
       },
       {
         path: 'itemlists',
-        component: ItemListsComponent
+        component: ItemListsComponent,
+        canActivate: [RequiresAuthGuard],
       },
-  /*{
+      {
         path: 'itemlist',
-        component: ItemListComponent
+        component: ItemListComponent,
+        canActivate: [RequiresAuthGuard],
       },
-   */
       {
         path: 'selector',
         component: SelectorComponent,

@@ -21,6 +21,7 @@ export class OAuth2Service implements AuthInterface {
   scope: string;
 
   key: string;
+  baseURL: string = "http://staging.alveo.edu.au/";
 
   constructor(http: Http) {
     this.redirectURI  = window.location.origin + "/oauth/callback";
@@ -30,12 +31,10 @@ export class OAuth2Service implements AuthInterface {
 
     this.scope = "";
 
-    var baseURL;
-    baseURL = "http://staging.alveo.edu.au/";
-    this.loginURL = baseURL+"oauth/authorize";
-    this.validateURL = baseURL+"oauth/token/info";
-    //this.apiURL = baseURL+"account/get_details";
-    this.apiURL = baseURL+"api/account_api_key";
+    this.loginURL = this.baseURL+"oauth/authorize";
+    this.validateURL = this.baseURL+"oauth/token/info";
+    //this.apiURL = this.baseURL+"account/get_details";
+    this.apiURL = this.baseURL+"api/account_api_key";
     this.logoutURL = "";
 
     this.state = "";
@@ -58,7 +57,6 @@ export class OAuth2Service implements AuthInterface {
     return url;
   };
 
-
   isLoggedIn(): boolean {
     return this.loggedIn;
   }
@@ -76,8 +74,17 @@ export class OAuth2Service implements AuthInterface {
     
     // works - retrieves config in form of JSON, no API key
     // location.href = this.apiURL
-    
-
+    // location.href = this.baseURL + '/account_api_key'
+    //location.href = this.baseURL + '/item_lists.json'
+    //            + "?token="
+    //            + encodeURIComponent(this.key)
+    /*  
+  http
+  .post('/api/items/add', body, {
+    headers: new HttpHeaders().set('Authorization', 'my-auth-token'),
+  })
+  .subscribe(); 
+     */
   }
 
   initiateLogout(): void {

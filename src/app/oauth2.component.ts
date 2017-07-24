@@ -25,7 +25,7 @@ export class OAuth2Component implements OnInit, OnDestroy {
       if (params['code'] != undefined) {
         this.appService.auth.registerToken(params['code'])
         this.appService.auth.login()
-        this.router.navigate(['./selector']);
+        this.router.navigate(['./itemlists']);
       }
     });
   }

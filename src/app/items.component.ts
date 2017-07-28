@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { AppUtilService } from './app-util.service';
 
@@ -10,11 +10,13 @@ import { AppUtilService } from './app-util.service';
 
 export class ItemsComponent {
   @Input() items: any;
-  @Input() selection: any;
+  @Input() selected_item: any;
+  @Output() onSelection = new EventEmitter<any>();
 
   constructor(public appService: AppUtilService) { }
 
   onSelect(item): void {
-    this.selection = item;
+    this.selected_item = item;
+    this.onSelection.emit(item);
   }
 }

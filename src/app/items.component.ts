@@ -4,12 +4,12 @@ import { Router } from '@angular/router';
 import { AppUtilService } from './app-util.service';
 
 @Component({
-  selector: 'itemlist',
-  templateUrl: './itemlist.component.html',
-  styleUrls: ['./itemlist.component.css'],
+  selector: 'items',
+  templateUrl: './items.component.html',
+  styleUrls: ['./items.component.css'],
 })
 
-export class ItemListComponent {
+export class ItemsComponent {
   constructor(
     public router: Router,
     public appService: AppUtilService) { }

@@ -36,7 +36,7 @@ export class AlveoService {
     if (this.selectedList['_tt_preload'] == undefined) {
       // Guard against multiple calls?
       console.log("Looks like I don't have that list preloaded, retrieving it now.");
-      //this.pullList(this.selectedList);
+      this.pullList(this.selectedList);
 
       return [];
     }
@@ -62,13 +62,13 @@ export class AlveoService {
     }
   }
 
-  pullList(list: any, preload=false): void {
+  pullList(list: any, chainload=false): void {
     this.apiRequest(list.item_list_url, (data) => {
       list['_tt_preload'] = [];
       for (let item_url of data.json().items) {
         list['_tt_preload'].push({'url': item_url});
       }
-      if (preload) { this.pullItems(list._tt_preload) }
+      if (chainload) { this.pullItems(list._tt_preload) }
     });
   }
 
@@ -78,7 +78,7 @@ export class AlveoService {
     }
   }
 
-  pullItem(item: any, preload=false): void {
+  pullItem(item: any, chainload=false): void {
     this.apiRequest(item.url, (data) => {
       item['data'] = data.json();
     });
@@ -92,6 +92,7 @@ export class AlveoService {
   }
 
   flushCache(): void {
+    this.appService.database.put("lists", {lists: []});
   }
 
   startStore(): void {

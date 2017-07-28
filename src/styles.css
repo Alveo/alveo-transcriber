@@ -1,32 +1,50 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:300,700,300italic,700italic|Oswald:700);
 
 *, *:before, *:after { 
-    box-sizing: inherit;
-    font-family: 'Roboto', sans-serif;
-    margin: 0;
-    padding: 0;
+  box-sizing: inherit;
+  font-family: 'Roboto', sans-serif;
+  font-weight: lighter;
+  margin: 0;
+  padding: 0;
 }
 
 html, body {
-    height: 100%;
-    width: 100%;
-    box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 body {
-    font-weight: lighter;
-    display: flex;
-    min-height: 100vh;
-    flex-direction: column;
-    /*justify-content: center;*/
+  min-height: 100vh;
 }
 
 #javascript-check {
-    font-weight: bold;
-    width: 100%;
-    text-align: center;
-    background: red;
-    color: #FFFFFF;
-    font-size: 16px;
-    padding: 0.2em 0 0.2em 0;
+  font-weight: bold;
+  width: 100%;
+  text-align: center;
+  background: red;
+  color: #FFFFFF;
+  font-size: 16px;
+  padding: 0.2em 0 0.2em 0;
 }
+
+.button {
+  font-size: 20px;
+  display: inline-block; /* Width fix */
+  background: #555555;
+  color: #FFFFFF;
+  padding: 0.5em;
+  margin: 0.2em;
+  border: 3px solid #00AAFF;
+}
+
+.button:hover {
+  background: #444444;
+  cursor: pointer;
+}
+
+.center {
+  text-align: center;
+  display: block;
+}
+

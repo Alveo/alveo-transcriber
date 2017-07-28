@@ -5,17 +5,8 @@
     margin: 0.5em auto 0 auto;
 }
 
-#login-button {
-    text-align: center;
-    background: #555555;
-    width: 30%;
-    margin: 2em auto;
-    font-size: 36px;
-    color: #FFFFFF;
-    border: 3px solid #00AAFF;
-}
-
-#login-button:hover {
-    background: #444444;
-    cursor: pointer;
+.button {
+  font-size: 36px;
+  margin: 1.2em auto;
+  padding: 0.5em 2.4em 0.5em 2.4em;
 }

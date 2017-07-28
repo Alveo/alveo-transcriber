@@ -1,8 +1,5 @@
-h5 {
-  font-size: 36px;
-  text-align: center;
-}
-
-.center {
+#subheader {
+  padding: 1em 0 0.3em 0;
+  font-size: 34px;
   text-align: center;
 }

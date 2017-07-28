@@ -1,4 +1,4 @@
-<button style="text-align:center;margin:auto" (click)="pullData()">Refresh Data via Alveo</button>
+<span class="center"><p class="button" (click)="pullData()">Refresh Data via Alveo</p></span>
 <div id="subheader">Your item lists</div>
 <div class="center">
   <div class="list" *ngFor="let list of this.getLists()" (click)="onSelect(list)">

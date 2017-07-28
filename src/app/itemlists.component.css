@@ -1,5 +1,6 @@
 #subheader {
-  font-size: 48px;
+  padding: 1em 0 0.3em 0;
+  font-size: 34px;
   text-align: center;
 }
 
@@ -7,8 +8,8 @@
   display: inline-block;
 }
 
-.center {
-  text-align: center;
+.name {
+  font-size: 30px;
 }
 
 .list {

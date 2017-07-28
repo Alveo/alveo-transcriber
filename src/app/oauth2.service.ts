@@ -2,10 +2,9 @@ import { Http, Headers, RequestOptions, Response, ResponseContentType } from '@a
 import { Injectable } from '@angular/core';
 
 import { ErrorHandler } from './http-errors'
-import { AuthInterface } from './auth.interface'
 
 @Injectable()
-export class OAuth2Service implements AuthInterface {
+export class OAuth2Service {
   loggedIn = false;
   redirectLoginUrl = '/login';
 
@@ -42,9 +41,10 @@ export class OAuth2Service implements AuthInterface {
     location.href = this.createLoginURL();
   }
 
-  login(): void {
+  login(callback: any): void {
     this.pullToken();
     this.loggedIn = true;
+    callback();
   }
 
   initiateLogout(): void {

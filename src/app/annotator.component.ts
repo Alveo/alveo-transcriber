@@ -16,8 +16,7 @@ export class AnnotatorComponent {
   ) { }
 
   actionBack(): void {
-    //this.appService.data.selected=null
-    this.router.navigate(['./selector']);
+    this.router.navigate(['./dataview']);
   }
 
   getClip(): any {

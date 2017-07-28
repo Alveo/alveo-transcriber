@@ -15,8 +15,20 @@ export class AnnotatorComponent {
     public appService: AppUtilService,
   ) { }
 
-  back(): void {
+  actionBack(): void {
     //this.appService.data.selected=null
     this.router.navigate(['./selector']);
+  }
+
+  getClip(): any {
+    return null;
+  }
+
+  getClipName(): string {
+    return "";
+  }
+
+  getAudioData(): any {
+    return null;
   }
 }

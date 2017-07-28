@@ -1,13 +1,13 @@
 <div id="controller">
   <div id="controller-float">
     <div id="top-halign">
-      <p id="header">Transcribing: {{this.dataService.selected.label}}</p>
-      <p id="return-button" (click)="this.back()" >Save &amp; Return</p>
+      <p id="header">Transcribing: {{getClipName()}}</p>
+      <p id="return-button" (click)="actionBack()" >Save &amp; Return</p>
     </div>
 
-    <player [clip]="this.dataService.selected"
-            [audioData]="this.audioService.raw()"></player>
+    <player [clip]="getClip()"
+            [audioData]="getAudioData()"></player>
   </div>
 </div>
 
-<annotations [clip]="this.dataService.selected"></annotations>
+<annotations [clip]="getClip()"></annotations>

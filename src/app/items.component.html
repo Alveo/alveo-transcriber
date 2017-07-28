@@ -2,6 +2,6 @@
 <p (click)=actionBack()>Go back</p>
 <div class="center">
   <div class="items" *ngFor="let item of this.getItems()" (click)="onSelect(item)">
-    <p class="name">{{item['alveo:catalog_url']}}</p>
+    <p class="name">{{item.url}}</p>
   </div>
 </div>

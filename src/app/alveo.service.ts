@@ -28,6 +28,23 @@ export class AlveoService {
                            error => ErrorHandler(error, this));
   }
 
+  getActiveList(): any {
+    return this.selectedList;
+  }
+
+  getActiveListData(): any {
+    // If list doesn't contain data, pull it
+    //  TODO doesn't seem to preserve when changing views
+    if (this.selectedList['_tt_preload'] == undefined) {
+      // Guard against multiple calls?
+      console.log("Looks like I don't have that list preloaded, retrieving it now.");
+      this.pullList(this.selectedList);
+
+      return [];
+    }
+    return this.selectedList['_tt_preload'];
+  }
+
   pullIndex(): void { 
     // Pulls an array of all the lists from Alveo
     this.apiRequest(this.appService.auth.baseURL + '/item_lists',
@@ -36,35 +53,35 @@ export class AlveoService {
         lists = lists.concat(data.json().own);
         lists = lists.concat(data.json().shared);
         this.storage.data = lists;
-        this.pullLists(this.storage.data);
+        //this.pullLists(this.storage.data);
       });
   }
 
   pullLists(lists: Array<any>): void {
     for (let list of lists) {
-      this.pullList(list.item_list_url, list, true);
+      this.pullList(list);
     }
   }
 
-  pullList(url: string, arrayMember: any, preload=false): void {
-    this.apiRequest(url, (data) => {
-      arrayMember['_tt_preload'] = [];
+  pullList(list: any, preload=false): void {
+    this.apiRequest(list.item_list_url, (data) => {
+      list['_tt_preload'] = [];
       for (let item_url of data.json().items) {
-        arrayMember['_tt_preload'].push({'url': item_url});
+        list['_tt_preload'].push({'url': item_url});
       }
-      if (preload) { this.pullItems(arrayMember._tt_preload) }
+      if (preload) { this.pullItems(list._tt_preload) }
     });
   }
 
   pullItems(items: any) {
     for (let item of items) {
-      this.pullItem(item.url, item, true);
+      this.pullItem(item, true);
     }
   }
 
-  pullItem(url: string, arrayMember: any, preload=false): void {
-    this.apiRequest(url, (data) => {
-      arrayMember['data'] = data.json();
+  pullItem(item: any, preload=false): void {
+    this.apiRequest(item.url, (data) => {
+      item['data'] = data.json();
     });
   }
 

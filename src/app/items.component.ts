@@ -14,30 +14,41 @@ export class ItemsComponent {
     public router: Router,
     public appService: AppUtilService) { }
 
+  private getList(): any {
+    return this.appService.alveo.getActiveList();
+  }
+
+  private getData(): any {
+    return this.appService.alveo.getActiveListData(); // If it doesn't exist, it will be pulled
+  }
+
   getListName(): any {
-    if (this.appService.alveo.selectedList == null) {
+    let list = this.getList();
+    if (list == null) {
       return "(Loading)"
     }
-    return this.appService.alveo.selectedList.name;
+    return list.name;
   }
 
   getListSize(): any {
-    if (this.appService.alveo.selectedList == null) {
+    let list = this.getList();
+    if (list == null) {
       return "(...)"
     }
-    return this.appService.alveo.selectedList.num_items;
+    return list.num_items;
   }
 
   getItems(): any {
-    if (this.appService.alveo.selectedList == null) {
+    let list = this.getList();
+    if (list == null) {
       return []
     }
     
-    let list = [];
-    for (let item of this.appService.alveo.selectedList._tt_preload) {
-      list.push(item.data);
+    let items = [];
+    for (let item of this.getData()) {
+      items.push(item);
     }
-    return list;
+    return items;
   }
 
   onSelect(list): void {

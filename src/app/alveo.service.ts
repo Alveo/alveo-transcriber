@@ -8,8 +8,8 @@ import { AppUtilService } from './app-util.service';
 @Injectable()
 export class AlveoService {
   storage: any = {
-    lists: [],
-    list: {},
+    lists: null,
+    items: null,
   };
 
   constructor(
@@ -30,8 +30,8 @@ export class AlveoService {
       (data) => this.storage.lists = data.json().own); // cat shared list?
   }
 
-  pullList(url: string): void {
-    this.apiRequest(url, (data) => this.storage.list = data.json());
+  pullItems(url: string): void {
+    this.apiRequest(url, (data) => this.storage.items = data.json());
   }
 
   startStore(): void {

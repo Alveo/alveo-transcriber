@@ -1,7 +1,7 @@
-<h5>Items inside of {{this.getList().name}}</h5>
+<h5>Items inside of {{this.getListName()}}({{this.getListSize()}})</h5>
 <p (click)=actionBack()>Go back</p>
 <div class="center">
-  <div class="items" *ngFor="let item of this.getList()" (click)="onSelect(item)">
+  <div class="items" *ngFor="let item of this.getItems()" (click)="onSelect(item)">
     <p class="name">{{item}}</p>
   </div>
 </div>

@@ -14,8 +14,25 @@ export class ItemsComponent {
     public router: Router,
     public appService: AppUtilService) { }
 
-  getList(): any {
-    return this.appService.alveo.storage.list;
+  getListName(): any {
+    if (this.appService.alveo.storage.items == null) {
+      return "(Loading)"
+    }
+    return this.appService.alveo.storage.items.name;
+  }
+
+  getListSize(): any {
+    if (this.appService.alveo.storage.items == null) {
+      return "(...)"
+    }
+    return this.appService.alveo.storage.items.num_items;
+  }
+
+  getItems(): any {
+    if (this.appService.alveo.storage.items == null) {
+      return []
+    }
+    return this.appService.alveo.storage.items.items;
   }
 
   onSelect(list): void {

@@ -33,7 +33,6 @@ export class AlveoService {
 
   getActiveListData(): any {
     // If list doesn't contain data, pull it
-    //  TODO doesn't seem to preserve when changing views
     if (this.selectedList['_tt_preload'] == undefined) {
       // Guard against multiple calls?
       console.log("Looks like I don't have that list preloaded, retrieving it now.");
@@ -42,6 +41,22 @@ export class AlveoService {
       return [];
     }
     return this.selectedList['_tt_preload'];
+  }
+
+  getListItemData(list: any): any {
+    // If list doesn't contain data, pull it
+    if (list.url == undefined) {
+      // Guard against multiple calls?
+      console.log("Looks like I don't have that list preloaded, call getListData() first.");
+      return {data:{}};
+    }
+
+    if (list.data == undefined) {
+      console.log("Looks like I don't have that lists' data preloaded, retrieving it now.");
+      this.pullItem(list)
+      return {data:{}};
+    }
+    return list;
   }
 
   pullIndex(): void { 
@@ -85,7 +100,7 @@ export class AlveoService {
     });
   }
 
-  pullDocs(url: Array<any>) {
+  pullDoc(doc: any) {
   }
 
   getLists(): any {

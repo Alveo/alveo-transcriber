@@ -11,6 +11,7 @@ import { AppUtilService } from './app-util.service';
 
 export class DataViewComponent {
   @Input() items: any;
+  selected: any;
 
   constructor(
     public router: Router,
@@ -53,7 +54,26 @@ export class DataViewComponent {
     return items;
   }
 
+  getDocs(): any {
+    if (this.selected == null) {
+      return [];
+    }
+
+    let pulledData = this.appService.alveo.getListItemData(this.selected).data['alveo:documents'];
+    if (pulledData == undefined) { return [] }
+    
+    let items = [];
+    for (let item of pulledData) {
+      items.push(item);
+    }
+    return items;
+  }
+
   actionBack(): void {
     this.router.navigate(['./itemlists']);
+  }
+
+  onItemSelection(item: any): void {
+    this.selected = item;
   }
 }

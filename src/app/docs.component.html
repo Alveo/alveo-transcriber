@@ -1,5 +1,5 @@
 <div class="center">
   <div class="doc" *ngFor="let doc of this.docs" (click)="onSelect(doc)">
-    <p class="name">{{doc.url}}</p>
+    <p class="name">{{doc['http://purl.org/dc/terms/identifier']}}</p>
   </div>
 </div>

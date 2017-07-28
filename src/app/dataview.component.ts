@@ -64,7 +64,9 @@ export class DataViewComponent {
     
     let items = [];
     for (let item of pulledData) {
-      items.push(item);
+      if (item['type'] == 'audio') {
+        items.push(item);
+      }
     }
     return items;
   }

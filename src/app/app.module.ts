@@ -7,7 +7,6 @@ import { AppComponent } from './app.component';
 import { NavComponent } from './nav.component';
 import { OAuth2Component } from './oauth2.component';
 //import { MockAuthComponent } from './mock-auth.component';
-import { SelectorComponent } from './selector.component';
 import { AnnotatorComponent } from './annotator.component';
 import { PlayerComponent } from './player.component';
 import { ItemListsComponent } from './itemlists.component';
@@ -28,9 +27,7 @@ import { AppRoutingModule } from './app-routing.module';
     AppComponent,
     NavComponent,
     OAuth2Component,
-    //MockAuthComponent,
     AnnotatorComponent,
-    SelectorComponent,
     PlayerComponent,
     AnnotationsComponent,
     ItemListsComponent,

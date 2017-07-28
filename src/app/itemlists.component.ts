@@ -23,7 +23,7 @@ export class ItemListsComponent implements OnInit {
   }
 
   onSelect(list): void {
-    //this.appService.alveo.pullItems(list.item_list_url);
+    this.appService.alveo.selectedList = list;
     this.router.navigate(['./dataview']);
   }
 }

@@ -15,24 +15,29 @@ export class ItemsComponent {
     public appService: AppUtilService) { }
 
   getListName(): any {
-    if (this.appService.alveo.storage.items == null) {
+    if (this.appService.alveo.selectedList == null) {
       return "(Loading)"
     }
-    return this.appService.alveo.storage.items.name;
+    return this.appService.alveo.selectedList.name;
   }
 
   getListSize(): any {
-    if (this.appService.alveo.storage.items == null) {
+    if (this.appService.alveo.selectedList == null) {
       return "(...)"
     }
-    return this.appService.alveo.storage.items.num_items;
+    return this.appService.alveo.selectedList.num_items;
   }
 
   getItems(): any {
-    if (this.appService.alveo.storage.items == null) {
+    if (this.appService.alveo.selectedList == null) {
       return []
     }
-    return this.appService.alveo.storage.items.items;
+    
+    let list = [];
+    for (let item of this.appService.alveo.selectedList._tt_preload) {
+      list.push(item.data);
+    }
+    return list;
   }
 
   onSelect(list): void {

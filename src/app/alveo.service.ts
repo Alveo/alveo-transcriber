@@ -7,6 +7,8 @@ import { AppUtilService } from './app-util.service';
 
 @Injectable()
 export class AlveoService {
+  selectedList: any;
+
   storage: any = {
     lists: [],
     items: [],

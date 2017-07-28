@@ -19,7 +19,7 @@ export class ItemListsComponent implements OnInit {
   }
 
   getLists(): any {
-    return this.appService.alveo.storage.lists;
+    return this.appService.alveo.storage.data;
   }
 
   onSelect(list): void {

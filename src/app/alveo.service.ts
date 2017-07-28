@@ -10,6 +10,7 @@ export class AlveoService {
   storage: any = {
     lists: [],
     items: [],
+    data: [],
   };
 
   constructor(
@@ -32,34 +33,36 @@ export class AlveoService {
         let lists = [];
         lists = lists.concat(data.json().own);
         lists = lists.concat(data.json().shared);
-        this.storage.lists = lists;
-        this.pullLists(this.storage.lists);
+        this.storage.data = lists;
+        this.pullLists(this.storage.data);
       });
   }
 
   pullLists(lists: Array<any>): void {
     for (let list of lists) {
-      this.pullList(list.item_list_url, true);
+      this.pullList(list.item_list_url, list, true);
     }
   }
 
-  pullList(url: string, preload: boolean): void {
+  pullList(url: string, arrayMember: any, preload=false): void {
     this.apiRequest(url, (data) => {
-      //this.storage.items.push(data.json());
-      if (preload) { console.log(data.json().items); this.pullItems(data.json().items);}
+      arrayMember['_tt_preload'] = [];
+      for (let item_url of data.json().items) {
+        arrayMember['_tt_preload'].push({'url': item_url});
+      }
+      if (preload) { this.pullItems(arrayMember._tt_preload) }
     });
   }
 
-  pullItems(items: Array<any>) {
+  pullItems(items: any) {
     for (let item of items) {
-      this.pullItem(item, true);
+      this.pullItem(item.url, item, true);
     }
   }
 
-  pullItem(url: string, preload: boolean): void {
+  pullItem(url: string, arrayMember: any, preload=false): void {
     this.apiRequest(url, (data) => {
-      //this.storage.items.push(data.json());
-      if (preload) { console.log(data.json()); this.pullDocs(data.json().items);}
+      arrayMember['data'] = data.json();
     });
   }
 

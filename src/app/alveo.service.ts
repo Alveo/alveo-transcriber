@@ -15,6 +15,7 @@ export class AlveoService {
     public appService: AppUtilService)
   {
     this.appService.database.get('lists').then(result => this.lists = result.lists);
+    //this.startStore();
   }
 
   apiRequest(url, successCallback): void {
@@ -96,6 +97,6 @@ export class AlveoService {
   }
 
   startStore(): void {
-    //setInterval(() => {this.appService.database.put("lists", {lists: this.lists})}, 3000);
+    setInterval(() => {this.appService.database.put("lists", {lists: this.lists})}, 3000);
   }
 }

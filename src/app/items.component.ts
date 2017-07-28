@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { AppUtilService } from './app-util.service';
 
@@ -13,9 +12,7 @@ export class ItemsComponent {
   @Input() items: any;
   @Input() selection: any;
 
-  constructor(
-    public router: Router,
-    public appService: AppUtilService) { }
+  constructor(public appService: AppUtilService) { }
 
   onSelect(item): void {
     this.selection = item;

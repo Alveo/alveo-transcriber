@@ -13,6 +13,7 @@ import { ItemListsComponent } from './itemlists.component';
 import { ItemsComponent } from './items.component';
 import { AnnotationsComponent } from './annotations.component';
 import { DataViewComponent } from './dataview.component';
+import { DocsComponent } from './docs.component';
 
 import { AppUtilService } from './app-util.service';
 
@@ -33,6 +34,7 @@ import { AppRoutingModule } from './app-routing.module';
     ItemListsComponent,
     ItemsComponent,
     DataViewComponent,
+    DocsComponent,
     AnnotationPipe,
     DurationPipe,
     DurationShortPipe,

@@ -1,0 +1,12 @@
+.doc {
+  padding: 0.7em;
+  margin: 0.3em;
+  background: #555555;
+  color: #FFFFFF;
+  display: inline-block;
+}
+
+.doc:hover {
+  background: #444444;
+  cursor: pointer;
+}

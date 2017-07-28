@@ -15,7 +15,7 @@ export class ItemListsComponent implements OnInit {
     public appService: AppUtilService) { }
 
   ngOnInit() {
-    setTimeout(() => {this.appService.alveo.pullLists()}, 1000);
+    setTimeout(() => {this.appService.alveo.pullIndex()}, 2000);
   }
 
   getLists(): any {
@@ -23,7 +23,7 @@ export class ItemListsComponent implements OnInit {
   }
 
   onSelect(list): void {
-    this.appService.alveo.pullItems(list.item_list_url);
+    //this.appService.alveo.pullItems(list.item_list_url);
     this.router.navigate(['./dataview']);
   }
 }

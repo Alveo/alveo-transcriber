@@ -8,8 +8,8 @@ import { AppUtilService } from './app-util.service';
 @Injectable()
 export class AlveoService {
   storage: any = {
-    lists: null,
-    items: null,
+    lists: [],
+    items: [],
   };
 
   constructor(
@@ -25,13 +25,50 @@ export class AlveoService {
                            error => ErrorHandler(error, this));
   }
 
-  pullLists(): void { 
+  pullIndex(): void { 
+    // Pulls an array of all the lists from Alveo
     this.apiRequest(this.appService.auth.baseURL + '/item_lists',
-      (data) => this.storage.lists = data.json().own); // cat shared list?
+      (data) => {
+        let lists = [];
+        lists = lists.concat(data.json().own);
+        lists = lists.concat(data.json().shared);
+        this.storage.lists = lists;
+        this.pullLists(this.storage.lists);
+      });
   }
 
-  pullItems(url: string): void {
-    this.apiRequest(url, (data) => this.storage.items = data.json());
+  pullLists(lists: Array<any>): void {
+    for (let list of lists) {
+      this.pullList(list.item_list_url, true);
+    }
+  }
+
+  pullList(url: string, preload: boolean): void {
+    this.apiRequest(url, (data) => {
+      //this.storage.items.push(data.json());
+      if (preload) { console.log(data.json().items); this.pullItems(data.json().items);}
+    });
+  }
+
+  pullItems(items: Array<any>) {
+    for (let item of items) {
+      this.pullItem(item, true);
+    }
+  }
+
+  pullItem(url: string, preload: boolean): void {
+    this.apiRequest(url, (data) => {
+      //this.storage.items.push(data.json());
+      if (preload) { console.log(data.json()); this.pullDocs(data.json().items);}
+    });
+  }
+
+  pullDocs(url: Array<any>) {
+  }
+
+  flushCache(): void {
+    this.storage.lists = null;
+    this.storage.items = null;
   }
 
   startStore(): void {

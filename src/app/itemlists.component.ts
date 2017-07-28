@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AppUtilService } from './app-util.service';
@@ -9,17 +9,17 @@ import { AppUtilService } from './app-util.service';
   styleUrls: ['./itemlists.component.css'],
 })
 
-export class ItemListsComponent implements OnInit {
+export class ItemListsComponent {
   constructor(
     public router: Router,
     public appService: AppUtilService) { }
 
-  ngOnInit() {
-    setTimeout(() => {this.appService.alveo.pullIndex()}, 2000);
+  pullData(): any {
+    this.appService.alveo.pullIndex();
   }
 
   getLists(): any {
-    return this.appService.alveo.storage.data;
+    return this.appService.alveo.getLists();
   }
 
   onSelect(list): void {

@@ -2,11 +2,9 @@
 <div id="subheader">Viewing "{{this.getListName()}}" list</div>
 <div id="divider">
   <div id="left">
-    <div class="center">Items in list</div>
     <items [items]="getItems()" (onSelection)="onItemSelection($event)"></items>
   </div>
   <div id="right">
-    <div class="center">Docs in selected list</div>
     <docs [docs]="getDocs()"></docs>
   </div>
 </div>

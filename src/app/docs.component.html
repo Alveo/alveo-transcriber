@@ -1,5 +1,6 @@
 <div class="center">
+  Docs in selected list (Must be of type 'audio' to display)
   <div class="doc" *ngFor="let doc of this.docs" (click)="onSelect(doc)">
-    <p class="name">{{doc['http://purl.org/dc/terms/identifier']}}</p>
+    <p class="name">{{doc['alveo:url']}}</p>
   </div>
 </div>

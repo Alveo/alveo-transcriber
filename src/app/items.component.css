@@ -1,5 +1,17 @@
-#subheader {
-  padding: 1em 0 0.3em 0;
-  font-size: 34px;
-  text-align: center;
+.item {
+  padding: 0.7em;
+  margin: 0.3em;
+  background: #555555;
+  color: #FFFFFF;
+  display: inline-block;
+}
+
+.item:hover {
+  background: #444444;
+  cursor: pointer;
+}
+
+.selected,
+.selected.item:hover{
+  background: #777777;
 }

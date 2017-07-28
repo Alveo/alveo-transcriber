@@ -1,8 +1,5 @@
-<span class="center"><p class="button" (click)="actionBack()">Back to index</p></span>
-
-<div id="subheader">Viewing "{{this.getListName()}}" list</div>
 <div class="center">
-  <div class="items" *ngFor="let item of this.getItems()" (click)="onSelect(item)">
+  <div class="item" *ngFor="let item of this.items" (click)="onSelect(item)" [class.selected]="item===this.selection">
     <p class="name">{{item.url}}</p>
   </div>
 </div>

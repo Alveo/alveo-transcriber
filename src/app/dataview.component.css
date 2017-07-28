@@ -1,0 +1,20 @@
+#subheader {
+  padding: 1em 0 0.3em 0;
+  font-size: 34px;
+  text-align: center;
+}
+
+#divider {
+  display: flex;
+  border-top: 1px solid #555555;
+  height: 100%;
+}
+
+#left {
+  flex: 0 0 35%;
+  border-right: 1px solid #555555;
+}
+
+#right {
+  flex: 1 1 auto;
+}

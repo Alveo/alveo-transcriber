@@ -8,16 +8,14 @@ import { AppUtilService } from './app-util.service';
 @Injectable()
 export class AlveoService {
   selectedList: any;
-
-  storage: any = {
-    lists: [],
-    items: [],
-    data: [],
-  };
+  lists: Array<any>;
 
   constructor(
     public http: Http,
-    public appService: AppUtilService) {}
+    public appService: AppUtilService)
+  {
+    this.appService.database.get('lists').then(result => this.lists = result.lists);
+  }
 
   apiRequest(url, successCallback): void {
     let header = this.appService.auth.buildHeader();
@@ -38,7 +36,7 @@ export class AlveoService {
     if (this.selectedList['_tt_preload'] == undefined) {
       // Guard against multiple calls?
       console.log("Looks like I don't have that list preloaded, retrieving it now.");
-      this.pullList(this.selectedList);
+      //this.pullList(this.selectedList);
 
       return [];
     }
@@ -46,14 +44,15 @@ export class AlveoService {
   }
 
   pullIndex(): void { 
+    console.log("Pulled");
     // Pulls an array of all the lists from Alveo
     this.apiRequest(this.appService.auth.baseURL + '/item_lists',
       (data) => {
         let lists = [];
         lists = lists.concat(data.json().own);
         lists = lists.concat(data.json().shared);
-        this.storage.data = lists;
-        //this.pullLists(this.storage.data);
+
+        this.lists = lists;
       });
   }
 
@@ -88,12 +87,14 @@ export class AlveoService {
   pullDocs(url: Array<any>) {
   }
 
+  getLists(): any {
+    return this.lists;
+  }
+
   flushCache(): void {
-    this.storage.lists = null;
-    this.storage.items = null;
   }
 
   startStore(): void {
-    //setInterval(() => {this.appService.database.put("clips", {clips: this.clips})}, 1000);
+    //setInterval(() => {this.appService.database.put("lists", {lists: this.lists})}, 3000);
   }
 }

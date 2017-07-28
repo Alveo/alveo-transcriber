@@ -13,6 +13,7 @@ import { PlayerComponent } from './player.component';
 import { ItemListsComponent } from './itemlists.component';
 import { ItemsComponent } from './items.component';
 import { AnnotationsComponent } from './annotations.component';
+import { DataViewComponent } from './dataview.component';
 
 import { AppUtilService } from './app-util.service';
 
@@ -34,6 +35,7 @@ import { AppRoutingModule } from './app-routing.module';
     AnnotationsComponent,
     ItemListsComponent,
     ItemsComponent,
+    DataViewComponent,
     AnnotationPipe,
     DurationPipe,
     DurationShortPipe,

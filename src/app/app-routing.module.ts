@@ -6,7 +6,7 @@ import { OAuth2Component } from './oauth2.component';
 import { SelectorComponent } from './selector.component';
 import { AnnotatorComponent } from './annotator.component';
 import { ItemListsComponent } from './itemlists.component';
-import { ItemsComponent } from './items.component';
+import { DataViewComponent } from './dataview.component';
 
 import { RequiresAuthGuard } from './requires-auth.guard';
 
@@ -26,8 +26,8 @@ const routes: Routes = [
         canActivate: [RequiresAuthGuard],
       },
       {
-        path: 'items',
-        component: ItemsComponent,
+        path: 'dataview',
+        component: DataViewComponent,
         canActivate: [RequiresAuthGuard],
       },
       {

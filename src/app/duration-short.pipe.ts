@@ -9,8 +9,6 @@ export class DurationShortPipe implements PipeTransform{
     var formatted = (minutes > 0 ? minutes+':': '0:');
     formatted += (seconds > 0 ? ''+(seconds > 9 ? seconds: '0'+seconds): '00');
 
-    console.log(input);
-
     return formatted;
   }
 }

@@ -32,6 +32,7 @@ export class AlveoService {
     if (file)
       options.responseType = ResponseContentType.ArrayBuffer;
 
+    console.log("Made request to "+url);
     this.http.get(url, options)
                 .subscribe(data => successCallback(data),
                            error => ErrorHandler(error, this));
@@ -43,11 +44,12 @@ export class AlveoService {
 
   getActiveListData(): Array<any> {
     // If list doesn't contain data, pull it
-    if (this.selectedList['_tt_preload'] == undefined && this.appService.auth.isLoggedIn()) {
-      // Guard against multiple calls?
-      console.log("Looks like I don't have that list preloaded, retrieving it now.");
-      this.pullList(this.selectedList);
-
+    if (this.selectedList['_tt_preload'] == undefined) {
+      if (this.appService.auth.isLoggedIn()) {
+        // Guard against multiple calls?
+        console.log("Looks like I don't have that list preloaded, retrieving it now.");
+        this.pullList(this.selectedList);
+      }
       return [];
     }
     return this.selectedList['_tt_preload'];

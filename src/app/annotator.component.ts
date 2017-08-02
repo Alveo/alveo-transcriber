@@ -20,14 +20,10 @@ export class AnnotatorComponent {
   }
 
   getClip(): any {
-    return null;
+    return this.appService.alveo.audioData;
   }
 
   getClipName(): string {
     return "";
-  }
-
-  getAudioData(): any {
-    return null;
   }
 }

@@ -1,12 +1,16 @@
-#welcome-text {
-    font-size: 36px;
-    text-align: center;
+#subheader {
+  padding: 1em 0 0.3em 0;
+  font-size: 38px;
+}
+
+.welcome-text {
+    font-size: 24px;
     width: 75%;
     margin: 0.5em auto 0 auto;
 }
 
 .button {
-  font-size: 36px;
+  font-size: 24px;
   margin: 1.2em auto;
   padding: 0.5em 2.4em 0.5em 2.4em;
 }

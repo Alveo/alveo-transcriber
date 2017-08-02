@@ -21,33 +21,30 @@ export class AlveoService {
     //this.startStore();
   }
 
-  apiRequest(url, successCallback): void {
-    let header = this.appService.auth.buildHeader();
-    header.append('X-Api-Key', this.appService.auth.apiKey);
+  apiRequest(url, successCallback, file=false): void {
+    if (!this.appService.auth.isLoggedIn())
+      return;
 
-    this.http.get(url, this.appService.auth.buildOptions(header))
-                .subscribe(data => successCallback(data),
-                           error => ErrorHandler(error, this));
-  }
-
-  apiFileRequest(url, successCallback): void {
     let header = this.appService.auth.buildHeader();
     header.append('X-Api-Key', this.appService.auth.apiKey);
 
     let options = this.appService.auth.buildOptions(header);
-    options.responseType = ResponseContentType.ArrayBuffer;
+    if (file)
+      options.responseType = ResponseContentType.ArrayBuffer;
 
     this.http.get(url, options)
                 .subscribe(data => successCallback(data),
                            error => ErrorHandler(error, this));
   }
 
-
-  getActiveList(): any {
+  getActiveList(): Array<any> {
     return this.selectedList;
   }
 
-  getActiveListData(): any {
+  getActiveListData(): Array<any> {
+    if (!this.appService.auth.isLoggedIn())
+      return [];
+
     // If list doesn't contain data, pull it
     if (this.selectedList['_tt_preload'] == undefined) {
       // Guard against multiple calls?
@@ -60,6 +57,9 @@ export class AlveoService {
   }
 
   getListItemData(list: any): any {
+    if (!this.appService.auth.isLoggedIn())
+      return {data:{}};
+
     // If list doesn't contain data, pull it
     if (list.url == undefined) {
       // Guard against multiple calls?
@@ -103,7 +103,7 @@ export class AlveoService {
     });
   }
 
-  pullItems(items: any) {
+  pullItems(items: any): void {
     for (let item of items) {
       this.pullItem(item, true);
     }

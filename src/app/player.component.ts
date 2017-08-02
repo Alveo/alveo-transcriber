@@ -21,7 +21,6 @@ import MinimapPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.minimap';
 
 import { AppUtilService } from './app-util.service';
 
-import { Clip } from './clip';
 import { Segment } from './segment';
 
 class Cache {
@@ -42,9 +41,9 @@ class Cache {
 export class PlayerComponent implements OnInit {
   player: WaveSurfer;
   _playing: boolean;
-  @Input() clip: Clip;
-  @Input() audioData: ArrayBuffer;
-  @Input() selected: Segment;
+  @Input() clip: any;
+  //@Input() audioData: ArrayBuffer;
+  //@Input() selected: Segment;
 
 
   regionCache: Cache[] = [];
@@ -91,6 +90,7 @@ export class PlayerComponent implements OnInit {
   }
 
   loadRegions(): void {
+    /*
     this.clip.segments.forEach((segment) => {
       this.player.addRegion({
         start: segment.start,
@@ -102,6 +102,7 @@ export class PlayerComponent implements OnInit {
       var region = this.player.regions.list[Object.keys(this.player.regions.list).pop()];
       this.addCache(segment, region);
     });
+     */
   }
 
   ngOnInit(): void {
@@ -122,7 +123,8 @@ export class PlayerComponent implements OnInit {
       ]
     });
 
-    this.player.loadArrayBuffer(this.audioData);
+    this.player.loadArrayBuffer(this.clip.slice(0));
+    console.log(this.clip)
 
     var slider = document.querySelector('[data-action="zoom"]');
     slider.addEventListener('input', () => {

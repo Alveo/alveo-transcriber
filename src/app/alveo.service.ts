@@ -5,10 +5,13 @@ import { Observable } from 'rxjs';
 import { ErrorHandler } from './http-errors'
 import { AppUtilService } from './app-util.service';
 
+import { Audio } from './audio';
+
 @Injectable()
 export class AlveoService {
   selectedList: any;
   lists: Array<any>;
+  audioData: Audio;
 
   constructor(
     public http: Http,
@@ -28,11 +31,11 @@ export class AlveoService {
   }
 
   apiFileRequest(url, successCallback): void {
-    let header = new Headers({
-        'Accept': 'application/json',
-        'responseType': String(ResponseContentType.ArrayBuffer)
-      });
+    let header = this.appService.auth.buildHeader();
     header.append('X-Api-Key', this.appService.auth.apiKey);
+
+    let options = this.appService.auth.buildOptions(header);
+    options['responsetype'] = String(ResponseContentType.ArrayBuffer);
 
     this.http.get(url, this.appService.auth.buildOptions(header))
                 .subscribe(data => successCallback(data),
@@ -72,11 +75,6 @@ export class AlveoService {
   }
 
   pullIndex(): void { 
-    console.log("Pulled");
-    this.apiFileRequest("https://staging.alveo.edu.au/catalog/austalk/1_114_3_8_001/document/1_114_3_8_001-ch6-speaker.wav",
-      (data) => {
-        console.log(data);
-      });
     // Pulls an array of all the lists from Alveo
     this.apiRequest(this.appService.auth.baseURL + '/item_lists',
       (data) => {

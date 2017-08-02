@@ -124,7 +124,6 @@ export class PlayerComponent implements OnInit {
     });
 
     this.player.loadArrayBuffer(this.clip.slice(0));
-    console.log(this.clip)
 
     var slider = document.querySelector('[data-action="zoom"]');
     slider.addEventListener('input', () => {

@@ -12,7 +12,6 @@ import { RequiresAuthGuard } from './requires-auth.guard';
 const routes: Routes = [
       {
         path: 'login',
-        //component: MockAuthComponent
         component: OAuth2Component
       },
       {
@@ -22,21 +21,18 @@ const routes: Routes = [
       {
         path: 'itemlists',
         component: ItemListsComponent,
-        canActivate: [RequiresAuthGuard],
       },
       {
         path: 'dataview',
         component: DataViewComponent,
-        canActivate: [RequiresAuthGuard],
       },
       {
         path: 'annotator',
         component: AnnotatorComponent,
-        canActivate: [RequiresAuthGuard],
       },
       {
         path: '**',
-        redirectTo: 'login',
+        redirectTo: 'itemlists',
         pathMatch: 'full',
       },
     ];

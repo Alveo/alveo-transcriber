@@ -1,22 +1,24 @@
-<div *ngIf="this.listSize() === 0 && !this.isLoggedIn()">
-  <oauth2></oauth2>
-</div>
-
-<div *ngIf="this.isLoggedIn()" class="center">
-  <p class="button" (click)="this.pullData()">Refresh Data via Alveo</p>
+<div *ngIf="this.listSize() === 0">
+  <div *ngIf="!this.isLoggedIn()">
+    <oauth2></oauth2>
+  </div> <div *ngIf="this.isLoggedIn()" class="center">
+    <p class="info-text bottom-spacer">Great! You're all logged in. Now you need to choose a source of data to load. Right now, there is only the Alveo provider. Click it to begin.</p>
+    <p class="button" (click)="this.pullData()">Download Alveo Data</p>
+  </div>
 </div>
 
 <div *ngIf="this.listSize() > 0">
-
   <div class="center">
-    <div id="subheader">Your item lists</div>
-
     <div id="controls">
-      <p class="button" (click)="this.storeData()">Store Data</p>
-      <p class="button" (click)="this.reset()">Purge Loaded Data</p>
-      <p class="button" (click)="this.resetStore()">Purge All Data</p>
+      <p>Data Controls</p>
+      <p class="button small" (click)="this.pullData()">Refresh Data via Alveo</p>
+      <span class="inline-splitter"></span>
+      <p class="button small" (click)="this.storeData()">Store Data</p>
+      <p class="button small" (click)="this.reset()">Purge Loaded Data</p>
+      <p class="button small" (click)="this.resetStore()">Purge All Data</p>
     </div>
 
+    <h2>Your item lists</h2>
     <div class="list" *ngFor="let list of this.getLists()" (click)="onSelect(list)">
       <p class="name">{{list.name}}</p>
       <p class="bodytext">Items </p>

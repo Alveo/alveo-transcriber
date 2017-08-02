@@ -42,11 +42,8 @@ export class AlveoService {
   }
 
   getActiveListData(): Array<any> {
-    if (!this.appService.auth.isLoggedIn())
-      return [];
-
     // If list doesn't contain data, pull it
-    if (this.selectedList['_tt_preload'] == undefined) {
+    if (this.selectedList['_tt_preload'] == undefined && !this.appService.auth.isLoggedIn()) {
       // Guard against multiple calls?
       console.log("Looks like I don't have that list preloaded, retrieving it now.");
       this.pullList(this.selectedList);
@@ -57,9 +54,6 @@ export class AlveoService {
   }
 
   getListItemData(list: any): any {
-    if (!this.appService.auth.isLoggedIn())
-      return {data:{}};
-
     // If list doesn't contain data, pull it
     if (list.url == undefined) {
       // Guard against multiple calls?
@@ -67,7 +61,7 @@ export class AlveoService {
       return {data:{}};
     }
 
-    if (list.data == undefined) {
+    if (list.data == undefined && !this.appService.auth.isLoggedIn()) {
       console.log("Looks like I don't have that lists' data preloaded, retrieving it now.");
       this.pullItem(list)
       return {data:{}};

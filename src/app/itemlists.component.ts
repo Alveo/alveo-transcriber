@@ -15,6 +15,9 @@ export class ItemListsComponent {
     public appService: AppUtilService) { }
 
   pullData(): void {
+    if (!this.isLoggedIn())
+      this.appService.auth.initiateLogin();
+
     this.appService.alveo.pullIndex();
   }
 

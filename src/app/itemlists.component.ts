@@ -20,10 +20,10 @@ export class ItemListsComponent {
 
   reset(): void {
     this.appService.alveo.reset();
-    this.resetStore();
   }
 
   resetStore(): void {
+    this.reset();
     this.appService.alveo.resetStore();
   }
 

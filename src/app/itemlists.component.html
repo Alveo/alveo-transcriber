@@ -1,9 +1,28 @@
-<span class="center"><p class="button" (click)="pullData()">Refresh Data via Alveo</p></span>
-<div id="subheader">Your item lists</div>
 <div class="center">
-  <div class="list" *ngFor="let list of this.getLists()" (click)="onSelect(list)">
-    <p class="name">{{list.name}}</p>
-    <p class="bodytext">Items </p>
-    <p class="count">({{list.num_items}})</p>
+  <p class="button" (click)="this.pullData()">Refresh Data via Alveo</p>
+</div>
+
+<div *ngIf="this.listSize() === 0">
+  <div class="center">
+    <div id="subheader">Welcome</div>
+  </div>
+</div>
+
+<div *ngIf="this.listSize() > 0">
+
+  <div class="center">
+    <div id="subheader">Your item lists</div>
+
+    <div id="controls">
+      <p class="button" (click)="this.storeData()">Store Data</p>
+      <p class="button" (click)="this.reset()">Purge Loaded Data</p>
+      <p class="button" (click)="this.resetStore()">Purge All Data</p>
+    </div>
+
+    <div class="list" *ngFor="let list of this.getLists()" (click)="onSelect(list)">
+      <p class="name">{{list.name}}</p>
+      <p class="bodytext">Items </p>
+      <p class="count">({{list.num_items}})</p>
+    </div>
   </div>
 </div>

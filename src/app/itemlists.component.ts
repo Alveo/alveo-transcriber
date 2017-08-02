@@ -34,10 +34,11 @@ export class ItemListsComponent implements OnInit {
   }
 
   pullData(): void {
-    if (!this.isLoggedIn())
+    if (!this.isLoggedIn()) {
       this.appService.auth.initiateLogin();
-
-    this.appService.alveo.pullIndex();
+    } else {
+      this.appService.alveo.pullIndex();
+    }
   }
 
   reset(): void {

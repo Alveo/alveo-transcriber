@@ -18,6 +18,11 @@ export class DocsComponent {
 
   onSelect(item): void {
     //this.selection = item;
-    this.router.navigate(['./annotator']);
+    this.appService.alveo.apiRequest(item['alveo:url'],
+      (data) => {
+        this.appService.alveo.audioData = data.arrayBuffer();
+        this.router.navigate(['./annotator']);
+      },
+    true);
   }
 }

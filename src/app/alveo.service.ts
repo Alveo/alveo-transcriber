@@ -35,12 +35,13 @@ export class AlveoService {
     header.append('X-Api-Key', this.appService.auth.apiKey);
 
     let options = this.appService.auth.buildOptions(header);
-    options['responsetype'] = String(ResponseContentType.ArrayBuffer);
+    options.responseType = ResponseContentType.ArrayBuffer;
 
-    this.http.get(url, this.appService.auth.buildOptions(header))
+    this.http.get(url, options)
                 .subscribe(data => successCallback(data),
                            error => ErrorHandler(error, this));
   }
+
 
   getActiveList(): any {
     return this.selectedList;

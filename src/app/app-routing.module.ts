@@ -11,10 +11,6 @@ import { RequiresAuthGuard } from './requires-auth.guard';
 
 const routes: Routes = [
       {
-        path: 'login',
-        component: OAuth2Component
-      },
-      {
         path: 'oauth/callback',
         component: OAuth2Component
       },

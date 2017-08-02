@@ -1,11 +1,9 @@
-<div class="center">
-  <p class="button" (click)="this.pullData()">Refresh Data via Alveo</p>
+<div *ngIf="this.listSize() === 0 && !this.isLoggedIn()">
+  <oauth2></oauth2>
 </div>
 
-<div *ngIf="this.listSize() === 0">
-  <div class="center">
-    <div id="subheader">Welcome</div>
-  </div>
+<div *ngIf="this.isLoggedIn()" class="center">
+  <p class="button" (click)="this.pullData()">Refresh Data via Alveo</p>
 </div>
 
 <div *ngIf="this.listSize() > 0">

@@ -5,7 +5,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'oauth2',
   templateUrl: './oauth2.component.html',
-  styleUrls: ['./oauth2.component.css'],
 })
 
 export class OAuth2Component implements OnInit, OnDestroy {

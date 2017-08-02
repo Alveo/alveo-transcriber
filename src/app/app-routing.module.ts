@@ -8,11 +8,12 @@ import { ItemListsComponent } from './itemlists.component';
 import { DataViewComponent } from './dataview.component';
 
 import { RequiresAuthGuard } from './requires-auth.guard';
+import { RequiresSelectionGuard } from './requires-selection.guard';
 
 const routes: Routes = [
       {
         path: 'oauth/callback',
-        component: OAuth2Component
+        component: OAuth2Component,
       },
       {
         path: 'itemlists',
@@ -21,10 +22,12 @@ const routes: Routes = [
       {
         path: 'dataview',
         component: DataViewComponent,
+        canActivate: [RequiresSelectionGuard],
       },
       {
         path: 'annotator',
         component: AnnotatorComponent,
+        canActivate: [RequiresSelectionGuard],
       },
       {
         path: '**',
@@ -38,6 +41,7 @@ const routes: Routes = [
   exports: [RouterModule],
   providers: [
     RequiresAuthGuard,
+    RequiresSelectionGuard,
   ]
 })
 

@@ -1,3 +1,5 @@
+<div *ngIf="!this.isLoading()">
+
 <div *ngIf="this.listSize() === 0">
   <div *ngIf="!this.isLoggedIn()">
     <oauth2></oauth2>
@@ -25,4 +27,6 @@
       <p class="count">({{list.num_items}})</p>
     </div>
   </div>
+</div>
+
 </div>

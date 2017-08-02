@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AppUtilService } from './app-util.service';
@@ -9,10 +9,29 @@ import { AppUtilService } from './app-util.service';
   styleUrls: ['./itemlists.component.css'],
 })
 
-export class ItemListsComponent {
+export class ItemListsComponent implements OnInit {
+  private loading: boolean = true;
+
   constructor(
     public router: Router,
-    public appService: AppUtilService) { }
+    public appService: AppUtilService) {
+  }
+
+  ngOnInit(): void {
+    if (this.isLoggedIn()) {
+      this.loading = false;
+    } else {
+      this.setLoadingTimeout(1000); // Give the DB time to load, could later implement a check up the chain
+    }
+  }
+
+  isLoading(): boolean {
+    return this.loading;
+  }
+
+  setLoadingTimeout(interval: number): void {
+    setTimeout(()=>this.loading=false, interval);
+  }
 
   pullData(): void {
     if (!this.isLoggedIn())

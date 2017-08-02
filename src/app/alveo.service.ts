@@ -128,6 +128,18 @@ export class AlveoService {
   }
 
   startStore(): void {
-    setInterval(() => {this.appService.database.put("lists", {lists: this.lists})}, 3000);
+    setInterval(() => this.storeData(), 3000); 
+  }
+
+  storeData(): void {
+    this.appService.database.put("lists", {lists: this.lists})
+  }
+
+  reset(): void {
+    this.lists = null;
+  }
+
+  resetStore(): void {
+    this.appService.database.put("lists", {lists: []});
   }
 }

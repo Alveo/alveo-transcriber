@@ -19,7 +19,7 @@ import { AppUtilService } from './app-util.service';
 
 import { AnnotationPipe } from './annotation.pipe';
 import { DurationPipe } from './duration.pipe';
-import { DurationShortPipe } from './duration-short.pipe';
+import { DurationShortPipe } from './duration.pipe';
 
 import { AppRoutingModule } from './app-routing.module';
 

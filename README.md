@@ -5,9 +5,8 @@ Web based speech transcription tool for the Alveo project
 1. Install dependencies
   - npm install
 
-2. Run the application
-  - npm init
-  or
+2. Running the application:
+  - npm start
   - npm test
 
 ### Building

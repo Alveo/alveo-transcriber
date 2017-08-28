@@ -4,15 +4,15 @@ import { CanActivate, Router,
          RouterStateSnapshot
 } from "@angular/router";
 
-import { AppUtilService } from './app-util.service';
+import { AlveoService } from './alveo.service';
 
 @Injectable()
 export class RequiresSelectionGuard implements CanActivate {
-  constructor(private appService: AppUtilService,
+  constructor(private alveoService: AlveoService,
               private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    if (this.appService.alveo.getActiveList() != null)
+    if (this.alveoService.getActiveList() != null)
       return true;
 
     this.router.navigate(['/']);

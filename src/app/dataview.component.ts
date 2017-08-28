@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AppUtilService } from './app-util.service';
+import { AlveoService } from './alveo.service';
 
 @Component({
   selector: 'dataview',
@@ -15,14 +15,14 @@ export class DataViewComponent {
 
   constructor(
     public router: Router,
-    public appService: AppUtilService) { }
+    public alveoService: AlveoService) { }
 
   private getList(): any {
-    return this.appService.alveo.getActiveList();
+    return this.alveoService.getActiveList();
   }
 
   private getData(): any {
-    return this.appService.alveo.getActiveListData(); // If it doesn't exist, it will be pulled
+    return this.alveoService.getActiveListData(); // If it doesn't exist, it will be pulled
   }
 
   getListName(): any {
@@ -59,7 +59,7 @@ export class DataViewComponent {
       return [];
     }
 
-    let pulledData = this.appService.alveo.getListItemData(this.selected).data['alveo:documents'];
+    let pulledData = this.alveoService.getListItemData(this.selected).data['alveo:documents'];
     if (pulledData == undefined) { return [] }
     
     let items = [];

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AppUtilService } from './app-util.service';
+import { AuthService } from './auth.service';
+import { AlveoService } from './alveo.service';
 
 @Component({
   selector: 'itemlists',
@@ -14,7 +15,8 @@ export class ItemListsComponent implements OnInit {
 
   constructor(
     public router: Router,
-    public appService: AppUtilService) {
+    public authService: AuthService,
+    public alveoService: AlveoService) {
   }
 
   ngOnInit(): void {
@@ -35,42 +37,42 @@ export class ItemListsComponent implements OnInit {
 
   pullData(): void {
     if (!this.isLoggedIn()) {
-      this.appService.auth.initiateLogin();
+      this.authService.initiateLogin();
     } else {
-      this.appService.alveo.pullIndex();
+      this.alveoService.pullIndex();
     }
   }
 
   reset(): void {
-    this.appService.alveo.reset();
+    this.alveoService.reset();
   }
 
   resetStore(): void {
     this.reset();
-    this.appService.alveo.resetStore();
+    this.alveoService.resetStore();
   }
 
   storeData(): void {
-    this.appService.alveo.storeData();
+    this.alveoService.storeData();
   }
 
   listSize(): number {
-    if (this.appService.alveo.getLists() != undefined) {
-      return this.appService.alveo.getLists().length;
+    if (this.alveoService.getLists() != undefined) {
+      return this.alveoService.getLists().length;
     }
     return 0;
   }
 
   getLists(): any {
-    return this.appService.alveo.getLists();
+    return this.alveoService.getLists();
   }
 
   onSelect(list): void {
-    this.appService.alveo.selectedList = list;
+    this.alveoService.selectedList = list;
     this.router.navigate(['./dataview']);
   }
 
   isLoggedIn(): boolean {
-    return this.appService.auth.isLoggedIn();
+    return this.authService.isLoggedIn();
   }
 }

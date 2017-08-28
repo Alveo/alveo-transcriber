@@ -1,7 +1,5 @@
 import { Component, Input } from '@angular/core';
 
-import { AppUtilService } from './app-util.service';
-
 //import { Segment } from './segment';
 
 @Component({
@@ -11,8 +9,6 @@ import { AppUtilService } from './app-util.service';
 })
 
 export class AnnotationsComponent {
-  constructor(public appService: AppUtilService) { }
-
   @Input() clip: any;
 
   /*

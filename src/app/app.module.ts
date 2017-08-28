@@ -15,7 +15,11 @@ import { AnnotationsComponent } from './annotations.component';
 import { DataViewComponent } from './dataview.component';
 import { DocsComponent } from './docs.component';
 
-import { AppUtilService } from './app-util.service';
+import { AuthService } from './auth.service';
+import { AlveoService } from './alveo.service';
+import { MonitorService } from './monitor.service';
+import { PlayerControlService } from './player-control.service';
+import { DBService } from './db.service';
 
 import { AnnotationPipe } from './annotation.pipe';
 import { DurationPipe } from './duration.pipe';
@@ -45,7 +49,13 @@ import { AppRoutingModule } from './app-routing.module';
     HttpModule,
     AppRoutingModule,
   ],
-  providers: [AppUtilService],
+  providers: [
+    AuthService,
+    AlveoService,
+    DBService,
+    MonitorService,
+    PlayerControlService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

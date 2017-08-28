@@ -19,10 +19,9 @@ import RegionsPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.regions';
 import TimelinePlugin from 'wavesurfer.js/dist/plugin/wavesurfer.timeline';
 import MinimapPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.minimap';
 
-import { AppUtilService } from './app-util.service';
+//import { Segment } from './segment';
 
-import { Segment } from './segment';
-
+/*
 class Cache {
   segment: Segment;
   region: Region;
@@ -31,7 +30,7 @@ class Cache {
     this.segment = segment;
     this.region = region;
   }
-}
+}*/
 
 @Component({
   selector: 'player',
@@ -46,10 +45,9 @@ export class PlayerComponent implements OnInit {
   //@Input() selected: Segment;
 
 
-  regionCache: Cache[] = [];
+  //regionCache: Cache[] = [];
 
-  constructor(public router: Router,
-    public appService: AppUtilService) { 
+  constructor(public router: Router) {
     router.events.subscribe( (event:Event) => {
       if (event instanceof NavigationStart) {
         this.player.destroy();
@@ -85,11 +83,11 @@ export class PlayerComponent implements OnInit {
     return Math.floor(this.player.getDuration());
   }
 
-  addCache(segment: Segment, region: Region): void {
+    /*addCache(segment: Segment, region: Region): void {
     this.regionCache.push(new Cache(segment, region));
-  }
+  }*/
 
-  loadRegions(): void {
+  //loadRegions(): void {
     /*
     this.clip.segments.forEach((segment) => {
       this.player.addRegion({
@@ -103,7 +101,7 @@ export class PlayerComponent implements OnInit {
       this.addCache(segment, region);
     });
      */
-  }
+  //}
 
   ngOnInit(): void {
     this._playing = false;
@@ -132,11 +130,12 @@ export class PlayerComponent implements OnInit {
     });
 
     this.player.on('ready', () => {
-      this.loadRegions();
+      //this.loadRegions();
       this.player.zoom(30);
       (slider as HTMLInputElement).value = this.player.params.minPxPerSec;
     });
 
+    /*
     this.player.on('region-click', (region: Region) => {
       this.appService.audioPlayer.activeSegment = this.findSegment(region);
     });
@@ -150,6 +149,7 @@ export class PlayerComponent implements OnInit {
       segment.start = region.start;
       segment.end = region.end;
     });
+     */
 
     this.player.on('finish', () => {
       this.stop();
@@ -163,6 +163,7 @@ export class PlayerComponent implements OnInit {
     return this._playing;
   }
 
+    /*
   findSegment(region: Region): Segment {
     let match = null;
     for (var cache of this.regionCache) {
@@ -184,4 +185,5 @@ export class PlayerComponent implements OnInit {
     }
     return match;
   }
+     */
 }

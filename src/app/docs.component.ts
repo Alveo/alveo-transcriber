@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AppUtilService } from './app-util.service';
+import { AlveoService } from './alveo.service';
 
 @Component({
   selector: 'docs',
@@ -14,13 +14,13 @@ export class DocsComponent {
 
   constructor(
     public router: Router,
-    public appService: AppUtilService) { }
+    public alveoService: AlveoService) { }
 
   onSelect(item): void {
     //this.selection = item;
-    this.appService.alveo.apiRequest(item['alveo:url'],
+    this.alveoService.apiRequest(item['alveo:url'],
       (data) => {
-        this.appService.alveo.audioData = data.arrayBuffer();
+        this.alveoService.audioData = data.arrayBuffer();
         this.router.navigate(['./annotator']);
       },
     true);

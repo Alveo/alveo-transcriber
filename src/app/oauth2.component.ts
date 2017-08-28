@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AppUtilService } from './app-util.service';
+import { AuthService } from './auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -13,17 +13,17 @@ export class OAuth2Component implements OnInit, OnDestroy {
   constructor(
     public route: ActivatedRoute,
     public router: Router,
-    public appService: AppUtilService) { }
+    public authService: AuthService) { }
 
   actionLogin(): void {
-    this.appService.auth.initiateLogin();
+    this.authService.initiateLogin();
   }
 
   ngOnInit() {
     this.param_sub = this.route.queryParams.subscribe(params => {
       if (params['code'] != undefined) {
-        this.appService.auth.callback(params['code']);
-        this.appService.auth.login(() => {
+        this.authService.callback(params['code']);
+        this.authService.login(() => {
           this.router.navigate(['./itemlists']);
         });
       }

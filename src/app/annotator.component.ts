@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AppUtilService } from './app-util.service';
+import { AlveoService } from './alveo.service';
 
 @Component({
   selector: 'annotator',
@@ -12,7 +12,7 @@ import { AppUtilService } from './app-util.service';
 export class AnnotatorComponent {
   constructor(
     public router: Router,
-    public appService: AppUtilService,
+    public alveoService: AlveoService,
   ) { }
 
   actionBack(): void {
@@ -20,7 +20,7 @@ export class AnnotatorComponent {
   }
 
   getClip(): any {
-    return this.appService.alveo.audioData;
+    return this.alveoService.audioData;
   }
 
   getClipName(): string {

@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { ErrorHandler } from './http-errors'
 
 @Injectable()
-export class OAuth2Service {
+export class AuthService {
   loggedIn = false;
   redirectLoginUrl = '/login';
 

@@ -3,32 +3,30 @@ import { Http, Headers, ResponseContentType } from '@angular/http';
 import { Observable } from 'rxjs';
 
 import { ErrorHandler } from './http-errors'
-import { AppUtilService } from './app-util.service';
 
-import { Audio } from './audio';
+import { AuthService } from './auth.service';
+import { DBService } from './db.service';
 
 @Injectable()
 export class AlveoService {
   selectedList: any;
   lists: Array<any>;
-  audioData: Audio;
+  audioData: ArrayBuffer;
 
-  constructor(
-    public http: Http,
-    public appService: AppUtilService)
-  {
-    this.appService.database.get('lists').then(result => this.lists = result.lists);
-    //this.startStore();
+  constructor(public http: Http,
+    public authService: AuthService,
+    public dbService: DBService) {
+    this.dbService.get('lists').then(result => this.lists = result.lists);
   }
 
   apiRequest(url, successCallback, file=false): void {
-    if (!this.appService.auth.isLoggedIn())
+    if (!this.authService.isLoggedIn())
       return;
 
-    let header = this.appService.auth.buildHeader();
-    header.append('X-Api-Key', this.appService.auth.apiKey);
+    let header = this.authService.buildHeader();
+    header.append('X-Api-Key', this.authService.apiKey);
 
-    let options = this.appService.auth.buildOptions(header);
+    let options = this.authService.buildOptions(header);
     if (file)
       options.responseType = ResponseContentType.ArrayBuffer;
 
@@ -45,7 +43,7 @@ export class AlveoService {
   getActiveListData(): Array<any> {
     // If list doesn't contain data, pull it
     if (this.selectedList['_tt_preload'] == undefined) {
-      if (this.appService.auth.isLoggedIn()) {
+      if (this.authService.isLoggedIn()) {
         // Guard against multiple calls?
         console.log("Looks like I don't have that list preloaded, retrieving it now.");
         this.pullList(this.selectedList);
@@ -64,7 +62,7 @@ export class AlveoService {
     }
 
     if (list.data == undefined) {
-      if (this.appService.auth.isLoggedIn()) {
+      if (this.authService.isLoggedIn()) {
         console.log("Looks like I don't have that lists' data preloaded, retrieving it now.");
         this.pullItem(list)
       }
@@ -75,7 +73,7 @@ export class AlveoService {
 
   pullIndex(): void { 
     // Pulls an array of all the lists from Alveo
-    this.apiRequest(this.appService.auth.baseURL + '/item_lists',
+    this.apiRequest(this.authService.baseURL + '/item_lists',
       (data) => {
         let lists = [];
         lists = lists.concat(data.json().own);
@@ -121,7 +119,7 @@ export class AlveoService {
   }
 
   flushCache(): void {
-    this.appService.database.put("lists", {lists: []});
+    this.dbService.put("lists", {lists: []});
   }
 
   startStore(): void {
@@ -129,7 +127,7 @@ export class AlveoService {
   }
 
   storeData(): void {
-    this.appService.database.put("lists", {lists: this.lists})
+    this.dbService.put("lists", {lists: this.lists})
   }
 
   reset(): void {
@@ -137,6 +135,6 @@ export class AlveoService {
   }
 
   resetStore(): void {
-    this.appService.database.put("lists", {lists: []});
+    this.dbService.put("lists", {lists: []});
   }
 }

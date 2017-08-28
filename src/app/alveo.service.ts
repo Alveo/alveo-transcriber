@@ -16,7 +16,8 @@ export class AlveoService {
   constructor(public http: Http,
     public authService: AuthService,
     public dbService: DBService) {
-    this.dbService.get('lists').then(result => this.lists = result.lists);
+    // Ignore the error if the lists variable doesn't exist
+    this.dbService.get('lists').then(result => this.lists = result.lists, error => {});
   }
 
   apiRequest(url, successCallback, file=false): void {

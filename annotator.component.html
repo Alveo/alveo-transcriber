@@ -1,0 +1,12 @@
+<div id="controller">
+  <div id="controller-float">
+    <div id="top-halign">
+      <p id="header">Transcribing: {{getClipName()}}</p>
+      <p id="return-button" (click)="actionBack()" >Save &amp; Return</p>
+    </div>
+
+    <player [clip]="getClip()"></player>
+  </div>
+</div>
+
+<annotations [clip]="getClip()"></annotations>

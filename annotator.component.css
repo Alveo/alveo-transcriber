@@ -1,0 +1,45 @@
+#controller {
+  height: 450px;
+}
+
+#controller-float {
+  width: 80%;
+  margin: auto;
+  padding: 2em;
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  background: linear-gradient(to bottom, white 97%, rgba(255, 255, 255, 0) 100%);
+}
+
+#top-halign {
+  display: flex;
+  padding-bottom: 0.6rem;
+}
+
+#header {
+  flex: 1 1 auto;
+  font-size: 24px;
+  vertical-align: middle;
+  padding: 0.5rem 1rem 0.5rem 1rem;
+
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+#return-button {
+  flex: 0 0 auto;
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  text-align: center;
+  font-size: 22px;
+  background: #000000;
+  color: #FFFFFF;
+}
+
+#return-button:hover {
+  background: #444444;
+  cursor: pointer;
+}
+

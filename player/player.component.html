@@ -1,0 +1,28 @@
+<div id="player-container">
+  <div id="timeline"></div>
+  <div id="waveform"></div>
+
+  <div id="controls">
+    <p class="fi-volume icon" (click)="this.pause()"></p>
+
+    <div *ngIf="!this.playing()">
+      <p class="fi-play icon" (click)="this.play()"></p>
+    </div> <div *ngIf="this.playing()">
+      <p class="fi-pause icon" (click)="this.pause()"></p>
+    </div>
+
+    <p class="fi-previous icon" (click)="this.pause()"></p> <!-- Next segment -->
+    <p class="fi-next icon" (click)="this.pause()"></p> <!-- Prev segment -->
+
+    <p id="duration">{{this.getPos() | durationshort}} / {{this.getDuration() | durationshort}}</p>
+
+    <span class="divider"></span>
+
+    <p class="fi-zoom-out icon-noclick"></p>
+    <input id="zoom-slider" data-action="zoom" type="range" min="0" max="80" value="10" style="margin: 0.3em 0 0.3em 0; width: 20%">
+    <p class="fi-zoom-in icon-noclick"></p>
+
+    <p class="fi-arrows-in icon"></p>
+    <p class="fi-arrows-out icon"></p>
+  </div>
+</div>

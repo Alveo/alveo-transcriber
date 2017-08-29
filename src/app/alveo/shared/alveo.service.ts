@@ -37,21 +37,32 @@ export class AlveoService {
                            error => ErrorHandler(error, this));
   }
 
+  getIndex(callback=null): any {
+    this.pullIndex(callback);
+  }
+
   getActiveList(): Array<any> {
     return this.selectedList;
   }
 
-  getActiveListData(): Array<any> {
+  getListData(list: any, callback=null): Array<any> {
     // If list doesn't contain data, pull it
-    if (this.selectedList['_tt_preload'] == undefined) {
+    if (list['_tt_preload'] == undefined) {
       if (this.authService.isLoggedIn()) {
         // Guard against multiple calls?
         console.log("Looks like I don't have that list preloaded, retrieving it now.");
-        this.pullList(this.selectedList);
+        this.pullList(list, false, callback);
+      } else {
+        if (callback != null) {
+          callback(403);
+        }
       }
       return [];
     }
-    return this.selectedList['_tt_preload'];
+    if (callback != null) {
+      callback(null);
+    }
+    return list['_tt_preload'];
   }
 
   getListItemData(list: any): any {
@@ -72,7 +83,23 @@ export class AlveoService {
     return list;
   }
 
-  pullIndex(): void { 
+  getAudioFile(url: string, callback=null): any {
+    this.pullAudioFile(url, callback);
+  }
+
+  private pullAudioFile(url: string, callback=null) {
+    this.apiRequest(url,
+      (data) => {
+        this.audioData = data.arrayBuffer();
+
+        if (callback != null) {
+          callback(data);
+        }
+      },
+    true);
+  }
+
+  private pullIndex(callback=null): void { 
     // Pulls an array of all the lists from Alveo
     this.apiRequest(this.authService.baseURL + '/item_lists',
       (data) => {
@@ -81,38 +108,50 @@ export class AlveoService {
         lists = lists.concat(data.json().shared);
 
         this.lists = lists;
+        
+        if (callback != null) {
+          callback(data);
+        }
       });
   }
 
-  pullLists(lists: Array<any>): void {
+  private pullLists(lists: Array<any>): void {
     for (let list of lists) {
       this.pullList(list);
     }
   }
 
-  pullList(list: any, chainload=false): void {
+  private pullList(list: any, chainload=false, callback=null): void {
     this.apiRequest(list.item_list_url, (data) => {
       list['_tt_preload'] = [];
       for (let item_url of data.json().items) {
         list['_tt_preload'].push({'url': item_url});
       }
       if (chainload) { this.pullItems(list._tt_preload) }
+
+      if (callback != null) {
+        callback(data);
+      }
     });
   }
 
-  pullItems(items: any): void {
+  private pullItems(items: any): void {
     for (let item of items) {
       this.pullItem(item, true);
     }
   }
 
-  pullItem(item: any, chainload=false): void {
-    this.apiRequest(item.url, (data) => {
-      item['data'] = data.json();
-    });
+  private pullItem(item: any, chainload=false, callback=null): void {
+     this.apiRequest(item.url, (data) => {
+       item['data'] = data.json();
+
+       if (callback != null) {
+         callback(data);
+       }
+     });
   }
 
-  pullDoc(doc: any) {
+  private pullDoc(doc: any) {
   }
 
   getLists(): any {

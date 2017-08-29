@@ -1,19 +1,22 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-//import { MockAuthComponent } from './mock-auth.component';
-import { OAuth2Component } from './oauth2.component';
-import { AnnotatorComponent } from './annotator.component';
-import { ItemListsComponent } from './itemlists.component';
-import { DataViewComponent } from './dataview.component';
+//import { AlveoModule } from './alveo/alveo.module';
+//import { AnnotatorModule } from './annotator/annotator.module';
 
-import { RequiresAuthGuard } from './requires-auth.guard';
-import { RequiresSelectionGuard } from './requires-selection.guard';
+// Should be a better way to import these
+import { AuthComponent } from './alveo/auth/auth.component';
+import { ItemListsComponent } from './alveo/itemlists/itemlists.component';
+import { DataViewComponent } from './alveo/dataview/dataview.component';
+import { AnnotatorComponent } from './annotator/annotator.component';
+
+import { RequiresSelectionGuard } from './alveo/shared/requires-selection.guard';
+import { RequiresAuthGuard } from './alveo/shared/requires-auth.guard';
 
 const routes: Routes = [
       {
         path: 'oauth/callback',
-        component: OAuth2Component,
+        component: AuthComponent,
       },
       {
         path: 'itemlists',

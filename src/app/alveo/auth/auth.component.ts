@@ -1,13 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AuthService } from './auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
+import { AuthService } from '../shared/auth.service';
+
 @Component({
-  selector: 'oauth2',
-  templateUrl: './oauth2.component.html',
+  selector: 'auth',
+  templateUrl: './auth.component.html',
 })
 
-export class OAuth2Component implements OnInit, OnDestroy {
+export class AuthComponent implements OnInit, OnDestroy {
   param_sub: any;
 
   constructor(

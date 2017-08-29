@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AlveoService } from './alveo.service';
+import { AlveoService } from '../shared/alveo.service';
 
 @Component({
   selector: 'dataview',

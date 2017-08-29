@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AuthService } from './auth.service';
-import { AlveoService } from './alveo.service';
+import { AuthService } from '../shared/auth.service';
+import { AlveoService } from '../shared/alveo.service';
 
 @Component({
   selector: 'itemlists',

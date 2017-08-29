@@ -2,7 +2,7 @@
 
 <div *ngIf="this.listSize() === 0">
   <div *ngIf="!this.isLoggedIn()">
-    <oauth2></oauth2>
+    <auth></auth>
   </div> <div *ngIf="this.isLoggedIn()" class="center">
     <p class="info-text bottom-spacer">Great! You're all logged in. Now you need to choose a source of data to load. Right now, there is only the Alveo provider. Click it to begin.</p>
     <p class="button" (click)="this.pullData()">Download Alveo Data</p>

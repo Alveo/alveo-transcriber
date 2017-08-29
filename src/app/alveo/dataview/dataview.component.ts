@@ -22,7 +22,7 @@ export class DataViewComponent {
   }
 
   private getData(): any {
-    return this.alveoService.getActiveListData(); // If it doesn't exist, it will be pulled
+    return this.alveoService.getListData(this.alveoService.getActiveList()); // If it doesn't exist, it will be pulled
   }
 
   getListName(): any {

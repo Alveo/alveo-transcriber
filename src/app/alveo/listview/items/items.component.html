@@ -1,6 +1,16 @@
 <div class="center">
   Items in list
-  <div class="item" *ngFor="let item of this.items" (click)="onSelect(item)" [class.selected]="item===this.selected_item">
-    <p class="name">{{item.url}}</p>
+  <div *ngIf="this.getData() != null">
+    <div *ngIf="this.getData() == []">
+      /* It is normally assumed that a list can't be empty but the safeguard exists should that change later. */
+      <p><strong>This item list is empty.</strong></p>
+    </div><div *ngIf="this.getData != []">
+      <div class="item" *ngFor="let item of this.items" (click)="onSelect(item)" [class.selected]="item===this.selected_item">
+        <p class="name">{{item.url}}</p>
+      </div>
+    </div>
+  </div><div *ngIf="this.getData() == null">
+    /* Through the application workflow, it is assumed this component shouldn't even be activated if there is no data. It is a safeguard in the event it is being downloaded. */
+    <p><strong>Data currently unavailable.</strong></p>
   </div>
 </div>

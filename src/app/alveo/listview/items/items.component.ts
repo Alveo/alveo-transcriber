@@ -15,4 +15,8 @@ export class ItemsComponent {
     this.selected_item = item;
     this.onSelection.emit(item);
   }
+
+  getData(): any {
+    return this.items;
+  }
 }

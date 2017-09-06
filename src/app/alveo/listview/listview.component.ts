@@ -48,7 +48,7 @@ export class ListViewComponent {
   getItems(): any {
     let list = this.getList();
     if (list == null) {
-      return []
+      return null;
     }
     
     let items = [];
@@ -60,7 +60,7 @@ export class ListViewComponent {
 
   getDocs(): any {
     if (this.selected == null) {
-      return [];
+      return null;
     }
 
     let items = [];

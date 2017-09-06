@@ -21,13 +21,6 @@ export class ListViewComponent {
     return this.alveoService.getActiveList();
   }
 
-  private getData(): any {
-  }
-
-  private getDocsData(): any {
-    return this.alveoService.getListItemData(this.selected).data['alveo:documents'];
-  }
-
   getListName(): any {
     let list = this.getList();
     if (list == null) {
@@ -59,7 +52,7 @@ export class ListViewComponent {
     }
 
     let items = [];
-    for (let item of this.getDocsData()) {
+    for (let item of this.alveoService.getListItemData(this.selected)) {
       if (item['type'] == 'audio') {
         items.push(item);
       }
@@ -72,10 +65,12 @@ export class ListViewComponent {
   }
 
   onItemSelection(item: any): void {
-    this.selected = item;
-    /* Query the Alveo Service for the data
-     *  Create a callback to switch to the new doc ONLY IF it is still selected
-     * */
+    /* Query the Alveo Service for the data */
+    this.alveoService.getListItemData(item, (data) => {
+      /*  Create a callback to switch to the new doc ONLY IF it is still selected */
+      // if (this.selected == selectedCache) { }
+      this.selected = item;
+    })
   }
 
   onDocSelection(item: any): void {

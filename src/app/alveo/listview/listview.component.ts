@@ -79,5 +79,9 @@ export class ListViewComponent {
   }
 
   onDocSelection(item: any): void {
+    this.alveoService.getAudioFile(item['alveo:url'], (data) => {
+      this.router.navigate(['./annotator']);
+      /* Only if it is still selected */
+    });
   }
 }

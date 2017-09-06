@@ -5,6 +5,6 @@
     <items [items]="this.getItems()" (onSelection)="onItemSelection($event)"></items>
   </div>
   <div id="right">
-    <docs [docs]="this.getDocs()"></docs>
+    <docs [docs]="this.getDocs()" (onSelection)="onDocSelection($event)"></docs>
   </div>
 </div>

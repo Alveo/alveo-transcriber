@@ -1,7 +1,4 @@
-import { Component, Input } from '@angular/core';
-import { Router } from '@angular/router';
-
-import { AlveoService } from '../../shared/alveo.service';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'docs',
@@ -11,19 +8,15 @@ import { AlveoService } from '../../shared/alveo.service';
 
 export class DocsComponent {
   @Input() docs: any;
-
-  constructor(
-    public router: Router,
-    public alveoService: AlveoService) { }
-
-  onSelect(item): void {
-    //this.selection = item;
-    this.alveoService.getAudioFile(item['alveo:url'], (data) => {
-      this.router.navigate(['./annotator']);
-    });
-  }
+  @Input() selection: any;
+  @Output() onSelection = new EventEmitter<any>();
 
   getDocs(): any {
     return this.docs;
+  }
+
+  onSelect(item): void {
+    this.selection = item;
+    this.onSelection.emit(item);
   }
 }

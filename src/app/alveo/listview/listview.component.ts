@@ -11,7 +11,11 @@ import { AlveoService } from '../shared/alveo.service';
 
 export class ListViewComponent {
   @Input() items: any;
-  selected: any;
+
+  selectedDoc: any;
+  selectedItem: any;
+
+  activeItem: any;
 
   constructor(
     public router: Router,
@@ -47,12 +51,12 @@ export class ListViewComponent {
   }
 
   getDocs(): any {
-    if (this.selected == null) {
+    if (this.activeItem == null) {
       return null;
     }
 
     let items = [];
-    for (let item of this.alveoService.getListItemData(this.selected)) {
+    for (let item of this.alveoService.getListItemData(this.activeItem)) {
       if (item['type'] == 'audio') {
         items.push(item);
       }
@@ -65,18 +69,24 @@ export class ListViewComponent {
   }
 
   onItemSelection(item: any): void {
-    /* Query the Alveo Service for the data */
+    this.selectedItem = item;
+
     this.alveoService.getListItemData(item, (data) => {
-      /*  Create a callback to switch to the new doc ONLY IF it is still selected */
-      // if (this.selected == selectedCache) { }
-      this.selected = item;
+      /* Set active only if still selected */
+      if (this.selectedItem == item) {
+        this.activeItem = item;
+      }
     })
   }
 
-  onDocSelection(item: any): void {
-    this.alveoService.getAudioFile(item['alveo:url'], (data) => {
-      this.router.navigate(['./annotator']);
-      /* Only if it is still selected */
+  onDocSelection(doc: any): void {
+    this.selectedDoc = doc;
+
+    this.alveoService.getAudioFile(doc['alveo:url'], (data) => {
+      /* Route only if it is still selected */
+      if (this.selectedDoc == doc) {
+        this.router.navigate(['./annotator']);
+      }
     });
   }
 }

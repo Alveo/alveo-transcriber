@@ -8,15 +8,15 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 export class ItemsComponent {
   @Input() items: any;
-  @Input() selected_item: any;
+  @Input() selection: any;
   @Output() onSelection = new EventEmitter<any>();
-
-  onSelect(item): void {
-    this.selected_item = item;
-    this.onSelection.emit(item);
-  }
 
   getData(): any {
     return this.items;
+  }
+
+  onSelect(item): void {
+    this.selection = item;
+    this.onSelection.emit(item);
   }
 }

@@ -73,7 +73,7 @@ export class ItemListsComponent implements OnInit {
         this.authService.initiateLogin();
       }
       this.alveoService.selectedList = list;
-      this.router.navigate(['./dataview']);
+      this.router.navigate(['./listview']);
     });
   }
 

@@ -6,9 +6,9 @@ import { NavComponent } from './nav/nav.component';
 import { AuthComponent } from './auth/auth.component';
 
 import { ItemListsComponent } from './itemlists/itemlists.component';
-import { ItemsComponent } from './dataview/items/items.component';
-import { DataViewComponent } from './dataview/dataview.component';
-import { DocsComponent } from './dataview/docs/docs.component';
+import { ItemsComponent } from './listview/items/items.component';
+import { ListViewComponent } from './listview/listview.component';
+import { DocsComponent } from './listview/docs/docs.component';
 
 import { AlveoService } from './shared/alveo.service';
 import { AuthService } from './shared/auth.service';
@@ -20,7 +20,7 @@ import { DBService } from './shared/db.service';
     AuthComponent,
     ItemListsComponent,
     ItemsComponent,
-    DataViewComponent,
+    ListViewComponent,
     DocsComponent,
   ],
   imports: [
@@ -31,7 +31,7 @@ import { DBService } from './shared/db.service';
     NavComponent,
     AuthComponent,
     ItemListsComponent,
-    DataViewComponent,
+    ListViewComponent,
   ],
   providers: [
     AuthService,

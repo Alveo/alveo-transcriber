@@ -4,12 +4,12 @@ import { Router } from '@angular/router';
 import { AlveoService } from '../shared/alveo.service';
 
 @Component({
-  selector: 'dataview',
-  templateUrl: './dataview.component.html',
-  styleUrls: ['./dataview.component.css'],
+  selector: 'listview',
+  templateUrl: './listview.component.html',
+  styleUrls: ['./listview.component.css'],
 })
 
-export class DataViewComponent {
+export class ListViewComponent {
   @Input() items: any;
   selected: any;
 
@@ -23,6 +23,10 @@ export class DataViewComponent {
 
   private getData(): any {
     return this.alveoService.getListData(this.alveoService.getActiveList()); // If it doesn't exist, it will be pulled
+  }
+
+  private getDocsData(): any {
+    return this.alveoService.getListItemData(this.selected).data['alveo:documents'];
   }
 
   getListName(): any {
@@ -59,11 +63,8 @@ export class DataViewComponent {
       return [];
     }
 
-    let pulledData = this.alveoService.getListItemData(this.selected).data['alveo:documents'];
-    if (pulledData == undefined) { return [] }
-    
     let items = [];
-    for (let item of pulledData) {
+    for (let item of this.getDocsData()) {
       if (item['type'] == 'audio') {
         items.push(item);
       }

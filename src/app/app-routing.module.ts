@@ -7,7 +7,7 @@ import { RouterModule, Routes } from '@angular/router';
 // Should be a better way to import these
 import { AuthComponent } from './alveo/auth/auth.component';
 import { ItemListsComponent } from './alveo/itemlists/itemlists.component';
-import { DataViewComponent } from './alveo/dataview/dataview.component';
+import { ListViewComponent } from './alveo/listview/listview.component';
 import { AnnotatorComponent } from './annotator/annotator.component';
 
 import { RequiresSelectionGuard } from './alveo/shared/requires-selection.guard';
@@ -23,8 +23,8 @@ const routes: Routes = [
         component: ItemListsComponent,
       },
       {
-        path: 'dataview',
-        component: DataViewComponent,
+        path: 'listview',
+        component: ListViewComponent,
         canActivate: [RequiresSelectionGuard],
       },
       {

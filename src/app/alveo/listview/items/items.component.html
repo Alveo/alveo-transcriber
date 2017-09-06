@@ -1,10 +1,10 @@
 <div class="center">
   Items in list
   <div *ngIf="this.getData() != null">
-    <div *ngIf="this.getData() == []">
+    <div *ngIf="this.getData().length == 0">
       /* It is normally assumed that a list can't be empty but the safeguard exists should that change later. */
       <p><strong>This item list is empty.</strong></p>
-    </div><div *ngIf="this.getData != []">
+    </div><div *ngIf="this.getData().length > 0">
       <div class="item" *ngFor="let item of this.items" (click)="onSelect(item)" [class.selected]="item===this.selected_item">
         <p class="name">{{item.url}}</p>
       </div>

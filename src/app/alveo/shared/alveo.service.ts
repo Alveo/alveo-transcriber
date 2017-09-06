@@ -65,18 +65,11 @@ export class AlveoService {
     return list['_tt_preload'];
   }
 
-  getListItemData(list: any): any {
-    // If list doesn't contain data, pull it
-    if (list.url == undefined) {
-      // Guard against multiple calls?
-      console.log("Looks like I don't have that list preloaded, call getListData() first.");
-      return {data:{}};
-    }
-
+  getListItemData(list: any, callback=null): any {
     if (list.data == undefined) {
       if (this.authService.isLoggedIn()) {
         console.log("Looks like I don't have that lists' data preloaded, retrieving it now.");
-        this.pullItem(list)
+        this.pullItem(list, false, callback)
       }
       return {data:{}};
     }

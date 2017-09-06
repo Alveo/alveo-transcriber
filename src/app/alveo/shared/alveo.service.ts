@@ -71,9 +71,12 @@ export class AlveoService {
         console.log("Looks like I don't have that lists' data preloaded, retrieving it now.");
         this.pullItem(list, false, callback)
       }
-      return {data:{}};
+      return [];
     }
-    return list;
+    if (callback != null) {
+      callback(null);
+    }
+    return list.data['alveo:documents'];
   }
 
   getAudioFile(url: string, callback=null): any {
@@ -142,9 +145,6 @@ export class AlveoService {
          callback(data);
        }
      });
-  }
-
-  private pullDoc(doc: any) {
   }
 
   getLists(): any {

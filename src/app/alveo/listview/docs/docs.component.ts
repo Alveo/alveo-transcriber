@@ -22,4 +22,8 @@ export class DocsComponent {
       this.router.navigate(['./annotator']);
     });
   }
+
+  getDocs(): any {
+    return this.docs;
+  }
 }

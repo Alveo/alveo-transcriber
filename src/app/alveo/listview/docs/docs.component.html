@@ -1,6 +1,14 @@
 <div class="center">
-  Docs in selected list (Must be of type 'audio' to display)
-  <div class="doc" *ngFor="let doc of this.docs" (click)="onSelect(doc)">
-    <p class="name">{{doc['alveo:url']}}</p>
+  <div *ngIf="this.getDocs() == null">
+    <p><strong>Please select an item.</strong></p>
+  </div> <div *ngIf="this.getDocs() != null">
+    <div *ngIf="this.getDocs() == []">
+      <p>No audio documents were found in this item.</p>
+    </div><div *ngIf="this.getDocs() != []">
+      <p>Audio documents in selected list</p>
+      <div class="doc" *ngFor="let doc of this.getDocs()" (click)="onSelect(doc)">
+        <p class="name">{{doc['alveo:url']}}</p>
+      </div>
+    </div>
   </div>
 </div>

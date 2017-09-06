@@ -22,7 +22,6 @@ export class ListViewComponent {
   }
 
   private getData(): any {
-    return this.alveoService.getListData(this.alveoService.getActiveList()); // If it doesn't exist, it will be pulled
   }
 
   private getDocsData(): any {
@@ -32,7 +31,7 @@ export class ListViewComponent {
   getListName(): any {
     let list = this.getList();
     if (list == null) {
-      return "(Loading)"
+      return "null"
     }
     return list.name;
   }
@@ -40,7 +39,7 @@ export class ListViewComponent {
   getListSize(): any {
     let list = this.getList();
     if (list == null) {
-      return "(...)"
+      return "null"
     }
     return list.num_items;
   }
@@ -51,11 +50,7 @@ export class ListViewComponent {
       return null;
     }
     
-    let items = [];
-    for (let item of this.getData()) {
-      items.push(item);
-    }
-    return items;
+    return this.alveoService.getListData(list);
   }
 
   getDocs(): any {
@@ -78,5 +73,11 @@ export class ListViewComponent {
 
   onItemSelection(item: any): void {
     this.selected = item;
+    /* Query the Alveo Service for the data
+     *  Create a callback to switch to the new doc ONLY IF it is still selected
+     * */
+  }
+
+  onDocSelection(item: any): void {
   }
 }

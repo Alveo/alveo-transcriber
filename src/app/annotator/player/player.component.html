@@ -5,11 +5,11 @@
   <div id="controls">
     <p class="fi-volume icon" (click)="this.pause()"></p>
 
-    <ng-template #playing [ngIf]="this.playing()">
+    <ng-template #playingTemplate [ngIf]="this.playing()">
       <p class="fi-pause icon" (click)="this.pause()"></p>
     </ng-template>
 
-    <ng-template #paused [ngIf]="!this.playing()">
+    <ng-template #pausedTemplate [ngIf]="!this.playing()">
       <p class="fi-play icon" (click)="this.play()"></p>
     </ng-template>
 

@@ -1,16 +1,25 @@
 <div class="center">
-  Items in list
-  <div *ngIf="this.getData() != null">
-    <div *ngIf="this.getData().length == 0">
+  <ng-template #dataDownloadTemplate [ngIf]="this.getData() == null" [ngIfElse]="listEmptyCheckTemplate">
+    <!-- Through the application workflow, it is assumed this component shouldn't even be activated if there is no data. It is a safeguard in the event it is being downloaded. -->
+    <p>Item list data is currently unavailable.</p>
+  </ng-template>
+
+  <ng-template #listEmptyCheckTemplate>
+    <div *ngIf="this.getData().length == 0; else listDisplayTemplate">
       <!-- It is normally assumed that a list can't be empty but the safeguard exists should that change later. -->
-      <p><strong>This item list is empty.</strong></p>
-    </div><div *ngIf="this.getData().length > 0">
-      <div class="item" *ngFor="let item of this.items" (click)="onSelect(item)" [class.selected]="item===this.selected_item">
+      <p>This item list is empty.</p>
+    </div>
+  </ng-template>
+
+
+  <ng-template #listDisplayTemplate>
+  <p>Items in list</p>
+    <div *ngIf="this.getData().length > 0">
+      <div class="item" *ngFor="let item of this.items"
+                        (click)="onSelect(item)"
+                        [class.selected]="item===this.selected_item">
         <p class="name">{{item.url}}</p>
       </div>
     </div>
-  </div><div *ngIf="this.getData() == null">
-    <!-- Through the application workflow, it is assumed this component shouldn't even be activated if there is no data. It is a safeguard in the event it is being downloaded. -->
-    <p><strong>Data currently unavailable.</strong></p>
-  </div>
+  </ng-template>
 </div>

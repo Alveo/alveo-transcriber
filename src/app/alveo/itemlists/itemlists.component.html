@@ -1,33 +1,35 @@
-<div *ngIf="!this.isLoading()">
+<ng-template #documentReadyTemplate [ngIf]="!this.isLoading()">
 
-<div *ngIf="this.listSize() === 0">
-  <div *ngIf="!this.isLoggedIn()">
-    <auth></auth>
-  </div> <div *ngIf="this.isLoggedIn()" class="center">
-    <p class="info-text bottom-spacer">Great! You're all logged in. Now you need to choose a source of data to load. Right now, there is only the Alveo provider. Click it to begin.</p>
-    <p class="button" (click)="this.pullData()">Download Alveo Data</p>
-  </div>
-</div>
+  <ng-template #emptyListCheckTemplate [ngIf]="this.listSize() == 0" [ngIfElse]="populatedListTemplate">
+    <ng-template #notLoggedInTemplate [ngIf]="!this.isLoggedIn()">
+      <auth></auth>
+    </ng-template>
+    <ng-template #loggedInTemplate [ngIf]="this.isLoggedIn()">
+      <div *ngIf="this.isLoggedIn()" class="center">
+        <p class="info-text bottom-spacer">Great! You're all logged in. Now you need to choose a source of data to load. Right now, there is only the Alveo provider. Click it to begin.</p>
+        <p class="button" (click)="this.pullData()">Download Alveo Data</p>
+      </div>
+    </ng-template>
+  </ng-template>
 
-<div *ngIf="this.listSize() > 0">
-  <div class="center">
-    <div id="controls">
-      <h3>- Debugging Console -</h3><br>
-      <p>Data Controls</p>
-      <p class="button small" (click)="this.pullData()">Refresh Data via Alveo</p>
-      <span class="inline-splitter"></span>
-      <p class="button small" (click)="this.storeData()">Store Data</p>
-      <p class="button small" (click)="this.reset()">Purge Loaded Data</p>
-      <p class="button small" (click)="this.resetStore()">Purge All Data</p>
+  <ng-template #populatedListTemplate>
+    <div class="center">
+      <div id="controls">
+        <h3>- Debugging Console -</h3><br>
+        <p>Data Controls</p>
+        <p class="button small" (click)="this.pullData()">Refresh Data via Alveo</p>
+        <span class="inline-splitter"></span>
+        <p class="button small" (click)="this.storeData()">Store Data</p>
+        <p class="button small" (click)="this.reset()">Purge Loaded Data</p>
+        <p class="button small" (click)="this.resetStore()">Purge All Data</p>
+      </div>
+
+      <h2>Your item lists</h2>
+      <div class="list" *ngFor="let list of this.getLists()" (click)="onSelect(list)">
+        <p class="name">{{list.name}}</p>
+        <p class="bodytext">Items </p>
+        <p class="count">({{list.num_items}})</p>
+      </div>
     </div>
-
-    <h2>Your item lists</h2>
-    <div class="list" *ngFor="let list of this.getLists()" (click)="onSelect(list)">
-      <p class="name">{{list.name}}</p>
-      <p class="bodytext">Items </p>
-      <p class="count">({{list.num_items}})</p>
-    </div>
-  </div>
-</div>
-
-</div>
+  </ng-template>
+</ng-template>

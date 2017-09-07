@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MdButtonModule, MdCheckboxModule } from '@angular/material';
+import { MdCoreModule, MdListModule, MdCardModule, MdButtonModule, MdCheckboxModule } from '@angular/material';
 
 import { DevConsoleComponent } from './devconsole/devconsole.component';
 
@@ -36,6 +36,9 @@ import 'hammerjs';
     HttpModule,
     MdButtonModule,
     MdCheckboxModule,
+    MdCardModule,
+    MdListModule,
+    MdCoreModule,
   ],
   exports: [
     NavComponent,

@@ -19,11 +19,14 @@
       </ng-template>
 
       <h2>Your item lists</h2>
-      <div class="list" *ngFor="let list of this.getLists()" (click)="onSelect(list)">
-        <p class="name">{{list.name}}</p>
-        <p class="bodytext">Items </p>
-        <p class="count">({{list.num_items}})</p>
-      </div>
+      <md-list>
+        <h3 mdSubheader>Your Lists</h3>
+        <md-list-item *ngFor="let list of this.getLists()" (click)="onSelect(list)">
+          <h4 mdLine>{{list.name}}</h4>
+          <p mdLine>Items ({{list.num_items}})</p>
+        </md-list-item>
+        <h3 mdSubheader>Shared Lists</h3>
+      </md-list>
     </div>
   </ng-template>
 </ng-template>

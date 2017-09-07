@@ -47,7 +47,7 @@ export class ListViewComponent {
       return null;
     }
     
-    return this.alveoService.getListData(list);
+    return this.alveoService.getItems(list);
   }
 
   getDocs(): any {
@@ -56,7 +56,7 @@ export class ListViewComponent {
     }
 
     let items = [];
-    for (let item of this.alveoService.getListItemData(this.activeItem)) {
+    for (let item of this.alveoService.getDocs(this.activeItem)) {
       if (item['type'] == 'audio') {
         items.push(item);
       }
@@ -71,7 +71,7 @@ export class ListViewComponent {
   onItemSelection(item: any): void {
     this.selectedItem = item;
 
-    this.alveoService.getListItemData(item, (data) => {
+    this.alveoService.getDocs(item, (data) => {
       /* Set active only if still selected */
       if (this.selectedItem == item) {
         this.activeItem = item;

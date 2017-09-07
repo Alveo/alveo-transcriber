@@ -39,7 +39,7 @@ export class ItemListsComponent implements OnInit {
     if (!this.isLoggedIn()) {
       this.authService.initiateLogin();
     } else {
-      this.alveoService.getIndex();
+      this.alveoService.getListDirectory();
     }
   }
 
@@ -68,7 +68,7 @@ export class ItemListsComponent implements OnInit {
   }
 
   onSelect(list): void {
-    this.alveoService.getListData(list, (data) => {
+    this.alveoService.getItems(list, (data) => {
       if (data == 403 && !this.authService.isLoggedIn()) {
         this.authService.initiateLogin();
       }

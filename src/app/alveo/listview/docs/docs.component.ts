@@ -9,10 +9,15 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class DocsComponent {
   @Input() docs: any;
   @Input() selection: any;
+  @Input() isLoadingData: boolean;
   @Output() onSelection = new EventEmitter<any>();
 
   getDocs(): any {
     return this.docs;
+  }
+
+  isDownloadingData(): boolean {
+    return this.isLoadingData;
   }
 
   onSelect(item): void {

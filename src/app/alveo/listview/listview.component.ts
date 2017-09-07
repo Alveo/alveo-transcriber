@@ -15,6 +15,8 @@ export class ListViewComponent {
   selectedDoc: any;
   selectedItem: any;
 
+  loadingData: boolean;
+
   activeItem: any;
 
   constructor(
@@ -64,18 +66,24 @@ export class ListViewComponent {
     return items;
   }
 
+  isDownloading(): boolean {
+    return this.loadingData;
+  }
+
   actionBack(): void {
     this.router.navigate(['./itemlists']);
   }
 
   onItemSelection(item: any): void {
     this.selectedItem = item;
+    this.loadingData = true;
 
     this.alveoService.getDocs(item, (data) => {
       /* Set active only if still selected */
       if (this.selectedItem == item) {
         this.activeItem = item;
       }
+      this.loadingData = false;
     })
   }
 

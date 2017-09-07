@@ -19,7 +19,7 @@ const routes: Routes = [
         component: AuthComponent,
       },
       {
-        path: 'itemlists',
+        path: '',
         component: ItemListsComponent,
       },
       {
@@ -34,7 +34,7 @@ const routes: Routes = [
       },
       {
         path: '**',
-        redirectTo: 'itemlists',
+        redirectTo: '',
         pathMatch: 'full',
       },
     ];

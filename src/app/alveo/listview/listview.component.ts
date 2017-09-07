@@ -76,6 +76,8 @@ export class ListViewComponent {
 
   onItemSelection(item: any): void {
     this.selectedItem = item;
+
+    // TODO loadingData promise
     this.loadingData = true;
 
     this.alveoService.getDocs(item, (data) => {
@@ -90,7 +92,7 @@ export class ListViewComponent {
   onDocSelection(doc: any): void {
     this.selectedDoc = doc;
 
-    this.alveoService.getAudioFile(doc['alveo:url'], (data) => {
+    this.alveoService.getAudioFile(doc, (data) => {
       /* Route only if it is still selected */
       if (this.selectedDoc == doc) {
         this.router.navigate(['./annotator']);

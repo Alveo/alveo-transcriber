@@ -117,7 +117,6 @@ export class AlveoService {
     // If list doesn't contain data, pull it
     if (list['_alveott_data'] == undefined) {
       if (this.authService.isLoggedIn()) {
-        // Guard against multiple calls?
         this.pullList(list, false, callback);
       } else {
         if (callback != null) {
@@ -165,16 +164,32 @@ export class AlveoService {
     return item.data['alveo:documents'];
   }
 
-  getAudioFile(url: string, callback=null): any {
-    /* TODO Should check if the audio file is downloaded */
-    this.pullAudioFile(url, callback);
+  getAudioFile(doc: any, callback=null): any {
+    if (doc['_alveott_data'] == undefined) {
+      if (this.authService.isLoggedIn()) {
+        this.pullAudioFile(doc, callback);
+      } else {
+        if (callback != null) {
+          callback(403);
+        }
+      }
+      this.audioData = null;
+      return null;
+    }
+    if (callback != null) {
+      callback(null);
+    }
+
+    this.audioData = doc['_alveott_data'];
+    return doc['_alveott_data'];
   }
 
-  private pullAudioFile(url: string, callback=null) {
+  private pullAudioFile(doc: any, callback=null) {
+    let url = doc['alveo:url'];
     this.apiRequest(url,
       (data) => {
+        doc['_alveott_data'] = data.arrayBuffer();
         this.audioData = data.arrayBuffer();
-        /* TODO Should save the audio file */
 
         if (callback != null) {
           callback(data);

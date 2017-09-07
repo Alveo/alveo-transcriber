@@ -5,11 +5,13 @@
   <div id="controls">
     <p class="fi-volume icon" (click)="this.pause()"></p>
 
-    <div *ngIf="!this.playing()">
-      <p class="fi-play icon" (click)="this.play()"></p>
-    </div> <div *ngIf="this.playing()">
+    <ng-template #playing [ngIf]="this.playing()">
       <p class="fi-pause icon" (click)="this.pause()"></p>
-    </div>
+    </ng-template>
+
+    <ng-template #paused [ngIf]="!this.playing()">
+      <p class="fi-play icon" (click)="this.play()"></p>
+    </ng-template>
 
     <p class="fi-previous icon" (click)="this.pause()"></p> <!-- Next segment -->
     <p class="fi-next icon" (click)="this.pause()"></p> <!-- Prev segment -->

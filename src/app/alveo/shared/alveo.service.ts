@@ -74,6 +74,8 @@ export class AlveoService {
    * 4. Pull any needed files
    */
 
+  /* TODO Promises */
+
   /* Returns all lists associated with the user */
   public getListDirectory(callback=null): any {
     this.pullListDirectory(callback);

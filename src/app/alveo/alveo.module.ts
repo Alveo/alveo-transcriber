@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MdButtonModule, MdCheckboxModule } from '@angular/material';
 
 import { DevConsoleComponent } from './devconsole/devconsole.component';
 
@@ -16,6 +18,8 @@ import { AlveoService } from './shared/alveo.service';
 import { AuthService } from './shared/auth.service';
 import { DBService } from './shared/db.service';
 
+import 'hammerjs';
+
 @NgModule({
   declarations: [
     DevConsoleComponent,
@@ -28,7 +32,10 @@ import { DBService } from './shared/db.service';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     HttpModule,
+    MdButtonModule,
+    MdCheckboxModule,
   ],
   exports: [
     NavComponent,

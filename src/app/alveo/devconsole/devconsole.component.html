@@ -1,9 +1,10 @@
 <div class="control-panel">
   <h3>- Debugging Console -</h3><br>
   <p>Data Controls</p>
-  <p class="button small" (click)="this.getData()">Refresh Data via Alveo</p>
+
+  <button md-raised-button color="primary" (click)="this.getData()">Refresh data via Alveo</button>
   <span class="inline-splitter"></span>
-  <p class="button small" (click)="this.storeData()">Store Data</p>
-  <p class="button small" (click)="this.reset()">Purge Loaded Data</p>
-  <p class="button small" (click)="this.resetStore()">Purge All Data</p>
+  <button md-raised-button color="primary" (click)="this.storeData()">Store Data</button>
+  <button md-raised-button color="primary" (click)="this.reset()">Purge Loaded Data</button>
+  <button md-raised-button color="primary" class="btn-large" (click)="this.resetStore()">Purge All Data</button>
 </div>

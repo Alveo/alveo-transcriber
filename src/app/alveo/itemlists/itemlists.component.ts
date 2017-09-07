@@ -12,6 +12,7 @@ import { AlveoService } from '../shared/alveo.service';
 
 export class ItemListsComponent implements OnInit {
   private loading: boolean = true;
+  private devMode: boolean = true;
 
   constructor(
     public router: Router,
@@ -31,29 +32,16 @@ export class ItemListsComponent implements OnInit {
     return this.loading;
   }
 
+  isLoggedIn(): boolean {
+    return this.authService.isLoggedIn();
+  }
+
+  isDevMode(): boolean {
+    return this.devMode;;
+  }
+
   setLoadingTimeout(interval: number): void {
     setTimeout(()=>this.loading=false, interval);
-  }
-
-  pullData(): void {
-    if (!this.isLoggedIn()) {
-      this.authService.initiateLogin();
-    } else {
-      this.alveoService.getListDirectory();
-    }
-  }
-
-  reset(): void {
-    this.alveoService.reset();
-  }
-
-  resetStore(): void {
-    this.reset();
-    this.alveoService.resetStore();
-  }
-
-  storeData(): void {
-    this.alveoService.storeData();
   }
 
   listSize(): number {
@@ -67,17 +55,17 @@ export class ItemListsComponent implements OnInit {
     return this.alveoService.getLists();
   }
 
+  getData(): void {
+    this.alveoService.getListDirectory();
+  }
+
   onSelect(list): void {
     this.alveoService.getItems(list, (data) => {
-      if (data == 403 && !this.authService.isLoggedIn()) {
+      if (data == 403 && !this.isLoggedIn()) {
         this.authService.initiateLogin();
       }
       this.alveoService.selectedList = list;
       this.router.navigate(['./listview']);
     });
-  }
-
-  isLoggedIn(): boolean {
-    return this.authService.isLoggedIn();
   }
 }

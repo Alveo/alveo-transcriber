@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 
+import { DevConsoleComponent } from './devconsole/devconsole.component';
+
 import { NavComponent } from './nav/nav.component';
 import { AuthComponent } from './auth/auth.component';
 
@@ -16,6 +18,7 @@ import { DBService } from './shared/db.service';
 
 @NgModule({
   declarations: [
+    DevConsoleComponent,
     NavComponent,
     AuthComponent,
     ItemListsComponent,

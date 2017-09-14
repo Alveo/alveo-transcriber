@@ -60,7 +60,7 @@ export class ItemListsComponent implements OnInit {
     this.alveoService.getListDirectory();
   }
 
-  onSelect(list): void {
+  onSelection(list): void {
     this.alveoService.getItems(list, (data) => {
       if (data == 403 && !this.isLoggedIn()) {
         this.authService.initiateLogin();

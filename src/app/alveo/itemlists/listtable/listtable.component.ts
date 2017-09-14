@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { DataSource } from '@angular/cdk/collections';
 import { MdPaginator } from '@angular/material';
@@ -15,6 +15,8 @@ import 'rxjs/add/operator/map';
 
 export class ListTableComponent implements OnInit {
   @Input() tableData: any;
+  @Output() onSelection = new EventEmitter<any>();
+  selection: any;
 
   displayedColumns = ['listName', 'items', 'shared'];
   dataSource: ListDataSource = null;
@@ -24,17 +26,16 @@ export class ListTableComponent implements OnInit {
   ngOnInit(): void {
     this.dataSource = new ListDataSource(this.paginator, this.tableData);
   }
-}
 
-export interface ListData {
-  listName: string;
-  items: number;
-  shared: boolean;
+  onSelect(item): void {
+    this.selection = item;
+    this.onSelection.emit(item);
+  }
 }
 
 export class ListDataSource extends DataSource<any> {
-  dataChange: BehaviorSubject<ListData[]> = new BehaviorSubject<ListData[]>([]);
-  get data(): ListData[] { return this.dataChange.value; }
+  dataChange: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+  get data(): any { return this.dataChange.value; }
 
   constructor(private _paginator: MdPaginator, tableData: any) {
     super();
@@ -46,16 +47,12 @@ export class ListDataSource extends DataSource<any> {
 
   addList(list: any) {
     const copiedData = this.data.slice();
-    copiedData.push({
-      listName: list.name,
-      items: list.num_items,
-      shared: list.shared,
-    });
+    copiedData.push(list);
     this.dataChange.next(copiedData);
   }
 
   /* This is based on the material.angular.io pagination example */
-  connect(): Observable<ListData[]> {
+  connect(): Observable<any[]> {
     const displayDataChanges = [
       this.dataChange,
       this._paginator.page,

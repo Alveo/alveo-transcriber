@@ -35,7 +35,7 @@ import {
   MdToolbarModule,
   MdTooltipModule,
 } from '@angular/material';
-import {CdkTableModule} from '@angular/cdk/table';
+import { CdkTableModule } from '@angular/cdk/table';
 
 import { DevConsoleComponent } from './devconsole/devconsole.component';
 

@@ -110,7 +110,7 @@ export class PlayerComponent implements OnInit {
       container: '#waveform',
       waveColor: 'black',
       progressColor: 'white',
-      height: 200,
+      height: 100,
       controls: true,
       plugins: [
         MinimapPlugin.create(),

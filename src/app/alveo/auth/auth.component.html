@@ -1,7 +1,21 @@
-<div class="center">
+<div id="overlay">
+  <div class="fixed">
+    <div id="dialogue">
+      <h1 class="mat-h1 center">Authentication Required</h1>
+      <div *ngIf="this.isFirstRun(); then authRequiredFirstRun else authRequired"> </div>
+      <div class="center">
+        <button md-raised-button id="login-button" color="primary" (click)="this.actionLogin()">Login via Alveo</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #authRequiredFirstRun>
   <h2 class="mat-h2">Welcome. This is the Alveo Transcription Tool, a web-based annotation tool. Before you begin, you require some data. In order to get some, it is best to register an Alveo account <a href="http://alveo.edu.au/">here</a>.</h2>
 
   <h2 class="mat-h2">Already have an account? Then you're just one step away!</h2>
+</ng-template>
 
-  <button md-raised-button id="login-button" color="primary" (click)="this.actionLogin()">Login via Alveo</button>
-</div>
+<ng-template #authRequired>
+  <h2 class="mat-h2">This data has not been downloaded yet but an active connection has been detected. Please login to Alveo in order to continue.</h2>
+</ng-template>

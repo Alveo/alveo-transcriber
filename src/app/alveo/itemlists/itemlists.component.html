@@ -2,7 +2,7 @@
 
   <ng-template #emptyListCheckTemplate [ngIf]="this.listSize() == 0" [ngIfElse]="populatedListTemplate">
     <ng-template #notLoggedInTemplate [ngIf]="!this.isLoggedIn()">
-      <auth></auth>
+      <auth firstRun="true"></auth>
     </ng-template>
     <ng-template #loggedInTemplate [ngIf]="this.isLoggedIn()">
       <div *ngIf="this.isLoggedIn()" class="center">

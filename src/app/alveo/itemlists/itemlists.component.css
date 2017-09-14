@@ -24,3 +24,8 @@ h2 {
   background: #555555;
   color: #DDDDDD;
 }
+
+#download-button {
+  font-size: 1.5em;
+  padding: 0.25em 0.5em 0.25em 0.5em;
+}

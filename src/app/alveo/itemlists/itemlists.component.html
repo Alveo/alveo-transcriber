@@ -1,5 +1,4 @@
 <ng-template #documentReadyTemplate [ngIf]="!this.isLoading()">
-
   <ng-template #emptyListCheckTemplate [ngIf]="this.listSize() == 0" [ngIfElse]="populatedListTemplate">
     <ng-template #notLoggedInTemplate [ngIf]="!this.isLoggedIn()">
       <auth firstRun="true"></auth>
@@ -19,14 +18,8 @@
       </ng-template>
 
       <h2>Your item lists</h2>
-      <md-list>
-        <h3 mdSubheader>Your Lists</h3>
-        <md-list-item *ngFor="let list of this.getLists()" (click)="onSelect(list)">
-          <h4 mdLine>{{list.name}}</h4>
-          <p mdLine>Items ({{list.num_items}})</p>
-        </md-list-item>
-        <h3 mdSubheader>Shared Lists</h3>
-      </md-list>
+
+      <listtable [tableData]="this.getLists()"></listtable>
     </div>
   </ng-template>
 </ng-template>

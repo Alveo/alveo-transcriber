@@ -44,7 +44,6 @@ export class ListDataSource extends DataSource<any> {
     }
   }
 
-  /** Adds a new user to the database. */
   addList(list: any) {
     const copiedData = this.data.slice();
     copiedData.push({
@@ -55,7 +54,7 @@ export class ListDataSource extends DataSource<any> {
     this.dataChange.next(copiedData);
   }
 
-  /** Connect function called by the table to retrieve one stream containing the data to render. */
+  /* This is based on the material.angular.io pagination example */
   connect(): Observable<ListData[]> {
     const displayDataChanges = [
       this.dataChange,
@@ -65,7 +64,6 @@ export class ListDataSource extends DataSource<any> {
     return Observable.merge(...displayDataChanges).map(() => {
       const data = this.data.slice();
 
-      // Grab the page's slice of data.
       const startIndex = this._paginator.pageIndex * this._paginator.pageSize;
       return data.splice(startIndex, this._paginator.pageSize);
     });
@@ -73,4 +71,3 @@ export class ListDataSource extends DataSource<any> {
 
   disconnect() {}
 }
-

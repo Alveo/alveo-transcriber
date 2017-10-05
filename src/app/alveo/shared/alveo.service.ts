@@ -84,7 +84,7 @@ export class AlveoService {
   /* Pulls all lists associated with the user */
   private pullListDirectory(callback=null): void { 
     // Pulls an array of all the lists from Alveo
-    this.apiRequest(this.authService.baseURL + '/item_lists',
+    this.apiRequest(this.authService.baseURL + '/item_lists.json',
       (data) => {
         let lists = [];
         lists = lists.concat(data.json().own);

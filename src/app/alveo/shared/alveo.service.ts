@@ -21,7 +21,7 @@ export class AlveoService {
     this.dbService.get('lists').then(result => this.lists = result.lists, error => {});
   }
 
-  apiRequest(url, successCallback, file=false): void {
+  apiRequest(url, successCallback, errorCallback=null, file=false): void {
     if (!this.authService.isLoggedIn())
       return;
 
@@ -32,10 +32,13 @@ export class AlveoService {
     if (file)
       options.responseType = ResponseContentType.ArrayBuffer;
 
+    if (errorCallback == null)
+      errorCallback = ErrorHandler;
+
     console.log("Made request to "+url);
     this.http.get(url, options)
                 .subscribe(data => successCallback(data),
-                           error => ErrorHandler(error, this));
+                           error => errorCallback(error, this));
   }
 
   /* TODO Move all of these elsewhere */
@@ -197,6 +200,6 @@ export class AlveoService {
           callback(data);
         }
       },
-    true);
+    undefined, true);
   }
 }

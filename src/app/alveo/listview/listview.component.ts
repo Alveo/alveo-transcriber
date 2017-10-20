@@ -93,6 +93,9 @@ export class ListViewComponent {
     this.selectedDoc = doc;
 
     this.alveoService.getAudioFile(doc, (data) => {
+      /* Query the segmentor service */
+      /* TODO don't redirect on error */
+
       /* Route only if it is still selected */
       if (this.selectedDoc == doc) {
         this.router.navigate(['./annotator']);

@@ -4,7 +4,7 @@
       <h1 class="mat-h1 center">Authentication Required</h1>
       <div *ngIf="this.isFirstRun(); then authRequiredFirstRun else authRequired"> </div>
       <div class="center">
-        <button md-raised-button id="login-button" color="primary" (click)="this.actionLogin()">Login via Alveo</button>
+        <button mat-raised-button id="login-button" color="primary" (click)="this.actionLogin()">Login via Alveo</button>
       </div>
     </div>
   </div>

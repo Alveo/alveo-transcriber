@@ -2,10 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import {
-  MdButtonModule,
-  MdCoreModule,
-} from '@angular/material';
+import { MatButtonModule } from '@angular/material';
 
 import { AnnotatorComponent } from './annotator.component';
 import { PlayerComponent } from './player/player.component';
@@ -29,7 +26,7 @@ import { PlayerControlService } from './shared/player-control.service';
   imports: [
     BrowserModule,
     FormsModule,
-    MdButtonModule,
+    MatButtonModule,
   ],
   exports: [
     AnnotatorComponent,

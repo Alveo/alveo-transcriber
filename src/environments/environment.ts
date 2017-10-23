@@ -7,7 +7,7 @@ export const environment = {
   production: false,
 
   baseURL: "https://staging.alveo.edu.au",
-  loginURL: this.baseURL+"/oauth/authorize",
+  loginURL: "https://staging.alveo.edu.au/oauth/authorize",
 
   // Internal Binding
   //clientID: "5f891b901fd60f3c0dd3b81a2376491b6cb092b4de77bdc2d7c49362e8d3d02b";

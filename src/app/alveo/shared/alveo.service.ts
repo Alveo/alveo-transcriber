@@ -21,7 +21,12 @@ export class AlveoService {
     this.dbService.get('lists').then(result => this.lists = result.lists, error => {});
   }
 
-  apiRequest(url, successCallback, errorCallback=null, file=false): void {
+  apiErrorHandler() {
+    // 401 - unauthorized?
+    // not found
+  }
+
+  private apiRequest(url, successCallback, errorCallback=null, file=false): void {
     if (!this.authService.isLoggedIn())
       return;
 
@@ -94,7 +99,7 @@ export class AlveoService {
         lists = lists.concat(data.json().shared);
 
         this.lists = lists;
-        
+
         if (callback != null) {
           callback(data);
         }
@@ -145,13 +150,26 @@ export class AlveoService {
 
   /* Pulls and populates an item entry */
   private pullItem(item: any, chainload=false, callback=null): void {
-     this.apiRequest(item.url, (data) => {
-       item['data'] = data.json();
+    item['alveott_download'] = true;
+    this.apiRequest(item.url, (data) => {
+      item['data'] = data.json();
 
-       if (callback != null) {
-         callback(data);
-       }
-     });
+      if (callback != null) {
+        callback(data);
+      }
+      item['alveott_download'] = false;
+    });
+  }
+
+  /* Determines whether an item has been downloaded */
+  public getItemStatus(item: any): any {
+    if (item['data'] == undefined) {
+      if (item['alveott_download'] == true) {
+        return "Downloading";
+      }
+      return "Ready to download";
+    } 
+    return "Cached";
   }
 
   /* Returns documents list if available, else fetches it */

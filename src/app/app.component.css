@@ -1,17 +1,3 @@
-:host {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-footer {
-  margin-bottom: 0.3em;
-  color: #BBBBBB;
-  font-size: 12px;
-  text-align: center;
-  flex: 0 0 auto;
-}
-
-.flex {
-  flex: 1 1 80%;
+h1 {
+  padding: 0.3em;
 }

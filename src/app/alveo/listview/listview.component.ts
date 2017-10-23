@@ -13,9 +13,6 @@ export class ListViewComponent {
   @Input() items: any;
 
   selectedDoc: any;
-  selectedItem: any;
-
-  loadingData: boolean;
 
   activeItem: any;
 
@@ -52,41 +49,33 @@ export class ListViewComponent {
     return this.alveoService.getItems(list);
   }
 
-  getDocs(): any {
-    if (this.activeItem == null) {
+  getDocs(item: any): any {
+    if (item == null) {
       return null;
     }
 
-    let items = [];
-    for (let item of this.alveoService.getDocs(this.activeItem)) {
-      if (item['type'] == 'audio') {
-        items.push(item);
+    let docs = [];
+    for (let doc of this.alveoService.getDocs(item)) {
+      if (doc['type'] == 'audio') {
+        docs.push(doc);
       }
     }
-    return items;
+    return docs;
   }
 
-  isDownloading(): boolean {
-    return this.loadingData;
+  shorten(url: string): string {
+    return url.split("/catalog/")[1];
   }
 
   actionBack(): void {
     this.router.navigate(['./itemlists']);
   }
 
+  getItemStatus(item: any): string {
+    return this.alveoService.getItemStatus(item);
+  }
   onItemSelection(item: any): void {
-    this.selectedItem = item;
-
-    // TODO loadingData promise
-    this.loadingData = true;
-
-    this.alveoService.getDocs(item, (data) => {
-      /* Set active only if still selected */
-      if (this.selectedItem == item) {
-        this.activeItem = item;
-      }
-      this.loadingData = false;
-    })
+    this.alveoService.getDocs(item)
   }
 
   onDocSelection(doc: any): void {

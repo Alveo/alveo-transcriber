@@ -5,23 +5,12 @@
 }
 
 #divider {
-  display: flex;
-  max-width: 32em;
+  max-width: 30em;
   margin: auto;
-  min-width: 25em;
-}
-
-#left {
-  flex: 1 1 18%;
-  max-width: 14em;
 }
 
 #right {
-  flex: 1 1 auto;
-}
-
-#floater {
-  position: fixed;
+  display: none;
 }
 
 #back-button {

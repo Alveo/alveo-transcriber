@@ -3,13 +3,35 @@
 </div>
 
 <div id="subheader">Viewing "{{this.getListName()}}" item list</div>
-<div id="divider">
-  <div id="left">
-    <items [items]="this.getItems()" (onSelection)="onItemSelection($event)"></items>
+
+<ng-template #dataDownloadTemplate [ngIf]="this.getItems() == null" [ngIfElse]="listEmptyCheckTemplate">
+  <!-- Through the application workflow, it is assumed this component shouldn't even be activated if there is no data. It is a safeguard in the event it is being downloaded. -->
+  <p class="center">Item list data is currently unavailable.</p>
+</ng-template>
+
+<ng-template #listEmptyCheckTemplate>
+  <div *ngIf="this.getItems().length == 0; else listDisplayTemplate">
+    <!-- It is normally assumed that a list can't be empty but the safeguard exists should that change later. -->
+    <p class="center">This item list is empty.</p>
   </div>
-  <div id="right">
-    <div id="floater">
-      <docs [docs]="this.getDocs()" [isLoadingData]="this.isDownloading()" (onSelection)="onDocSelection($event)"></docs>
-    </div>
+</ng-template>
+
+
+<ng-template #listDisplayTemplate>
+  <div *ngIf="this.getItems().length > 0">
+   <mat-expansion-panel *ngFor="let item of this.getItems()" (click)="onItemSelection(item)">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{this.shorten(item.url)}}
+        </mat-panel-title>
+        <mat-panel-description>
+          {{this.getItemStatus(item)}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <div *ngIf="alveoService.getItemStatus(item) == 'Cached'">
+        <docs [docs]="this.getDocs(item)" (onSelection)="onDocSelection($event)"></docs>
+      </div>
+    </mat-expansion-panel>
   </div>
-</div>
+</ng-template>

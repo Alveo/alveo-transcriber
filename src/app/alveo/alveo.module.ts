@@ -44,7 +44,6 @@ import { AuthComponent } from './auth/auth.component';
 import { ItemListsComponent } from './itemlists/itemlists.component';
 import { ListTableComponent } from './itemlists/listtable/listtable.component';
 
-import { ItemsComponent } from './listview/items/items.component';
 import { ListViewComponent } from './listview/listview.component';
 import { DocsComponent } from './listview/docs/docs.component';
 
@@ -60,7 +59,6 @@ import 'hammerjs';
     NavComponent,
     AuthComponent,
     ItemListsComponent,
-    ItemsComponent,
     ListViewComponent,
     DocsComponent,
     ListTableComponent,

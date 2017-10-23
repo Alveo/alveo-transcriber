@@ -18,7 +18,7 @@
       <div class="item" *ngFor="let item of this.items"
                         (click)="onSelect(item)"
                         [class.selected]="item===this.selected_item">
-        <p class="name">{{item.url}}</p>
+        <p class="name">{{this.shorten(item.url)}}</p>
       </div>
     </div>
   </ng-template>

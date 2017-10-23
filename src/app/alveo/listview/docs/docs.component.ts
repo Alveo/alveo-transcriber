@@ -24,4 +24,8 @@ export class DocsComponent {
     this.selection = item;
     this.onSelection.emit(item);
   }
+
+  shorten(url): string {
+    return url.split("/document/")[1];
+  }
 }

@@ -18,7 +18,7 @@
   <ng-template #audioDisplayTemplate>
     <p>Audio documents in selected list</p>
     <div class="doc" *ngFor="let doc of this.getDocs()" (click)="onSelect(doc)">
-      <p class="name">{{doc['alveo:url']}}</p>
+      <p class="name">{{this.shorten(doc['alveo:url'])}}</p>
     </div>
   </ng-template>
 </div>

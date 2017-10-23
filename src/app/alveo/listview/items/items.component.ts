@@ -19,4 +19,8 @@ export class ItemsComponent {
     this.selection = item;
     this.onSelection.emit(item);
   }
+
+  shorten(url: string): string {
+    return url.split("/catalog/")[1];
+  }
 }

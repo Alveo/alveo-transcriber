@@ -1,5 +1,5 @@
 export const environment = {
-  production: true
+  production: true,
 
   baseURL: "https://www.alveo.edu.au",
   loginURL: this.baseURL+"/oauth/authorize",

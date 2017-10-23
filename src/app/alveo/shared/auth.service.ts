@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 
 import { ErrorHandler } from './http-errors'
 
+import { environment } from '../../../environments/environment';
+
 @Injectable()
 export class AuthService {
   loggedIn = false;

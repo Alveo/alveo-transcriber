@@ -4,13 +4,13 @@
   text-align: center;
 }
 
-#divider {
-  max-width: 30em;
+#item-display {
+  max-width: 32em;
   margin: auto;
 }
-
-#right {
-  display: none;
+.mat-expansion-panel-header-description {
+  text-align: right;
+  display: block;
 }
 
 #back-button {

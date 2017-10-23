@@ -18,7 +18,7 @@
 
 
 <ng-template #listDisplayTemplate>
-  <div *ngIf="this.getItems().length > 0">
+  <div id="item-display" *ngIf="this.getItems().length > 0">
    <mat-expansion-panel *ngFor="let item of this.getItems()" (click)="onItemSelection(item)">
       <mat-expansion-panel-header>
         <mat-panel-title>

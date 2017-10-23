@@ -6,15 +6,18 @@
 
 #divider {
   display: flex;
-  border-top: 1px solid #555555;
-  height: 100%;
+  max-width: 32em;
+  margin: auto;
 }
 
 #left {
-  flex: 0 0 35%;
-  border-right: 1px solid #555555;
+  flex: 0 0 18%;
 }
 
 #right {
   flex: 1 1 auto;
+}
+
+#floater {
+  position: fixed;
 }

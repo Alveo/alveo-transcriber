@@ -1,24 +1,22 @@
-<div class="center">
-  <ng-template #dataDownloadTemplate [ngIf]="this.isDownloadingData()" [ngIfElse]="selectionWaitTemplate">
-    <p>Downloading data ...</p>
-  </ng-template>
+<ng-template #dataDownloadTemplate [ngIf]="this.isDownloadingData()" [ngIfElse]="selectionWaitTemplate">
+  <p class="center">Downloading data ...</p>
+</ng-template>
 
-  <ng-template #selectionWaitTemplate>
-    <div *ngIf="this.getDocs() == null; else audioCheckTemplate">
-      <p>Please select an item.</p>
-    </div>
-  </ng-template>
+<ng-template #selectionWaitTemplate>
+  <div *ngIf="this.getDocs() == null; else audioCheckTemplate">
+    <p class="center">Please select an item.</p>
+  </div>
+</ng-template>
 
-  <ng-template #audioCheckTemplate>
-    <div *ngIf="this.getDocs().length == 0; else audioDisplayTemplate">
-      <p>No audio documents were found in this item.</p>
-    </div>
-  </ng-template>
+<ng-template #audioCheckTemplate>
+  <div *ngIf="this.getDocs().length == 0; else audioDisplayTemplate">
+    <p class="center">No audio documents were found in this item.</p>
+  </div>
+</ng-template>
 
-  <ng-template #audioDisplayTemplate>
-    <p>Audio documents in selected list</p>
-    <div class="doc" *ngFor="let doc of this.getDocs()" (click)="onSelect(doc)">
-      <p class="name">{{this.shorten(doc['alveo:url'])}}</p>
-    </div>
-  </ng-template>
-</div>
+<ng-template #audioDisplayTemplate>
+  <p class="center">Audio documents in selected list</p>
+  <div class="doc" *ngFor="let doc of this.getDocs()" (click)="onSelect(doc)">
+    <p class="name">{{this.shorten(doc['alveo:url'])}}</p>
+  </div>
+</ng-template>

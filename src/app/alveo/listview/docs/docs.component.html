@@ -15,7 +15,6 @@
 </ng-template>
 
 <ng-template #audioDisplayTemplate>
-  <div class="doc" *ngFor="let doc of this.getDocs()" (click)="onSelect(doc)">
-    <p class="name">{{this.shorten(doc['alveo:url'])}}</p>
-  </div>
+  <button mat-raised-button *ngFor="let doc of this.getDocs()" (click)="onSelect(doc)"
+              color="primary">{{this.shorten(doc['alveo:url'])}}</button>
 </ng-template>

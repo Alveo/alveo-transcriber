@@ -1,11 +1,9 @@
-.doc {
-  padding: 0.7em;
-  margin: 0.3em;
-  background: #555555;
-  color: #FFFFFF;
+button {
+  width: 100%;
+  text-align: left;
+  border-radius: 0;
+  margin-bottom: 0.1em;
 }
-
-.doc:hover {
-  background: #444444;
-  cursor: pointer;
+button:hover {
+  opacity: 0.6;
 }

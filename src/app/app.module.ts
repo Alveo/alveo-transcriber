@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 
 import { AnnotatorModule } from './annotator/annotator.module';
 import { AlveoModule } from './alveo/alveo.module';
-import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 
@@ -15,7 +14,6 @@ import { MonitorService } from './shared/monitor.service';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     AnnotatorModule,
     AlveoModule,
   ],

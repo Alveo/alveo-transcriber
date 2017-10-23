@@ -1,17 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-//import { AlveoModule } from './alveo/alveo.module';
-//import { AnnotatorModule } from './annotator/annotator.module';
+import { AuthComponent } from './auth/auth.component';
+import { ItemListsComponent } from './itemlists/itemlists.component';
+import { ListViewComponent } from './listview/listview.component';
+import { AnnotatorComponent } from '../annotator/annotator.component';
 
-// Should be a better way to import these
-import { AuthComponent } from './alveo/auth/auth.component';
-import { ItemListsComponent } from './alveo/itemlists/itemlists.component';
-import { ListViewComponent } from './alveo/listview/listview.component';
-import { AnnotatorComponent } from './annotator/annotator.component';
-
-import { RequiresSelectionGuard } from './alveo/shared/requires-selection.guard';
-import { RequiresAuthGuard } from './alveo/shared/requires-auth.guard';
+import { RequiresSelectionGuard } from './shared/requires-selection.guard';
+import { RequiresAuthGuard } from './shared/requires-auth.guard';
 
 const routes: Routes = [
       {
@@ -48,4 +44,4 @@ const routes: Routes = [
   ]
 })
 
-export class AppRoutingModule {}
+export class AlveoRoutingModule {}

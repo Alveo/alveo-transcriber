@@ -38,6 +38,9 @@ import { CdkTableModule } from '@angular/cdk/table';
 
 import { DevConsoleComponent } from './devconsole/devconsole.component';
 
+import { AlveoComponent } from './alveo.component';
+
+import { AlveoRoutingModule } from './routing.module';
 import { NavComponent } from './nav/nav.component';
 import { AuthComponent } from './auth/auth.component';
 
@@ -55,6 +58,7 @@ import 'hammerjs';
 
 @NgModule({
   declarations: [
+    AlveoComponent,
     DevConsoleComponent,
     NavComponent,
     AuthComponent,
@@ -67,6 +71,8 @@ import 'hammerjs';
     BrowserModule,
     BrowserAnimationsModule,
     HttpModule,
+
+    AlveoRoutingModule,
 
     CdkTableModule,
     MatAutocompleteModule,
@@ -101,6 +107,7 @@ import 'hammerjs';
     MatTooltipModule,
   ],
   exports: [
+    AlveoComponent,
     NavComponent,
     AuthComponent,
     ItemListsComponent,

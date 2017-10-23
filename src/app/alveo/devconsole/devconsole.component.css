@@ -1,8 +1,11 @@
 .control-panel {
   background: #EEEEEE;
   border: 1px solid #555555;
-  width: 540px;
+  max-width: 540px;
   margin: auto;
   padding: 1em;
 }
 
+button {
+  margin-top: 0.25em;
+}

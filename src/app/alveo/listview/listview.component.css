@@ -1,5 +1,5 @@
 #subheader {
-  padding: 1em 0 0.3em 0;
+  padding: 0 0 0.3em 0;
   font-size: 34px;
   text-align: center;
 }
@@ -8,10 +8,12 @@
   display: flex;
   max-width: 32em;
   margin: auto;
+  min-width: 25em;
 }
 
 #left {
-  flex: 0 0 18%;
+  flex: 1 1 18%;
+  max-width: 14em;
 }
 
 #right {
@@ -20,4 +22,9 @@
 
 #floater {
   position: fixed;
+}
+
+#back-button {
+  font-size: 1.25em;
+  margin: 0.25em;
 }

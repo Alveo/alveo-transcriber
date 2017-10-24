@@ -1,30 +1,21 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Inject, Input, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material';
 
 import { AuthService } from '../shared/auth.service';
 
 @Component({
-  selector: 'auth',
-  templateUrl: './auth.component.html',
-  styleUrls: ['./auth.component.css'],
+  selector: 'auth-callback',
+  template: '',
 })
-
-export class AuthComponent implements OnInit, OnDestroy {
+export class OAuthCallbackComponent implements OnInit, OnDestroy {
   param_sub: any;
-  @Input() firstRun: boolean = false;
 
   constructor(
     public route: ActivatedRoute,
     public router: Router,
-    public authService: AuthService) { }
-
-  isFirstRun(): boolean {
-    return this.firstRun;
-  }
-
-  actionLogin(): void {
-    this.authService.initiateLogin();
-  }
+    public authService: AuthService,
+  ) { }
 
   ngOnInit() {
     this.param_sub = this.route.queryParams.subscribe(params => {
@@ -39,5 +30,26 @@ export class AuthComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.param_sub.unsubscribe();
+  }
+}
+
+@Component({
+  selector: 'auth',
+  templateUrl: './auth.component.html',
+  styleUrls: ['./auth.component.css'],
+})
+export class AuthComponent {
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public authService: AuthService,
+    public dialog: MatDialog
+  ) { }
+
+  isFirstRun(): boolean {
+    return this.data.firstRun;
+  }
+
+  actionLogin(): void {
+    this.authService.initiateLogin();
   }
 }

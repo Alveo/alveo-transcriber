@@ -43,6 +43,7 @@ import { AlveoComponent } from './alveo.component';
 import { AlveoRoutingModule } from './routing.module';
 import { NavComponent } from './nav/nav.component';
 import { AuthComponent } from './auth/auth.component';
+import { OAuthCallbackComponent } from './auth/auth.component';
 
 import { ItemListsComponent } from './itemlists/itemlists.component';
 import { ListTableComponent } from './itemlists/listtable/listtable.component';
@@ -62,10 +63,14 @@ import 'hammerjs';
     DevConsoleComponent,
     NavComponent,
     AuthComponent,
+    OAuthCallbackComponent,
     ItemListsComponent,
     ListViewComponent,
     DocsComponent,
     ListTableComponent,
+  ],
+  entryComponents: [
+    AuthComponent,
   ],
   imports: [
     BrowserModule,

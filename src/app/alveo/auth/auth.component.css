@@ -1,36 +1,15 @@
-#overlay {
-  z-index: 10;
-
-  position: absolute;
-  background: rgba(0, 0, 0, 0.5);
-
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+#title {
+  text-align: center;
+  font-size: 2em;
 }
 
-.fixed {
-  display: flex;
-  height: 100%;
-}
-
-#dialogue {
-  flex: 1 1 100%;
+#dialog {
+  max-width: 45em;
+  padding: 0 1.25em;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
-  width: 80%;
-  margin: auto;
-
-  max-width: 50em;
-
-  padding: 1.5em;
-
-  background: #f9f9f9;
-  border: 0.1625em solid #d4d4d4;
 }
 
 #login-button {

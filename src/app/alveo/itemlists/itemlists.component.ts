@@ -1,9 +1,13 @@
 import { Component, OnInit, } from '@angular/core';
+import { MatDialog } from '@angular/material';
+import { AuthComponent } from '../auth/auth.component';
 
 import { Router } from '@angular/router';
 
 import { AuthService } from '../shared/auth.service';
 import { AlveoService } from '../shared/alveo.service';
+
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'itemlists',
@@ -13,19 +17,32 @@ import { AlveoService } from '../shared/alveo.service';
 
 export class ItemListsComponent implements OnInit {
   private loading: boolean = true;
-  private devMode: boolean = true;
 
   constructor(
     public router: Router,
     public authService: AuthService,
-    public alveoService: AlveoService) {
+    public alveoService: AlveoService,
+    public dialog: MatDialog
+  ) { }
+
+  isDevMode(): boolean {
+    return !environment.production;
   }
 
   ngOnInit(): void {
     if (this.isLoggedIn()) {
       this.loading = false;
     } else {
-      this.setLoadingTimeout(1000); // Give the DB time to load, could later implement a check up the chain
+      setTimeout(()=>{
+        if (this.listSize() == 0) {
+          console.log(this.listSize())
+          this.dialog.open(AuthComponent, {
+            disableClose: true,
+            data: {firstRun: true}}
+          );
+        }
+      }, 1000);
+      setTimeout(()=>this.loading=false, 1000); // Allow DB time to load
     }
   }
 
@@ -35,14 +52,6 @@ export class ItemListsComponent implements OnInit {
 
   isLoggedIn(): boolean {
     return this.authService.isLoggedIn();
-  }
-
-  isDevMode(): boolean {
-    return this.devMode;;
-  }
-
-  setLoadingTimeout(interval: number): void {
-    setTimeout(()=>this.loading=false, interval);
   }
 
   listSize(): number {
@@ -63,10 +72,14 @@ export class ItemListsComponent implements OnInit {
   onSelection(list): void {
     this.alveoService.getItems(list, (data) => {
       if (data == 403 && !this.isLoggedIn()) {
-        this.authService.initiateLogin();
+        this.dialog.open(AuthComponent, {
+          disableClose: false,
+          data: {firstRun: false}}
+        );
+      } else {
+        this.alveoService.selectedList = list;
+        this.router.navigate(['./listview']);
       }
-      this.alveoService.selectedList = list;
-      this.router.navigate(['./listview']);
     });
   }
 }

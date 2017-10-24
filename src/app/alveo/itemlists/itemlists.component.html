@@ -1,10 +1,7 @@
 <ng-template #documentReadyTemplate [ngIf]="!this.isLoading()">
   <ng-template #emptyListCheckTemplate [ngIf]="this.listSize() == 0" [ngIfElse]="populatedListTemplate">
-    <ng-template #notLoggedInTemplate [ngIf]="!this.isLoggedIn()">
-      <auth firstRun="true"></auth>
-    </ng-template>
     <ng-template #loggedInTemplate [ngIf]="this.isLoggedIn()">
-      <div id="data-information" *ngIf="this.isLoggedIn()" class="center">
+      <div id="data-information" class="center">
         <p class="info-text bottom-spacer">Great! You're all logged in. Now you need to choose a source of data to load. Right now, there is only the Alveo provider. Click it to begin.</p>
         <button mat-raised-button color="primary" id="download-button" (click)="this.getData()">Download Alveo Data</button>
       </div>

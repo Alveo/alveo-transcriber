@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 
 export class Annotation {
   start: number;
@@ -17,18 +17,24 @@ export class Annotation {
 
 @Injectable()
 export class AnnotatorService {
+  annotationsEvent:EventEmitter<any> = new EventEmitter();
+
   audioFile: any;
   audioFileName: string;
   audioFileURL: string;
   annotations: any;
 
   getAnnotations(): any {
-    //return this.annotations;
-    let a = [
-      new Annotation(0.00, 3.20, "Test", "Test"),
-      new Annotation(4.00, 8.20, "Test", "Test")
-    ];
-    return a;
+    return this.annotations;
+  }
+
+  rebuild(segments: any): void {
+    this.annotations = [];
+    for (let segment of segments) {
+      this.annotations.push(new Annotation(segment.start, segment.end, "", ""));
+    }
+    console.log(this.annotations);
+    this.annotationsEvent.emit("rebuild");
   }
 
   getAudioFile(): any {

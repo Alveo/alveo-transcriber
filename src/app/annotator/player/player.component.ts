@@ -129,6 +129,11 @@ export class PlayerComponent implements OnInit {
     this.player.on('ready', () => {
       this.loadRegions();
       this.player.zoom(30);
+      this.player.enableDragSelection({
+          color: 'rgba(0, 255, 0, 0.2)',
+          loop: true
+      });
+
       (slider as HTMLInputElement).value = this.player.params.minPxPerSec;
     });
 

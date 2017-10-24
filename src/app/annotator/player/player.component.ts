@@ -91,7 +91,7 @@ export class PlayerComponent implements OnInit {
 
   loadRegions(): void {
     this.annotations.forEach((segment) => {
-      console.log("region add");
+      console.log("region add"); // this.wrapper is null occurs on large files without this line
 
       this.player.addRegion({
         start: segment.start,

@@ -1,3 +1,5 @@
+import { CsvService } from "angular2-json2csv";
+
 import { Injectable, EventEmitter } from '@angular/core';
 
 export class Annotation {
@@ -24,6 +26,8 @@ export class AnnotatorService {
   audioFileURL: string;
   annotations: any;
 
+  constructor(public csvService: CsvService) {}
+
   getAnnotations(): any {
     return this.annotations;
   }
@@ -35,6 +39,14 @@ export class AnnotatorService {
     }
     console.log(this.annotations);
     this.annotationsEvent.emit("rebuild");
+  }
+
+  dumpCSV(): string {
+    return this.csvService.ConvertToCSV(this.dumpJSON());
+  }
+
+  dumpJSON(): string {
+    return JSON.stringify(this.annotations, null, 2);
   }
 
   getAudioFile(): any {

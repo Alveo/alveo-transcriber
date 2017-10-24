@@ -1,9 +1,9 @@
 <h1 id="title" mat-dialog-title>Authentication required</h1>
 <div id="dialog" mat-dialog-content>
-      <div *ngIf="this.isFirstRun(); then authRequiredFirstRun else authRequired"> </div>
-      <div class="center">
-        <button mat-raised-button id="login-button" color="primary" (click)="this.actionLogin()">Login via Alveo</button>
-      </div>
+  <div *ngIf="this.isFirstRun(); then authRequiredFirstRun else authRequired"> </div>
+  <div class="center">
+    <button mat-raised-button id="login-button" color="primary" (click)="this.actionLogin()">Login via Alveo</button>
+  </div>
 </div>
 
 <ng-template #authRequiredFirstRun>

@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { MatDialog } from '@angular/material';
+
+import { Dialog } from './dialog/dialog.component';
+
 import { AnnotatorService } from './shared/annotator.service';
 import { SegmentorService } from './shared/segmentor.service';
 
@@ -12,6 +16,7 @@ import { SegmentorService } from './shared/segmentor.service';
 
 export class AnnotatorComponent {
   constructor(
+    public dialog: MatDialog,
     public router: Router,
     public segService: SegmentorService,
     public annotatorService: AnnotatorService,
@@ -22,12 +27,16 @@ export class AnnotatorComponent {
   }
 
   downloadFile(url, filename): void {
+    // Create named DL
     let anchor = document.createElement("a");
     anchor.download = filename;
-    console.log(anchor.download);
     anchor.href = url;
+
+    // Begin download
     window.document.body.appendChild(anchor);
     anchor.click();
+
+    // Cleanup
     window.document.body.removeChild(anchor);
     URL.revokeObjectURL(url);
   }
@@ -50,12 +59,22 @@ export class AnnotatorComponent {
     this.downloadFile(url, this.annotatorService.getAudioFileName() + ".json");
   }
 
+  dialogOpen(title: string, text: string): any {
+    return this.dialog.open(Dialog, {data: {title: title, text: text}});
+  }
+
   actionSegment(): void {
-    this.segService.segment(this.getAudioFileURL(),
-      (data) => {
-        this.annotatorService.rebuild(data.json());
+    let dialogStatus = this.dialogOpen("Warning", "Using the segmentor service will erase all regions/annotations and replace them with ones from an automatic segmentor. Deletion may be permanent. Do you wish to proceed?");
+    dialogStatus.afterClosed().subscribe(result => {
+      console.log(result);
+      if (result == true) {
+        this.segService.segment(this.getAudioFileURL(),
+          (data) => {
+            this.annotatorService.rebuild(data.json());
+          }
+        );
       }
-    );
+    });
   }
 
   getSelectedAnnotation(): any {

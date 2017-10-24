@@ -1,8 +1,11 @@
 <div id="controller">
   <div id="controller-float">
     <div id="top-halign">
-      <button md-raised-button color="primary" id="return-button" (click)="this.actionBack()">Exit</button>
       <p id="header">Transcribing: {{ this.getAudioFileName() }}</p>
+      <button mat-raised-button color="primary" id="return-button" (click)="this.actionBack()">Exit</button>
+      <button mat-raised-button color="primary" id="return-button" (click)="this.actionBack()">Autosegment</button>
+      <button mat-raised-button color="primary" id="return-button" (click)="this.actionBack()">Export CSV</button>
+      <button mat-raised-button color="primary" id="return-button" (click)="this.actionBack()">Export JSON</button>
     </div>
 
     <player [clip]="this.getAudioFile()" [annotations]="this.getAnnotations()"></player>

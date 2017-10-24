@@ -7,9 +7,16 @@
   margin: auto;
 }
 
+button {
+  margin: 0.2em;
+}
+
 #top-halign {
   display: flex;
   padding-bottom: 0.6rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  flex-align: center;
 }
 
 #header {
@@ -22,9 +29,4 @@
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-}
-
-#return-button {
-  flex: 0 0 auto;
-  font-size: 18px;
 }

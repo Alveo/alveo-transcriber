@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AuthComponent } from './auth/auth.component';
+import { OAuthCallbackComponent } from './auth/auth.component';
 import { ItemListsComponent } from './itemlists/itemlists.component';
 import { ListViewComponent } from './listview/listview.component';
 import { AnnotatorComponent } from '../annotator/annotator.component';
@@ -12,7 +13,7 @@ import { RequiresAuthGuard } from './shared/requires-auth.guard';
 const routes: Routes = [
       {
         path: 'oauth/callback',
-        component: AuthComponent,
+        component: OAuthCallbackComponent,
       },
       {
         path: '',

@@ -104,6 +104,7 @@ export class ListViewComponent {
           this.annotatorService.audioFile = data;
           this.annotatorService.annotations = [];
           this.annotatorService.audioFileName = doc['dcterms:identifier'];
+          this.annotatorService.audioFileURL = doc['alveo:url'];
 
           this.router.navigate(['./annotator']);
         }

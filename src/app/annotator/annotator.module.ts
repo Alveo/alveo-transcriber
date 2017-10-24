@@ -13,6 +13,7 @@ import { DurationPipe } from './player/duration.pipe';
 import { DurationShortPipe } from './player/duration.pipe';
 
 import { AnnotatorService } from './shared/annotator.service';
+import { SegmentorService } from './shared/segmentor.service';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { AnnotatorService } from './shared/annotator.service';
   ],
   providers: [
     AnnotatorService,
+    SegmentorService,
   ],
 })
 export class AnnotatorModule { }

@@ -19,6 +19,7 @@ export class Annotation {
 export class AnnotatorService {
   audioFile: any;
   audioFileName: string;
+  audioFileURL: string;
   annotations: any;
 
   getAnnotations(): any {
@@ -36,5 +37,9 @@ export class AnnotatorService {
 
   getAudioFileName(): any {
     return this.audioFileName;
+  }
+
+  getAudioFileURL(): any {
+    return this.audioFileURL;
   }
 }

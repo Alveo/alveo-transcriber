@@ -9,14 +9,15 @@ import { Annotation } from '../shared/annotator.service';
 })
 
 export class AnnotationsComponent {
-  @Input() annotations: Array<Annotation>;
+  @Input() selectedAnnotation: Annotation;
 
+  /*
   getSegmentsOrdered(): any {
     this.annotations.sort(function(a, b) {
       return a.start - b.start;
     });
     return this.annotations;
-  }
+  }*/
 
   getActiveSegment(): any {
     return null;

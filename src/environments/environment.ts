@@ -18,4 +18,6 @@ export const environment = {
   clientSecret: "e533af5728a1334a089d9b446bda3204be4d59785734981832956b446cfbf64b",
 
   callbackURL: window.location.origin+ "/oauth/callback",
+
+  segmentorURL: "http://127.0.0.1:8080/api/segment/url"
 };

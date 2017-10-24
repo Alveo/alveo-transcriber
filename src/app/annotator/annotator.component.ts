@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AlveoService } from '../alveo/shared/alveo.service';
+import { AnnotatorService } from './shared/annotator.service';
 
 @Component({
   selector: 'annotator',
@@ -12,22 +12,22 @@ import { AlveoService } from '../alveo/shared/alveo.service';
 export class AnnotatorComponent {
   constructor(
     public router: Router,
-    public alveoService: AlveoService,
+    public annotatorService: AnnotatorService,
   ) { }
 
-  getAnnotations(): any {
-    return [];
-  }
-
   actionBack(): void {
-    this.router.navigate(['./dataview']);
+    this.router.navigate(['/']);
   }
 
-  getClip(): any {
-    return this.alveoService.audioData;
+  getAnnotations(): any {
+    return this.annotatorService.getAnnotations();
   }
 
-  getClipName(): string {
-    return "";
+  getAudioFile(): any {
+    return this.annotatorService.getAudioFile();
+  }
+
+  getAudioFileName(): string {
+    return this.annotatorService.getAudioFileName();
   }
 }

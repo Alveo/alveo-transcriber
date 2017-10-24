@@ -9,18 +9,20 @@ import { Component, Input } from '@angular/core';
 })
 
 export class AnnotationsComponent {
-  @Input() clip: any;
+  @Input() annotations: any;
 
-  /*
-  getSegmentsOrdered(): Array<Segment> {
-    this.clip.segments.sort(function(a, b) {
+  getSegmentsOrdered(): any {
+    this.annotations.sort(function(a, b) {
       return a.start - b.start;
     });
-    return this.clip.segments;
+    return this.annotations;
   }
 
-  setRegion(segment: Segment): void {
-    this.appService.audioPlayer.activeSegment = segment;
+  getActiveSegment(): any {
+    return null;
   }
-   */
+
+  setRegion(segment: any): void {
+    //this.appService.audioPlayer.activeSegment = segment;
+  }
 }

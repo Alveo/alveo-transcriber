@@ -19,9 +19,11 @@ import RegionsPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.regions';
 import TimelinePlugin from 'wavesurfer.js/dist/plugin/wavesurfer.timeline';
 import MinimapPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.minimap';
 
-//import { Segment } from './segment';
+class Segment {
+  start: number;
+  end: number;
+}
 
-/*
 class Cache {
   segment: Segment;
   region: Region;
@@ -30,7 +32,7 @@ class Cache {
     this.segment = segment;
     this.region = region;
   }
-}*/
+}
 
 @Component({
   selector: 'player',
@@ -41,11 +43,9 @@ export class PlayerComponent implements OnInit {
   player: WaveSurfer;
   _playing: boolean;
   @Input() clip: any;
-  //@Input() audioData: ArrayBuffer;
-  //@Input() selected: Segment;
+  @Input() annotations: any;
 
-
-  //regionCache: Cache[] = [];
+  regionCache: Cache[] = [];
 
   constructor(public router: Router) {
     router.events.subscribe( (event:Event) => {
@@ -83,13 +83,12 @@ export class PlayerComponent implements OnInit {
     return Math.floor(this.player.getDuration());
   }
 
-    /*addCache(segment: Segment, region: Region): void {
+  addCache(segment: Segment, region: Region): void {
     this.regionCache.push(new Cache(segment, region));
-  }*/
+  }
 
-  //loadRegions(): void {
-    /*
-    this.clip.segments.forEach((segment) => {
+  loadRegions(): void {
+    this.annotations.forEach((segment) => {
       this.player.addRegion({
         start: segment.start,
         end: segment.end,
@@ -100,8 +99,7 @@ export class PlayerComponent implements OnInit {
       var region = this.player.regions.list[Object.keys(this.player.regions.list).pop()];
       this.addCache(segment, region);
     });
-     */
-  //}
+  }
 
   ngOnInit(): void {
     this._playing = false;
@@ -122,7 +120,6 @@ export class PlayerComponent implements OnInit {
     });
 
     this.player.loadArrayBuffer(this.clip.slice(0));
-
     var slider = document.querySelector('[data-action="zoom"]');
     slider.addEventListener('input', () => {
       var value = (slider as HTMLInputElement).value;
@@ -130,18 +127,17 @@ export class PlayerComponent implements OnInit {
     });
 
     this.player.on('ready', () => {
-      //this.loadRegions();
+      this.loadRegions();
       this.player.zoom(30);
       (slider as HTMLInputElement).value = this.player.params.minPxPerSec;
     });
 
-    /*
     this.player.on('region-click', (region: Region) => {
-      this.appService.audioPlayer.activeSegment = this.findSegment(region);
+      //this.appService.audioPlayer.activeSegment = this.findSegment(region);
     });
 
     this.player.on('region-updated', (region: Region) => {
-      this.appService.audioPlayer.activeSegment = this.findSegment(region);
+      //this.appService.audioPlayer.activeSegment = this.findSegment(region);
     });
 
     this.player.on('region-update-end', (region: Region) => {
@@ -149,7 +145,6 @@ export class PlayerComponent implements OnInit {
       segment.start = region.start;
       segment.end = region.end;
     });
-     */
 
     this.player.on('finish', () => {
       this.stop();
@@ -163,7 +158,6 @@ export class PlayerComponent implements OnInit {
     return this._playing;
   }
 
-    /*
   findSegment(region: Region): Segment {
     let match = null;
     for (var cache of this.regionCache) {
@@ -185,5 +179,4 @@ export class PlayerComponent implements OnInit {
     }
     return match;
   }
-     */
 }

@@ -5,8 +5,8 @@
       <p id="header">Transcribing: {{getClipName()}}</p>
     </div>
 
-    <player [clip]="getClip()"></player>
+    <player [clip]="getClip()" [annotations]="getAnnotations()"></player>
   </div>
 </div>
 
-<annotations [clip]="getClip()"></annotations>
+<annotations [annotations]="getAnnotations()"></annotations>

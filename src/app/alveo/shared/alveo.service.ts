@@ -135,7 +135,7 @@ export class AlveoService {
       return [];
     }
     if (callback != null) {
-      callback(null);
+      callback(list['_alveott_data']);
     }
     return list['_alveott_data'];
   }
@@ -177,11 +177,15 @@ export class AlveoService {
       /* Only the item location has been downloaded. Item needs to be downloaded. */
       if (this.authService.isLoggedIn()) {
         this.pullItem(item, false, callback)
+      } else {
+        if (callback != null) {
+          callback(403);
+        }
       }
       return [];
     }
     if (callback != null) {
-      callback(null);
+      callback(item.data['alveo:documents']);
     }
     return item.data['alveo:documents'];
   }
@@ -211,7 +215,7 @@ export class AlveoService {
         doc['_alveott_data'] = data.arrayBuffer();
 
         if (callback != null) {
-          callback(data);
+          callback(data.arrayBuffer());
         }
       },
     undefined, true);

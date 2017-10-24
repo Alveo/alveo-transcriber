@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
 
+import { Annotation } from '../shared/annotator.service';
+
 @Component({
   selector: 'annotations',
   templateUrl: './annotations.component.html',
@@ -7,7 +9,7 @@ import { Component, Input } from '@angular/core';
 })
 
 export class AnnotationsComponent {
-  @Input() annotations: any;
+  @Input() annotations: Array<Annotation>;
 
   getSegmentsOrdered(): any {
     this.annotations.sort(function(a, b) {

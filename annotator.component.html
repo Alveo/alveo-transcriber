@@ -3,8 +3,8 @@
     <p id="header">Transcribing: {{ this.getAudioFileName() }}</p>
     <button mat-raised-button color="primary" (click)="this.actionBack()">Exit</button>
     <button mat-raised-button color="primary" (click)="this.actionSegment()">Autosegment</button>
-    <button mat-raised-button color="primary" (click)="this.actionBack()">Export CSV</button>
-    <button mat-raised-button color="primary" (click)="this.actionBack()">Export JSON</button>
+    <button mat-raised-button color="primary" (click)="this.exportCSV()">Export CSV</button>
+    <button mat-raised-button color="primary" (click)="this.exportJSON()">Export JSON</button>
   </div>
 
   <player [clip]="this.getAudioFile()" [annotations]="this.getAnnotations()"></player>

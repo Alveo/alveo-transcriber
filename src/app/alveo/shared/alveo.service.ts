@@ -11,7 +11,6 @@ import { DBService } from './db.service';
 export class AlveoService {
   selectedList: any;
   lists: Array<any>;
-  audioData: ArrayBuffer;
 
   constructor(public http: Http,
     public authService: AuthService,
@@ -196,14 +195,12 @@ export class AlveoService {
           callback(403);
         }
       }
-      this.audioData = null;
       return null;
     }
     if (callback != null) {
-      callback(null);
+      callback(doc['_alveott_data']);
     }
 
-    this.audioData = doc['_alveott_data'];
     return doc['_alveott_data'];
   }
 
@@ -212,7 +209,6 @@ export class AlveoService {
     this.apiRequest(url,
       (data) => {
         doc['_alveott_data'] = data.arrayBuffer();
-        this.audioData = data.arrayBuffer();
 
         if (callback != null) {
           callback(data);

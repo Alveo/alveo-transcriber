@@ -1,4 +1,4 @@
-import { Component, OnInit, } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { AuthComponent } from '../auth/auth.component';
 
@@ -26,23 +26,36 @@ export class ItemListsComponent implements OnInit {
   ) { }
 
   isDevMode(): boolean {
-    return !environment.production;
+    //return !environment.production;
+    return true;
+  }
+
+  requireLogin(firstRun=false) {
+    if (this.dialog.openDialogs.length < 1) {
+      this.dialog.open(AuthComponent, {
+        disableClose: firstRun,
+        data: {firstRun: firstRun}}
+      );
+    }
+  }
+
+  requireData() {
+    if (this.listSize() == 0 && !this.isLoggedIn()) {
+      this.noDataSource();
+    }
+  }
+
+  noDataSource() {
+    setTimeout(()=>{
+      this.requireLogin(true);
+    }, 50);
   }
 
   ngOnInit(): void {
     if (this.isLoggedIn()) {
       this.loading = false;
     } else {
-      setTimeout(()=>{
-        if (this.listSize() == 0) {
-          console.log(this.listSize())
-          this.dialog.open(AuthComponent, {
-            disableClose: true,
-            data: {firstRun: true}}
-          );
-        }
-      }, 1000);
-      setTimeout(()=>this.loading=false, 1000); // Allow DB time to load
+      setTimeout(()=>this.loading=false, 1000);
     }
   }
 
@@ -72,10 +85,7 @@ export class ItemListsComponent implements OnInit {
   onSelection(list): void {
     this.alveoService.getItems(list, (data) => {
       if (data == 403 && !this.isLoggedIn()) {
-        this.dialog.open(AuthComponent, {
-          disableClose: false,
-          data: {firstRun: false}}
-        );
+        this.requireLogin(false);
       } else {
         this.alveoService.selectedList = list;
         this.router.navigate(['./listview']);

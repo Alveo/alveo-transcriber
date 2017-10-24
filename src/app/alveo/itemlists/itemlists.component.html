@@ -1,5 +1,8 @@
 <ng-template #documentReadyTemplate [ngIf]="!this.isLoading()">
   <ng-template #emptyListCheckTemplate [ngIf]="this.listSize() == 0" [ngIfElse]="populatedListTemplate">
+    <ng-template #notLoggedInTemplate [ngIf]="!this.isLoggedIn()">
+      {{ this.noDataSource() }}
+    </ng-template>
     <ng-template #loggedInTemplate [ngIf]="this.isLoggedIn()">
       <div id="data-information" class="center">
         <p class="info-text bottom-spacer">Great! You're all logged in. Now you need to choose a source of data to load. Right now, there is only the Alveo provider. Click it to begin.</p>

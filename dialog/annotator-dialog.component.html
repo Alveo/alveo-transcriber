@@ -1,0 +1,9 @@
+<h1 id="title" mat-dialog-title>{{ this.getTitle() }} </h1>
+<mat-dialog-content>
+  {{ this.getText() }}
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="false" tabindex="1">Cancel</button>
+  <button mat-button [mat-dialog-close]="true" tabindex="-1">Proceed</button>
+</mat-dialog-actions>

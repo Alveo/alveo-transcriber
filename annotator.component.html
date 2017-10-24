@@ -1,15 +1,13 @@
-<div id="controller">
-  <div id="controller-float">
-    <div id="top-halign">
-      <p id="header">Transcribing: {{ this.getAudioFileName() }}</p>
-      <button mat-raised-button color="primary" id="return-button" (click)="this.actionBack()">Exit</button>
-      <button mat-raised-button color="primary" id="return-button" (click)="this.actionBack()">Autosegment</button>
-      <button mat-raised-button color="primary" id="return-button" (click)="this.actionBack()">Export CSV</button>
-      <button mat-raised-button color="primary" id="return-button" (click)="this.actionBack()">Export JSON</button>
-    </div>
-
-    <player [clip]="this.getAudioFile()" [annotations]="this.getAnnotations()"></player>
+<div id="container">
+  <div id="top-halign">
+    <p id="header">Transcribing: {{ this.getAudioFileName() }}</p>
+    <button mat-raised-button color="primary" id="return-button" (click)="this.actionBack()">Exit</button>
+    <button mat-raised-button color="primary" id="return-button" (click)="this.actionBack()">Autosegment</button>
+    <button mat-raised-button color="primary" id="return-button" (click)="this.actionBack()">Export CSV</button>
+    <button mat-raised-button color="primary" id="return-button" (click)="this.actionBack()">Export JSON</button>
   </div>
-</div>
 
-<annotations [selectedAnnotation]="this.getSelectedAnnotation()"></annotations>
+  <player [clip]="this.getAudioFile()" [annotations]="this.getAnnotations()"></player>
+
+  <annotations [selectedAnnotation]="this.getSelectedAnnotation()"></annotations>
+</div>

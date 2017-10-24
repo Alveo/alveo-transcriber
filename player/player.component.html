@@ -3,8 +3,6 @@
   <div id="waveform"></div>
 
   <div id="controls">
-    <p class="fi-volume icon" (click)="this.pause()"></p>
-
     <ng-template #playingTemplate [ngIf]="this.playing()">
       <p class="fi-pause icon" (click)="this.pause()"></p>
     </ng-template>
@@ -13,11 +11,13 @@
       <p class="fi-play icon" (click)="this.play()"></p>
     </ng-template>
 
-    <p class="fi-previous icon" (click)="this.pause()"></p> <!-- Next segment -->
-    <p class="fi-next icon" (click)="this.pause()"></p> <!-- Prev segment -->
-
     <p id="duration">{{this.getPos() | durationshort}} / {{this.getDuration() | durationshort}}</p>
 
+    <!--
+    <p class="fi-previous icon" (click)="this.pause()"></p>
+    <p class="fi-next icon" (click)="this.pause()"></p>
+
+    <p class="fi-volume icon" (click)="this.pause()"></p>
     <span class="divider"></span>
 
     <p class="fi-zoom-out icon-noclick"></p>
@@ -26,5 +26,6 @@
 
     <p class="fi-arrows-in icon"></p>
     <p class="fi-arrows-out icon"></p>
+    -->
   </div>
 </div>

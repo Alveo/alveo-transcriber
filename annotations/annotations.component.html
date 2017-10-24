@@ -1,14 +1,3 @@
 <p class="timestamp">{{this.selectedAnnotation.start | annotation}} to {{this.selectedAnnotation.end | annotation }}</p>
 <input class="speaker" type="text" placeholder="Speaker" [(ngModel)]="this.selectedAnnotation.speaker">
 <input class="data" type="text" placeholder="Annotation" [(ngModel)]="this.selectedAnnotation.annotation">
-<!--
-<div class="annotation" *ngFor="let segment of this.getSegmentsOrdered()" [class.highlight]="segment===this.getActiveSegment()" (click)="this.setRegion(segment)">
-  <p class="timestamp">{{segment.start | annotation}} to {{segment.end | annotation }}</p>
-  <div class="fields">
-    <input class="speaker" type="text" placeholder="Speaker">
-    <input class="data" type="text" placeholder="Annotation">
-    <input class="speaker" type="text" placeholder="Speaker" [(ngModel)]="segment.speaker">
-    <input class="data" type="text" placeholder="Annotation" [(ngModel)]="segment.annotation">
-  </div>
-</div>
--->

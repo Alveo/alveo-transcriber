@@ -120,11 +120,13 @@ export class PlayerComponent implements OnInit {
     });
 
     this.player.loadArrayBuffer(this.clip.slice(0));
+    /*
     var slider = document.querySelector('[data-action="zoom"]');
     slider.addEventListener('input', () => {
       var value = (slider as HTMLInputElement).value;
       this.player.zoom(Number(value));
     });
+     */
 
     this.player.on('ready', () => {
       this.loadRegions();
@@ -134,7 +136,7 @@ export class PlayerComponent implements OnInit {
           loop: true
       });
 
-      (slider as HTMLInputElement).value = this.player.params.minPxPerSec;
+      //(slider as HTMLInputElement).value = this.player.params.minPxPerSec;
     });
 
     this.player.on('region-click', (region: Region) => {

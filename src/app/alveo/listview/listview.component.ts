@@ -1,7 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { MatDialog } from '@angular/material';
+
 import { AlveoService } from '../shared/alveo.service';
+import { AuthService } from '../shared/auth.service';
+
+import { AuthComponent } from '../auth/auth.component';
 
 @Component({
   selector: 'listview',
@@ -18,6 +23,8 @@ export class ListViewComponent {
 
   constructor(
     public router: Router,
+    public dialog: MatDialog,
+    public authService: AuthService,
     public alveoService: AlveoService) { }
 
   private getList(): any {
@@ -75,16 +82,34 @@ export class ListViewComponent {
     return this.alveoService.getItemStatus(item);
   }
   onItemSelection(item: any): void {
-    this.alveoService.getDocs(item)
+    this.alveoService.getDocs(item, (data) => {
+      if (data == 403 && !this.authService.isLoggedIn()) {
+        this.requireLogin()
+      }
+    });
   }
 
   onDocSelection(doc: any): void {
     this.selectedDoc = doc;
 
     this.alveoService.getAudioFile(doc, (data) => {
-      if (this.selectedDoc == doc) {
-        this.router.navigate(['./annotator']);
+      if (data == 403 && !this.authService.isLoggedIn()) {
+        this.requireLogin();
+      }
+      else {
+        if (this.selectedDoc == doc) {
+          this.router.navigate(['./annotator']);
+        }
       }
     });
+  }
+
+  requireLogin() {
+    if (this.dialog.openDialogs.length < 1) {
+      this.dialog.open(AuthComponent, {
+        disableClose: false,
+        data: {firstRun: false}}
+      );
+    }
   }
 }

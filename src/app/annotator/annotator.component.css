@@ -1,10 +1,7 @@
-#controller {
-  height: 450px;
-}
-
-#controller-float {
+#container {
   width: 80%;
   margin: auto;
+  max-width: 70em;
 }
 
 button {

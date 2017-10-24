@@ -2,11 +2,11 @@
   <div id="controller-float">
     <div id="top-halign">
       <button md-raised-button color="primary" id="return-button" (click)="this.actionBack()">Exit</button>
-      <p id="header">Transcribing: {{getClipName()}}</p>
+      <p id="header">Transcribing: {{ this.getAudioFileName() }}</p>
     </div>
 
-    <player [clip]="getClip()" [annotations]="getAnnotations()"></player>
+    <player [clip]="this.getAudioFile()" [annotations]="this.getAnnotations()"></player>
   </div>
 </div>
 
-<annotations [annotations]="getAnnotations()"></annotations>
+<annotations [annotations]="this.getAnnotations()"></annotations>

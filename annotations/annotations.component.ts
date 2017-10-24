@@ -1,7 +1,5 @@
 import { Component, Input } from '@angular/core';
 
-//import { Segment } from './segment';
-
 @Component({
   selector: 'annotations',
   templateUrl: './annotations.component.html',

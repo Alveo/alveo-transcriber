@@ -12,7 +12,7 @@ import { AnnotationPipe } from './annotations/annotation.pipe';
 import { DurationPipe } from './player/duration.pipe';
 import { DurationShortPipe } from './player/duration.pipe';
 
-import { PlayerControlService } from './shared/player-control.service';
+import { AnnotatorService } from './shared/annotator.service';
 
 @NgModule({
   declarations: [
@@ -32,7 +32,7 @@ import { PlayerControlService } from './shared/player-control.service';
     AnnotatorComponent,
   ],
   providers: [
-    PlayerControlService,
+    AnnotatorService,
   ],
 })
 export class AnnotatorModule { }

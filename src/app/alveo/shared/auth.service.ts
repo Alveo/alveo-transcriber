@@ -1,5 +1,5 @@
 import { Http, Headers, RequestOptions, Response, ResponseContentType } from '@angular/http';
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 
 import { ErrorHandler } from './http-errors'
 
@@ -7,6 +7,8 @@ import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class AuthService {
+  loginStatus:EventEmitter<any> = new EventEmitter();
+
   loggedIn = false;
   redirectLoginUrl = '/login';
 
@@ -45,6 +47,7 @@ export class AuthService {
   }
 
   login(callback: any): void {
+    this.loginStatus.emit("true");
     this.pullToken();
     this.loggedIn = true;
     callback();
@@ -55,6 +58,7 @@ export class AuthService {
   }
 
   logout(): void {
+    this.loginStatus.emit("false")
     this.loggedIn = false;
   }
 

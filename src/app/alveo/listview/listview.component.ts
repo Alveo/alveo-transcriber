@@ -8,6 +8,8 @@ import { AuthService } from '../shared/auth.service';
 
 import { AuthComponent } from '../auth/auth.component';
 
+import { AnnotatorService } from '../../annotator/shared/annotator.service';
+
 @Component({
   selector: 'listview',
   templateUrl: './listview.component.html',
@@ -22,6 +24,7 @@ export class ListViewComponent {
   activeItem: any;
 
   constructor(
+    public annotatorService: AnnotatorService,
     public router: Router,
     public dialog: MatDialog,
     public authService: AuthService,
@@ -98,6 +101,10 @@ export class ListViewComponent {
       }
       else {
         if (this.selectedDoc == doc) {
+          this.annotatorService.audioFile = data;
+          this.annotatorService.annotations = [];
+          this.annotatorService.audioFileName = doc['dcterms:identifier'];
+
           this.router.navigate(['./annotator']);
         }
       }

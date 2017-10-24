@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { AuthComponent } from '../auth/auth.component';
 
 import { Router } from '@angular/router';
 
 import { AuthService } from '../shared/auth.service';
 import { AlveoService } from '../shared/alveo.service';
+
+import { AuthComponent } from '../auth/auth.component';
 
 import { environment } from '../../../environments/environment';
 

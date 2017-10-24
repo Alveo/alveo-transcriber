@@ -54,6 +54,7 @@ import { DocsComponent } from './listview/docs/docs.component';
 import { AlveoService } from './shared/alveo.service';
 import { AuthService } from './shared/auth.service';
 import { DBService } from './shared/db.service';
+import { AnnotatorModule } from '../annotator/annotator.module';
 
 import 'hammerjs';
 
@@ -78,6 +79,7 @@ import 'hammerjs';
     HttpModule,
 
     AlveoRoutingModule,
+    AnnotatorModule,
 
     CdkTableModule,
     MatAutocompleteModule,

@@ -66,7 +66,6 @@ export class AnnotatorComponent {
   actionSegment(): void {
     let dialogStatus = this.dialogOpen("Warning", "Using the segmentor service will erase all regions/annotations and replace them with ones from an automatic segmentor. Deletion may be permanent. Do you wish to proceed?");
     dialogStatus.afterClosed().subscribe(result => {
-      console.log(result);
       if (result == true) {
         this.segService.segment(this.getAudioFileURL(),
           (data) => {

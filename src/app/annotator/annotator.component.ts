@@ -15,6 +15,10 @@ export class AnnotatorComponent {
     public alveoService: AlveoService,
   ) { }
 
+  getAnnotations(): any {
+    return [];
+  }
+
   actionBack(): void {
     this.router.navigate(['./dataview']);
   }

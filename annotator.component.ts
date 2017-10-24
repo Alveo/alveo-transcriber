@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AnnotatorService } from './shared/annotator.service';
@@ -10,20 +10,23 @@ import { SegmentorService } from './shared/segmentor.service';
   styleUrls: ['./annotator.component.css'],
 })
 
-export class AnnotatorComponent implements OnInit {
+export class AnnotatorComponent {
   constructor(
     public router: Router,
     public segService: SegmentorService,
     public annotatorService: AnnotatorService,
   ) { }
 
-  ngOnInit() {
-    this.segService.segment(this.getAudioFileURL(),
-      (data)=>{console.log(data.json())})
-  }
-
   actionBack(): void {
     this.router.navigate(['/']);
+  }
+
+  actionSegment(): void {
+    this.segService.segment(this.getAudioFileURL(),
+      (data) => {
+        this.annotatorService.rebuild(data.json());
+      }
+    );
   }
 
   getSelectedAnnotation(): any {

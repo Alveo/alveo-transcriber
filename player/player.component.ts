@@ -2,22 +2,14 @@ import { OnInit } from '@angular/core';
 import { Component, Input, HostListener } from '@angular/core';
 import { Router, NavigationStart, Event } from '@angular/router';
 
-/* WaveSurfer Git headers */
-/* pull with git clone -b next --single-branch https://github.com/katspaugh/wavesurfer.js.git . */
-/*
-import WaveSurfer from 'wavesurfer.js.git';
-import Region from 'wavesurfer.js.git/dist/plugin/wavesurfer.regions.min';
-import RegionsPlugin from 'wavesurfer.js.git/dist/plugin/wavesurfer.regions.min';
-import TimelinePlugin from 'wavesurfer.js.git/dist/plugin/wavesurfer.timeline.min';
-import MinimapPlugin from 'wavesurfer.js.git/dist/plugin/wavesurfer.minimap.min';
-*/
-
 /* WaveSurfer NPM headers */ 
 import WaveSurfer from 'wavesurfer.js';
 import Region from 'wavesurfer.js/dist/plugin/wavesurfer.regions';
 import RegionsPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.regions';
 import TimelinePlugin from 'wavesurfer.js/dist/plugin/wavesurfer.timeline';
 import MinimapPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.minimap';
+
+import { AnnotatorService } from '../shared/annotator.service';
 
 class Segment {
   start: number;
@@ -47,10 +39,20 @@ export class PlayerComponent implements OnInit {
 
   regionCache: Cache[] = [];
 
-  constructor(public router: Router) {
+  constructor(
+    public annotatorService: AnnotatorService,
+    public router: Router) {
     router.events.subscribe( (event:Event) => {
       if (event instanceof NavigationStart) {
         this.player.destroy();
+      }
+    });
+
+    this.annotatorService.annotationsEvent.subscribe((mode)=>{
+      if (mode == "rebuild") {
+        this.player.clearRegions();
+        this.annotations = this.annotatorService.getAnnotations();
+        this.loadRegions();
       }
     });
   }
@@ -89,6 +91,8 @@ export class PlayerComponent implements OnInit {
 
   loadRegions(): void {
     this.annotations.forEach((segment) => {
+      console.log("region add");
+
       this.player.addRegion({
         start: segment.start,
         end: segment.end,

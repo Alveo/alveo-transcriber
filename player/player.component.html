@@ -4,11 +4,11 @@
 
   <div id="controls">
     <ng-template #playingTemplate [ngIf]="this.playing()">
-      <mat-icon (click)="this.pause()">clear</mat-icon>
+      <mat-icon (click)="this.pause()">pause</mat-icon>
     </ng-template>
 
     <ng-template #pausedTemplate [ngIf]="!this.playing()">
-      <mat-icon (click)="this.play()">send</mat-icon>
+      <mat-icon (click)="this.play()">play_arrow</mat-icon>
     </ng-template>
 
     <p id="duration">{{this.getPos() | durationshort}} / {{this.getDuration() | durationshort}}</p>
@@ -28,4 +28,13 @@
     <p class="fi-arrows-out icon"></p>
     -->
   </div>
+  <p>Not implemented:</p>
+  <mat-icon>replay</mat-icon>
+  <mat-icon>replay_5</mat-icon>
+  <mat-icon>replay_10</mat-icon>
+  <mat-icon>replay_10</mat-icon>
+  <mat-icon>loop</mat-icon>
+  <mat-icon>closed_caption</mat-icon>
+  <mat-icon>skip_previous</mat-icon>
+  <mat-icon>skip_next</mat-icon>
 </div>

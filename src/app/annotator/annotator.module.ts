@@ -6,6 +6,7 @@ import { CsvService } from "angular2-json2csv";
 import {
   MatButtonModule,
   MatDialogModule,
+  MatIconModule,
 } from '@angular/material';
 
 import { AnnotatorComponent } from './annotator.component';
@@ -39,6 +40,7 @@ import { Dialog } from './dialog/dialog.component';
     FormsModule,
     MatButtonModule,
     MatDialogModule,
+    MatIconModule,
   ],
   exports: [
     AnnotatorComponent,

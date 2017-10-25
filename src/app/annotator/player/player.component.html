@@ -4,11 +4,11 @@
 
   <div id="controls">
     <ng-template #playingTemplate [ngIf]="this.playing()">
-      <p class="fi-pause icon" (click)="this.pause()"></p>
+      <mat-icon (click)="this.pause()">clear</mat-icon>
     </ng-template>
 
     <ng-template #pausedTemplate [ngIf]="!this.playing()">
-      <p class="fi-play icon" (click)="this.play()"></p>
+      <mat-icon (click)="this.play()">send</mat-icon>
     </ng-template>
 
     <p id="duration">{{this.getPos() | durationshort}} / {{this.getDuration() | durationshort}}</p>

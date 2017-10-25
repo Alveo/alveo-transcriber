@@ -1,0 +1,22 @@
+mat-icon {
+  font-size: 40px;
+  width: 40px;
+  height: 40px;
+}
+
+.annotation-container {
+  display: flex;
+  vertlical-align: middle;
+  flex-display: column;
+
+  flex-wrap: wrap;
+}
+
+#caption-type {
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
+#caption {
+  flex: 1 1 100%;
+}

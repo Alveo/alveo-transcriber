@@ -1,5 +1,17 @@
-<!--
-<p class="timestamp">{{this.selectedAnnotation.start | annotation}} to {{this.selectedAnnotation.end | annotation }}</p>
-<input class="speaker" type="text" placeholder="Speaker" [(ngModel)]="this.selectedAnnotation.speaker">
-<input class="data" type="text" placeholder="Annotation" [(ngModel)]="this.selectedAnnotation.annotation">
--->
+<div class="annotation-container">
+  <mat-icon>closed_caption</mat-icon>
+  <mat-form-field id="caption-type">
+    <mat-select placeholder="Caption Type">
+      <mat-option value="option">Not Implemented 1</mat-option>
+      <mat-option value="option">Not Implemented 2</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field id="speaker">
+    <input matInput placeholder="Speaker">
+  </mat-form-field>
+
+  <mat-form-field id="caption">
+    <textarea matInput placeholder="Caption"></textarea>
+  </mat-form-field>
+</div>

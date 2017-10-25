@@ -4,37 +4,25 @@
 
   <div id="controls">
     <ng-template #playingTemplate [ngIf]="this.playing()">
-      <mat-icon (click)="this.pause()">pause</mat-icon>
+      <mat-icon class="clickable" (click)="this.pause()">pause</mat-icon>
     </ng-template>
 
     <ng-template #pausedTemplate [ngIf]="!this.playing()">
-      <mat-icon (click)="this.play()">play_arrow</mat-icon>
+      <mat-icon class="clickable" (click)="this.play()">play_arrow</mat-icon>
     </ng-template>
 
     <p id="duration">{{this.getPos() | durationshort}} / {{this.getDuration() | durationshort}}</p>
 
-    <!--
-    <p class="fi-previous icon" (click)="this.pause()"></p>
-    <p class="fi-next icon" (click)="this.pause()"></p>
-
-    <p class="fi-volume icon" (click)="this.pause()"></p>
-    <span class="divider"></span>
-
-    <p class="fi-zoom-out icon-noclick"></p>
-    <input id="zoom-slider" data-action="zoom" type="range" min="0" max="80" value="10" style="margin: 0.3em 0 0.3em 0; width: 20%">
-    <p class="fi-zoom-in icon-noclick"></p>
-
-    <p class="fi-arrows-in icon"></p>
-    <p class="fi-arrows-out icon"></p>
-    -->
   </div>
-  <p>Not implemented:</p>
-  <mat-icon>replay</mat-icon>
-  <mat-icon>replay_5</mat-icon>
-  <mat-icon>replay_10</mat-icon>
-  <mat-icon>replay_10</mat-icon>
-  <mat-icon>loop</mat-icon>
-  <mat-icon>closed_caption</mat-icon>
-  <mat-icon>skip_previous</mat-icon>
-  <mat-icon>skip_next</mat-icon>
+
+  <div id="icons">
+    <p>Not implemented:</p>
+    <mat-icon class="clickable">replay</mat-icon>
+    <mat-icon class="clickable">replay_5</mat-icon>
+    <mat-icon class="clickable">replay_10</mat-icon>
+    <mat-icon class="clickable">replay_10</mat-icon>
+    <mat-icon class="clickable">loop</mat-icon>
+    <mat-icon class="clickable">skip_previous</mat-icon>
+    <mat-icon class="clickable">skip_next</mat-icon>
+  </div>
 </div>

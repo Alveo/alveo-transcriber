@@ -40,8 +40,8 @@ export class PlayerComponent implements OnInit {
   regionCache: Cache[] = [];
 
   constructor(
-    public annotatorService: AnnotatorService,
-    public router: Router) {
+    private annotatorService: AnnotatorService,
+    private router: Router) {
     router.events.subscribe( (event:Event) => {
       if (event instanceof NavigationStart) {
         this.player.destroy();

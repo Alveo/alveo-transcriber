@@ -8,7 +8,7 @@ export class SegmentorService {
   segmentorUrl: string = environment.segmentorURL;
 
   constructor(
-    public http: Http
+    private http: Http
   ) {}
 
   segment(path: string, callback=null): any {

@@ -27,7 +27,7 @@ export class AuthService {
 
   apiKey: string;
 
-  constructor(public http: Http) { }
+  constructor(private http: Http) { }
 
   createLoginURL() {
     return this.loginURL

@@ -8,7 +8,7 @@ import { AuthService } from '../shared/auth.service';
 })
 
 export class NavComponent {
-  constructor(public authService: AuthService) { }
+  constructor(private authService: AuthService) { }
 
   queryLoggedIn(): boolean {
     return this.authService.isLoggedIn();

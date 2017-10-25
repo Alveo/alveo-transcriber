@@ -12,9 +12,9 @@ export class OAuthCallbackComponent implements OnInit, OnDestroy {
   param_sub: any;
 
   constructor(
-    public route: ActivatedRoute,
-    public router: Router,
-    public authService: AuthService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private authService: AuthService,
   ) { }
 
   ngOnInit() {
@@ -40,9 +40,9 @@ export class OAuthCallbackComponent implements OnInit, OnDestroy {
 })
 export class AuthComponent {
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    public authService: AuthService,
-    public dialog: MatDialog
+    @Inject(MAT_DIALOG_DATA) private data: any,
+    private authService: AuthService,
+    private dialog: MatDialog
   ) { }
 
   isFirstRun(): boolean {

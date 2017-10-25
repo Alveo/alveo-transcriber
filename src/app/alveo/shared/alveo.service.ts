@@ -12,9 +12,10 @@ export class AlveoService {
   selectedList: any;
   lists: Array<any>;
 
-  constructor(public http: Http,
-    public authService: AuthService,
-    public dbService: DBService) {
+  constructor(
+    private http: Http,
+    private authService: AuthService,
+    private dbService: DBService) {
     // TODO Move elsewhere
     // Ignore the error if the lists variable doesn't exist
     this.dbService.get('lists').then(result => this.lists = result.lists, error => {});

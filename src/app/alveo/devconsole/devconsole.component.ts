@@ -11,8 +11,8 @@ import { AuthService } from '../shared/auth.service';
 
 export class DevConsoleComponent {
   constructor(
-    public authService: AuthService,
-    public alveoService: AlveoService) {
+    private authService: AuthService,
+    private alveoService: AlveoService) {
   }
 
   isLoggedIn(): boolean {

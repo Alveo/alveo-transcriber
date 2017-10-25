@@ -24,11 +24,11 @@ export class ListViewComponent {
   activeItem: any;
 
   constructor(
-    public annotatorService: AnnotatorService,
-    public router: Router,
-    public dialog: MatDialog,
-    public authService: AuthService,
-    public alveoService: AlveoService) { }
+    private annotatorService: AnnotatorService,
+    private router: Router,
+    private dialog: MatDialog,
+    private authService: AuthService,
+    private alveoService: AlveoService) { }
 
   private getList(): any {
     return this.alveoService.getActiveList();

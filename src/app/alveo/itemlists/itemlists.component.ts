@@ -20,10 +20,10 @@ export class ItemListsComponent implements OnInit {
   private loading: boolean = true;
 
   constructor(
-    public router: Router,
-    public authService: AuthService,
-    public alveoService: AlveoService,
-    public dialog: MatDialog
+    private router: Router,
+    private authService: AuthService,
+    private alveoService: AlveoService,
+    private dialog: MatDialog
   ) { }
 
   isDevMode(): boolean {

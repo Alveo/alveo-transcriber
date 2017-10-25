@@ -6,7 +6,7 @@ import PouchDB from 'pouchdb';
 export class DBService {
   private database: any;
 
-  public constructor() {
+  constructor() {
     this.database = new PouchDB("alveott");
   }
 

@@ -16,10 +16,10 @@ import { SegmentorService } from './shared/segmentor.service';
 
 export class AnnotatorComponent {
   constructor(
-    public dialog: MatDialog,
-    public router: Router,
-    public segService: SegmentorService,
-    public annotatorService: AnnotatorService,
+    private dialog: MatDialog,
+    private router: Router,
+    private segService: SegmentorService,
+    private annotatorService: AnnotatorService,
   ) { }
 
   actionBack(): void {

@@ -26,7 +26,7 @@ export class AnnotatorService {
   audioFileURL: string;
   annotations: any;
 
-  constructor(public csvService: CsvService) {}
+  constructor(private csvService: CsvService) {}
 
   getAnnotations(): any {
     return this.annotations;

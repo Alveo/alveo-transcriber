@@ -7,6 +7,8 @@ import {
   MatButtonModule,
   MatDialogModule,
   MatIconModule,
+  MatSelectModule,
+  MatInputModule,
 } from '@angular/material';
 
 import { AnnotatorComponent } from './annotator.component';
@@ -41,6 +43,8 @@ import { Dialog } from './dialog/dialog.component';
     MatButtonModule,
     MatDialogModule,
     MatIconModule,
+    MatSelectModule,
+    MatInputModule,
   ],
   exports: [
     AnnotatorComponent,

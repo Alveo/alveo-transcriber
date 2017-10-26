@@ -2,7 +2,7 @@
   <div id="timeline"></div>
   <div id="waveform"></div>
 
-  <div id="controls">
+  <div id="controls" *ngIf="this.isReady()">
     <ng-template #playingTemplate [ngIf]="this.playing()">
       <mat-icon class="clickable" (click)="this.pause()">pause</mat-icon>
     </ng-template>
@@ -22,6 +22,6 @@
     <mat-icon class="clickable" (click)="this.loopSelectedRegion()">loop</mat-icon>
     <mat-icon class="clickable" (click)="this.selectPreviousRegion()">skip_previous</mat-icon>
     <mat-icon class="clickable" (click)="this.selectNextRegion()">skip_next</mat-icon>
-    <mat-icon class="clickable" (click)="this.deleteRegion()">delete</mat-icon>
+    <mat-icon class="clickable" (click)="this.deleteRegion()" *ngIf="this.selectedRegion!=null">delete</mat-icon>
   </div>
 </div>

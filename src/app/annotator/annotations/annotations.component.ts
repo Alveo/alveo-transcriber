@@ -9,21 +9,5 @@ import { Annotation } from '../shared/annotator.service';
 })
 
 export class AnnotationsComponent {
-  @Input() selectedAnnotation: Annotation;
-
-  /*
-  getSegmentsOrdered(): any {
-    this.annotations.sort(function(a, b) {
-      return a.start - b.start;
-    });
-    return this.annotations;
-  }*/
-
-  getActiveSegment(): any {
-    return null;
-  }
-
-  setRegion(segment: any): void {
-    //this.appService.audioPlayer.activeSegment = segment;
-  }
+  @Input() annotation: Annotation;
 }

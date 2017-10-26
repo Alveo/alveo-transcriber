@@ -1,17 +1,17 @@
-<div class="annotation-container">
+<div class="annotation-container"
+  *ngIf="this.annotation != null">
   <mat-icon>closed_caption</mat-icon>
   <mat-form-field id="caption-type">
-    <mat-select placeholder="Caption Type">
-      <mat-option value="option">Not Implemented 1</mat-option>
-      <mat-option value="option">Not Implemented 2</mat-option>
+    <mat-select [(ngModel)]="this.annotation.cap_type" placeholder="Caption Type">
+      <mat-option *ngFor="let option of this.annotation.cap_options" value="{{option}}">{{option}}</mat-option>
     </mat-select>
   </mat-form-field>
 
   <mat-form-field id="speaker">
-    <input matInput placeholder="Speaker">
+    <input matInput [(ngModel)]="this.annotation.speaker" placeholder="Speaker">
   </mat-form-field>
 
   <mat-form-field id="caption">
-    <textarea matInput placeholder="Caption"></textarea>
+    <textarea matInput [(ngModel)]="this.annotation.caption" placeholder="Caption"></textarea>
   </mat-form-field>
 </div>

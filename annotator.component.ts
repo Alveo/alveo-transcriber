@@ -77,7 +77,7 @@ export class AnnotatorComponent {
   }
 
   getSelectedAnnotation(): any {
-    return this.annotatorService.getAnnotations()[0];
+    return this.annotatorService.selectedAnnotation;
   }
 
   getAnnotations(): any {

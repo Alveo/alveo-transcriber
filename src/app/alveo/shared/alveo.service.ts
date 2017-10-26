@@ -7,23 +7,23 @@ import { ErrorHandler } from './http-errors'
 import { AuthService } from './auth.service';
 import { DBService } from './db.service';
 
+import { AnnotatorService } from '../../annotator/shared/annotator.service';
+import { Annotation } from '../../annotator/shared/annotator.service';
+
 @Injectable()
 export class AlveoService {
   selectedList: any;
   lists: Array<any>;
+  watch: any;
 
   constructor(
     private http: Http,
     private authService: AuthService,
+    private annotatorService: AnnotatorService,
     private dbService: DBService) {
     // TODO Move elsewhere
     // Ignore the error if the lists variable doesn't exist
     this.dbService.get('lists').then(result => this.lists = result.lists, error => {});
-  }
-
-  apiErrorHandler() {
-    // 401 - unauthorized?
-    // not found
   }
 
   private apiRequest(url, successCallback, errorCallback=null, file=false): void {
@@ -220,5 +220,27 @@ export class AlveoService {
         }
       },
     undefined, true);
+  }
+
+  getAnnotations(item: any): any {
+    let annotations = item['_alveott_annotations']
+    if (annotations == undefined)
+      annotations = [];
+    return annotations;
+  }
+
+  setAnnotations(item: any, annotations: Array<Annotation>) {
+    item['_alveott_annotations'] = annotations;
+  }
+
+  watchAnnotations(item: any, watcher: any) {
+    //console.log(this.watch)
+    //if (this.watch != null) {
+    //  this.watch.unsubscribe();
+    //}
+    //this.watch = watcher;
+    //watcher.subscribe((event:any) => {
+    //  this.setAnnotations(item, this.annotatorService.annotations);
+    //});
   }
 }

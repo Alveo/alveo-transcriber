@@ -92,7 +92,7 @@ export class ListViewComponent {
     });
   }
 
-  onDocSelection(doc: any): void {
+  onDocSelection(doc: any, item: any): void {
     this.selectedDoc = doc;
 
     this.alveoService.getAudioFile(doc, (data) => {
@@ -102,10 +102,11 @@ export class ListViewComponent {
       else {
         if (this.selectedDoc == doc) {
           this.annotatorService.audioFile = data;
-          this.annotatorService.annotations = [];
+          this.annotatorService.rebase(this.alveoService.getAnnotations(item));
           this.annotatorService.audioFileName = doc['dcterms:identifier'];
           this.annotatorService.audioFileURL = doc['alveo:url'];
 
+          this.alveoService.watchAnnotations(item, this.annotatorService.annotationsUpdate);
           this.router.navigate(['./annotator']);
         }
       }

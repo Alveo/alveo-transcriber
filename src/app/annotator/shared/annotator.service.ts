@@ -32,6 +32,7 @@ export class Annotation {
 @Injectable()
 export class AnnotatorService {
   annotationsEvent:EventEmitter<any> = new EventEmitter();
+  annotationsUpdate:EventEmitter<any> = new EventEmitter();
 
   audioFile: any;
   audioFileName: string;
@@ -42,6 +43,15 @@ export class AnnotatorService {
   selectedAnnotation: Annotation;
 
   constructor(private csvService: CsvService) {}
+
+  rebase(annotations: Array<Annotation>): any {
+    this.annotations = annotations;
+    this.selectFirst();
+  }
+
+  emitUpdate(): any {
+    this.annotationsUpdate.emit({})
+  }
 
   getAnnotations(): any {
     return this.annotations;
@@ -64,6 +74,10 @@ export class AnnotatorService {
 
     this.annotationsEvent.emit({"type":"rebuild"});
 
+    this.selectFirst();
+  }
+
+  selectFirst() {
     if (this.annotations.length > 0) {
       this.selectAnnotation(this.annotations[0]);
     }

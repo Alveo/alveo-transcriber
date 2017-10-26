@@ -30,7 +30,7 @@
       </mat-expansion-panel-header>
 
       <div *ngIf="alveoService.getItemStatus(item) == 'Cached'">
-        <docs [docs]="this.getDocs(item)" (onSelection)="onDocSelection($event)"></docs>
+        <docs [docs]="this.getDocs(item)" (onSelection)="onDocSelection($event, item)"></docs>
       </div>
     </mat-expansion-panel>
   </div>

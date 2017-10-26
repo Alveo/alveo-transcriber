@@ -84,14 +84,16 @@ export class PlayerComponent implements OnInit {
   }
 
   loadRegions(): void {
-    this.annotations.forEach((annotation) => {
-      let region = this.player.addRegion({
-        id: annotation.id,
-        start: annotation.start,
-        end: annotation.end,
-        color: BASE_COLOUR,
-      }) // Doesn't return the region object FYI
-    });
+    if (this.player.handlers != null) { // Hackish fix to stop wrapper.null implosions
+      for (let annotation of this.annotations) {
+        this.player.addRegion({
+          id: annotation.id,
+          start: annotation.start,
+          end: annotation.end,
+          color: BASE_COLOUR,
+        });
+      }
+    }
 
     if (this.annotations.length > 0) {
       this.selectRegion(this.findRegion(this.annotations[0].id))

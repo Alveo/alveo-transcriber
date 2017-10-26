@@ -26,7 +26,8 @@
       "environments": {
         "dev": "environments/environment.ts",
         "prod": "environments/environment.prod.ts",
-        "staging": "environments/environment.staging.ts"
+        "staging": "environments/environment.staging.ts",
+        "generic": "environments/environment.generic-tool.ts"
       }
     }
   ],

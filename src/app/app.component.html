@@ -1,1 +1,7 @@
-<alveott></alveott>
+<ng-template #documentReadyTemplate [ngIf]="this.getModule()=='alveo'" [ngIfElse]="genericModuleTemplate">
+  <alveott></alveott>
+</ng-template>
+
+<ng-template #genericModuleTemplate>
+  <generictt></generictt>
+</ng-template>

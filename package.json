@@ -8,6 +8,7 @@
     "build": "ng build",
     "buildprod": "ng build --aot --prod",
     "buildtest": "ng build --aot --env=staging",
+    "buildgeneric": "ng build --aot --env=generic",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

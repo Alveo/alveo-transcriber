@@ -9,5 +9,9 @@ export const environment = {
 
   callbackURL: window.location.origin+ "/oauth/callback",
 
+  devTools: false,
+
+  mainTranscriber: "alveo",
+
   segmentorURL: "/api/segment/url"
 };

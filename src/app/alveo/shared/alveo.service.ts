@@ -168,7 +168,10 @@ export class AlveoService {
         return "Downloading";
       }
       return "Ready to download";
-    } 
+    } else if (item['_alveott_annotations'] != undefined && item['_alveott_annotations'].length > 0) {
+      console.log(item['_alveott_annotations']);
+      return "Cached - Transcribed";
+    }
     return "Cached";
   }
 
@@ -234,7 +237,6 @@ export class AlveoService {
   }
 
   watchAnnotations(item: any, watcher: any) {
-    //console.log(this.watch)
     if (this.annotationSubscription != null) {
       this.annotationSubscription.unsubscribe();
     }

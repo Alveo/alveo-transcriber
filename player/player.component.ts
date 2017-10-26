@@ -237,6 +237,10 @@ export class PlayerComponent implements OnInit {
     }
   }
 
+  countRegions(): number {
+    return Object.keys(this.player.regions.list).length;
+  }
+
   replayLast(seconds: number) {
     let position = (this.player.getCurrentTime() - seconds) / this.player.getDuration();
     if (position < 0)

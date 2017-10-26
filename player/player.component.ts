@@ -91,8 +91,6 @@ export class PlayerComponent implements OnInit {
 
   loadRegions(): void {
     this.annotations.forEach((segment) => {
-      console.log("region add"); // this.wrapper is null occurs on large files without this line
-
       this.player.addRegion({
         start: segment.start,
         end: segment.end,
@@ -143,8 +141,10 @@ export class PlayerComponent implements OnInit {
       //(slider as HTMLInputElement).value = this.player.params.minPxPerSec;
     });
 
-    this.player.on('region-click', (region: Region) => {
-      //this.appService.audioPlayer.activeSegment = this.findSegment(region);
+    /* Move cursor to beginning of region */
+    this.player.on('region-click', (region: Region, e: any) => {
+      e.stopPropagation();
+      this.player.seekTo(region.start / this.player.getDuration());
     });
 
     this.player.on('region-updated', (region: Region) => {

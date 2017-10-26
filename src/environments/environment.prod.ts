@@ -11,6 +11,5 @@ export const environment = {
 
   callbackURL: window.location.origin+ "/oauth/callback",
 
-  // TODO: production segmentorURL
-  segmentorURL: "http://127.0.0.1:8080/api/segment/url"
+  segmentorURL: "/api/segment/url"
 };

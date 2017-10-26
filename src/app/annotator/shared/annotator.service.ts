@@ -96,6 +96,24 @@ export class AnnotatorService {
     return segment['id'];
   }
 
+  deleteAnnotationByID(id: string): boolean {
+    for (let annotation of this.annotations) {
+      if (annotation.id == id) {
+        if (id = this.selectedAnnotation.id) {
+          this.selectedAnnotation = null;
+        }
+
+        let index = this.annotations.indexOf(annotation);
+        if (index !== -1) {
+          this.annotations.splice(index, 1);
+        }
+
+        return true;
+      }
+    }
+    return false;
+  }
+
   getAnnotationByID(id: string): Annotation {
     for (let annotation of this.annotations) {
       if (annotation.id == id) {

@@ -111,7 +111,7 @@ export class PlayerComponent implements OnInit {
       this.loadRegions();
       this.player.zoom(3);
       this.player.enableDragSelection({
-          color: 'rgba(0, 255, 0, 0.2)',
+          color: 'hsla(100, 100%, 30%, 0.1',
           loop: true
       });
 
@@ -127,19 +127,20 @@ export class PlayerComponent implements OnInit {
       this.annotatorService.selectAnnotation(annotation)
     });
 
-    this.player.on('region-updated', (region: Region) => {
-      //this.appService.audioPlayer.activeSegment = this.findSegment(region);
-    });
-
     this.player.on('region-update-end', (region: Region) => {
-      //let segment = this.findSegment(region);
-      //segment.start = region.start;
-      //segment.end = region.end;
+      let annotation = this.annotatorService.getAnnotationByID(region.id)
+      annotation.start = region.start;
+      annotation.end = region.end;
     });
 
     this.player.on('region-created', (region: Region) => {
       if (region.id.startsWith("wavesurfer_")) {
-        console.log("Drag region created "+region.id);
+        this.annotatorService.createAnnotationFromSegment(
+          {
+            'id': region.id,
+            'start': region.start,
+            'end': region.end,
+          });
       }
     });
 

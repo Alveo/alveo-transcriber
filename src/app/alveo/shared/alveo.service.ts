@@ -238,9 +238,9 @@ export class AlveoService {
     //if (this.watch != null) {
     //  this.watch.unsubscribe();
     //}
-    //this.watch = watcher;
-    //watcher.subscribe((event:any) => {
-    //  this.setAnnotations(item, this.annotatorService.annotations);
-    //});
+    this.watch = watcher;
+    watcher.subscribe((event:any) => {
+      this.setAnnotations(item, this.annotatorService.annotations);
+    });
   }
 }

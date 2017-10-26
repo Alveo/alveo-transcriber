@@ -27,8 +27,7 @@ export class ItemListsComponent implements OnInit {
   ) { }
 
   isDevMode(): boolean {
-    //return !environment.production;
-    return true;
+    return environment.devTools;
   }
 
   requireLogin(firstRun=false) {

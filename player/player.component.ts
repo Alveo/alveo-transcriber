@@ -22,11 +22,12 @@ const SELECTED_COLOUR = 'rgba(0, 200, 200, 0.2)';
 })
 export class PlayerComponent implements OnInit {
   player: WaveSurfer;
-  _playing: boolean;
   @Input() clip: any;
   @Input() annotations: any;
 
   annotatorSubscription: any;
+
+  selectedRegion: any;
 
   constructor(
     private annotatorService: AnnotatorService,
@@ -60,17 +61,17 @@ export class PlayerComponent implements OnInit {
 
   play(): void {
     this.player.play();
-    this._playing = true;
   }
 
   stop(): void {
-    this.player.stop();
-    this._playing = false;
+    if (this.player.getCurrentTime() == this.player.getDuration()) {
+      // Reset to beginning only if we're at the end and not a region end
+      this.player.stop();
+    }
   }
 
   pause(): void {
     this.player.pause();
-    this._playing = false;
   }
 
   seek(position: number): void {
@@ -104,8 +105,6 @@ export class PlayerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._playing = false;
-
     this.player = WaveSurfer.create({
       container: '#waveform',
       waveColor: 'black',
@@ -180,22 +179,42 @@ export class PlayerComponent implements OnInit {
   }
 
   playing(): boolean {
-    return this._playing;
+    return this.player.isPlaying();
   }
 
   unselectRegion(region: Region): void {
-    if (region != undefined)
+    if (region != undefined) {
       region.update({color:BASE_COLOUR});
+      this.selectedRegion.update({loop:false});
+    }
   }
 
   selectRegion(region: Region): void {
     if (region != undefined) {
       this.gotoRegion(region);
       region.update({color:SELECTED_COLOUR});
+
+      this.selectedRegion = region;
     }
   }
 
   findRegion(id: string): Region {
     return this.player.regions.list[id];
+  }
+
+  replayLast(seconds: number) {
+    let position = (this.player.getCurrentTime() - seconds) / this.player.getDuration();
+    if (position < 0)
+      position = 0;
+
+    this.player.seekTo(position);
+  }
+
+  replaySelectedRegion() {
+    this.selectedRegion.play();
+  }
+
+  loopSelectedRegion() {
+    this.selectedRegion.playLoop();
   }
 }

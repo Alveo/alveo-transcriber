@@ -17,10 +17,12 @@
 
   <div id="icons">
     <p>Not implemented:</p>
-    <mat-icon class="clickable">replay</mat-icon>
-    <mat-icon class="clickable">replay_5</mat-icon>
-    <mat-icon class="clickable">replay_10</mat-icon>
-    <mat-icon class="clickable">loop</mat-icon>
+    <mat-icon class="clickable" (click)="this.replaySelectedRegion()">replay</mat-icon>
+    <mat-icon class="clickable" (click)="this.replayLast(5)">replay_5</mat-icon>
+    <mat-icon class="clickable" (click)="this.replayLast(10)">replay_10</mat-icon>
+    <!-- Currently doesn't work. Wavesurfer bug?
+    <mat-icon class="clickable" (click)="this.loopSelectedRegion()">loop</mat-icon>
+    -->
     <mat-icon class="clickable">skip_previous</mat-icon>
     <mat-icon class="clickable">skip_next</mat-icon>
   </div>

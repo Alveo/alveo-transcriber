@@ -12,6 +12,9 @@ import MinimapPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.minimap';
 import { AnnotatorService } from '../shared/annotator.service';
 import { Annotation } from '../shared/annotator.service';
 
+const BASE_COLOUR = 'rgba(0, 100, 0, 0.2)';
+const SELECTED_COLOUR = 'rgba(0, 200, 200, 0.2)';
+
 @Component({
   selector: 'player',
   templateUrl: './player.component.html',
@@ -32,11 +35,22 @@ export class PlayerComponent implements OnInit {
       }
     });
 
-    this.annotatorService.annotationsEvent.subscribe((mode)=>{
-      if (mode == "rebuild") {
+    this.annotatorService.annotationsEvent.subscribe((event)=>{
+      if (event.type == "rebuild") {
         this.player.clearRegions();
         this.annotations = this.annotatorService.getAnnotations();
         this.loadRegions();
+      }
+      else if (event.type == "selectAnnotation") {
+        if (event.old != null) {
+          let oldRegion = this.findRegion(event.old.id);
+          this.unselectRegion(oldRegion);
+        }
+
+        if (event.new != null) {
+          let newRegion = this.findRegion(event.new.id);
+          this.selectRegion(newRegion);
+        }
       }
     });
   }
@@ -75,7 +89,7 @@ export class PlayerComponent implements OnInit {
         id: annotation.id,
         start: annotation.start,
         end: annotation.end,
-        color: 'hsla(100, 100%, 30%, 0.1)'
+        color: BASE_COLOUR,
       }) // Doesn't return the region object FYI
     });
   }
@@ -111,7 +125,7 @@ export class PlayerComponent implements OnInit {
       this.loadRegions();
       this.player.zoom(3);
       this.player.enableDragSelection({
-          color: 'hsla(100, 100%, 30%, 0.1',
+          color: BASE_COLOUR,
           loop: true
       });
 
@@ -120,9 +134,7 @@ export class PlayerComponent implements OnInit {
 
     /* Move cursor to beginning of region */
     this.player.on('region-click', (region: Region, e: any) => {
-      e.stopPropagation(); // Stops the seek to mousePos event
-      this.gotoRegion(region);
-      console.log("Clicked: "+region.id);
+      e.stopPropagation(); // Stop click from being overridden by mousepos
       let annotation = this.annotatorService.getAnnotationByID(region.id)
       this.annotatorService.selectAnnotation(annotation)
     });
@@ -131,6 +143,8 @@ export class PlayerComponent implements OnInit {
       let annotation = this.annotatorService.getAnnotationByID(region.id)
       annotation.start = region.start;
       annotation.end = region.end;
+
+      this.selectRegion(region);
     });
 
     this.player.on('region-created', (region: Region) => {
@@ -160,12 +174,16 @@ export class PlayerComponent implements OnInit {
     return this._playing;
   }
 
+  unselectRegion(region: Region): void {
+    region.update({color:BASE_COLOUR});
+  }
+
+  selectRegion(region: Region): void {
+    this.gotoRegion(region);
+    region.update({color:SELECTED_COLOUR});
+  }
+
   findRegion(id: string): Region {
-    for (let region of this.player.regions) {
-      if (region.id == id) {
-        return region;
-      }
-    }
-    return null;
+    return this.player.regions.list[id];
   }
 }

@@ -61,7 +61,12 @@ export class AnnotatorService {
         );
       counter += 1;
     }
-    this.annotationsEvent.emit("rebuild");
+
+    this.annotationsEvent.emit({"type":"rebuild"});
+
+    if (this.annotations.length > 0) {
+      this.selectAnnotation(this.annotations[0]);
+    }
   }
 
   createAnnotationFromSegment(segment: any): string {
@@ -87,8 +92,16 @@ export class AnnotatorService {
   }
 
   selectAnnotation(annotation: Annotation) {
+    let oldSelection = this.selectedAnnotation;
     this.selectedAnnotation = annotation;
-    this.annotationsEvent.emit("selectAnnotation");
+
+    this.annotationsEvent.emit(
+      {
+        "type": "selectAnnotation",
+        "new": annotation,
+        "old": oldSelection
+      }
+    );
   }
 
   dumpCSV(): string {

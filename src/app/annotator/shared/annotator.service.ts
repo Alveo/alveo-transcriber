@@ -15,7 +15,7 @@ export class Annotation {
   constructor(id: string,
               start: number, end: number,
               speaker: string, caption: string,
-              cap_type: string) {
+              cap_type: string="text") {
     this.id = id;
     this.start = start;
     this.end = end;
@@ -52,13 +52,29 @@ export class AnnotatorService {
     let counter = 0;
 
     for (let segment of segments) {
-      this.annotations.push(new Annotation(
-        counter.toString(),
-        segment.start, segment.end, "", "", "text"));
-
+      this.createAnnotationFromSegment(
+          {
+            'id': counter.toString(),
+            'start': segment.start,
+            'end': segment.end,
+          }
+        );
       counter += 1;
     }
     this.annotationsEvent.emit("rebuild");
+  }
+
+  createAnnotationFromSegment(segment: any): string {
+    this.annotations.push(new Annotation(
+      segment['id'],
+      segment['start'],
+      segment['end'],
+      segment['speaker'],
+      segment['caption'],
+      segment['cap_type']
+    ));
+
+    return segment['id'];
   }
 
   getAnnotationByID(id: string): Annotation {

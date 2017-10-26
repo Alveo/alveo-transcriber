@@ -3,13 +3,16 @@ import { CsvService } from "angular2-json2csv";
 import { Injectable, EventEmitter } from '@angular/core';
 
 export class Annotation {
+  id: string;
   start: number;
   end: number;
   speaker: string;
   annotation: string;
 
-  constructor(start: number, end: number,
+  constructor(id: string,
+              start: number, end: number,
               speaker: string, annotation: string) {
+    this.id = id;
     this.start = start;
     this.end = end;
     this.speaker = speaker;
@@ -34,10 +37,15 @@ export class AnnotatorService {
 
   rebuild(segments: any): void {
     this.annotations = [];
+    let counter = 0;
+
     for (let segment of segments) {
-      this.annotations.push(new Annotation(segment.start, segment.end, "", ""));
+      this.annotations.push(new Annotation(
+        counter.toString(),
+        segment.start, segment.end, "", ""));
+
+      counter += 1;
     }
-    console.log(this.annotations);
     this.annotationsEvent.emit("rebuild");
   }
 

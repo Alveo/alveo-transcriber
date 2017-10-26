@@ -10,21 +10,7 @@ import TimelinePlugin from 'wavesurfer.js/dist/plugin/wavesurfer.timeline';
 import MinimapPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.minimap';
 
 import { AnnotatorService } from '../shared/annotator.service';
-
-class Segment {
-  start: number;
-  end: number;
-}
-
-class Cache {
-  segment: Segment;
-  region: Region;
-
-  constructor(segment: Segment, region: Region) {
-    this.segment = segment;
-    this.region = region;
-  }
-}
+import { Annotation } from '../shared/annotator.service';
 
 @Component({
   selector: 'player',
@@ -36,8 +22,6 @@ export class PlayerComponent implements OnInit {
   _playing: boolean;
   @Input() clip: any;
   @Input() annotations: any;
-
-  regionCache: Cache[] = [];
 
   constructor(
     private annotatorService: AnnotatorService,
@@ -85,21 +69,14 @@ export class PlayerComponent implements OnInit {
     return Math.floor(this.player.getDuration());
   }
 
-  addCache(segment: Segment, region: Region): void {
-    this.regionCache.push(new Cache(segment, region));
-  }
-
   loadRegions(): void {
-    this.annotations.forEach((segment) => {
-      this.player.addRegion({
-        start: segment.start,
-        end: segment.end,
+    this.annotations.forEach((annotation) => {
+      let region = this.player.addRegion({
+        id: annotation.id,
+        start: annotation.start,
+        end: annotation.end,
         color: 'hsla(100, 100%, 30%, 0.1)'
       }) // Doesn't return the region object FYI
-
-      // It's hacky: retrieves the last added region
-      var region = this.player.regions.list[Object.keys(this.player.regions.list).pop()];
-      this.addCache(segment, region);
     });
   }
 
@@ -143,8 +120,9 @@ export class PlayerComponent implements OnInit {
 
     /* Move cursor to beginning of region */
     this.player.on('region-click', (region: Region, e: any) => {
-      e.stopPropagation();
-      this.player.seekTo(region.start / this.player.getDuration());
+      e.stopPropagation(); // Stops the seek to mousePos event
+      this.gotoRegion(region);
+      console.log(region.id);
     });
 
     this.player.on('region-updated', (region: Region) => {
@@ -152,9 +130,15 @@ export class PlayerComponent implements OnInit {
     });
 
     this.player.on('region-update-end', (region: Region) => {
-      let segment = this.findSegment(region);
-      segment.start = region.start;
-      segment.end = region.end;
+      //let segment = this.findSegment(region);
+      //segment.start = region.start;
+      //segment.end = region.end;
+    });
+
+    this.player.on('region-created', (region: Region) => {
+      if (region.id.startsWith("wavesurfer_")) {
+        console.log("Drag region created "+region.id);
+      }
     });
 
     this.player.on('finish', () => {
@@ -165,29 +149,20 @@ export class PlayerComponent implements OnInit {
     setInterval(() => {}, 1000);
   }
 
+  gotoRegion(region: Region) {
+    this.player.seekTo(region.start / this.player.getDuration());
+  }
+
   playing(): boolean {
     return this._playing;
   }
 
-  findSegment(region: Region): Segment {
-    let match = null;
-    for (var cache of this.regionCache) {
-      if (cache.region == region) {
-        match = cache.segment;
-        break;
+  findRegion(id: string): Region {
+    for (let region of this.player.regions) {
+      if (region.id == id) {
+        return region;
       }
     }
-    return match;
-  }
-
-  findRegion(segment: Segment): Region{
-    let match = null;
-    for (var cache of this.regionCache) {
-      if (cache.segment == segment) {
-        match = cache.region;
-        break;
-      }
-    }
-    return match;
+    return null;
   }
 }

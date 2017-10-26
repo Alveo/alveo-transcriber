@@ -26,16 +26,19 @@ export class PlayerComponent implements OnInit {
   @Input() clip: any;
   @Input() annotations: any;
 
+  annotatorSubscription: any;
+
   constructor(
     private annotatorService: AnnotatorService,
     private router: Router) {
     router.events.subscribe( (event:Event) => {
       if (event instanceof NavigationStart) {
         this.player.destroy();
+        this.annotatorSubscription.unsubscribe();
       }
     });
 
-    this.annotatorService.annotationsEvent.subscribe((event)=>{
+    this.annotatorSubscription = this.annotatorService.annotationsEvent.subscribe((event)=>{
       if (event.type == "rebuild") {
         this.player.clearRegions();
         this.annotations = this.annotatorService.getAnnotations();

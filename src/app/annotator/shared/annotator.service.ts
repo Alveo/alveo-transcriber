@@ -7,16 +7,25 @@ export class Annotation {
   start: number;
   end: number;
   speaker: string;
-  annotation: string;
+  caption: string;
+  cap_type: string;
+
+  cap_options: Array<string>;
 
   constructor(id: string,
               start: number, end: number,
-              speaker: string, annotation: string) {
+              speaker: string, caption: string,
+              cap_type: string) {
     this.id = id;
     this.start = start;
     this.end = end;
     this.speaker = speaker;
-    this.annotation = annotation;
+    this.caption = caption;
+    this.cap_type = cap_type;
+
+    this.cap_options = [
+      "text", "noise"
+    ];
   }
 }
 
@@ -27,7 +36,10 @@ export class AnnotatorService {
   audioFile: any;
   audioFileName: string;
   audioFileURL: string;
-  annotations: any;
+
+  annotations: Array<Annotation>;
+
+  selectedAnnotation: Annotation;
 
   constructor(private csvService: CsvService) {}
 
@@ -42,11 +54,25 @@ export class AnnotatorService {
     for (let segment of segments) {
       this.annotations.push(new Annotation(
         counter.toString(),
-        segment.start, segment.end, "", ""));
+        segment.start, segment.end, "", "", "text"));
 
       counter += 1;
     }
     this.annotationsEvent.emit("rebuild");
+  }
+
+  getAnnotationByID(id: string): Annotation {
+    for (let annotation of this.annotations) {
+      if (annotation.id == id) {
+        return annotation;
+      }
+    }
+    return null;
+  }
+
+  selectAnnotation(annotation: Annotation) {
+    this.selectedAnnotation = annotation;
+    this.annotationsEvent.emit("selectAnnotation");
   }
 
   dumpCSV(): string {

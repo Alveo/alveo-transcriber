@@ -122,7 +122,9 @@ export class PlayerComponent implements OnInit {
     this.player.on('region-click', (region: Region, e: any) => {
       e.stopPropagation(); // Stops the seek to mousePos event
       this.gotoRegion(region);
-      console.log(region.id);
+      console.log("Clicked: "+region.id);
+      let annotation = this.annotatorService.getAnnotationByID(region.id)
+      this.annotatorService.selectAnnotation(annotation)
     });
 
     this.player.on('region-updated', (region: Region) => {

@@ -12,6 +12,9 @@ import MinimapPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.minimap';
 import { AnnotatorService } from '../shared/annotator.service';
 import { Annotation } from '../shared/annotator.service';
 
+import { MatDialog } from '@angular/material';
+import { Dialog } from '../dialog/dialog.component';
+
 const BASE_COLOUR = 'rgba(0, 100, 0, 0.2)';
 const SELECTED_COLOUR = 'rgba(0, 200, 200, 0.2)';
 
@@ -29,7 +32,10 @@ export class PlayerComponent implements OnInit {
 
   selectedRegion: any;
 
+  ready: boolean;
+
   constructor(
+    private dialog: MatDialog,
     private annotatorService: AnnotatorService,
     private router: Router) {
     router.events.subscribe( (event:Event) => {
@@ -45,17 +51,13 @@ export class PlayerComponent implements OnInit {
         this.annotations = this.annotatorService.getAnnotations();
         this.loadRegions();
       }
+      /*
       else if (event.type == "selectAnnotation") {
-        if (event.old != null && event.old != undefined) {
-          let oldRegion = this.findRegion(event.old.id);
-          this.unselectRegion(oldRegion);
-        }
-
         if (event.new != null) {
           let newRegion = this.findRegion(event.new.id);
           this.selectRegion(newRegion);
         }
-      }
+      }*/
     });
   }
 
@@ -130,6 +132,7 @@ export class PlayerComponent implements OnInit {
      */
 
     this.player.on('ready', () => {
+      this.ready = true;
       this.loadRegions();
       this.player.zoom(3);
       this.player.enableDragSelection({
@@ -143,8 +146,7 @@ export class PlayerComponent implements OnInit {
     /* Move cursor to beginning of region */
     this.player.on('region-click', (region: Region, e: any) => {
       e.stopPropagation(); // Stop click from being overridden by mousepos
-      let annotation = this.annotatorService.getAnnotationByID(region.id)
-      this.annotatorService.selectAnnotation(annotation)
+      this.selectRegion(region);
     });
 
     this.player.on('region-update-end', (region: Region) => {
@@ -191,8 +193,13 @@ export class PlayerComponent implements OnInit {
 
   selectRegion(region: Region): void {
     if (region != undefined) {
+      this.unselectRegion(this.selectedRegion);
+
       this.gotoRegion(region);
       region.update({color:SELECTED_COLOUR});
+
+      let annotation = this.annotatorService.getAnnotationByID(region.id)
+      this.annotatorService.selectAnnotation(annotation)
 
       this.selectedRegion = region;
     }
@@ -200,6 +207,34 @@ export class PlayerComponent implements OnInit {
 
   findRegion(id: string): Region {
     return this.player.regions.list[id];
+  }
+
+  selectPreviousRegion(): Region {
+    let beginning = this.selectedRegion.start;
+    let prevRegion = null;
+    for (let regionID of Object.keys(this.player.regions.list)) {
+      let region = this.player.regions.list[regionID];
+      if (region.start > beginning || region.id == this.selectedRegion.id) {
+        break;
+      }
+
+      prevRegion = region;
+    }
+
+    if (prevRegion != null) {
+      this.selectRegion(prevRegion);
+    }
+  }
+
+  selectNextRegion(): Region {
+    let beginning = this.selectedRegion.start;
+    for (let regionID of Object.keys(this.player.regions.list)) {
+      let region = this.player.regions.list[regionID];
+      if (region.start > beginning && region.id != this.selectedRegion.id) {
+        this.selectRegion(region);
+        break;
+      }
+    }
   }
 
   replayLast(seconds: number) {
@@ -216,5 +251,25 @@ export class PlayerComponent implements OnInit {
 
   loopSelectedRegion() {
     this.selectedRegion.playLoop();
+  }
+
+  isReady(): boolean {
+    return this.ready;
+  }
+
+  dialogOpen(title: string, text: string): any {
+    return this.dialog.open(Dialog, {data: {title: title, text: text}});
+  }
+
+  deleteRegion(): void {
+    let dialogStatus = this.dialogOpen("Warning", "Are you sure you wish to delete this segment?");
+    dialogStatus.afterClosed().subscribe(result => {
+      if (result == true) {
+        this.annotatorService.deleteAnnotationByID(this.selectedRegion.id);
+        let delRegion = this.selectedRegion;
+        this.unselectRegion(delRegion);
+        delRegion.remove();
+      }
+    });
   }
 }

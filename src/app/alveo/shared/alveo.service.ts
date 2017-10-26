@@ -14,7 +14,7 @@ import { Annotation } from '../../annotator/shared/annotator.service';
 export class AlveoService {
   selectedList: any;
   lists: Array<any>;
-  watch: any;
+  annotationSubscription: any;
 
   constructor(
     private http: Http,
@@ -235,11 +235,10 @@ export class AlveoService {
 
   watchAnnotations(item: any, watcher: any) {
     //console.log(this.watch)
-    //if (this.watch != null) {
-    //  this.watch.unsubscribe();
-    //}
-    this.watch = watcher;
-    watcher.subscribe((event:any) => {
+    if (this.annotationSubscription != null) {
+      this.annotationSubscription.unsubscribe();
+    }
+    this.annotationSubscription = watcher.subscribe((event:any) => {
       this.setAnnotations(item, this.annotatorService.annotations);
     });
   }

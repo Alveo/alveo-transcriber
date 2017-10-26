@@ -15,15 +15,13 @@
 
   </div>
 
-  <div id="icons">
-    <p>Not implemented:</p>
+  <div id="icons" *ngIf="this.isReady()">
     <mat-icon class="clickable" (click)="this.replaySelectedRegion()">replay</mat-icon>
     <mat-icon class="clickable" (click)="this.replayLast(5)">replay_5</mat-icon>
     <mat-icon class="clickable" (click)="this.replayLast(10)">replay_10</mat-icon>
-    <!-- Currently doesn't work. Wavesurfer bug?
     <mat-icon class="clickable" (click)="this.loopSelectedRegion()">loop</mat-icon>
-    -->
-    <mat-icon class="clickable">skip_previous</mat-icon>
-    <mat-icon class="clickable">skip_next</mat-icon>
+    <mat-icon class="clickable" (click)="this.selectPreviousRegion()">skip_previous</mat-icon>
+    <mat-icon class="clickable" (click)="this.selectNextRegion()">skip_next</mat-icon>
+    <mat-icon class="clickable" (click)="this.deleteRegion()">delete</mat-icon>
   </div>
 </div>

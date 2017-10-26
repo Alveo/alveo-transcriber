@@ -115,10 +115,6 @@ import 'hammerjs';
   ],
   exports: [
     AlveoComponent,
-    NavComponent,
-    AuthComponent,
-    ItemListsComponent,
-    ListViewComponent,
   ],
   providers: [
     AuthService,

@@ -2,6 +2,7 @@ mat-icon {
   font-size: 40px;
   width: 40px;
   height: 40px;
+  user-select: none;
 }
 
 mat-icon.clickable:hover {

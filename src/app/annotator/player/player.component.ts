@@ -187,7 +187,7 @@ export class PlayerComponent implements OnInit {
   unselectRegion(region: Region): void {
     if (region != undefined) {
       region.update({color:BASE_COLOUR});
-      this.selectedRegion.update({loop:false});
+      this.selectedRegion = null;
     }
   }
 
@@ -210,11 +210,17 @@ export class PlayerComponent implements OnInit {
   }
 
   selectPreviousRegion(): Region {
-    let beginning = this.selectedRegion.start;
+    let beginning = null;
+    if (this.selectedRegion == null) {
+      beginning = this.player.getCurrentTime();
+    } else {
+      beginning = this.selectedRegion.start;
+    }
+
     let prevRegion = null;
     for (let regionID of Object.keys(this.player.regions.list)) {
       let region = this.player.regions.list[regionID];
-      if (region.start > beginning || region.id == this.selectedRegion.id) {
+      if (region.start > beginning || (this.selectedRegion != null && region.id == this.selectedRegion.id)) {
         break;
       }
 
@@ -227,12 +233,24 @@ export class PlayerComponent implements OnInit {
   }
 
   selectNextRegion(): Region {
-    let beginning = this.selectedRegion.start;
+    let beginning = null;
+    if (this.selectedRegion == null) {
+      beginning = this.player.getCurrentTime();
+    } else {
+      beginning = this.selectedRegion.start;
+    }
     for (let regionID of Object.keys(this.player.regions.list)) {
       let region = this.player.regions.list[regionID];
-      if (region.start > beginning && region.id != this.selectedRegion.id) {
-        this.selectRegion(region);
-        break;
+      if (region.start > beginning) {
+        if (this.selectedRegion != null) {
+          if (region.id != this.selectedRegion.id) {
+            this.selectRegion(region);
+            break;
+          }
+        } else {
+          this.selectRegion(region);
+          break;
+        }
       }
     }
   }

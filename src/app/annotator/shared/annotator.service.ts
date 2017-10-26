@@ -80,6 +80,8 @@ export class AnnotatorService {
   selectFirst() {
     if (this.annotations.length > 0) {
       this.selectAnnotation(this.annotations[0]);
+    } else {
+      this.selectAnnotation(null);
     }
   }
 

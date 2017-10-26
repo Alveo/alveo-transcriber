@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 
 import { Annotation } from '../shared/annotator.service';
+import { AnnotatorService } from '../shared/annotator.service';
 
 @Component({
   selector: 'annotations',
@@ -8,6 +9,14 @@ import { Annotation } from '../shared/annotator.service';
   styleUrls: ['./annotations.component.css'],
 })
 
-export class AnnotationsComponent {
+export class AnnotationsComponent implements OnChanges {
   @Input() annotation: Annotation;
+
+  constructor(
+    public annotatorService: AnnotatorService
+  ) { }
+
+  ngOnChanges(changes: any): void {
+    this.annotatorService.emitUpdate(); 
+  }
 }

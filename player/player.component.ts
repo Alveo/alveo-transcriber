@@ -42,7 +42,7 @@ export class PlayerComponent implements OnInit {
         this.loadRegions();
       }
       else if (event.type == "selectAnnotation") {
-        if (event.old != null) {
+        if (event.old != null && event.old != undefined) {
           let oldRegion = this.findRegion(event.old.id);
           this.unselectRegion(oldRegion);
         }
@@ -92,6 +92,10 @@ export class PlayerComponent implements OnInit {
         color: BASE_COLOUR,
       }) // Doesn't return the region object FYI
     });
+
+    if (this.annotations.length > 0) {
+      this.selectRegion(this.findRegion(this.annotations[0].id))
+    }
   }
 
   ngOnInit(): void {
@@ -175,12 +179,15 @@ export class PlayerComponent implements OnInit {
   }
 
   unselectRegion(region: Region): void {
-    region.update({color:BASE_COLOUR});
+    if (region != undefined)
+      region.update({color:BASE_COLOUR});
   }
 
   selectRegion(region: Region): void {
-    this.gotoRegion(region);
-    region.update({color:SELECTED_COLOUR});
+    if (region != undefined) {
+      this.gotoRegion(region);
+      region.update({color:SELECTED_COLOUR});
+    }
   }
 
   findRegion(id: string): Region {

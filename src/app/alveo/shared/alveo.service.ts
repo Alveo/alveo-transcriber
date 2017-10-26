@@ -169,7 +169,6 @@ export class AlveoService {
       }
       return "Ready to download";
     } else if (item['_alveott_annotations'] != undefined && item['_alveott_annotations'].length > 0) {
-      console.log(item['_alveott_annotations']);
       return "Cached - Transcribed";
     }
     return "Cached";

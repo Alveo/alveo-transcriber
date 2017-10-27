@@ -136,7 +136,6 @@ export class PlayerComponent implements OnInit {
       this.player.zoom(3);
       this.player.enableDragSelection({
           color: BASE_COLOUR,
-          loop: true
       });
 
       this.ready = true;

@@ -11,14 +11,15 @@
       <mat-icon class="clickable" (click)="this.play()">play_arrow</mat-icon>
     </ng-template>
 
+    <mat-icon class="clickable" (click)="this.replayLast(5)">replay_5</mat-icon>
+    <mat-icon class="clickable" (click)="this.replayLast(10)">replay_10</mat-icon>
+
     <p id="duration">{{this.getPos() | durationshort}} / {{this.getDuration() | durationshort}}</p>
 
   </div>
 
   <div id="icons" *ngIf="this.isReady() && this.countRegions() > 0">
     <mat-icon class="clickable" (click)="this.replaySelectedRegion()" *ngIf="this.selectedRegion!=null">replay</mat-icon>
-    <mat-icon class="clickable" (click)="this.replayLast(5)">replay_5</mat-icon>
-    <mat-icon class="clickable" (click)="this.replayLast(10)">replay_10</mat-icon>
     <!-- Loop is bugged with WaveSurfer 2.0-b2 -->
     <!-- <mat-icon class="clickable" (click)="this.loopSelectedRegion()" *ngIf="this.selectedRegion!=null">loop</mat-icon> -->
     <mat-icon class="clickable" (click)="this.selectPreviousRegion()">skip_previous</mat-icon>

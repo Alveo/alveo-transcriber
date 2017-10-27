@@ -162,7 +162,6 @@ export class PlayerComponent implements OnInit {
 
     this.player.on('region-created', (region: Region) => {
       if (this.ready == true) {
-        console.debug("Ready");
         if (region.id.startsWith("wavesurfer_")) {
           this.annotatorService.createAnnotationFromSegment(
             {

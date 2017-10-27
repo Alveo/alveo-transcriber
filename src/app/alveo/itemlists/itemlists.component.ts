@@ -55,7 +55,7 @@ export class ItemListsComponent implements OnInit {
     if (this.isLoggedIn()) {
       this.loading = false;
     } else {
-      setTimeout(()=>this.loading=false, 1000);
+      setTimeout(()=>this.loading=false, 2000);
     }
   }
 

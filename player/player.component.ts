@@ -222,20 +222,19 @@ export class PlayerComponent implements OnInit {
     } else {
       beginning = this.selectedRegion.start;
     }
+    let lower = 0;
 
     let prevRegion = null;
 
-    console.log(Object.keys(this.player.regions.list));
+    // regions.list is unsorted JSON
     for (let regionID of Object.keys(this.player.regions.list)) {
       let region = this.player.regions.list[regionID];
-      console.log(region.id);
-      console.log(region.start);
-      console.log(beginning);
-      if (region.start > beginning || (this.selectedRegion != null && region.id == this.selectedRegion.id)) {
-        break;
+      if (region.start < beginning) {
+        if (lower < region.start) {
+          lower = region.start;
+          prevRegion = region;
+        }
       }
-
-      prevRegion = region;
     }
 
     if (prevRegion != null) {
@@ -250,19 +249,22 @@ export class PlayerComponent implements OnInit {
     } else {
       beginning = this.selectedRegion.start;
     }
+    let higher = this.player.getDuration();
+
+    let nextRegion = null;
+
+    // regions.list is unsorted JSON
     for (let regionID of Object.keys(this.player.regions.list)) {
       let region = this.player.regions.list[regionID];
       if (region.start > beginning) {
-        if (this.selectedRegion != null) {
-          if (region.id != this.selectedRegion.id) {
-            this.selectRegion(region);
-            break;
-          }
-        } else {
-          this.selectRegion(region);
-          break;
+        if (higher > region.start) {
+          higher = region.start;
+          nextRegion = region;
         }
       }
+    }
+    if (nextRegion != null) {
+      this.selectRegion(nextRegion);
     }
   }
 

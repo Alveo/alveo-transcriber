@@ -13,8 +13,8 @@ export class Annotation {
   cap_options: Array<string>;
 
   constructor(id: string,
-              start: number, end: number,
-              speaker: string, caption: string,
+              start: number=0, end: number=0,
+              speaker: string="", caption: string="",
               cap_type: string="text") {
     this.id = id;
     this.start = start;
@@ -65,8 +65,8 @@ export class AnnotatorService {
       this.createAnnotationFromSegment(
           {
             'id': counter.toString(),
-            'start': segment.start,
-            'end': segment.end,
+            'start': parseFloat(segment.start),
+            'end': parseFloat(segment.end),
           }
         );
       counter += 1;

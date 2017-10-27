@@ -132,7 +132,6 @@ export class PlayerComponent implements OnInit {
      */
 
     this.player.on('ready', () => {
-      this.ready = true;
       this.loadRegions();
       this.player.zoom(3);
       this.player.enableDragSelection({
@@ -140,6 +139,7 @@ export class PlayerComponent implements OnInit {
           loop: true
       });
 
+      this.ready = true;
       //(slider as HTMLInputElement).value = this.player.params.minPxPerSec;
     });
 
@@ -150,21 +150,27 @@ export class PlayerComponent implements OnInit {
     });
 
     this.player.on('region-update-end', (region: Region) => {
-      let annotation = this.annotatorService.getAnnotationByID(region.id)
-      annotation.start = region.start;
-      annotation.end = region.end;
+      if (this.ready == true) {
+        let annotation = this.annotatorService.getAnnotationByID(region.id)
 
-      this.selectRegion(region);
+        annotation.start = region.start;
+        annotation.end = region.end;
+
+        this.selectRegion(region);
+      }
     });
 
     this.player.on('region-created', (region: Region) => {
-      if (region.id.startsWith("wavesurfer_")) {
-        this.annotatorService.createAnnotationFromSegment(
-          {
-            'id': region.id,
-            'start': region.start,
-            'end': region.end,
-          });
+      if (this.ready == true) {
+        console.debug("Ready");
+        if (region.id.startsWith("wavesurfer_")) {
+          this.annotatorService.createAnnotationFromSegment(
+            {
+              'id': region.id,
+              'start': region.start,
+              'end': region.end
+            });
+        }
       }
     });
 
@@ -218,8 +224,13 @@ export class PlayerComponent implements OnInit {
     }
 
     let prevRegion = null;
+
+    console.log(Object.keys(this.player.regions.list));
     for (let regionID of Object.keys(this.player.regions.list)) {
       let region = this.player.regions.list[regionID];
+      console.log(region.id);
+      console.log(region.start);
+      console.log(beginning);
       if (region.start > beginning || (this.selectedRegion != null && region.id == this.selectedRegion.id)) {
         break;
       }

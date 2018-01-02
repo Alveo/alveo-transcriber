@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, ResponseContentType } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { ErrorHandler } from './http-errors'
@@ -17,7 +17,7 @@ export class AlveoService {
   annotationSubscription: any;
 
   constructor(
-    private http: Http,
+    private http: HttpClient,
     private authService: AuthService,
     private annotatorService: AnnotatorService,
     private dbService: DBService) {
@@ -26,24 +26,30 @@ export class AlveoService {
     this.dbService.get('lists').then(result => this.lists = result.lists, error => {});
   }
 
+  private buildHeader(): any {
+    return { headers: new HttpHeaders(
+      {
+        'X-Api-Key': this.authService.apiKey,
+        'Accept': 'application/json'
+      }
+    )};
+  }
+
   private apiRequest(url, successCallback, errorCallback=null, file=false): void {
     if (!this.authService.isLoggedIn())
       return;
 
-    let header = this.authService.buildHeader();
-    header.append('X-Api-Key', this.authService.apiKey);
-
-    let options = this.authService.buildOptions(header);
-    if (file)
-      options.responseType = ResponseContentType.ArrayBuffer;
-
     if (errorCallback == null)
       errorCallback = ErrorHandler;
 
+    const requestOptions = this.buildHeader();
+    if (file)
+      requestOptions.responseType = "arraybuffer";
+
     console.log("Made request to "+url);
-    this.http.get(url, options)
+    this.http.get(url, requestOptions)
                 .subscribe(data => successCallback(data),
-                           error => errorCallback(error, this));
+                  error => ErrorHandler(error, this));
   }
 
   /* TODO Move all of these elsewhere */
@@ -92,11 +98,11 @@ export class AlveoService {
   /* Pulls all lists associated with the user */
   private pullListDirectory(callback=null): void { 
     // Pulls an array of all the lists from Alveo
-    this.apiRequest(this.authService.baseURL + '/item_lists.json',
+    this.apiRequest(this.authService.baseURL + '/item_lists',
       (data) => {
         let lists = [];
-        lists = lists.concat(data.json().own);
-        lists = lists.concat(data.json().shared);
+        lists = lists.concat(data.own);
+        lists = lists.concat(data.shared);
 
         this.lists = lists;
 
@@ -111,7 +117,7 @@ export class AlveoService {
   private pullList(list: any, chainload=false, callback=null): void {
     this.apiRequest(list.item_list_url, (data) => {
       list['_alveott_data'] = [];
-      for (let item_url of data.json().items) {
+      for (let item_url of data.items) {
         list['_alveott_data'].push({'url': item_url});
       }
       if (chainload) { this.chainLoadItems(list['_alveott_data']) }
@@ -152,7 +158,7 @@ export class AlveoService {
   private pullItem(item: any, chainload=false, callback=null): void {
     item['alveott_download'] = true;
     this.apiRequest(item.url, (data) => {
-      item['data'] = data.json();
+      item['data'] = data;
 
       if (callback != null) {
         callback(data);

@@ -1,4 +1,4 @@
-import { Http, Headers, RequestOptions, Response, ResponseContentType } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, EventEmitter } from '@angular/core';
 
 import { ErrorHandler } from './http-errors'
@@ -27,7 +27,7 @@ export class AuthService {
 
   apiKey: string;
 
-  constructor(private http: Http) { }
+  constructor(private http: HttpClient) { }
 
   createLoginURL() {
     return this.loginURL
@@ -66,14 +66,8 @@ export class AuthService {
     this.authCode = code;
   }
 
-  buildHeader(): Headers {
-    return new Headers({
-        'Accept': 'application/json'
-      });
-  }
-
-  buildOptions(headers: Headers): RequestOptions {
-    return new RequestOptions({ headers: headers });
+  private buildHeader(): any {
+      return {headers: new HttpHeaders({ 'Accept': 'application/json'})};
   }
 
   pullToken(): void {
@@ -83,17 +77,22 @@ export class AuthService {
       "client_secret": this.clientSecret,
       "code": this.authCode,
       "redirect_uri": this.callbackURL
-      }, this.buildOptions(this.buildHeader()))
-    .subscribe(data => {this.token = data.json().access_token; this.pullAPIKey() },
+      }, {headers: new HttpHeaders({ 'Accept': 'application/json'})}) 
+    .subscribe(data => {this.token = data['access_token']; this.pullAPIKey()},
                error => ErrorHandler(error, this));
   }
 
   pullAPIKey(): void {
-    let header = this.buildHeader();
-    header.append('Authorization', "Bearer "+this.token);
+    let requestHeaders = {
+      headers: new HttpHeaders(
+        {
+          'Accept': 'application/json',
+          'Authorization': "Bearer "+this.token
+        }),
+    };
 
-    this.http.get(this.baseURL + '/account_api_key', this.buildOptions(header))
-    .subscribe(data => this.apiKey = data.json().apiKey,
+    this.http.get(this.baseURL + '/account_api_key', requestHeaders)
+    .subscribe(data => this.apiKey = data['apiKey'],
                error => ErrorHandler(error, this));
   }
 }

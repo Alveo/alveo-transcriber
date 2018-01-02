@@ -40,7 +40,7 @@ export class ListDataSource extends DataSource<any> {
   constructor(private _paginator: MatPaginator, tableData: any) {
     super();
 
-    for (var list of tableData) {
+    for (const list of tableData) {
       this.addList(list);
     }
   }

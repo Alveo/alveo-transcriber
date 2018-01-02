@@ -29,7 +29,7 @@ import { DurationShortPipe } from './duration-short.pipe';
 import { AppRoutingModule } from './app-routing.module';
 
 describe('AppComponent', () => {
-  let sessionService = new SessionService();
+  const sessionService = new SessionService();
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -86,7 +86,7 @@ describe('AppComponent', () => {
     const compiled = fixture.debugElement.nativeElement;
     fixture.detectChanges();
 
-    let path = TestBed.get(Router);
+    const path = TestBed.get(Router);
     path.navigate(['./login']);
 
     fixture.whenStable().then(() => {

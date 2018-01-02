@@ -7,7 +7,7 @@ export class DBService {
   private database: any;
 
   constructor() {
-    this.database = new PouchDB("alveott");
+    this.database = new PouchDB('alveott');
   }
 
   public get(key: string) {
@@ -20,7 +20,7 @@ export class DBService {
         value._rev = result._rev;
         return this.database.put(value);
     }, error => {
-      if (error.status == "404") {
+      if (error.status === '404') {
           return this.database.put(value);
       } else {
         console.log(error);

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
 
 import { ErrorHandler } from './http-errors'
 
@@ -35,18 +34,21 @@ export class AlveoService {
     )};
   }
 
-  private apiRequest(url, successCallback, errorCallback=null, file=false): void {
-    if (!this.authService.isLoggedIn())
+  private apiRequest(url, successCallback, errorCallback= null, file= false): void {
+    if (!this.authService.isLoggedIn()) {
       return;
+    }
 
-    if (errorCallback == null)
+    if (errorCallback === null) {
       errorCallback = ErrorHandler;
+    }
 
     const requestOptions = this.buildHeader();
-    if (file)
-      requestOptions.responseType = "arraybuffer";
+    if (file) {
+      requestOptions.responseType = 'arraybuffer';
+    }
 
-    console.log("Made request to "+url);
+    console.log('Made request to ' + url);
     this.http.get(url, requestOptions)
                 .subscribe(data => successCallback(data),
                   error => ErrorHandler(error, this));
@@ -62,15 +64,15 @@ export class AlveoService {
   }
 
   flushCache(): void {
-    this.dbService.put("lists", {lists: []});
+    this.dbService.put('lists', {lists: []});
   }
 
   startStore(): void {
-    setInterval(() => this.storeData(), 3000); 
+    setInterval(() => this.storeData(), 3000);
   }
 
   storeData(): void {
-    this.dbService.put("lists", {lists: this.lists})
+    this.dbService.put('lists', {lists: this.lists})
   }
 
   reset(): void {
@@ -78,7 +80,7 @@ export class AlveoService {
   }
 
   resetStore(): void {
-    this.dbService.put("lists", {lists: []});
+    this.dbService.put('lists', {lists: []});
   }
   /* ********* */
 
@@ -91,12 +93,12 @@ export class AlveoService {
   /* TODO Promises */
 
   /* Returns all lists associated with the user */
-  public getListDirectory(callback=null): any {
+  public getListDirectory(callback= null): any {
     this.pullListDirectory(callback);
   }
 
   /* Pulls all lists associated with the user */
-  private pullListDirectory(callback=null): void { 
+  private pullListDirectory(callback= null): void {
     // Pulls an array of all the lists from Alveo
     this.apiRequest(this.authService.baseURL + '/item_lists',
       (data) => {
@@ -114,10 +116,10 @@ export class AlveoService {
   }
 
   /* Pulls a list, supports chainloading */
-  private pullList(list: any, chainload=false, callback=null): void {
+  private pullList(list: any, chainload= false, callback= null): void {
     this.apiRequest(list.item_list_url, (data) => {
       list['_alveott_data'] = [];
-      for (let item_url of data.items) {
+      for (const item_url of data.items) {
         list['_alveott_data'].push({'url': item_url});
       }
       if (chainload) { this.chainLoadItems(list['_alveott_data']) }
@@ -129,9 +131,9 @@ export class AlveoService {
   }
 
   /* Returns a list, pulling it if not downloaded yet */
-  public getItems(list: any, callback=null): Array<any> {
+  public getItems(list: any, callback= null): Array<any> {
     // If list doesn't contain data, pull it
-    if (list['_alveott_data'] == undefined) {
+    if (list['_alveott_data'] === undefined) {
       if (this.authService.isLoggedIn()) {
         this.pullList(list, false, callback);
       } else {
@@ -149,13 +151,13 @@ export class AlveoService {
 
   /* Pulls and populates every single item from a list */
   private chainLoadItems(list: any): void {
-    for (let item of list) {
+    for (const item of list) {
       this.pullItem(item, true);
     }
   }
 
   /* Pulls and populates an item entry */
-  private pullItem(item: any, chainload=false, callback=null): void {
+  private pullItem(item: any, chainload= false, callback= null): void {
     item['alveott_download'] = true;
     this.apiRequest(item.url, (data) => {
       item['data'] = data;
@@ -169,20 +171,20 @@ export class AlveoService {
 
   /* Determines whether an item has been downloaded */
   public getItemStatus(item: any): any {
-    if (item['data'] == undefined) {
-      if (item['alveott_download'] == true) {
-        return "Downloading";
+    if (item['data'] === undefined) {
+      if (item['alveott_download'] === true) {
+        return 'Downloading';
       }
-      return "Ready to download";
-    } else if (item['_alveott_annotations'] != undefined && item['_alveott_annotations'].length > 0) {
-      return "Cached - Transcribed";
+      return 'Ready to download';
+    } else if (item['_alveott_annotations'] !== undefined && item['_alveott_annotations'].length > 0) {
+      return 'Cached - Transcribed';
     }
-    return "Cached";
+    return 'Cached';
   }
 
   /* Returns documents list if available, else fetches it */
-  getDocs(item: any, callback=null): any {
-    if (item.data == undefined) {
+  getDocs(item: any, callback= null): any {
+    if (item.data === undefined) {
       /* Only the item location has been downloaded. Item needs to be downloaded. */
       if (this.authService.isLoggedIn()) {
         this.pullItem(item, false, callback)
@@ -199,8 +201,8 @@ export class AlveoService {
     return item.data['alveo:documents'];
   }
 
-  getAudioFile(doc: any, callback=null): any {
-    if (doc['_alveott_data'] == undefined) {
+  getAudioFile(doc: any, callback= null): any {
+    if (doc['_alveott_data'] === undefined) {
       if (this.authService.isLoggedIn()) {
         this.pullAudioFile(doc, callback);
       } else {
@@ -217,8 +219,8 @@ export class AlveoService {
     return doc['_alveott_data'];
   }
 
-  private pullAudioFile(doc: any, callback=null) {
-    let url = doc['alveo:url'];
+  private pullAudioFile(doc: any, callback= null) {
+    const url = doc['alveo:url'];
     this.apiRequest(url,
       (data) => {
         doc['_alveott_data'] = data;
@@ -232,8 +234,9 @@ export class AlveoService {
 
   getAnnotations(item: any): any {
     let annotations = item['_alveott_annotations']
-    if (annotations == undefined)
+    if (annotations === undefined) {
       annotations = [];
+    }
     return annotations;
   }
 
@@ -245,7 +248,7 @@ export class AlveoService {
     if (this.annotationSubscription != null) {
       this.annotationSubscription.unsubscribe();
     }
-    this.annotationSubscription = watcher.subscribe((event:any) => {
+    this.annotationSubscription = watcher.subscribe((event: any) => {
       this.setAnnotations(item, this.annotatorService.annotations);
     });
   }

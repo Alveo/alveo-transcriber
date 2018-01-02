@@ -7,7 +7,7 @@ import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class AuthService {
-  loginStatus:EventEmitter<any> = new EventEmitter();
+  loginStatus: EventEmitter<any> = new EventEmitter();
 
   loggedIn = false;
   redirectLoginUrl = '/login';
@@ -22,8 +22,8 @@ export class AuthService {
   authCode: string;
   token: string;
 
-  state: string = '';
-  scope: string = '';
+  state: string;
+  scope: string;
 
   apiKey: string;
 
@@ -31,11 +31,11 @@ export class AuthService {
 
   createLoginURL() {
     return this.loginURL
-          + "?response_type=code"
-          + "&client_id="     +encodeURIComponent(this.clientID)
-          + "&state="         +encodeURIComponent(this.state)
-          + "&redirect_uri="  +encodeURIComponent(this.callbackURL)
-          + "&scope="         +encodeURIComponent(this.scope);
+          + '?response_type=code'
+          + '&client_id='     + encodeURIComponent(this.clientID)
+          + '&state='         + encodeURIComponent(this.state)
+          + '&redirect_uri='  + encodeURIComponent(this.callbackURL)
+          + '&scope='         + encodeURIComponent(this.scope);
   };
 
   isLoggedIn(): boolean {
@@ -47,7 +47,7 @@ export class AuthService {
   }
 
   login(callback: any): void {
-    this.loginStatus.emit("true");
+    this.loginStatus.emit('true');
     this.pullToken();
     this.loggedIn = true;
     callback();
@@ -58,7 +58,7 @@ export class AuthService {
   }
 
   logout(): void {
-    this.loginStatus.emit("false")
+    this.loginStatus.emit('false')
     this.loggedIn = false;
   }
 
@@ -72,22 +72,22 @@ export class AuthService {
 
   pullToken(): void {
     this.http.post(this.baseURL + '/oauth/token', {
-      "grant_type": "authorization_code",
-      "client_id": this.clientID,
-      "client_secret": this.clientSecret,
-      "code": this.authCode,
-      "redirect_uri": this.callbackURL
-      }, {headers: new HttpHeaders({ 'Accept': 'application/json'})}) 
+      'grant_type': 'authorization_code',
+      'client_id': this.clientID,
+      'client_secret': this.clientSecret,
+      'code': this.authCode,
+      'redirect_uri': this.callbackURL
+      }, {headers: new HttpHeaders({ 'Accept': 'application/json'})})
     .subscribe(data => {this.token = data['access_token']; this.pullAPIKey()},
                error => ErrorHandler(error, this));
   }
 
   pullAPIKey(): void {
-    let requestHeaders = {
+    const requestHeaders = {
       headers: new HttpHeaders(
         {
           'Accept': 'application/json',
-          'Authorization': "Bearer "+this.token
+          'Authorization': 'Bearer ' + this.token
         }),
     };
 

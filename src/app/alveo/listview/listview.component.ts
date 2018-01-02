@@ -35,38 +35,38 @@ export class ListViewComponent {
   }
 
   getListName(): any {
-    let list = this.getList();
-    if (list == null) {
-      return "null"
+    const list = this.getList();
+    if (list === null) {
+      return 'null'
     }
     return list.name;
   }
 
   getListSize(): any {
-    let list = this.getList();
-    if (list == null) {
-      return "null"
+    const list = this.getList();
+    if (list === null) {
+      return 'null'
     }
     return list.num_items;
   }
 
   getItems(): any {
-    let list = this.getList();
-    if (list == null) {
+    const list = this.getList();
+    if (list === null) {
       return null;
     }
-    
+
     return this.alveoService.getItems(list);
   }
 
   getDocs(item: any): any {
-    if (item == null) {
+    if (item === null) {
       return null;
     }
 
-    let docs = [];
-    for (let doc of this.alveoService.getDocs(item)) {
-      if (doc['type'] == 'audio') {
+    const docs = [];
+    for (const doc of this.alveoService.getDocs(item)) {
+      if (doc['type'] === 'audio') {
         docs.push(doc);
       }
     }
@@ -74,7 +74,7 @@ export class ListViewComponent {
   }
 
   shorten(url: string): string {
-    return url.split("/catalog/")[1];
+    return url.split('/catalog/')[1];
   }
 
   actionBack(): void {
@@ -86,7 +86,7 @@ export class ListViewComponent {
   }
   onItemSelection(item: any): void {
     this.alveoService.getDocs(item, (data) => {
-      if (data == 403 && !this.authService.isLoggedIn()) {
+      if (data === 403 && !this.authService.isLoggedIn()) {
         this.requireLogin()
       }
     });
@@ -96,20 +96,19 @@ export class ListViewComponent {
     this.selectedDoc = doc;
 
     this.alveoService.getAudioFile(doc, (data) => {
-      if (data == 403 && !this.authService.isLoggedIn()) {
+      if (data === 403 && !this.authService.isLoggedIn()) {
         this.requireLogin();
-      }
-      else {
-        if (this.selectedDoc == doc) {
-          this.annotatorService.audioFile = data;
-          this.annotatorService.rebase(this.alveoService.getAnnotations(item));
-          this.annotatorService.audioFileName = doc['dcterms:identifier'];
-          this.annotatorService.audioFileURL = doc['alveo:url'];
+      } else {
+          if (this.selectedDoc === doc) {
+            this.annotatorService.audioFile = data;
+            this.annotatorService.rebase(this.alveoService.getAnnotations(item));
+            this.annotatorService.audioFileName = doc['dcterms:identifier'];
+            this.annotatorService.audioFileURL = doc['alveo:url'];
 
-          this.alveoService.watchAnnotations(item, this.annotatorService.annotationsUpdate);
-          this.router.navigate(['./annotator']);
+            this.alveoService.watchAnnotations(item, this.annotatorService.annotationsUpdate);
+            this.router.navigate(['./annotator']);
+          }
         }
-      }
     });
   }
 

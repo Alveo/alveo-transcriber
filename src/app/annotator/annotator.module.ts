@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-//import { CsvService } from "angular2-json2csv";
+// import { CsvService } from "angular2-json2csv";
 
 import {
   MatButtonModule,
@@ -52,7 +52,7 @@ import { Dialog } from './dialog/dialog.component';
     AnnotatorComponent,
   ],
   providers: [
-    //CsvService,
+    // CsvService,
     AnnotatorService,
     SegmentorService,
   ],

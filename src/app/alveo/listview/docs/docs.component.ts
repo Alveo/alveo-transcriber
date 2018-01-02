@@ -26,6 +26,6 @@ export class DocsComponent {
   }
 
   shorten(url): string {
-    return url.split("/document/")[1];
+    return url.split('/document/')[1];
   }
 }

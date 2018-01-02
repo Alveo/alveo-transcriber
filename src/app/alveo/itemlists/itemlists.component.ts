@@ -17,7 +17,7 @@ import { environment } from '../../../environments/environment';
 })
 
 export class ItemListsComponent implements OnInit {
-  private loading: boolean = true;
+  private loading = true;
 
   constructor(
     private router: Router,
@@ -30,7 +30,7 @@ export class ItemListsComponent implements OnInit {
     return environment.devTools;
   }
 
-  requireLogin(firstRun=false) {
+  requireLogin(firstRun= false) {
     if (this.dialog.openDialogs.length < 1) {
       this.dialog.open(AuthComponent, {
         disableClose: firstRun,
@@ -40,13 +40,13 @@ export class ItemListsComponent implements OnInit {
   }
 
   requireData() {
-    if (this.listSize() == 0 && !this.isLoggedIn()) {
+    if (this.listSize() === 0 && !this.isLoggedIn()) {
       this.noDataSource();
     }
   }
 
   noDataSource() {
-    setTimeout(()=>{
+    setTimeout(() => {
       this.requireLogin(true);
     }, 50);
   }
@@ -55,7 +55,7 @@ export class ItemListsComponent implements OnInit {
     if (this.isLoggedIn()) {
       this.loading = false;
     } else {
-      setTimeout(()=>this.loading=false, 2000);
+      setTimeout(() => this.loading = false, 2000);
     }
   }
 
@@ -68,7 +68,7 @@ export class ItemListsComponent implements OnInit {
   }
 
   listSize(): number {
-    if (this.alveoService.getLists() != undefined) {
+    if (this.alveoService.getLists() !== undefined) {
       return this.alveoService.getLists().length;
     }
     return 0;
@@ -84,7 +84,7 @@ export class ItemListsComponent implements OnInit {
 
   onSelection(list): void {
     this.alveoService.getItems(list, (data) => {
-      if (data == 403 && !this.isLoggedIn()) {
+      if (data === 403 && !this.isLoggedIn()) {
         this.requireLogin(false);
       } else {
         this.alveoService.selectedList = list;

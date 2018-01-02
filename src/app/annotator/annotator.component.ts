@@ -28,7 +28,7 @@ export class AnnotatorComponent {
 
   downloadFile(url, filename): void {
     // Create named DL
-    let anchor = document.createElement("a");
+    const anchor = document.createElement('a');
     anchor.download = filename;
     anchor.href = url;
 
@@ -42,21 +42,21 @@ export class AnnotatorComponent {
   }
 
   exportCSV(): void {
-    let csv = this.annotatorService.dumpCSV();
+    const csv = this.annotatorService.dumpCSV();
 
-    let blob = new Blob([csv], { type: 'text/csv' });
-    let url = window.URL.createObjectURL(blob);
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
 
-    this.downloadFile(url, this.annotatorService.getAudioFileName() + ".csv");
+    this.downloadFile(url, this.annotatorService.getAudioFileName() + '.csv');
   }
 
   exportJSON(): void {
-    let csv = this.annotatorService.dumpJSON();
+    const csv = this.annotatorService.dumpJSON();
 
-    let blob = new Blob([csv], { type: 'application/json' });
-    let url = window.URL.createObjectURL(blob);
+    const blob = new Blob([csv], { type: 'application/json' });
+    const url = window.URL.createObjectURL(blob);
 
-    this.downloadFile(url, this.annotatorService.getAudioFileName() + ".json");
+    this.downloadFile(url, this.annotatorService.getAudioFileName() + '.json');
   }
 
   dialogOpen(title: string, text: string): any {
@@ -64,9 +64,12 @@ export class AnnotatorComponent {
   }
 
   actionSegment(): void {
-    let dialogStatus = this.dialogOpen("Warning", "Using the segmentor service will erase all regions/annotations and replace them with ones from an automatic segmentor. Deletion may be permanent. Do you wish to proceed?");
+    const dialogStatus = this.dialogOpen('Warning',
+      'Using the segmentor service will erase all regions/annotations and '
+      + 'replace them with ones from an automatic segmentor. Deletion may '
+      + 'be permanent. Do you wish to proceed?');
     dialogStatus.afterClosed().subscribe(result => {
-      if (result == true) {
+      if (result === true) {
         this.segService.segment(this.getAudioFileURL(),
           (data) => {
             this.annotatorService.rebuild(data.json());

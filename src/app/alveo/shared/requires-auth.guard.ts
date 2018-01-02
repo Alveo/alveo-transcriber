@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, Router,
          ActivatedRouteSnapshot,
          RouterStateSnapshot
-} from "@angular/router";
+} from '@angular/router';
 
 import { AuthService } from './auth.service';
 
@@ -12,7 +12,7 @@ export class RequiresAuthGuard implements CanActivate {
               private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    let url: string = state.url;
+    const url: string = state.url;
 
     return this.checkLogin(url);
   }

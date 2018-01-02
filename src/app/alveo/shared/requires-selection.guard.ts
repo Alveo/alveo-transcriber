@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, Router,
          ActivatedRouteSnapshot,
          RouterStateSnapshot
-} from "@angular/router";
+} from '@angular/router';
 
 import { AlveoService } from './alveo.service';
 
@@ -12,8 +12,9 @@ export class RequiresSelectionGuard implements CanActivate {
               private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    if (this.alveoService.getActiveList() != null)
+    if (this.alveoService.getActiveList() != null) {
       return true;
+    }
 
     this.router.navigate(['/']);
     return false;

@@ -1,4 +1,4 @@
-import { CsvService } from "angular2-json2csv";
+//import { CsvService } from "angular2-json2csv";
 
 import { Injectable, EventEmitter } from '@angular/core';
 
@@ -42,7 +42,7 @@ export class AnnotatorService {
 
   selectedAnnotation: Annotation;
 
-  constructor(private csvService: CsvService) {}
+  //constructor(private csvService: CsvService) {}
 
   rebase(annotations: Array<Annotation>): any {
     this.annotations = annotations;
@@ -139,7 +139,8 @@ export class AnnotatorService {
   }
 
   dumpCSV(): string {
-    return this.csvService.ConvertToCSV(this.dumpJSON());
+    //return this.csvService.ConvertToCSV(this.dumpJSON());
+    return "";
   }
 
   dumpJSON(): string {

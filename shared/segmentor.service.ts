@@ -11,8 +11,8 @@ export class SegmentorService {
     private http: Http
   ) {}
 
-  segment(path: string, callback=null): any {
-    this.http.get(this.segmentorUrl + '?url='+path)
+  segment(path: string, callback= null): any {
+    this.http.get(this.segmentorUrl + '?url=' + path)
             .subscribe(data => callback(data));
   }
 }

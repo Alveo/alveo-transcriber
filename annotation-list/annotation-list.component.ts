@@ -4,12 +4,12 @@ import { Annotation } from '../shared/annotator.service';
 import { AnnotatorService } from '../shared/annotator.service';
 
 @Component({
-  selector: 'annotations',
-  templateUrl: './annotations.component.html',
-  styleUrls: ['./annotations.component.css'],
+  selector: 'annotation-list',
+  templateUrl: './annotation-list.component.html',
+  styleUrls: ['./annotation-list.component.css'],
 })
 
-export class AnnotationsComponent implements OnChanges {
+export class AnnotationListComponent implements OnChanges {
   @Input() annotation: Annotation;
 
   constructor(

@@ -1,4 +1,4 @@
-//import { CsvService } from "angular2-json2csv";
+// import { CsvService } from "angular2-json2csv";
 
 import { Injectable, EventEmitter } from '@angular/core';
 
@@ -13,9 +13,9 @@ export class Annotation {
   cap_options: Array<string>;
 
   constructor(id: string,
-              start: number=0, end: number=0,
-              speaker: string="", caption: string="",
-              cap_type: string="text") {
+              start: number= 0, end: number= 0,
+              speaker: string= '', caption: string= '',
+              cap_type: string= 'text') {
     this.id = id;
     this.start = start;
     this.end = end;
@@ -24,15 +24,15 @@ export class Annotation {
     this.cap_type = cap_type;
 
     this.cap_options = [
-      "text", "noise"
+      'text', 'noise'
     ];
   }
 }
 
 @Injectable()
 export class AnnotatorService {
-  annotationsEvent:EventEmitter<any> = new EventEmitter();
-  annotationsUpdate:EventEmitter<any> = new EventEmitter();
+  annotationsEvent: EventEmitter<any> = new EventEmitter();
+  annotationsUpdate: EventEmitter<any> = new EventEmitter();
 
   audioFile: any;
   audioFileName: string;
@@ -42,7 +42,7 @@ export class AnnotatorService {
 
   selectedAnnotation: Annotation;
 
-  //constructor(private csvService: CsvService) {}
+  // constructor(private csvService: CsvService) {}
 
   rebase(annotations: Array<Annotation>): any {
     this.annotations = annotations;
@@ -61,7 +61,7 @@ export class AnnotatorService {
     this.annotations = [];
     let counter = 0;
 
-    for (let segment of segments) {
+    for (const segment of segments) {
       this.createAnnotationFromSegment(
           {
             'id': counter.toString(),
@@ -72,7 +72,7 @@ export class AnnotatorService {
       counter += 1;
     }
 
-    this.annotationsEvent.emit({"type":"rebuild"});
+    this.annotationsEvent.emit({'type': 'rebuild'});
 
     this.selectFirst();
   }
@@ -99,13 +99,13 @@ export class AnnotatorService {
   }
 
   deleteAnnotationByID(id: string): boolean {
-    for (let annotation of this.annotations) {
-      if (annotation.id == id) {
+    for (const annotation of this.annotations) {
+      if (annotation.id === id) {
         if (id = this.selectedAnnotation.id) {
           this.selectedAnnotation = null;
         }
 
-        let index = this.annotations.indexOf(annotation);
+        const index = this.annotations.indexOf(annotation);
         if (index !== -1) {
           this.annotations.splice(index, 1);
         }
@@ -117,8 +117,8 @@ export class AnnotatorService {
   }
 
   getAnnotationByID(id: string): Annotation {
-    for (let annotation of this.annotations) {
-      if (annotation.id == id) {
+    for (const annotation of this.annotations) {
+      if (annotation.id === id) {
         return annotation;
       }
     }
@@ -126,21 +126,21 @@ export class AnnotatorService {
   }
 
   selectAnnotation(annotation: Annotation) {
-    let oldSelection = this.selectedAnnotation;
+    const oldSelection = this.selectedAnnotation;
     this.selectedAnnotation = annotation;
 
     this.annotationsEvent.emit(
       {
-        "type": "selectAnnotation",
-        "new": annotation,
-        "old": oldSelection
+        'type': 'selectAnnotation',
+        'new': annotation,
+        'old': oldSelection
       }
     );
   }
 
   dumpCSV(): string {
-    //return this.csvService.ConvertToCSV(this.dumpJSON());
-    return "";
+    // return this.csvService.ConvertToCSV(this.dumpJSON());
+    return '';
   }
 
   dumpJSON(): string {

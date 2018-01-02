@@ -2,7 +2,7 @@ import { OnInit } from '@angular/core';
 import { Component, Input, HostListener } from '@angular/core';
 import { Router, NavigationStart, Event } from '@angular/router';
 
-/* WaveSurfer NPM headers */ 
+/* WaveSurfer NPM headers */
 import WaveSurfer from 'wavesurfer.js';
 import Region from 'wavesurfer.js/dist/plugin/wavesurfer.regions';
 import RegionsPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.regions';
@@ -38,22 +38,22 @@ export class PlayerComponent implements OnInit {
     private dialog: MatDialog,
     private annotatorService: AnnotatorService,
     private router: Router) {
-    router.events.subscribe( (event:Event) => {
+    router.events.subscribe( (event: Event) => {
       if (event instanceof NavigationStart) {
         this.player.destroy();
         this.annotatorSubscription.unsubscribe();
       }
     });
 
-    this.annotatorSubscription = this.annotatorService.annotationsEvent.subscribe((event)=>{
-      if (event.type == "rebuild") {
+    this.annotatorSubscription = this.annotatorService.annotationsEvent.subscribe((event) => {
+      if (event.type === 'rebuild') {
         this.player.clearRegions();
         this.annotations = this.annotatorService.getAnnotations();
         this.loadRegions();
       }
       /*
-      else if (event.type == "selectAnnotation") {
-        if (event.new != null) {
+      else if (event.type === "selectAnnotation") {
+        if (event.new !== null) {
           let newRegion = this.findRegion(event.new.id);
           this.selectRegion(newRegion);
         }
@@ -66,7 +66,7 @@ export class PlayerComponent implements OnInit {
   }
 
   stop(): void {
-    if (this.player.getCurrentTime() == this.player.getDuration()) {
+    if (this.player.getCurrentTime() === this.player.getDuration()) {
       // Reset to beginning only if we're at the end and not a region end
       this.player.stop();
     }
@@ -90,8 +90,8 @@ export class PlayerComponent implements OnInit {
   }
 
   loadRegions(): void {
-    if (this.player.handlers != null) { // Hackish fix to stop wrapper.null implosions
-      for (let annotation of this.annotations) {
+    if (this.player.handlers !== null) { // Hackish fix to stop wrapper.null implosions
+      for (const annotation of this.annotations) {
         this.player.addRegion({
           id: annotation.id,
           start: annotation.start,
@@ -139,7 +139,7 @@ export class PlayerComponent implements OnInit {
       });
 
       this.ready = true;
-      //(slider as HTMLInputElement).value = this.player.params.minPxPerSec;
+      // (slider as HTMLInputElement).value = this.player.params.minPxPerSec;
     });
 
     /* Move cursor to beginning of region */
@@ -149,8 +149,8 @@ export class PlayerComponent implements OnInit {
     });
 
     this.player.on('region-update-end', (region: Region) => {
-      if (this.ready == true) {
-        let annotation = this.annotatorService.getAnnotationByID(region.id)
+      if (this.ready === true) {
+        const annotation = this.annotatorService.getAnnotationByID(region.id)
 
         annotation.start = region.start;
         annotation.end = region.end;
@@ -160,8 +160,8 @@ export class PlayerComponent implements OnInit {
     });
 
     this.player.on('region-created', (region: Region) => {
-      if (this.ready == true) {
-        if (region.id.startsWith("wavesurfer_")) {
+      if (this.ready === true) {
+        if (region.id.startsWith('wavesurfer_')) {
           this.annotatorService.createAnnotationFromSegment(
             {
               'id': region.id,
@@ -189,20 +189,20 @@ export class PlayerComponent implements OnInit {
   }
 
   unselectRegion(region: Region): void {
-    if (region != undefined) {
-      region.update({color:BASE_COLOUR});
+    if (region !== undefined) {
+      region.update({color: BASE_COLOUR});
       this.selectedRegion = null;
     }
   }
 
   selectRegion(region: Region): void {
-    if (region != undefined) {
+    if (region !== undefined) {
       this.unselectRegion(this.selectedRegion);
 
       this.gotoRegion(region);
-      region.update({color:SELECTED_COLOUR});
+      region.update({color: SELECTED_COLOUR});
 
-      let annotation = this.annotatorService.getAnnotationByID(region.id)
+      const annotation = this.annotatorService.getAnnotationByID(region.id)
       this.annotatorService.selectAnnotation(annotation)
 
       this.selectedRegion = region;
@@ -215,7 +215,7 @@ export class PlayerComponent implements OnInit {
 
   selectPreviousRegion(): Region {
     let beginning = null;
-    if (this.selectedRegion == null) {
+    if (this.selectedRegion === null) {
       beginning = this.player.getCurrentTime();
     } else {
       beginning = this.selectedRegion.start;
@@ -225,8 +225,8 @@ export class PlayerComponent implements OnInit {
     let prevRegion = null;
 
     // regions.list is unsorted JSON
-    for (let regionID of Object.keys(this.player.regions.list)) {
-      let region = this.player.regions.list[regionID];
+    for (const regionID of Object.keys(this.player.regions.list)) {
+      const region = this.player.regions.list[regionID];
       if (region.start < beginning) {
         if (lower < region.start) {
           lower = region.start;
@@ -235,14 +235,14 @@ export class PlayerComponent implements OnInit {
       }
     }
 
-    if (prevRegion != null) {
+    if (prevRegion !== null) {
       this.selectRegion(prevRegion);
     }
   }
 
   selectNextRegion(): Region {
     let beginning = null;
-    if (this.selectedRegion == null) {
+    if (this.selectedRegion === null) {
       beginning = this.player.getCurrentTime();
     } else {
       beginning = this.selectedRegion.start;
@@ -252,8 +252,8 @@ export class PlayerComponent implements OnInit {
     let nextRegion = null;
 
     // regions.list is unsorted JSON
-    for (let regionID of Object.keys(this.player.regions.list)) {
-      let region = this.player.regions.list[regionID];
+    for (const regionID of Object.keys(this.player.regions.list)) {
+      const region = this.player.regions.list[regionID];
       if (region.start > beginning) {
         if (higher > region.start) {
           higher = region.start;
@@ -261,7 +261,7 @@ export class PlayerComponent implements OnInit {
         }
       }
     }
-    if (nextRegion != null) {
+    if (nextRegion !== null) {
       this.selectRegion(nextRegion);
     }
   }
@@ -272,8 +272,9 @@ export class PlayerComponent implements OnInit {
 
   replayLast(seconds: number) {
     let position = (this.player.getCurrentTime() - seconds) / this.player.getDuration();
-    if (position < 0)
+    if (position < 0) {
       position = 0;
+    }
 
     this.player.seekTo(position);
   }
@@ -295,11 +296,11 @@ export class PlayerComponent implements OnInit {
   }
 
   deleteRegion(): void {
-    let dialogStatus = this.dialogOpen("Warning", "Are you sure you wish to delete this segment?");
+    const dialogStatus = this.dialogOpen('Warning', 'Are you sure you wish to delete this segment?');
     dialogStatus.afterClosed().subscribe(result => {
-      if (result == true) {
+      if (result === true) {
         this.annotatorService.deleteAnnotationByID(this.selectedRegion.id);
-        let delRegion = this.selectedRegion;
+        const delRegion = this.selectedRegion;
         this.unselectRegion(delRegion);
         delRegion.remove();
       }

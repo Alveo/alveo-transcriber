@@ -107,7 +107,7 @@ export class AlveoService {
         this.lists = lists;
 
         if (callback != null) {
-          callback(data);
+          callback(lists);
         }
       }
     );
@@ -221,10 +221,10 @@ export class AlveoService {
     let url = doc['alveo:url'];
     this.apiRequest(url,
       (data) => {
-        doc['_alveott_data'] = data.arrayBuffer();
+        doc['_alveott_data'] = data;
 
         if (callback != null) {
-          callback(data.arrayBuffer());
+          callback(data);
         }
       },
     undefined, true);

@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { CsvService } from "angular2-json2csv";
+//import { CsvService } from "angular2-json2csv";
 
 import {
   MatButtonModule,
@@ -14,6 +14,7 @@ import {
 import { AnnotatorComponent } from './annotator.component';
 import { PlayerComponent } from './player/player.component';
 import { AnnotationsComponent } from './annotations/annotations.component';
+import { AnnotationListComponent } from './annotation-list/annotation-list.component';
 
 import { AnnotationPipe } from './annotations/annotation.pipe';
 import { DurationPipe } from './player/duration.pipe';
@@ -33,6 +34,7 @@ import { Dialog } from './dialog/dialog.component';
     DurationPipe,
     DurationShortPipe,
     Dialog,
+    AnnotationListComponent,
   ],
   entryComponents: [
     Dialog,
@@ -50,7 +52,7 @@ import { Dialog } from './dialog/dialog.component';
     AnnotatorComponent,
   ],
   providers: [
-    CsvService,
+    //CsvService,
     AnnotatorService,
     SegmentorService,
   ],

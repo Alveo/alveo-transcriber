@@ -56,7 +56,8 @@ export class ListViewComponent {
       return null;
     }
 
-    return this.alveoService.getItems(list);
+    //return this.alveoService.getItems(list);
+    return []
   }
 
   getDocs(item: any): any {
@@ -65,11 +66,13 @@ export class ListViewComponent {
     }
 
     const docs = [];
+    /*
     for (const doc of this.alveoService.getDocs(item)) {
       if (doc['type'] === 'audio') {
         docs.push(doc);
       }
     }
+     */
     return docs;
   }
 
@@ -82,19 +85,22 @@ export class ListViewComponent {
   }
 
   getItemStatus(item: any): string {
-    return this.alveoService.getItemStatus(item);
+    return ""; //this.alveoService.getItemStatus(item);
   }
   onItemSelection(item: any): void {
+    /*
     this.alveoService.getDocs(item, (data) => {
       if (data === 403 && !this.authService.isLoggedIn()) {
         this.requireLogin()
       }
     });
+     */
   }
 
   onDocSelection(doc: any, item: any): void {
     this.selectedDoc = doc;
 
+    /*
     this.alveoService.getAudioFile(doc, (data) => {
       if (data === 403 && !this.authService.isLoggedIn()) {
         this.requireLogin();
@@ -110,6 +116,7 @@ export class ListViewComponent {
           }
         }
     });
+     */
   }
 
   requireLogin() {

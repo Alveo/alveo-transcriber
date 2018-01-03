@@ -20,7 +20,7 @@ export class DBService {
         value._rev = result._rev;
         return this.database.put(value);
     }, error => {
-      if (error.status === '404') {
+      if (error.status === 404) {
           return this.database.put(value);
       } else {
         console.log(error);

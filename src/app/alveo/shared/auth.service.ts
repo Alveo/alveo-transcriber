@@ -20,16 +20,10 @@ export class AuthService {
   clientSecret: string = environment.clientSecret;
   callbackURL: string = environment.callbackURL;
 
-  authCode: string;
-
-  state: string;
-  scope: string;
-
+  authCode: string; // oAuth
   apiKey: string;
 
   constructor(private http: HttpClient) {
-    this.scope = '';
-    this.state = '';
     this.apiKey = '';
   }
 
@@ -37,9 +31,9 @@ export class AuthService {
     return this.loginURL
           + '?response_type=code'
           + '&client_id='     + encodeURIComponent(this.clientID)
-          + '&state='         + encodeURIComponent(this.state)
+          + '&state='         + encodeURIComponent('')
           + '&redirect_uri='  + encodeURIComponent(this.callbackURL)
-          + '&scope='         + encodeURIComponent(this.scope);
+          + '&scope='         + encodeURIComponent('');
   };
 
   isLoggedIn(): boolean {
@@ -67,6 +61,7 @@ export class AuthService {
   logout(): void {
     this.loginStatus.emit('false')
     this.loggedIn = false;
+    this.apiKey = '';
   }
 
   callback(code: string): void {

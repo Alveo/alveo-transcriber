@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 
-import { ErrorHandler } from './http-errors'
+import { ErrorHandler } from './http-errors';
 
 import { AuthService } from './auth.service';
 import { DBService } from './db.service';
-
+import { ApiService } from './api.service';
 import { AnnotatorService } from '../../annotator/shared/annotator.service';
+
 import { Annotation } from '../../annotator/shared/annotator.service';
 
 @Injectable()
@@ -16,7 +17,7 @@ export class AlveoService {
   annotationSubscription: any;
 
   constructor(
-    private http: HttpClient,
+    private apiService: ApiService,
     private authService: AuthService,
     private annotatorService: AnnotatorService,
     private dbService: DBService) {
@@ -61,149 +62,69 @@ export class AlveoService {
    * 4. Pull any needed files
    */
 
-  /* TODO Promises */
-
   /* Returns all lists associated with the user */
-  public getListDirectory(callback= null): any {
-    this.pullListDirectory(callback);
+  public getListDirectory(force= false): Observable<any> {
+    return new Observable((observer) =>
+      {
+        this.dbService.get('lists').then(
+          lists => {
+            observer.next(lists.lists);
+            observer.complete();
+          },
+          error => {
+            if (!this.authService.isApiAuthed()) {
+              observer.error("Warning: getListDirectory() ignored: no cache, not logged in");
+            } else {
+              this.apiService.getListIndex()
+                .subscribe(
+                  (data) => {
+                    let lists = [];
+                    lists = lists.concat(data['own']);
+                    lists = lists.concat(data['shared']);
+
+                    this.lists = lists;
+
+                    observer.next(lists);
+                    observer.complete();
+                  },
+                  error => {
+                    ErrorHandler(error, this);
+                    observer.error(error);
+                  }
+                );
+            }
+          }
+        )
+      });
   }
 
-  /* Pulls all lists associated with the user */
-  private pullListDirectory(callback= null): void {
-    // Pulls an array of all the lists from Alveo
-    this.http.get(this.authService.baseURL + '/item_lists')
+    /*
+  public getList(listUrl: string, force= false): Observable<any> {
+    this.apiService.getList(list.item_list_url)
       .subscribe(
         (data) => {
-          let lists = [];
-          lists = lists.concat(data['own']);
-          lists = lists.concat(data['shared']);
-
-          this.lists = lists;
-
-          if (callback != null) {
-            callback(lists);
-          }
+          // TODO
+          return data
         },
         error => ErrorHandler(error, this)
       );
   }
 
-  /* Pulls a list, supports chainloading */
-  private pullList(list: any, chainload= false, callback= null): void {
-    this.http.get(list.item_list_url)
+  public getItem(itemUrl: any, force= false): Observable<any> {
+    this.apiService.getItem(item.url)
       .subscribe(
         (data) => {
-          list['_alveott_data'] = [];
-          for (const item_url of data['items']) {
-            list['_alveott_data'].push({'url': item_url});
-          }
-          if (chainload) { this.chainLoadItems(list['_alveott_data']) }
-
-          if (callback != null) {
-            callback(data);
-          }
+          // TODO
+          return data;
         },
         error => ErrorHandler(error, this)
       );
   }
 
-  /* Returns a list, pulling it if not downloaded yet */
-  public getItems(list: any, callback= null): Array<any> {
-    // If list doesn't contain data, pull it
-    if (list['_alveott_data'] === undefined) {
-      if (this.authService.isLoggedIn()) {
-        this.pullList(list, false, callback);
-      } else {
-        if (callback != null) {
-          callback(403);
-        }
-      }
-      return [];
-    }
-    if (callback != null) {
-      callback(list['_alveott_data']);
-    }
-    return list['_alveott_data'];
-  }
-
-  /* Pulls and populates every single item from a list */
-  private chainLoadItems(list: any): void {
-    for (const item of list) {
-      this.pullItem(item, true);
-    }
-  }
-
-  /* Pulls and populates an item entry */
-  private pullItem(item: any, chainload= false, callback= null): void {
-    item['alveott_download'] = true;
-    this.http.get(item.url)
-      .subscribe(
-        (data) => {
-          item['data'] = data;
-
-          if (callback != null) {
-            callback(data);
-          }
-          item['alveott_download'] = false;
-        },
-        error => ErrorHandler(error, this)
-      );
-  }
-
-  /* Determines whether an item has been downloaded */
-  public getItemStatus(item: any): any {
-    if (item['data'] === undefined) {
-      if (item['alveott_download'] === true) {
-        return 'Downloading';
-      }
-      return 'Ready to download';
-    } else if (item['_alveott_annotations'] !== undefined && item['_alveott_annotations'].length > 0) {
-      return 'Cached - Transcribed';
-    }
-    return 'Cached';
-  }
-
-  /* Returns documents list if available, else fetches it */
-  getDocs(item: any, callback= null): any {
-    if (item.data === undefined) {
-      /* Only the item location has been downloaded. Item needs to be downloaded. */
-      if (this.authService.isLoggedIn()) {
-        this.pullItem(item, false, callback)
-      } else {
-        if (callback != null) {
-          callback(403);
-        }
-      }
-      return [];
-    }
-    if (callback != null) {
-      callback(item.data['alveo:documents']);
-    }
-    return item.data['alveo:documents'];
-  }
-
-  getAudioFile(doc: any, callback= null): any {
-    if (doc['_alveott_data'] === undefined) {
-      if (this.authService.isLoggedIn()) {
-        this.pullAudioFile(doc, callback);
-      } else {
-        if (callback != null) {
-          callback(403);
-        }
-      }
-      return null;
-    }
-    if (callback != null) {
-      callback(doc['_alveott_data']);
-    }
-
-    return doc['_alveott_data'];
-  }
-
-  private pullAudioFile(doc: any, callback= null) {
+  public getAudioFile(docUrl: any, callback= null) {
     const url = doc['alveo:url'];
 
-    this.http.get(url, {'responseType': 'arraybuffer'})
+    this.apiService.getDocument(url)
       .subscribe(
         (data) => {
           doc['_alveott_data'] = data;
@@ -236,4 +157,5 @@ export class AlveoService {
       this.setAnnotations(item, this.annotatorService.annotations);
     });
   }
+     */
 }

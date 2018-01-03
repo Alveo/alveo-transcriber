@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { 
+  HttpClientModule,
+  HTTP_INTERCEPTORS
+} from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   MatAutocompleteModule,
@@ -55,6 +58,8 @@ import { AlveoService } from './shared/alveo.service';
 import { AuthService } from './shared/auth.service';
 import { DBService } from './shared/db.service';
 import { AnnotatorModule } from '../annotator/annotator.module';
+
+import { ApiInterceptor } from './shared/api.interceptor';
 
 import 'hammerjs';
 
@@ -120,6 +125,11 @@ import 'hammerjs';
     AuthService,
     AlveoService,
     DBService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ApiInterceptor,
+      multi: true
+    }
   ],
 })
 export class AlveoModule { }

@@ -27,7 +27,11 @@ export class AuthService {
 
   apiKey: string;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    this.scope = '';
+    this.state = '';
+    this.apiKey = '';
+  }
 
   createLoginURL() {
     return this.loginURL

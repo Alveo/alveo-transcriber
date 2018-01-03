@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, EventEmitter } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 
 import { ErrorHandler } from './http-errors'
 
@@ -20,7 +21,6 @@ export class AuthService {
   callbackURL: string = environment.callbackURL;
 
   authCode: string;
-  token: string;
 
   state: string;
   scope: string;
@@ -46,15 +46,18 @@ export class AuthService {
     return this.loggedIn;
   }
 
+  isApiAuthed(): boolean {
+    return (this.apiKey.length > 0);
+  }
+
   initiateLogin(): void {
     location.href = this.createLoginURL();
   }
 
-  login(callback: any): void {
+  login(): void {
     this.loginStatus.emit('true');
-    this.pullToken();
     this.loggedIn = true;
-    callback();
+    this.authoriseApi();
   }
 
   initiateLogout(): void {
@@ -70,33 +73,43 @@ export class AuthService {
     this.authCode = code;
   }
 
-  private buildHeader(): any {
-      return {headers: new HttpHeaders({ 'Accept': 'application/json'})};
+  authoriseApi(): void {
+    this.getAPIAuth().subscribe(
+      data => {
+        this.getApiKey(data['access_token'])
+          .subscribe(
+            data => this.apiKey = data['apiKey'],
+            error => ErrorHandler(error, this)
+          );
+      },
+      error => ErrorHandler(error, this)
+    );
   }
 
-  pullToken(): void {
-    this.http.post(this.baseURL + '/oauth/token', {
-      'grant_type': 'authorization_code',
-      'client_id': this.clientID,
-      'client_secret': this.clientSecret,
-      'code': this.authCode,
-      'redirect_uri': this.callbackURL
-      }, {headers: new HttpHeaders({ 'Accept': 'application/json'})})
-    .subscribe(data => {this.token = data['access_token']; this.pullAPIKey()},
-               error => ErrorHandler(error, this));
+  getAPIAuth(): Observable<any> {
+    return this.http.post(this.baseURL + '/oauth/token',
+      {
+        'grant_type': 'authorization_code',
+        'client_id': this.clientID,
+        'client_secret': this.clientSecret,
+        'code': this.authCode,
+        'redirect_uri': this.callbackURL
+      },
+      {
+        headers: new HttpHeaders({ 'Accept': 'application/json'})
+      }
+    )
   }
 
-  pullAPIKey(): void {
+  getApiKey(token: string): Observable<any> {
     const requestHeaders = {
       headers: new HttpHeaders(
         {
           'Accept': 'application/json',
-          'Authorization': 'Bearer ' + this.token
+          'Authorization': 'Bearer ' + token
         }),
     };
 
-    this.http.get(this.baseURL + '/account_api_key', requestHeaders)
-    .subscribe(data => this.apiKey = data['apiKey'],
-               error => ErrorHandler(error, this));
+    return this.http.get(this.baseURL + '/account_api_key', requestHeaders)
   }
 }

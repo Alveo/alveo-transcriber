@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
-
 import { Router } from '@angular/router';
+
+import { Observable } from 'rxjs/Observable';
 
 import { AuthService } from '../shared/auth.service';
 import { AlveoService } from '../shared/alveo.service';
@@ -17,14 +18,50 @@ import { environment } from '../../../environments/environment';
 })
 
 export class ItemListsComponent implements OnInit {
-  private loading = true;
+  lists: Array<any>;
+  loading: boolean;
 
   constructor(
     private router: Router,
     private authService: AuthService,
     private alveoService: AlveoService,
     private dialog: MatDialog
-  ) { }
+  ) {
+    this.lists = [];
+    this.loading = true;
+  }
+
+  ngOnInit(): void {
+    this.downloadData();
+  }
+
+  downloadData(): void {
+    this.loading = true;
+    this.updateLists().subscribe(
+      finish => { this.loading = false; },
+      error => { this.loading = false; }
+    );
+  }
+
+  updateLists(): Observable<any> {
+    return new Observable((observer) => {
+      this.alveoService.getListDirectory()
+        .subscribe(
+          lists => {
+            this.lists = lists;
+            observer.next();
+            observer.complete();
+          },
+          error => {
+            observer.error(error);
+          }
+        );
+    });
+  }
+
+  isLoading(): boolean {
+    return this.loading;
+  }
 
   isDevMode(): boolean {
     return environment.devTools;
@@ -51,38 +88,20 @@ export class ItemListsComponent implements OnInit {
     }, 50);
   }
 
-  ngOnInit(): void {
-    if (this.isLoggedIn()) {
-      this.loading = false;
-    } else {
-      setTimeout(() => this.loading = false, 2000);
-    }
-  }
-
-  isLoading(): boolean {
-    return this.loading;
-  }
-
   isLoggedIn(): boolean {
     return this.authService.isLoggedIn();
   }
 
   listSize(): number {
-    if (this.alveoService.getLists() !== undefined) {
-      return this.alveoService.getLists().length;
-    }
-    return 0;
+    return this.lists.length;
   }
 
   getLists(): any {
-    return this.alveoService.getLists();
-  }
-
-  getData(): void {
-    this.alveoService.getListDirectory();
+    return this.lists;
   }
 
   onSelection(list): void {
+    /*
     this.alveoService.getItems(list, (data) => {
       if (data === 403 && !this.isLoggedIn()) {
         this.requireLogin(false);
@@ -91,5 +110,6 @@ export class ItemListsComponent implements OnInit {
         this.router.navigate(['./listview']);
       }
     });
+     */
   }
 }

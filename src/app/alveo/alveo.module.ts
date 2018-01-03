@@ -57,6 +57,7 @@ import { DocsComponent } from './listview/docs/docs.component';
 import { AlveoService } from './shared/alveo.service';
 import { AuthService } from './shared/auth.service';
 import { DBService } from './shared/db.service';
+import { ApiService } from './shared/api.service';
 import { AnnotatorModule } from '../annotator/annotator.module';
 
 import { ApiInterceptor } from './shared/api.interceptor';
@@ -125,6 +126,7 @@ import 'hammerjs';
     AuthService,
     AlveoService,
     DBService,
+    ApiService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ApiInterceptor,

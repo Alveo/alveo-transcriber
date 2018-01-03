@@ -101,15 +101,18 @@ export class ItemListsComponent implements OnInit {
   }
 
   onSelection(list): void {
-    /*
-    this.alveoService.getItems(list, (data) => {
-      if (data === 403 && !this.isLoggedIn()) {
-        this.requireLogin(false);
-      } else {
-        this.alveoService.selectedList = list;
+    this.alveoService.getList(list['item_list_url']).subscribe(
+      listData => {
+        console.log(listData);
+        this.alveoService.selectedList = listData;
         this.router.navigate(['./listview']);
+      },
+      error => {
+        if (error===403 && !this.isLoggedIn()) {
+        } else {
+          console.log(error)
+        }
       }
-    });
-     */
+    );
   }
 }

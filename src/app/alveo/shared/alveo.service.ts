@@ -66,14 +66,14 @@ export class AlveoService {
   public getListDirectory(force= false): Observable<any> {
     return new Observable((observer) =>
       {
-        this.dbService.get('lists').then(
+        this.dbService.get('listdirectory').then(
           lists => {
             observer.next(lists.lists);
             observer.complete();
           },
           error => {
             if (!this.authService.isApiAuthed()) {
-              observer.error("Warning: getListDirectory() ignored: no cache, not logged in");
+              observer.error("Warning: getListDirectory() ignored: no cache, not API authed");
             } else {
               this.apiService.getListIndex()
                 .subscribe(
@@ -98,17 +98,36 @@ export class AlveoService {
       });
   }
 
-    /*
   public getList(listUrl: string, force= false): Observable<any> {
-    this.apiService.getList(list.item_list_url)
-      .subscribe(
-        (data) => {
-          // TODO
-          return data
-        },
-        error => ErrorHandler(error, this)
-      );
+    return new Observable((observer) =>
+      {
+        this.dbService.get('lists').then(
+          lists => {
+            observer.next(lists.lists);
+            observer.complete();
+          },
+          error => {
+            if (!this.authService.isApiAuthed()) {
+              observer.error("Warning: getList() ignored: no cache, not API authed");
+            } else {
+              this.apiService.getList(listUrl)
+                .subscribe(
+                  (data) => {
+                    observer.next(data);
+                    observer.complete();
+                  },
+                  error => {
+                    ErrorHandler(error, this);
+                    observer.error(error);
+                  }
+                );
+            }
+          }
+        )
+      });
   }
+
+    /*
 
   public getItem(itemUrl: any, force= false): Observable<any> {
     this.apiService.getItem(item.url)

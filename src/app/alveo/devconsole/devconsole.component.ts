@@ -4,7 +4,7 @@ import { AlveoService } from '../shared/alveo.service';
 import { AuthService } from '../shared/auth.service';
 
 @Component({
-  selector: 'devconsole',
+  selector: 'dev-console',
   templateUrl: './devconsole.component.html',
   styleUrls: ['./devconsole.component.css'],
 })

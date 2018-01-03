@@ -16,8 +16,8 @@ export class ApiService {
   /* Clean a URL sent from a provider
    *  To prevent MITM hijacking, this will strip the domain from
    *  Alveo URLs. Alveo URLs are their own identifiers, and there is
-   *  currently not another alternative, so we will re-add the domain
-   *  expected client-side domain for each request.
+   *  currently not another alternative, so we will re-add the client-side
+   *  expected domain for each request.
    */
   private cleanUrl(alveoUrl): string {
     return alveoUrl.replace(/^.*\/\/[^\/]+/, '');

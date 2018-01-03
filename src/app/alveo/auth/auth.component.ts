@@ -21,9 +21,8 @@ export class OAuthCallbackComponent implements OnInit, OnDestroy {
     this.param_sub = this.route.queryParams.subscribe(params => {
       if (params['code'] !== undefined) {
         this.authService.callback(params['code']);
-        this.authService.login(() => {
-          this.router.navigate(['./itemlists']);
-        });
+        this.authService.login();
+        this.router.navigate(['./itemlists']);
       }
     });
   }

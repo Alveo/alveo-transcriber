@@ -12,169 +12,160 @@ import { Annotation } from '../../annotator/shared/annotator.service';
 
 @Injectable()
 export class AlveoService {
-  selectedList: any;
-  lists: Array<any>;
-  annotationSubscription: any;
-
   constructor(
     private apiService: ApiService,
     private authService: AuthService,
-    private annotatorService: AnnotatorService,
     private dbService: DBService) {
-    // TODO Move elsewhere
-    // Ignore the error if the lists variable doesn't exist
-    this.dbService.get('lists').then(result => this.lists = result.lists, error => {});
   }
 
-  /* TODO Move all of these elsewhere */
-  getActiveList(): Array<any> {
-    return this.selectedList;
-  }
-
-  getLists(): any {
-    return this.lists;
-  }
-
-  flushCache(): void {
-    this.dbService.put('lists', {lists: []});
-  }
-
-  startStore(): void {
-    setInterval(() => this.storeData(), 3000);
-  }
-
-  storeData(): void {
-    this.dbService.put('lists', {lists: this.lists})
-  }
-
-  reset(): void {
-    this.lists = null;
-  }
-
-  resetStore(): void {
-    this.dbService.put('lists', {lists: []});
-  }
-  /* ********* */
-
-  /* 1. Pull the list directory
-   * 2. Pull an actual list
-   * 3. Pull the items of a list, which also contains the document metadata
-   * 4. Pull any needed files
-   */
-
-  /* Returns all lists associated with the user */
-  public getListDirectory(force= false): Observable<any> {
+  private dbRequest(storageName: string): Observable<any> {
     return new Observable((observer) =>
       {
-        this.dbService.get('listdirectory').then(
-          lists => {
-            observer.next(lists.lists);
+        this.dbService.get(storageName).then(
+          storageName => {
+            observer.next(storageName[storageName]);
             observer.complete();
           },
-          error => {
-            if (!this.authService.isApiAuthed()) {
-              observer.error("Warning: getListDirectory() ignored: no cache, not API authed");
-            } else {
-              this.apiService.getListIndex()
-                .subscribe(
-                  (data) => {
-                    let lists = [];
-                    lists = lists.concat(data['own']);
-                    lists = lists.concat(data['shared']);
-
-                    this.lists = lists;
-
-                    observer.next(lists);
-                    observer.complete();
-                  },
-                  error => {
-                    ErrorHandler(error, this);
-                    observer.error(error);
-                  }
-                );
-            }
-          }
-        )
-      });
+          error => observer.error("404")
+        );
+      }
+    );
   }
 
-  public getList(listUrl: string, force= false): Observable<any> {
+  private apiRequest(request: Observable<any>): Observable<any> {
     return new Observable((observer) =>
       {
-        this.dbService.get('lists').then(
-          lists => {
-            observer.next(lists.lists);
+        if (this.authService.isApiAuthed()) {
+          request.subscribe(
+            data => {
+              observer.next(data);
+              observer.complete();
+            },
+            error => observer.error(error)
+          );
+        } else {
+          observer.error("Warning: API request ignored: not API authed");
+        }
+      }
+    );
+  }
+
+  private retrieve(
+    request: Observable<any>,
+    storageClass: string,
+    useCache= true): Observable<any>
+  {
+    return new Observable((observer) =>
+      {
+        new Observable((cacheObserver) =>
+          {
+            if (useCache) {
+              this.dbRequest(storageClass).subscribe(
+                data => {cacheObserver.next(data); cacheObserver.complete()},
+                error => cacheObserver.error(error)
+              );
+            } else {
+              observer.error("Cache request not allowed");
+            }
+          }).subscribe(
+            data => {observer.next(data); observer.complete},
+            error => {
+              this.apiRequest(request).subscribe(
+                data => {
+                  // if (useCache)
+                  //  invoke sttorage call
+
+                  observer.next(data);
+                  observer.complete;
+                },
+                error => {
+                  //ErrorHandler(error, this);
+                  observer.error(error);
+                }
+              )
+            }
+          );
+      }
+    );
+  }
+
+  public getListDirectory(useCache= true): Observable<any> {
+    return this.retrieve(this.requestListDirectory(), 'listDirectory', useCache);
+  }
+
+  private requestListDirectory(): Observable<any> {
+    return new Observable((observer) =>
+      {
+        this.apiService.getListIndex().subscribe(
+          (data) => {
+            let lists = [];
+            lists = lists.concat(data['own']);
+            lists = lists.concat(data['shared']);
+
+            observer.next(lists);
             observer.complete();
           },
-          error => {
-            if (!this.authService.isApiAuthed()) {
-              observer.error("Warning: getList() ignored: no cache, not API authed");
-            } else {
-              this.apiService.getList(listUrl)
-                .subscribe(
-                  (data) => {
-                    observer.next(data);
-                    observer.complete();
-                  },
-                  error => {
-                    ErrorHandler(error, this);
-                    observer.error(error);
-                  }
-                );
-            }
-          }
-        )
-      });
+          error => observer.error(error)
+        );
+      }
+    );
   }
 
-    /*
-
-  public getItem(itemUrl: any, force= false): Observable<any> {
-    this.apiService.getItem(item.url)
-      .subscribe(
-        (data) => {
-          // TODO
-          return data;
-        },
-        error => ErrorHandler(error, this)
-      );
+  public getList(listUrl: string, useCache= true): Observable<any> {
+    return this.retrieve(this.requestList(listUrl), 'lists', useCache);
   }
 
-  public getAudioFile(docUrl: any, callback= null) {
-    const url = doc['alveo:url'];
-
-    this.apiService.getDocument(url)
-      .subscribe(
-        (data) => {
-          doc['_alveott_data'] = data;
-
-          if (callback != null) {
-            callback(data);
-          }
-        },
-        error => ErrorHandler(error, this)
-      );
+  public requestList(listUrl: string): Observable<any> {
+    return new Observable((observer) =>
+      {
+        this.apiService.getList(listUrl).subscribe(
+          (data) => {
+            observer.next(data);
+            observer.complete();
+          },
+          error => observer.error(error)
+        );
+      }
+    );
   }
 
-  getAnnotations(item: any): any {
-    let annotations = item['_alveott_annotations']
-    if (annotations === undefined) {
-      annotations = [];
-    }
-    return annotations;
+  public getItem(item: any, useCache= true): Observable<any> {
+    return this.retrieve(this.requestItem(item.url), 'items', useCache);
   }
 
-  setAnnotations(item: any, annotations: Array<Annotation>) {
-    item['_alveott_annotations'] = annotations;
+  public requestItem(itemUrl: string): Observable<any> {
+    return new Observable((observer) =>
+      {
+        this.apiService.getItem(itemUrl).subscribe(
+          (data) => {
+            // todo
+
+            observer.next(data);
+            observer.complete();
+          },
+          error => observer.error(error)
+        );
+      }
+    );
   }
 
-  watchAnnotations(item: any, watcher: any) {
-    if (this.annotationSubscription != null) {
-      this.annotationSubscription.unsubscribe();
-    }
-    this.annotationSubscription = watcher.subscribe((event: any) => {
-      this.setAnnotations(item, this.annotatorService.annotations);
-    });
+  public getAudioFile(doc: any, useCache= true): Observable<any> {
+    return this.retrieve(this.requestAudioFile(doc['alveo:url']), 'audioFiles', useCache);
   }
-     */
+
+  public requestAudioFile(audioFileUrl: any) {
+    return new Observable((observer) =>
+      {
+        this.apiService.getDocument(audioFileUrl).subscribe(
+          (data) => {
+            // todo
+
+            observer.next(data);
+            observer.complete();
+          },
+          error => observer.error(error)
+        );
+      }
+    );
+  }
 }

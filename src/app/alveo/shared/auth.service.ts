@@ -2,8 +2,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
-import { ErrorHandler } from './http-errors'
-
 import { environment } from '../../../environments/environment';
 
 @Injectable()
@@ -74,10 +72,10 @@ export class AuthService {
         this.getApiKey(data['access_token'])
           .subscribe(
             data => this.apiKey = data['apiKey'],
-            error => ErrorHandler(error, this)
+            error => console.log(error)
           );
       },
-      error => ErrorHandler(error, this)
+      error => console.log(error)
     );
   }
 

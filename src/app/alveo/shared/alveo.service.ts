@@ -1,7 +1,7 @@
+import { HttpErrorResponse } from '@angular/common/http';
+
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-
-import { ErrorHandler } from './http-errors';
 
 import { AuthService } from './auth.service';
 import { DBService } from './db.service';
@@ -26,7 +26,9 @@ export class AlveoService {
             observer.next(storageName[storageName]);
             observer.complete();
           },
-          error => observer.error("404")
+          error => {
+            observer.error(error);
+          }
         );
       }
     );
@@ -41,7 +43,9 @@ export class AlveoService {
               observer.next(data);
               observer.complete();
             },
-            error => observer.error(error)
+            error => {
+              observer.error(error);
+            }
           );
         } else {
           observer.error("Warning: API request ignored: not API authed");
@@ -61,25 +65,32 @@ export class AlveoService {
           {
             if (useCache) {
               this.dbRequest(storageClass).subscribe(
-                data => {cacheObserver.next(data); cacheObserver.complete()},
-                error => cacheObserver.error(error)
+                data => {
+                  cacheObserver.next(data);
+                  cacheObserver.complete()
+                },
+                error => {
+                  cacheObserver.error(error);
+                }
               );
             } else {
               observer.error("Cache request not allowed");
             }
           }).subscribe(
-            data => {observer.next(data); observer.complete},
+            data => {
+              observer.next(data);
+              observer.complete();
+            },
             error => {
               this.apiRequest(request).subscribe(
                 data => {
                   // if (useCache)
-                  //  invoke sttorage call
+                  //  invoke storage call
 
                   observer.next(data);
                   observer.complete;
                 },
                 error => {
-                  //ErrorHandler(error, this);
                   observer.error(error);
                 }
               )
@@ -105,7 +116,9 @@ export class AlveoService {
             observer.next(lists);
             observer.complete();
           },
-          error => observer.error(error)
+          error => {
+            observer.error(error);
+          }
         );
       }
     );
@@ -123,7 +136,9 @@ export class AlveoService {
             observer.next(data);
             observer.complete();
           },
-          error => observer.error(error)
+          error => {
+            observer.error(error);
+          }
         );
       }
     );
@@ -143,7 +158,9 @@ export class AlveoService {
             observer.next(data);
             observer.complete();
           },
-          error => observer.error(error)
+          error => {
+            observer.error(error);
+          }
         );
       }
     );
@@ -163,7 +180,9 @@ export class AlveoService {
             observer.next(data);
             observer.complete();
           },
-          error => observer.error(error)
+          error => {
+            observer.error(error);
+          }
         );
       }
     );

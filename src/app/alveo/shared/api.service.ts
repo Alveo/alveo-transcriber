@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import {
   HttpClient,
-  HttpErrorResponse }
+  HttpErrorResponse,
+  HttpHeaders
+}
 from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
@@ -11,6 +13,7 @@ import { environment } from '../../../environments/environment';
 @Injectable()
 export class ApiService {
   alveoUrl: string = environment.baseURL;
+  loginURL: string = environment.loginURL;
 
   constructor(private http: HttpClient) {}
 
@@ -24,6 +27,17 @@ export class ApiService {
     return new Observable((observer) => 
       {
         this.http.get(url, headers).subscribe(
+          data => {observer.next(data); observer.complete()},
+          error => {this.ErrorHandler(error); observer.error(error)}
+        )
+      }
+    );
+  }
+
+  private apiPost(url: string, data: any, headers: any= null): Observable<any> {
+    return new Observable((observer) => 
+      {
+        this.http.post(url, data, headers).subscribe(
           data => {observer.next(data); observer.complete()},
           error => {this.ErrorHandler(error); observer.error(error)}
         )
@@ -68,5 +82,31 @@ export class ApiService {
   public getDocument(documentId: string): Observable<any> {
     return this.apiGet(this.alveoUrl + this.cleanUrl(documentId),
       {'responseType': 'arraybuffer'});
+  }
+
+
+  /* TODO headers */
+  public getOAuthToken(clientID: string, clientSecret: string, authCode: string, callbackUrl: string): Observable<any> {
+    return this.apiPost(this.alveoUrl + '/oauth/token',
+      {
+        'grant_type': 'authorization_code',
+        'client_id': clientID,
+        'client_secret': clientSecret,
+        'code': authCode,
+        'redirect_uri': callbackUrl
+      }
+    );
+  }
+
+  public getApiKey(token: string): Observable<any> {
+    const requestHeaders = {
+      headers: new HttpHeaders(
+        {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer ' + token
+        }),
+    };
+
+    return this.apiGet(this.alveoUrl + '/account_api_key', requestHeaders)
   }
 }

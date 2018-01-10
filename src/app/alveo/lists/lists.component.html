@@ -4,34 +4,12 @@
 
 <div id="subheader">Viewing "{{this.getListName()}}" item list</div>
 
-<ng-template #dataDownloadTemplate [ngIf]="this.getItems() == null" [ngIfElse]="listEmptyCheckTemplate">
-  <!-- Through the application workflow, it is assumed this component shouldn't even be activated if there is no data. It is a safeguard in the event it is being downloaded. -->
-  <p class="center">Item list data is currently unavailable.</p>
-</ng-template>
-
-<ng-template #listEmptyCheckTemplate>
-  <div *ngIf="this.getItems().length == 0; else listDisplayTemplate">
-    <!-- It is normally assumed that a list can't be empty but the safeguard exists should that change later. -->
+<div id="item-display">
+  <ng-template #listEmptyCheckTemplate [ngIf]="this.getListSize() === 0" [ngIfElse]="listLoadingTemplate">
     <p class="center">This item list is empty.</p>
-  </div>
-</ng-template>
+  </ng-template>
 
-
-<ng-template #listDisplayTemplate>
-  <div id="item-display" *ngIf="this.getItems().length > 0">
-   <mat-expansion-panel *ngFor="let item of this.getItems()" (click)="onItemSelection(item)">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          {{this.shorten(item.url)}}
-        </mat-panel-title>
-        <mat-panel-description>
-          {{this.getItemStatus(item)}}
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-
-      <div *ngIf="this.getItemStatus(item).startsWith('Cached')">
-        <docs [docs]="this.getDocs(item)" (onSelection)="onDocSelection($event, item)"></docs>
-      </div>
-    </mat-expansion-panel>
-  </div>
-</ng-template>
+  <ng-template #listLoadingTemplate>
+    <items [itemUrls]="this.getListItems()"></items>
+  </ng-template>
+</div>

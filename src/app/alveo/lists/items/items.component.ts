@@ -8,8 +8,6 @@ import { AuthService } from '../../shared/auth.service';
 
 import { AuthComponent } from '../../auth/auth.component';
 
-import { AnnotatorService } from '../../../annotator/shared/annotator.service';
-
 @Component({
   selector: 'items',
   templateUrl: './items.component.html',
@@ -21,75 +19,81 @@ export class ItemsComponent {
   items: Array<any> = [];
 
   constructor(
-    private annotatorService: AnnotatorService,
     private router: Router,
     private dialog: MatDialog,
     private authService: AuthService,
     private alveoService: AlveoService) {
   }
 
-  ngOnInit() {
-    console.log(this.itemUrls);
+  private ngOnInit() {
     this.generateItemList();
   }
 
-  generateItemList() {
+  private generateItemList() {
     for (let item of this.itemUrls) {
       this.items.push({
         url: item,
-        state: "Unchecked"
+        state: "Unchecked",
+        data: null
       });
     }
   }
 
-  getItemCount(): any {
-    return this.items.length;
-  }
-
-  getItems(): any {
+  public getItems(): any {
     return this.items;
   }
-
-  shorten(url: string): string {
-    return url.split('/catalog/')[1];
+  
+  public getItemCount(): any {
+    return this.getItems().length;
   }
 
-  getItemState(item: any): string {
+  public getItemState(item: any): string {
     return item['state'];
   }
 
-  onItemSelection(item: any): void {
-    /*
-    this.alveoService.getDocs(item, (data) => {
-      if (data === 403 && !this.authService.isLoggedIn()) {
-        this.requireLogin()
-      }
-    });
-     */
+  public getItemUrl(item: any): string {
+    return item['url'].split('/catalog/')[1];
   }
 
-  getItem(url: string): any {
-    if (url === "") {
-      // TODO throw exc
-      return;
+  public isDataReady(item: any): boolean {
+    if (this.getItemState(item) === "Ready" && item['data'] !== null) {
+      return true;
     }
+    return false;
+  }
 
-    let items = this.alveoService.getItem(url).subscribe(
+  public onItemSelection(item: any): any {
+    if (this.getItemState(item) !== "Downloading"
+      && this.getItemState(item) !== "Ready"
+      && item['data'] === null) {
+      this.retrieveItemData(item);
+    }
+    return item['data'];
+  }
+
+  private getItemDocuments(item: any): void {
+    return item['data']['alveo:documents'];
+  }
+
+  private retrieveItemData(item: any): void {
+    item['state'] = "Downloading";
+
+    this.alveoService.getItem(item['url']).subscribe(
       data => {
-        this.items.push({
-          name: url,
-          url: url,
-          data: data
-        });
-        console.log("Received data for "+url);
+        item['state'] = "Ready";
+        item['data'] = data;
       },
       error => {
+        item['state'] = "Failed";
         console.log(error);
+        if (error === 403 || !this.authService.isLoggedIn()) {
+          this.requireLogin()
+        }
       }
     );
   }
 
-  requireLogin() {
+  public requireLogin() {
     if (this.dialog.openDialogs.length < 1) {
       this.dialog.open(AuthComponent, {
         disableClose: false,

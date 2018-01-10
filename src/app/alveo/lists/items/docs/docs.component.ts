@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'docs',
@@ -8,8 +8,18 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 export class DocsComponent {
   @Input() docs: any;
-  @Input() selection: any;
-  @Input() isLoadingData: boolean;
+
+  public getDocs(): any {
+    return this.docs;
+  }
+
+  public shortenUrl(url): string {
+    return url.split('/document/')[1];
+  }
+
+  public onSelect(doc: any): void {
+    //onDocSelection(doc)
+  }
 
   /*
   onDocSelection(doc: any, item: any): void {
@@ -32,21 +42,4 @@ export class DocsComponent {
     });
   }
  */
-
-  getDocs(): any {
-    return this.docs;
-  }
-
-  isDownloadingData(): boolean {
-    return this.isLoadingData;
-  }
-
-  onSelect(item): void {
-    this.selection = item;
-    //this.onSelection.emit(item);
-  }
-
-  shorten(url): string {
-    return url.split('/document/')[1];
-  }
 }

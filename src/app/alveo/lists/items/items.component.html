@@ -2,15 +2,19 @@
  <mat-expansion-panel *ngFor="let item of this.getItems()" (click)="onItemSelection(item)">
     <mat-expansion-panel-header>
       <mat-panel-title>
-        {{this.shorten(item.url)}}
+        {{this.getItemUrl(item)}}
       </mat-panel-title>
       <mat-panel-description>
         {{this.getItemState(item)}}
       </mat-panel-description>
     </mat-expansion-panel-header>
 
-    <div *ngIf="this.getItemState(item).startsWith('Cached')">
-      <!-- docs here -->
+    <div *ngIf="this.isDataReady(item); else waitDownloadTemplate">
+      <docs [docs]="this.getItemDocuments(item)"></docs>
     </div>
   </mat-expansion-panel>
 </div>
+
+<ng-template #waitDownloadTemplate>
+  <p class="center">Downloading data</p>
+</ng-template>

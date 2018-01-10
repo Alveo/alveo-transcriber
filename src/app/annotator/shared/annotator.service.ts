@@ -1,6 +1,15 @@
-// import { CsvService } from "angular2-json2csv";
-
 import { Injectable, EventEmitter } from '@angular/core';
+
+import * as json2csv from 'json2csv';
+
+const ANNOTATION_CSV_FIELDS = [
+  "id",
+  "start",
+  "end",
+  "speaker",
+  "caption",
+  "cap_type"
+]
 
 export class Annotation {
   id: string;
@@ -38,11 +47,9 @@ export class AnnotatorService {
   audioFileName: string;
   audioFileURL: string;
 
-  annotations: Array<Annotation>;
+  annotations: Array<Annotation> = [];
 
   selectedAnnotation: Annotation;
-
-  // constructor(private csvService: CsvService) {}
 
   rebase(annotations: Array<Annotation>): any {
     this.annotations = annotations;
@@ -139,11 +146,13 @@ export class AnnotatorService {
   }
 
   dumpCSV(): string {
-    // return this.csvService.ConvertToCSV(this.dumpJSON());
-    return '';
+    return json2csv({
+      data: this.annotations,
+      fields: ANNOTATION_CSV_FIELDS
+    });
   }
 
-  dumpJSON(): string {
+  dumpJSON(): any {
     return JSON.stringify(this.annotations, null, 2);
   }
 

@@ -150,8 +150,8 @@ export class AlveoService {
     );
   }
 
-  public getItem(item: any, useCache= true): Observable<any> {
-    return this.retrieve(this.requestItem(item.url), 'items', useCache);
+  public getItem(url: any, useCache= true): Observable<any> {
+    return this.retrieve(this.requestItem(url), 'items', useCache);
   }
 
   public requestItem(itemUrl: string): Observable<any> {

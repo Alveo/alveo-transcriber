@@ -17,15 +17,23 @@ export class ApiService {
 
   constructor(private http: HttpClient) {}
 
+  /* Log API errors
+   *  All API errors should be prevented at higher level
+   */
   private ErrorHandler(error: HttpErrorResponse) {
     console.log(
       'Alveo API Error (' + error.status.toString() + '): ' + error.message
     );
   }
 
+  /* Create a get request to Alveo API
+   */
   private apiGet(url: string, headers: any= null): Observable<any> {
     return new Observable((observer) => 
       {
+        if (headers === null) {
+          headers = new HttpHeaders()
+        }
         this.http.get(url, headers).subscribe(
           data => {observer.next(data); observer.complete()},
           error => {this.ErrorHandler(error); observer.error(error)}
@@ -34,9 +42,14 @@ export class ApiService {
     );
   }
 
+  /* Create a get request to Alveo API
+   */
   private apiPost(url: string, data: any, headers: any= null): Observable<any> {
     return new Observable((observer) => 
       {
+        if (headers === null) {
+          headers = new HttpHeaders()
+        }
         this.http.post(url, data, headers).subscribe(
           data => {observer.next(data); observer.complete()},
           error => {this.ErrorHandler(error); observer.error(error)}
@@ -85,7 +98,9 @@ export class ApiService {
   }
 
 
-  /* TODO headers */
+  /* Create a request to get an OAuth token
+   *  These variables are obtained by the Auth service
+   */
   public getOAuthToken(clientID: string, clientSecret: string, authCode: string, callbackUrl: string): Observable<any> {
     return this.apiPost(this.alveoUrl + '/oauth/token',
       {
@@ -98,6 +113,9 @@ export class ApiService {
     );
   }
 
+  /* Create a request to get an API key
+   *  Uses token retrievable by getOAuthToken()
+   */
   public getApiKey(token: string): Observable<any> {
     const requestHeaders = {
       headers: new HttpHeaders(

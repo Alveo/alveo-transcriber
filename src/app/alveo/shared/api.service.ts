@@ -79,21 +79,21 @@ export class ApiService {
    *  Expects JSON back from subscribe
    */
   public getList(listId: string): Observable<any> {
-    return this.apiGet(this.alveoUrl + this.cleanUrl(listId));
+    return this.apiGet(this.alveoUrl + '/' + this.cleanUrl(listId));
   }
 
   /* Fetch list item from Alveo API
    *  Expects JSON back from subscribe
    */
   public getItem(itemId: string): Observable<any> {
-    return this.apiGet(this.alveoUrl + this.cleanUrl(itemId));
+    return this.apiGet(this.alveoUrl + '/' + this.cleanUrl(itemId));
   }
 
   /* Fetch document via Alveo API
    *  Expects ArrayBuffer back from subscribe
    */
   public getDocument(documentId: string): Observable<any> {
-    return this.apiGet(this.alveoUrl + this.cleanUrl(documentId),
+    return this.apiGet(this.alveoUrl + '/' + this.cleanUrl(documentId),
       {'responseType': 'arraybuffer'});
   }
 

@@ -12,6 +12,8 @@ import { Annotation } from '../../annotator/shared/annotator.service';
 
 @Injectable()
 export class AlveoService {
+  tmp_list: any;
+
   constructor(
     private apiService: ApiService,
     private authService: AuthService,
@@ -66,8 +68,12 @@ export class AlveoService {
             if (useCache) {
               this.dbRequest(storageClass).subscribe(
                 data => {
-                  cacheObserver.next(data);
-                  cacheObserver.complete()
+                  if (data === undefined) {
+                    cacheObserver.error('404');
+                  } else {
+                    cacheObserver.next(data);
+                    cacheObserver.complete()
+                  }
                 },
                 error => {
                   cacheObserver.error(error);

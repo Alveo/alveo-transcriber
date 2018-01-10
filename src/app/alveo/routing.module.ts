@@ -3,8 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AuthComponent } from './auth/auth.component';
 import { OAuthCallbackComponent } from './auth/auth.component';
-import { ItemListsComponent } from './itemlists/itemlists.component';
-import { ListViewComponent } from './listview/listview.component';
+import { ListIndexComponent } from './listindex/listindex.component';
+import { ListsComponent } from './lists/lists.component';
 import { AnnotatorComponent } from '../annotator/annotator.component';
 
 import { RequiresSelectionGuard } from './shared/requires-selection.guard';
@@ -17,11 +17,11 @@ const routes: Routes = [
       },
       {
         path: '',
-        component: ItemListsComponent,
+        component: ListIndexComponent,
       },
       {
-        path: 'listview',
-        component: ListViewComponent,
+        path: 'lists/view',
+        component: ListsComponent,
         canActivate: [RequiresSelectionGuard],
       },
       {

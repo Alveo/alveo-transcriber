@@ -12,12 +12,12 @@ import { AuthComponent } from '../auth/auth.component';
 import { environment } from '../../../environments/environment';
 
 @Component({
-  selector: 'itemlists',
-  templateUrl: './itemlists.component.html',
-  styleUrls: ['./itemlists.component.css'],
+  selector: 'listindex',
+  templateUrl: './listindex.component.html',
+  styleUrls: ['./listindex.component.css'],
 })
 
-export class ItemListsComponent implements OnInit {
+export class ListIndexComponent implements OnInit {
   lists: Array<any>;
   loading: boolean;
 
@@ -103,8 +103,8 @@ export class ItemListsComponent implements OnInit {
   onSelection(list): void {
     this.alveoService.getList(list['item_list_url']).subscribe(
       listData => {
+        this.alveoService.tmp_list = listData;
         console.log(listData);
-        //this.alveoService.selectedList = listData;
         this.router.navigate(['./listview']);
       },
       error => {

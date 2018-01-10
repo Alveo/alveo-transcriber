@@ -48,11 +48,11 @@ import { NavComponent } from './nav/nav.component';
 import { AuthComponent } from './auth/auth.component';
 import { OAuthCallbackComponent } from './auth/auth.component';
 
-import { ItemListsComponent } from './itemlists/itemlists.component';
-import { ListTableComponent } from './itemlists/listtable/listtable.component';
+import { ListIndexComponent } from './listindex/listindex.component';
+import { ListTableComponent } from './listindex/listtable/listtable.component';
 
-import { ListViewComponent } from './listview/listview.component';
-import { DocsComponent } from './listview/docs/docs.component';
+import { ListsComponent } from './lists/lists.component';
+import { DocsComponent } from './lists/items/docs/docs.component';
 
 import { AlveoService } from './shared/alveo.service';
 import { AuthService } from './shared/auth.service';
@@ -71,8 +71,8 @@ import 'hammerjs';
     NavComponent,
     AuthComponent,
     OAuthCallbackComponent,
-    ItemListsComponent,
-    ListViewComponent,
+    ListIndexComponent,
+    ListsComponent,
     DocsComponent,
     ListTableComponent,
   ],

@@ -11,12 +11,12 @@ import { AuthComponent } from '../auth/auth.component';
 import { AnnotatorService } from '../../annotator/shared/annotator.service';
 
 @Component({
-  selector: 'listview',
-  templateUrl: './listview.component.html',
-  styleUrls: ['./listview.component.css'],
+  selector: 'lists',
+  templateUrl: './lists.component.html',
+  styleUrls: ['./lists.component.css'],
 })
 
-export class ListViewComponent {
+export class ListsComponent {
   @Input() items: any;
 
   selectedDoc: any;
@@ -31,8 +31,7 @@ export class ListViewComponent {
     private alveoService: AlveoService) { }
 
   private getList(): any {
-    //return this.alveoService.getActiveList();
-    return null;
+    return this.alveoService.tmp_list;
   }
 
   getListName(): any {
@@ -57,8 +56,7 @@ export class ListViewComponent {
       return null;
     }
 
-    //return this.alveoService.getItems(list);
-    return []
+    return this.alveoService.tmp_list['items'];
   }
 
   getDocs(item: any): any {

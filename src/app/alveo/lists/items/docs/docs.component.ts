@@ -1,4 +1,12 @@
 import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { MatDialog } from '@angular/material';
+
+import { AlveoService } from '../../../shared/alveo.service';
+import { AuthService } from '../../../shared/auth.service';
+
+import { AuthComponent } from '../../../auth/auth.component';
 
 @Component({
   selector: 'docs',
@@ -8,6 +16,14 @@ import { Component, Input } from '@angular/core';
 
 export class DocsComponent {
   @Input() docs: any;
+  selectedDoc: any = null;
+
+  constructor(
+    private router: Router,
+    private dialog: MatDialog,
+    private authService: AuthService,
+    private alveoService: AlveoService) {
+  }
 
   public getDocs(): any {
     return this.docs;
@@ -18,28 +34,32 @@ export class DocsComponent {
   }
 
   public onSelect(doc: any): void {
-    //onDocSelection(doc)
-  }
-
-  /*
-  onDocSelection(doc: any, item: any): void {
     this.selectedDoc = doc;
-
-    this.alveoService.getAudioFile(doc, (data) => {
-      if (data === 403 && !this.authService.isLoggedIn()) {
-        this.requireLogin();
-      } else {
-          if (this.selectedDoc === doc) {
-            this.annotatorService.audioFile = data;
-            this.annotatorService.rebase(this.alveoService.getAnnotations(item));
-            this.annotatorService.audioFileName = doc['dcterms:identifier'];
-            this.annotatorService.audioFileURL = doc['alveo:url'];
-
-            this.alveoService.watchAnnotations(item, this.annotatorService.annotationsUpdate);
-            this.router.navigate(['./annotator']);
-          }
-        }
-    });
+    this.downloadDoc(doc)
   }
- */
+
+  private requireLogin() {
+    if (this.dialog.openDialogs.length < 1) {
+      this.dialog.open(AuthComponent, {
+        disableClose: false,
+        data: {firstRun: false}}
+      );
+    }
+  }
+
+  private downloadDoc(doc: any): void {
+    this.alveoService.getAudioFile(doc['alveo:url']).subscribe(
+      data => {
+        if (this.selectedDoc === doc) {
+          this.alveoService.tmp_doc = doc;
+          this.router.navigate(['./annotator']);
+        }
+      },
+      error => {
+        if (error=== 403 && !this.authService.isLoggedIn()) {
+          this.requireLogin();
+        }
+      }
+    );
+  }
 }

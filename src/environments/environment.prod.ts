@@ -4,8 +4,8 @@ export const environment = {
   baseURL: 'https://app.alveo.edu.au',
   loginURL: '/oauth/authorize',
 
-  clientID: 'b1692ca827a959f62a9b79e0eb471c9fdc3e818c33c976076f7948101ba23084',
-  clientSecret: 'e533af5728a1334a089d9b446bda3204be4d59785734981832956b446cfbf64b',
+  clientID: 'e37df76b698449298761b34c14654ba871e694f81be42cac483c1dc8b529279e',
+  clientSecret: '2b83c1b2382d0f76b62729af99a4dba64aac61dcf7827a4d5df60e98c1975055',
 
   callbackURL: window.location.origin + '/oauth/callback',
 

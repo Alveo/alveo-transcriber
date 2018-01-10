@@ -28,15 +28,15 @@ export class DevConsoleComponent {
   }
 
   reset(): void {
-    this.alveoService.reset();
+    //this.alveoService.reset();
   }
 
   resetStore(): void {
-    this.reset();
-    this.alveoService.resetStore();
+    //this.reset();
+    //this.alveoService.resetStore();
   }
 
   storeData(): void {
-    this.alveoService.storeData();
+    //this.alveoService.storeData();
   }
 }

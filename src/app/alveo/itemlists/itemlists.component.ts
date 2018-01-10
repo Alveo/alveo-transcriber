@@ -104,7 +104,7 @@ export class ItemListsComponent implements OnInit {
     this.alveoService.getList(list['item_list_url']).subscribe(
       listData => {
         console.log(listData);
-        this.alveoService.selectedList = listData;
+        //this.alveoService.selectedList = listData;
         this.router.navigate(['./listview']);
       },
       error => {

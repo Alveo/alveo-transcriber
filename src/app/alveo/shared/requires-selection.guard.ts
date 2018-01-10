@@ -12,11 +12,12 @@ export class RequiresSelectionGuard implements CanActivate {
               private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    if (this.alveoService.getActiveList() != null) {
-      return true;
-    }
+    //if (this.alveoService.getActiveList() != null) {
+    //  return true;
+    //}
+    return true;
 
-    this.router.navigate(['/']);
-    return false;
+    //this.router.navigate(['/']);
+    //return false;
   }
 }

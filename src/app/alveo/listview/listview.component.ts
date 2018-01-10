@@ -31,7 +31,8 @@ export class ListViewComponent {
     private alveoService: AlveoService) { }
 
   private getList(): any {
-    return this.alveoService.getActiveList();
+    //return this.alveoService.getActiveList();
+    return null;
   }
 
   getListName(): any {

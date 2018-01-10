@@ -104,8 +104,7 @@ export class ListIndexComponent implements OnInit {
     this.alveoService.getList(list['item_list_url']).subscribe(
       listData => {
         this.alveoService.tmp_list = listData;
-        console.log(listData);
-        this.router.navigate(['./listview']);
+        this.router.navigate(['./lists/view']);
       },
       error => {
         if (error===403 && !this.isLoggedIn()) {

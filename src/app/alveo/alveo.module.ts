@@ -52,6 +52,7 @@ import { ListIndexComponent } from './listindex/listindex.component';
 import { ListTableComponent } from './listindex/listtable/listtable.component';
 
 import { ListsComponent } from './lists/lists.component';
+import { ItemsComponent } from './lists/items/items.component';
 import { DocsComponent } from './lists/items/docs/docs.component';
 
 import { AlveoService } from './shared/alveo.service';
@@ -73,6 +74,7 @@ import 'hammerjs';
     OAuthCallbackComponent,
     ListIndexComponent,
     ListsComponent,
+    ItemsComponent,
     DocsComponent,
     ListTableComponent,
   ],

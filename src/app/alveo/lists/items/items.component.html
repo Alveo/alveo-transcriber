@@ -1,0 +1,16 @@
+<div id="item-display" *ngIf="this.getItemCount() > 0">
+ <mat-expansion-panel *ngFor="let item of this.getItems()" (click)="onItemSelection(item)">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{this.shorten(item.url)}}
+      </mat-panel-title>
+      <mat-panel-description>
+        {{this.getItemState(item)}}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <div *ngIf="this.getItemState(item).startsWith('Cached')">
+      <!-- docs here -->
+    </div>
+  </mat-expansion-panel>
+</div>

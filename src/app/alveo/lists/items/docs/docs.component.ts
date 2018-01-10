@@ -10,7 +10,28 @@ export class DocsComponent {
   @Input() docs: any;
   @Input() selection: any;
   @Input() isLoadingData: boolean;
-  @Output() onSelection = new EventEmitter<any>();
+
+  /*
+  onDocSelection(doc: any, item: any): void {
+    this.selectedDoc = doc;
+
+    this.alveoService.getAudioFile(doc, (data) => {
+      if (data === 403 && !this.authService.isLoggedIn()) {
+        this.requireLogin();
+      } else {
+          if (this.selectedDoc === doc) {
+            this.annotatorService.audioFile = data;
+            this.annotatorService.rebase(this.alveoService.getAnnotations(item));
+            this.annotatorService.audioFileName = doc['dcterms:identifier'];
+            this.annotatorService.audioFileURL = doc['alveo:url'];
+
+            this.alveoService.watchAnnotations(item, this.annotatorService.annotationsUpdate);
+            this.router.navigate(['./annotator']);
+          }
+        }
+    });
+  }
+ */
 
   getDocs(): any {
     return this.docs;
@@ -22,7 +43,7 @@ export class DocsComponent {
 
   onSelect(item): void {
     this.selection = item;
-    this.onSelection.emit(item);
+    //this.onSelection.emit(item);
   }
 
   shorten(url): string {

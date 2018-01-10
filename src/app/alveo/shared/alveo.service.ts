@@ -12,7 +12,8 @@ import { Annotation } from '../../annotator/shared/annotator.service';
 
 @Injectable()
 export class AlveoService {
-  tmp_list: any;
+  tmp_list: any = null;
+  tmp_doc: any = null;
 
   constructor(
     private apiService: ApiService,
@@ -159,8 +160,6 @@ export class AlveoService {
       {
         this.apiService.getItem(itemUrl).subscribe(
           (data) => {
-            // todo
-
             observer.next(data);
             observer.complete();
           },
@@ -172,8 +171,8 @@ export class AlveoService {
     );
   }
 
-  public getAudioFile(doc: any, useCache= true): Observable<any> {
-    return this.retrieve(this.requestAudioFile(doc['alveo:url']), 'audioFiles', useCache);
+  public getAudioFile(url: any, useCache= true): Observable<any> {
+    return this.retrieve(this.requestAudioFile(url), 'audioFiles', useCache);
   }
 
   public requestAudioFile(audioFileUrl: any) {
@@ -181,8 +180,6 @@ export class AlveoService {
       {
         this.apiService.getDocument(audioFileUrl).subscribe(
           (data) => {
-            // todo
-
             observer.next(data);
             observer.complete();
           },

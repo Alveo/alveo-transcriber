@@ -93,7 +93,7 @@ export class ItemsComponent {
     );
   }
 
-  public requireLogin() {
+  private requireLogin() {
     if (this.dialog.openDialogs.length < 1) {
       this.dialog.open(AuthComponent, {
         disableClose: false,

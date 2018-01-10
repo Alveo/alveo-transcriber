@@ -26,7 +26,7 @@ export class ListsComponent {
 
   public getListSize(): number {
     let list = this.getList();
-    if (list === undefined) {
+    if (list === null) {
       return 0;
     }
     return list['num_items'];
@@ -34,7 +34,7 @@ export class ListsComponent {
 
   public getListName(): string {
     let list = this.getList();
-    if (list === undefined) {
+    if (list === null) {
       return 'null';
     }
     return list['name'];
@@ -42,7 +42,7 @@ export class ListsComponent {
 
   public getListItems(): Array<any> {
     let list = this.getList();
-    if (list === undefined) {
+    if (list === null) {
       return [];
     }
     return list['items'];

@@ -36,9 +36,9 @@
     "json2csv": "^3.11.5",
     "pouchdb": "^6.4.1",
     "rxjs": "^5.5.2",
-    "wavesurfer.js": "^2.0.1",
+    "wavesurfer.js": "^2.0.2",
     "webpack": "^3.10.0",
-    "zone.js": "^0.8.19"
+    "zone.js": "^0.8.20"
   },
   "devDependencies": {
     "@angular/cli": "1.6.3",

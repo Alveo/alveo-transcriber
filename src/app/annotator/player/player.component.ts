@@ -3,11 +3,11 @@ import { Component, Input, HostListener } from '@angular/core';
 import { Router, NavigationStart, Event } from '@angular/router';
 
 /* WaveSurfer NPM headers */
-import WaveSurfer from 'wavesurfer.js';
-import Region from 'wavesurfer.js/dist/plugin/wavesurfer.regions';
-import RegionsPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.regions';
-import TimelinePlugin from 'wavesurfer.js/dist/plugin/wavesurfer.timeline';
-import MinimapPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.minimap';
+import * as WaveSurfer from 'wavesurfer.js';
+import * as Region from 'wavesurfer.js/dist/plugin/wavesurfer.regions';
+import * as RegionsPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.regions';
+import * as TimelinePlugin from 'wavesurfer.js/dist/plugin/wavesurfer.timeline';
+import * as MinimapPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.minimap';
 
 import { AnnotatorService } from '../shared/annotator.service';
 import { Annotation } from '../shared/annotator.service';
@@ -24,7 +24,7 @@ const SELECTED_COLOUR = 'rgba(0, 200, 200, 0.2)';
   styleUrls: ['./player.component.css'],
 })
 export class PlayerComponent implements OnInit {
-  player: WaveSurfer;
+  player: any;
   @Input() clip: any;
   @Input() annotations: any;
 

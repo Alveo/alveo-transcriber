@@ -3,6 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 
 import { DBService } from './db.service';
+import { AnnotatorService } from '../../annotator/shared/annotator.service';
 
 @Injectable()
 export class SessionService {
@@ -14,6 +15,7 @@ export class SessionService {
 
   constructor(
     private router: Router,
+    private annotatorService: AnnotatorService,
     private dbService: DBService) {
     this.dbService.get("sessionService").then(
       data => {
@@ -100,6 +102,12 @@ export class SessionService {
     this.active_doc = doc;
     this.active_doc_data = docData;
     this.updateStorage();
+
+    /* TMP */
+    this.annotatorService.audioFile = docData;
+    this.annotatorService.rebase([]);
+    this.annotatorService.audioFileName = doc['dcterms:identifier'];
+    this.annotatorService.audioFileURL = doc['alveo:url'];
   }
 
   public getActiveDoc(): any {

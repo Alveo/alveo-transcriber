@@ -27,6 +27,7 @@ export class ItemsComponent {
 
   private ngOnInit() {
     this.generateItemList();
+    this.scanItemList();
   }
 
   private generateItemList() {
@@ -36,6 +37,20 @@ export class ItemsComponent {
         state: "Unchecked",
         data: null
       });
+    }
+  }
+
+  private scanItemList() {
+    for (let item of this.items) {
+      this.alveoService.getItem(item['url'], true, false).subscribe(
+        data => {
+          item['state'] = "Ready";
+          item['data'] = data;
+        },
+        error => {
+          item['state'] = "Not cached";
+        }
+      );
     }
   }
 
@@ -63,8 +78,7 @@ export class ItemsComponent {
   }
 
   public onItemSelection(item: any): any {
-    if (this.getItemState(item) !== "Downloading"
-      && this.getItemState(item) !== "Ready"
+    if (this.getItemState(item) === "Not cached"
       && item['data'] === null) {
       this.retrieveItemData(item);
     }

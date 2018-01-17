@@ -10,13 +10,19 @@ export class DBService {
     this.database = new PouchDB('alveott');
   }
 
-  public clear() {
-    this.database.destroy().then(
-      data => {
-        this.database = new PouchDB('alveott');
-      },
-      error => {
-        console.log(error);
+  public destroy() {
+    return new Promise((complete, error) =>
+      {
+        this.database.destroy().then(
+          data => {
+            this.database = new PouchDB('alveott');
+            complete();
+          },
+          error => {
+            console.log(error);
+            error();
+          }
+        );
       }
     );
   }

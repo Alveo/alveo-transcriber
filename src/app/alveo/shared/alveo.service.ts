@@ -18,7 +18,10 @@ export class AlveoService {
       {
         this.dbService.get(storageName).then(
           storageName => {
-            observer.next(storageName[storageName]);
+            if (storageName['storage'] === null) {
+              observer.error("404");
+            }
+            observer.next(storageName['storage']);
             observer.complete();
           },
           error => {
@@ -43,7 +46,8 @@ export class AlveoService {
             }
           );
         } else {
-          observer.error("Warning: API request ignored: not API authed");
+          //observer.error("Warning: API request ignored: not API authed");
+          observer.error(403);
         }
       }
     );
@@ -61,12 +65,9 @@ export class AlveoService {
             if (useCache) {
               this.dbRequest(storageClass).subscribe(
                 data => {
-                  if (data === undefined) {
-                    cacheObserver.error('404');
-                  } else {
-                    cacheObserver.next(data);
-                    cacheObserver.complete()
-                  }
+                  console.log("Using DB source for: " + storageClass)
+                  cacheObserver.next(data);
+                  cacheObserver.complete()
                 },
                 error => {
                   cacheObserver.error(error);
@@ -83,8 +84,10 @@ export class AlveoService {
             error => {
               this.apiRequest(request).subscribe(
                 data => {
-                  // if (useCache)
-                  //  invoke storage call
+                  if (useCache) {
+                    console.log("Caching "+storageClass);
+                    this.dbService.put(storageClass, {storage: data});
+                  }
 
                   observer.next(data);
                   observer.complete;
@@ -100,7 +103,7 @@ export class AlveoService {
   }
 
   public getListDirectory(useCache= true): Observable<any> {
-    return this.retrieve(this.requestListDirectory(), 'listDirectory', useCache);
+    return this.retrieve(this.requestListDirectory(), 'lists', useCache);
   }
 
   private requestListDirectory(): Observable<any> {
@@ -124,7 +127,7 @@ export class AlveoService {
   }
 
   public getList(listUrl: string, useCache= true): Observable<any> {
-    return this.retrieve(this.requestList(listUrl), 'lists', useCache);
+    return this.retrieve(this.requestList(listUrl), listUrl, useCache);
   }
 
   public requestList(listUrl: string): Observable<any> {
@@ -143,8 +146,8 @@ export class AlveoService {
     );
   }
 
-  public getItem(url: any, useCache= true): Observable<any> {
-    return this.retrieve(this.requestItem(url), 'items', useCache);
+  public getItem(itemUrl: any, useCache= true): Observable<any> {
+    return this.retrieve(this.requestItem(itemUrl), itemUrl, useCache);
   }
 
   public requestItem(itemUrl: string): Observable<any> {
@@ -163,8 +166,8 @@ export class AlveoService {
     );
   }
 
-  public getAudioFile(url: any, useCache= true): Observable<any> {
-    return this.retrieve(this.requestAudioFile(url), 'audioFiles', useCache);
+  public getAudioFile(fileUrl: any, useCache= true): Observable<any> {
+    return this.retrieve(this.requestAudioFile(fileUrl), fileUrl, useCache);
   }
 
   public requestAudioFile(audioFileUrl: any) {

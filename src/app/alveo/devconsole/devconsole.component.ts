@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { AlveoService } from '../shared/alveo.service';
 import { AuthService } from '../shared/auth.service';
+import { DBService } from '../shared/db.service';
+import { SessionService } from '../shared/session.service';
 
 @Component({
   selector: 'dev-console',
@@ -12,8 +14,10 @@ import { AuthService } from '../shared/auth.service';
 export class DevConsoleComponent {
   constructor(
     private authService: AuthService,
-    private alveoService: AlveoService) {
-  }
+    private alveoService: AlveoService,
+    private sessionService: SessionService,
+    private dbService: DBService
+  ) {}
 
   isLoggedIn(): boolean {
     return this.authService.isLoggedIn();
@@ -23,20 +27,32 @@ export class DevConsoleComponent {
     if (!this.isLoggedIn()) {
       this.authService.initiateLogin();
     } else {
-      this.alveoService.getListDirectory();
+      this.dbService.put('lists', {storage:null}).then(
+        success => {
+          this.alveoService.getListDirectory().subscribe(
+            data => {
+              this.sessionService.navigate(['/']);
+            },
+            error => {
+              console.log(error);
+            }
+          );
+        },
+        error => {
+          console.log(error);
+        }
+      );
     }
   }
 
-  reset(): void {
-    //this.alveoService.reset();
-  }
-
   resetStore(): void {
-    //this.reset();
-    //this.alveoService.resetStore();
-  }
-
-  storeData(): void {
-    //this.alveoService.storeData();
+    this.dbService.destroy().then(
+      success => {
+        this.sessionService.navigate(['/']);
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 }

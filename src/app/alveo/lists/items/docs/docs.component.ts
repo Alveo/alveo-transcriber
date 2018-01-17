@@ -52,7 +52,7 @@ export class DocsComponent {
       docData => {
         if (this.selectedDoc === doc) {
           this.sessionService.setActiveDoc(doc, docData);
-          this.sessionService.navigate(['./annotator']).subscribe();
+          this.sessionService.navigate(['./annotator']);
         }
       },
       error => {

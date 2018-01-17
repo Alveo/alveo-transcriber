@@ -50,6 +50,6 @@ export class ListsComponent {
   }
 
   public actionBack(): void {
-    this.sessionService.navigate(['../']).subscribe();
+    this.sessionService.navigate(['../']);
   }
 }

@@ -27,7 +27,7 @@ export class SessionService {
 
         this.load_init = false;
 
-        this.navigate(data['active_route']).subscribe();
+        this.navigate(data['active_route']);
       },
       error => {
         console.log("Stored session data not found. Initialising.");
@@ -65,23 +65,24 @@ export class SessionService {
   }
 
   /* Navigate to the specified route if possible */
-  public navigate(route: any[]): Observable<any> {
-    return new Observable((observer) => {
-      this.router.navigate(route)
-        .then(data => {
-          this.active_route = route;
-          this.updateStorage();
-          observer.next(data);
-          observer.complete();
-        })
-        .catch(error =>  {
-          observer.error(error);
-        })
-    });
+  public navigate(route: any[]): Promise<any> {
+    return new Promise(
+      (success, error) => {
+        this.router.navigate(route)
+          .then(data => {
+            this.active_route = route;
+            this.updateStorage();
+            success(data);
+          })
+          .catch(errorMsg =>  {
+            error(errorMsg)
+          })
+      }
+    );
   }
 
   public resetSession() {
-    this.navigate(['/']).subscribe();
+    this.navigate(['/']);
 
     if (!this.load_init) {
       this.setActiveList(null);

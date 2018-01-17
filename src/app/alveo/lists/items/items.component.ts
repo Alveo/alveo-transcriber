@@ -8,12 +8,19 @@ import { AuthService } from '../../shared/auth.service';
 
 import { AuthComponent } from '../../auth/auth.component';
 
+enum ItemState {
+  UNCHECKED = "Unchecked",
+  FAILED = "Failed",
+  NOT_CACHED = "Not Cached",
+  DOWNLOADING = "Downloading",
+  READY = "Ready",
+}
+
 @Component({
   selector: 'items',
   templateUrl: './items.component.html',
   styleUrls: ['./items.component.css'],
 })
-
 export class ItemsComponent {
   @Input() itemUrls: Array<any> = [];
   items: Array<any> = [];
@@ -34,7 +41,7 @@ export class ItemsComponent {
     for (let item of this.itemUrls) {
       this.items.push({
         url: item,
-        state: "Unchecked",
+        state: ItemState.UNCHECKED,
         data: null
       });
     }
@@ -44,11 +51,11 @@ export class ItemsComponent {
     for (let item of this.items) {
       this.alveoService.getItem(item['url'], true, false).subscribe(
         data => {
-          item['state'] = "Ready";
+          item['state'] = ItemState.READY;
           item['data'] = data;
         },
         error => {
-          item['state'] = "Not cached";
+          item['state'] = ItemState.NOT_CACHED;
         }
       );
     }
@@ -71,14 +78,15 @@ export class ItemsComponent {
   }
 
   public isDataReady(item: any): boolean {
-    if (this.getItemState(item) === "Ready" && item['data'] !== null) {
+    if (this.getItemState(item) === ItemState.READY
+      && item['data'] !== null) {
       return true;
     }
     return false;
   }
 
   public onItemSelection(item: any): any {
-    if (this.getItemState(item) === "Not cached"
+    if (this.getItemState(item) === ItemState.NOT_CACHED
       && item['data'] === null) {
       this.retrieveItemData(item);
     }
@@ -90,15 +98,15 @@ export class ItemsComponent {
   }
 
   private retrieveItemData(item: any): void {
-    item['state'] = "Downloading";
+    item['state'] = ItemState.DOWNLOADING;
 
     this.alveoService.getItem(item['url']).subscribe(
       data => {
-        item['state'] = "Ready";
+        item['state'] = ItemState.READY;
         item['data'] = data;
       },
       error => {
-        item['state'] = "Failed";
+        item['state'] = ItemState.FAILED;
         console.log(error);
         if (error === 403 || !this.authService.isLoggedIn()) {
           this.requireLogin()

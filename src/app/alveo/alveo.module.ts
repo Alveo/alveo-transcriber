@@ -59,6 +59,7 @@ import { AlveoService } from './shared/alveo.service';
 import { AuthService } from './shared/auth.service';
 import { DBService } from './shared/db.service';
 import { ApiService } from './shared/api.service';
+import { SessionService } from './shared/session.service';
 import { AnnotatorModule } from '../annotator/annotator.module';
 
 import { ApiInterceptor } from './shared/api.interceptor';
@@ -133,7 +134,8 @@ import 'hammerjs';
       provide: HTTP_INTERCEPTORS,
       useClass: ApiInterceptor,
       multi: true
-    }
+    },
+    SessionService,
   ],
 })
 export class AlveoModule { }

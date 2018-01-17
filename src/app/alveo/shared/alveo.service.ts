@@ -1,20 +1,12 @@
-import { HttpErrorResponse } from '@angular/common/http';
-
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { AuthService } from './auth.service';
 import { DBService } from './db.service';
 import { ApiService } from './api.service';
-import { AnnotatorService } from '../../annotator/shared/annotator.service';
-
-import { Annotation } from '../../annotator/shared/annotator.service';
 
 @Injectable()
 export class AlveoService {
-  tmp_list: any = null;
-  tmp_doc: any = null;
-
   constructor(
     private apiService: ApiService,
     private authService: AuthService,

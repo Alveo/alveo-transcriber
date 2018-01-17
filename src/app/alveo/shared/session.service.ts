@@ -47,6 +47,12 @@ export class SessionService {
     });
   }
 
+  public resetSession() {
+    this.setActiveList(null);
+    this.setActiveDoc(null, null);
+    this.navigate(['/']).subscribe();
+  }
+
   public setActiveList(list: any) {
     this.selected_list = list;
   }

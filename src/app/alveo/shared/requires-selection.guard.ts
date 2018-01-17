@@ -1,23 +1,24 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router,
-         ActivatedRouteSnapshot,
-         RouterStateSnapshot
+import { 
+  CanActivate,
+  ActivatedRouteSnapshot,
+  RouterStateSnapshot
 } from '@angular/router';
 
-import { AlveoService } from './alveo.service';
+import { SessionService } from './session.service';
 
 @Injectable()
 export class RequiresSelectionGuard implements CanActivate {
-  constructor(private alveoService: AlveoService,
-              private router: Router) {}
+  constructor(
+    private sessionService: SessionService
+  ) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    //if (this.alveoService.getActiveList() != null) {
-    //  return true;
-    //}
-    return true;
+    if (this.sessionService.getActiveList() != null) {
+      return true;
+    }
 
-    //this.router.navigate(['/']);
-    //return false;
+    this.sessionService.resetSession();
+    return false;
   }
 }

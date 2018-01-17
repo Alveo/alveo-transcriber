@@ -34,6 +34,9 @@ export class PlayerComponent implements OnInit {
 
   ready: boolean;
 
+  private zoom: number;
+  private zoom_threshold: number = 10;
+
   constructor(
     private dialog: MatDialog,
     private annotatorService: AnnotatorService,
@@ -107,6 +110,7 @@ export class PlayerComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.zoom = 3;
     this.player = WaveSurfer.create({
       container: '#waveform',
       waveColor: 'black',
@@ -133,7 +137,7 @@ export class PlayerComponent implements OnInit {
 
     this.player.on('ready', () => {
       this.loadRegions();
-      this.player.zoom(3);
+      this.player.zoom(this.zoom);
       this.player.enableDragSelection({
           color: BASE_COLOUR,
       });
@@ -178,6 +182,19 @@ export class PlayerComponent implements OnInit {
 
     // Forces Angular to update component every second
     setInterval(() => {}, 1000);
+  }
+
+  zoomIn() {
+    if (this.zoom < this.zoom_threshold) {
+      this.zoom += 1;
+    }
+    this.player.zoom(this.zoom);
+  }
+  zoomOut() {
+    if (this.zoom > 0) {
+      this.zoom -= 1;
+    }
+    this.player.zoom(this.zoom);
   }
 
   gotoRegion(region: Region) {

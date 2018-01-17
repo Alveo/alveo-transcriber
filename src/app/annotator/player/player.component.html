@@ -14,6 +14,9 @@
     <mat-icon class="clickable" (click)="this.replayLast(5)">replay_5</mat-icon>
     <mat-icon class="clickable" (click)="this.replayLast(10)">replay_10</mat-icon>
 
+    <mat-icon class="clickable" (click)="this.zoomIn()">zoom_in</mat-icon>
+    <mat-icon class="clickable" (click)="this.zoomOut()">zoom_out</mat-icon>
+
     <p id="duration">{{this.getPos() | durationshort}} / {{this.getDuration() | durationshort}}</p>
 
   </div>

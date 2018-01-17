@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { MatDialog } from '@angular/material';
 
 import { AlveoService } from '../../../shared/alveo.service';
 import { AuthService } from '../../../shared/auth.service';
+import { SessionService } from '../../../shared/session.service';
 
 import { AuthComponent } from '../../../auth/auth.component';
 
@@ -19,7 +19,7 @@ export class DocsComponent {
   selectedDoc: any = null;
 
   constructor(
-    private router: Router,
+    private sessionService: SessionService,
     private dialog: MatDialog,
     private authService: AuthService,
     private alveoService: AlveoService) {
@@ -49,10 +49,10 @@ export class DocsComponent {
 
   private downloadDoc(doc: any): void {
     this.alveoService.getAudioFile(doc['alveo:url']).subscribe(
-      data => {
+      docData => {
         if (this.selectedDoc === doc) {
-          this.alveoService.tmp_doc = doc;
-          this.router.navigate(['./annotator']);
+          this.sessionService.setActiveDoc(doc, docData);
+          this.sessionService.navigate(['./annotator']).subscribe();
         }
       },
       error => {

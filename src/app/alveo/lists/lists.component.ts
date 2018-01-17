@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { AlveoService } from '../shared/alveo.service';
 import { AuthService } from '../shared/auth.service';
+import { SessionService } from '../shared/session.service';
 
 import { AuthComponent } from '../auth/auth.component';
 
@@ -16,12 +16,13 @@ import { AnnotatorService } from '../../annotator/shared/annotator.service';
 
 export class ListsComponent {
   constructor(
-    private router: Router,
+    private sessionService: SessionService,
     private alveoService: AlveoService) {
   }
 
   public getList(): Array<any> {
-    return this.alveoService.tmp_list;
+    // If Null?
+    return this.sessionService.getActiveList();
   }
 
   public getListSize(): number {
@@ -49,6 +50,6 @@ export class ListsComponent {
   }
 
   public actionBack(): void {
-    this.router.navigate(['./']);
+    this.sessionService.navigate(['../']).subscribe();
   }
 }

@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
 
 import { AuthService } from '../shared/auth.service';
 import { AlveoService } from '../shared/alveo.service';
+import { SessionService } from '../shared/session.service';
 
 import { AuthComponent } from '../auth/auth.component';
 
@@ -22,9 +22,9 @@ export class ListIndexComponent implements OnInit {
   loading: boolean;
 
   constructor(
-    private router: Router,
     private authService: AuthService,
     private alveoService: AlveoService,
+    private sessionService: SessionService,
     private dialog: MatDialog
   ) {
     this.lists = [];
@@ -102,9 +102,9 @@ export class ListIndexComponent implements OnInit {
 
   onSelection(list): void {
     this.alveoService.getList(list['item_list_url']).subscribe(
-      listData => {
-        this.alveoService.tmp_list = listData;
-        this.router.navigate(['./lists/view']);
+      list => {
+        this.sessionService.setActiveList(list);
+        this.sessionService.navigate(['lists/view']).subscribe();
       },
       error => {
         if (error===403 && !this.isLoggedIn()) {

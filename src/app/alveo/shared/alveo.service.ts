@@ -13,7 +13,7 @@ export class AlveoService {
     private dbService: DBService) {
   }
 
-  private dbRequest(storageName: string): Observable<any> {
+  private cacheRequest(storageName: string): Observable<any> {
     return new Observable((observer) =>
       {
         this.dbService.get(storageName).then(
@@ -65,7 +65,7 @@ export class AlveoService {
         new Observable((cacheObserver) =>
           {
             if (useCache) {
-              this.dbRequest(storageClass).subscribe(
+              this.cacheRequest(storageClass).subscribe(
                 data => {
                   console.log("Using DB source for: " + storageClass)
                   cacheObserver.next(data);
@@ -117,8 +117,7 @@ export class AlveoService {
       {
         this.apiService.getListIndex().subscribe(
           (data) => {
-            let lists = [];
-            lists = lists.concat(data['own']);
+            let lists = data['own'];
             lists = lists.concat(data['shared']);
 
             observer.next(lists);
@@ -137,19 +136,7 @@ export class AlveoService {
   }
 
   public requestList(listUrl: string): Observable<any> {
-    return new Observable((observer) =>
-      {
-        this.apiService.getList(listUrl).subscribe(
-          (data) => {
-            observer.next(data);
-            observer.complete();
-          },
-          error => {
-            observer.error(error);
-          }
-        );
-      }
-    );
+    return this.apiService.getList(listUrl);
   }
 
   public getItem(itemUrl: any, useCache= true, useApi= true): Observable<any> {
@@ -157,19 +144,7 @@ export class AlveoService {
   }
 
   public requestItem(itemUrl: string): Observable<any> {
-    return new Observable((observer) =>
-      {
-        this.apiService.getItem(itemUrl).subscribe(
-          (data) => {
-            observer.next(data);
-            observer.complete();
-          },
-          error => {
-            observer.error(error);
-          }
-        );
-      }
-    );
+    return this.apiService.getItem(itemUrl);
   }
 
   public getAudioFile(fileUrl: any, useCache= true, useApi = true): Observable<any> {
@@ -177,18 +152,6 @@ export class AlveoService {
   }
 
   public requestAudioFile(audioFileUrl: any) {
-    return new Observable((observer) =>
-      {
-        this.apiService.getDocument(audioFileUrl).subscribe(
-          (data) => {
-            observer.next(data);
-            observer.complete();
-          },
-          error => {
-            observer.error(error);
-          }
-        );
-      }
-    );
+    return this.apiService.getDocument(audioFileUrl);
   }
 }

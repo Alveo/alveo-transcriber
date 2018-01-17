@@ -21,7 +21,6 @@ export class ListsComponent {
   }
 
   public getList(): Array<any> {
-    // If Null?
     return this.sessionService.getActiveList();
   }
 

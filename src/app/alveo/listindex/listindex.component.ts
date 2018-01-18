@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
 import { Observable } from 'rxjs/Observable';
@@ -17,75 +17,16 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./listindex.component.css'],
 })
 
-export class ListIndexComponent implements OnInit {
-  lists: Array<any>;
-  loading: boolean;
-
+export class ListIndexComponent {
   constructor(
     private authService: AuthService,
     private alveoService: AlveoService,
     private sessionService: SessionService,
     private dialog: MatDialog
-  ) {
-    this.lists = [];
-    this.loading = true;
-  }
-
-  ngOnInit(): void {
-    this.downloadData();
-  }
-
-  downloadData(): void {
-    this.loading = true;
-    this.updateLists().subscribe(
-      finish => { this.loading = false; },
-      error => { this.loading = false; }
-    );
-  }
-
-  updateLists(): Observable<any> {
-    return new Observable((observer) => {
-      this.alveoService.getListDirectory()
-        .subscribe(
-          lists => {
-            this.lists = lists;
-            observer.next();
-            observer.complete();
-          },
-          error => {
-            observer.error(error);
-          }
-        );
-    });
-  }
-
-  isLoading(): boolean {
-    return this.loading;
-  }
+  ) {}
 
   isDevMode(): boolean {
     return environment.devTools;
-  }
-
-  requireLogin(firstRun= false) {
-    if (this.dialog.openDialogs.length < 1) {
-      this.dialog.open(AuthComponent, {
-        disableClose: firstRun,
-        data: {firstRun: firstRun}}
-      );
-    }
-  }
-
-  requireData() {
-    if (this.listSize() === 0 && !this.isLoggedIn()) {
-      this.noDataSource();
-    }
-  }
-
-  noDataSource() {
-    setTimeout(() => {
-      this.requireLogin(true);
-    }, 50);
   }
 
   isLoggedIn(): boolean {
@@ -93,11 +34,20 @@ export class ListIndexComponent implements OnInit {
   }
 
   listSize(): number {
-    return this.lists.length;
+    return this.getLists().length;
   }
 
   getLists(): any {
-    return this.lists;
+    return this.sessionService.getListIndex();
+  }
+
+  requireLogin() {
+    if (this.dialog.openDialogs.length < 1) {
+      this.dialog.open(AuthComponent, {
+        disableClose: false,
+        data: {firstRun: false}}
+      );
+    }
   }
 
   onSelection(list): void {

@@ -39,9 +39,10 @@ import {
 } from '@angular/material';
 import { CdkTableModule } from '@angular/cdk/table';
 
-import { DevConsoleComponent } from './devconsole/devconsole.component';
-
 import { AlveoComponent } from './alveo.component';
+
+import { DevConsoleComponent } from './devconsole/devconsole.component';
+import { DataSourceComponent } from './datasource/datasource.component';
 
 import { AlveoRoutingModule } from './routing.module';
 import { NavComponent } from './nav/nav.component';
@@ -70,6 +71,7 @@ import 'hammerjs';
   declarations: [
     AlveoComponent,
     DevConsoleComponent,
+    DataSourceComponent,
     NavComponent,
     AuthComponent,
     OAuthCallbackComponent,

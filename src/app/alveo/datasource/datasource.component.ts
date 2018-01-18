@@ -25,7 +25,7 @@ export class DataSourceComponent implements OnInit {
     private dialog: MatDialog
   ) {}
 
-  ngOnInit(): {
+  ngOnInit() {
     this.getData(true, false);
   }
 
@@ -50,14 +50,8 @@ export class DataSourceComponent implements OnInit {
     this.loading = true;
     this.alveoService.getListDirectory(useCache, useApi).subscribe(
       lists => {
-        this.sessionService.setListIndex(lists).then(
-          success => {
-            this.sessionService.navigate(['lists/index']);
-          },
-          error => {
-            console.log(error);
-          }
-        );
+        this.sessionService.setListIndex(lists);
+        this.sessionService.navigate(['lists/index']);
       },
       error => { this.loading = false; }
     );

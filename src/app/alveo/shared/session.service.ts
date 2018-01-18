@@ -7,6 +7,7 @@ import { AnnotatorService } from '../../annotator/shared/annotator.service';
 
 @Injectable()
 export class SessionService {
+  private list_index: any = null;
   private active_route: any = [];
   private active_list: any = null;
   private active_doc: any = null;
@@ -90,6 +91,15 @@ export class SessionService {
     }
   }
 
+  public setListIndex(list_index: any) {
+    this.list_index = list_index;
+    this.updateStorage();
+  }
+
+  public getListIndex(): any {
+    return this.list_index;
+  }
+
   public setActiveList(list: any) {
     this.active_list = list;
     this.updateStorage();
@@ -107,8 +117,10 @@ export class SessionService {
     /* TMP */
     this.annotatorService.audioFile = docData;
     this.annotatorService.rebase([]);
-    this.annotatorService.audioFileName = doc['dcterms:identifier'];
-    this.annotatorService.audioFileURL = doc['alveo:url'];
+    if (doc != null) {
+      this.annotatorService.audioFileName = doc['dcterms:identifier'];
+      this.annotatorService.audioFileURL = doc['alveo:url'];
+    }
   }
 
   public getActiveDoc(): any {

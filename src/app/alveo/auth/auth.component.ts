@@ -1,8 +1,9 @@
 import { Component, Inject, Input, OnInit, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material';
 
 import { AuthService } from '../shared/auth.service';
+import { SessionService } from '../shared/session.service';
 
 import { Paths } from '../shared/paths';
 
@@ -15,7 +16,7 @@ export class OAuthCallbackComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
+    private sessionService: SessionService,
     private authService: AuthService,
   ) { }
 
@@ -24,7 +25,11 @@ export class OAuthCallbackComponent implements OnInit, OnDestroy {
       if (params['code'] !== undefined) {
         this.authService.callback(params['code']);
         this.authService.login();
-        this.router.navigate([Paths.Index]);
+        this.sessionService.onReady().subscribe(
+          () => {
+            this.sessionService.navigateToStoredRoute();
+          }
+        );
       }
     });
   }

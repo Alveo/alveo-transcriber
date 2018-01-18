@@ -76,7 +76,7 @@ export class AlveoService {
                 }
               );
             } else {
-              observer.error("Cache requests not allowed, method flag disabled");
+              cacheObserver.error("Cache requests not allowed, method flag disabled");
             }
           }).subscribe(
             data => {

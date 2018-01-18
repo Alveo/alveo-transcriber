@@ -38,12 +38,14 @@ export class DataSourceComponent implements OnInit {
   }
 
   requireLogin() {
-    if (this.dialog.openDialogs.length < 1) {
-      this.dialog.open(AuthComponent, {
-        disableClose: true,
-        data: {firstRun: true}}
-      );
-    }
+    setTimeout(() => {
+      if (this.dialog.openDialogs.length < 1) {
+        this.dialog.open(AuthComponent, {
+          disableClose: true,
+          data: {firstRun: true}}
+        );
+      }
+    }, 50);
   }
 
   getData(useCache: boolean=true, useApi: boolean=true): void {
@@ -53,7 +55,7 @@ export class DataSourceComponent implements OnInit {
         this.sessionService.setListIndex(lists);
         this.sessionService.navigate(['lists/index']);
       },
-      error => { this.loading = false; }
+      error => { this.loading = false; console.log(error) }
     );
   }
 }

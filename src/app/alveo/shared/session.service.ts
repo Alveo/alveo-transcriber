@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
+import 'rxjs/Observable';
 
 import { DBService } from './db.service';
 import { AnnotatorService } from '../../annotator/shared/annotator.service';
@@ -10,7 +11,7 @@ import { Paths } from './paths';
 @Injectable()
 export class SessionService {
   private list_index: any = null;
-  private active_route: any = [];
+  private stored_route: any = [];
   private active_list: any = null;
   private active_doc: any = null;
   private active_doc_data: ArrayBuffer = null;
@@ -27,10 +28,9 @@ export class SessionService {
         this.active_list = data['active_list'];
         this.active_doc = data['active_doc'];
         this.active_doc_data = data['active_doc_data'];
+        this.stored_route = data['stored_route'];
 
         this.load_init = false;
-
-        this.navigate(data['active_route']);
       },
       error => {
         console.log("Stored session data not found. Initialising.");
@@ -42,9 +42,23 @@ export class SessionService {
     );
   }
 
+  public onReady(): Observable<any> {
+    return new Observable(
+      (observer) => {
+        let interval = setInterval(() => {
+          if (this.load_init === false) {
+            observer.next();
+            observer.complete();
+            clearInterval(interval);
+          }
+        }, 5);
+      }
+    );
+  }
+
   private updateStorage() {
     this.dbService.put("sessionService", {
-      "active_route": this.active_route,
+      "stored_route": this.stored_route,
       "active_list": this.active_list,
       "active_doc": this.active_doc,
       "active_doc_data": this.active_doc_data,
@@ -73,7 +87,7 @@ export class SessionService {
       (success, error) => {
         this.router.navigate(route)
           .then(data => {
-            this.active_route = route;
+            this.stored_route = route;
             this.updateStorage();
             success(data);
           })
@@ -82,6 +96,10 @@ export class SessionService {
           })
       }
     );
+  }
+
+  public navigateToStoredRoute() {
+    this.navigate(this.stored_route);
   }
 
   public resetSession() {

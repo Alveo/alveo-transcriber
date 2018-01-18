@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AuthComponent } from './auth/auth.component';
+import { SessionComponent } from './session/session.component';
 import { DataSourceComponent } from './datasource/datasource.component';
 import { OAuthCallbackComponent } from './auth/auth.component';
 import { ListIndexComponent } from './listindex/listindex.component';
@@ -15,6 +16,10 @@ import { RequiresAuthGuard } from './shared/requires-auth.guard';
 import { Paths } from './shared/paths';
 
 const routes: Routes = [
+      {
+        path: Paths.Index,
+        component: SessionComponent,
+      },
       {
         path: Paths.SelectDataSource,
         component: DataSourceComponent,
@@ -40,7 +45,7 @@ const routes: Routes = [
       },
       {
         path: '**',
-        redirectTo: '',
+        redirectTo: Paths.Index,
         pathMatch: 'full',
       },
     ];

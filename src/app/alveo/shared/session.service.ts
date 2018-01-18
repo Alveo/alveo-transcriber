@@ -66,8 +66,16 @@ export class SessionService {
     );
   }
 
-  private updateStorage() {
-    this.dbService.put("sessionService", {
+  public reset() {
+    this.list_index = null;
+    this.stored_route = [''];
+    this.active_list = null;
+    this.active_doc = null;
+    this.active_doc_data = null;
+  }
+
+  public updateStorage(): Promise<any> {
+    return this.dbService.put("sessionService", {
       "stored_route": this.stored_route,
       "active_list": this.active_list,
       "active_doc": this.active_doc,
@@ -113,7 +121,7 @@ export class SessionService {
   }
 
   public resetSession() {
-    //this.router.navigate([Paths.Index]);
+    this.router.navigate([Paths.Index]);
 
     if (!this.load_init) {
       this.setActiveList(null);

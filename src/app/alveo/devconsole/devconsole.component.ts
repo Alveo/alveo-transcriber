@@ -50,11 +50,18 @@ export class DevConsoleComponent {
   resetStore(): void {
     this.dbService.destroy().then(
       success => {
+        this.sessionService.reset();
         this.sessionService.navigate([Paths.Index]);
       },
       error => {
         console.log(error);
       }
     );
+  }
+
+  resetSession(): void {
+    this.sessionService.reset();
+    this.sessionService.updateStorage();
+    this.sessionService.navigate([Paths.Index]);
   }
 }

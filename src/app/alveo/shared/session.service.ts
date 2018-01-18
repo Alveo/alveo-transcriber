@@ -32,6 +32,8 @@ export class SessionService {
         this.active_doc_data = data['active_doc_data'];
         this.stored_route = data['stored_route'];
 
+        this.prepareDoc();
+
         this.alveoService.getListDirectory(true, false).subscribe(
           (lists) => {
             this.list_index = lists;
@@ -116,17 +118,14 @@ export class SessionService {
     );
   }
 
-  public navigateToStoredRoute() {
-    this.navigate(this.stored_route);
+  public navigateToStoredRoute(): Promise<any> {
+    return this.navigate(this.stored_route);
   }
 
-  public resetSession() {
-    this.router.navigate([Paths.Index]);
-
-    if (!this.load_init) {
-      this.setActiveList(null);
-      this.setActiveDoc(null, null);
-    }
+  public resetSession(url: string) {
+    this.onReady().subscribe(
+      () => this.router.navigate([url])
+    );
   }
 
   public setListIndex(list_index: any) {
@@ -153,11 +152,16 @@ export class SessionService {
     this.updateStorage();
 
     /* TMP */
-    this.annotatorService.audioFile = docData;
+    this.prepareDoc();
+  }
+
+  /* TMP */
+  private prepareDoc() {
+    this.annotatorService.audioFile = this.active_doc_data;
     this.annotatorService.rebase([]);
-    if (doc != null) {
-      this.annotatorService.audioFileName = doc['dcterms:identifier'];
-      this.annotatorService.audioFileURL = doc['alveo:url'];
+    if (this.active_doc != null) {
+      this.annotatorService.audioFileName = this.active_doc['dcterms:identifier'];
+      this.annotatorService.audioFileURL = this.active_doc['alveo:url'];
     }
   }
 

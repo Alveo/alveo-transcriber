@@ -26,7 +26,7 @@ export class RequiresAuthGuard implements CanActivate {
       return true;
     }
 
-    this.sessionService.resetSession();
+    this.sessionService.resetSession(url);
     return false;
   }
 }

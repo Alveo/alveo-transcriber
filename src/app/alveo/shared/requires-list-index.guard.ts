@@ -18,7 +18,7 @@ export class RequiresListIndexGuard implements CanActivate {
       return true;
     }
 
-    this.sessionService.resetSession();
+    this.sessionService.resetSession(state.url);
     return false;
   }
 }

@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { DBService } from './db.service';
 import { AnnotatorService } from '../../annotator/shared/annotator.service';
 
+import { Paths } from './paths';
+
 @Injectable()
 export class SessionService {
   private list_index: any = null;
@@ -83,7 +85,7 @@ export class SessionService {
   }
 
   public resetSession() {
-    this.navigate(['/']);
+    this.navigate([Paths.Index]);
 
     if (!this.load_init) {
       this.setActiveList(null);

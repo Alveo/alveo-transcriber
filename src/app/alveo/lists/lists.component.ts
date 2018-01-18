@@ -8,6 +8,8 @@ import { AuthComponent } from '../auth/auth.component';
 
 import { AnnotatorService } from '../../annotator/shared/annotator.service';
 
+import { Paths } from '../shared/paths';
+
 @Component({
   selector: 'lists',
   templateUrl: './lists.component.html',
@@ -49,6 +51,6 @@ export class ListsComponent {
   }
 
   public actionBack(): void {
-    this.sessionService.navigate(['../']);
+    this.sessionService.navigate([Paths.ListIndex]);
   }
 }

@@ -10,6 +10,7 @@ import { SessionService } from '../shared/session.service';
 import { AuthComponent } from '../auth/auth.component';
 
 import { environment } from '../../../environments/environment';
+import { Paths } from '../shared/paths';
 
 @Component({
   selector: 'listindex',
@@ -54,7 +55,7 @@ export class ListIndexComponent {
     this.alveoService.getList(list['item_list_url']).subscribe(
       list => {
         this.sessionService.setActiveList(list);
-        this.sessionService.navigate(['lists/view']);
+        this.sessionService.navigate([Paths.ListView]);
       },
       error => {
         if (error===403 && !this.isLoggedIn()) {

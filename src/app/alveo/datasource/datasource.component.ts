@@ -9,6 +9,8 @@ import { SessionService } from '../shared/session.service';
 
 import { AuthComponent } from '../auth/auth.component';
 
+import { Paths } from '../shared/paths';
+
 @Component({
   selector: 'datasource',
   templateUrl: './datasource.component.html',
@@ -53,7 +55,7 @@ export class DataSourceComponent implements OnInit {
     this.alveoService.getListDirectory(useCache, useApi).subscribe(
       lists => {
         this.sessionService.setListIndex(lists);
-        this.sessionService.navigate(['lists/index']);
+        this.sessionService.navigate([Paths.ListIndex]);
       },
       error => { this.loading = false; console.log(error) }
     );

@@ -5,6 +5,8 @@ import { AuthService } from '../shared/auth.service';
 import { DBService } from '../shared/db.service';
 import { SessionService } from '../shared/session.service';
 
+import { Paths } from '../shared/paths'
+
 @Component({
   selector: 'dev-console',
   templateUrl: './devconsole.component.html',
@@ -31,7 +33,7 @@ export class DevConsoleComponent {
         success => {
           this.alveoService.getListDirectory().subscribe(
             data => {
-              this.sessionService.navigate(['/']);
+              this.sessionService.navigate([Paths.SelectDataSource]);
             },
             error => {
               console.log(error);
@@ -48,7 +50,7 @@ export class DevConsoleComponent {
   resetStore(): void {
     this.dbService.destroy().then(
       success => {
-        this.sessionService.navigate(['/']);
+        this.sessionService.navigate([Paths.Index]);
       },
       error => {
         console.log(error);

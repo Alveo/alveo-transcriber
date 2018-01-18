@@ -8,6 +8,8 @@ import { SessionService } from '../../../shared/session.service';
 
 import { AuthComponent } from '../../../auth/auth.component';
 
+import { Paths } from '../../../shared/paths';
+
 @Component({
   selector: 'docs',
   templateUrl: './docs.component.html',
@@ -52,7 +54,7 @@ export class DocsComponent {
       docData => {
         if (this.selectedDoc === doc) {
           this.sessionService.setActiveDoc(doc, docData);
-          this.sessionService.navigate(['./annotator']);
+          this.sessionService.navigate([Paths.Annotator]);
         }
       },
       error => {

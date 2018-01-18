@@ -4,6 +4,8 @@ import { MatDialog, MAT_DIALOG_DATA } from '@angular/material';
 
 import { AuthService } from '../shared/auth.service';
 
+import { Paths } from '../shared/paths';
+
 @Component({
   selector: 'auth-callback',
   template: '',
@@ -22,7 +24,7 @@ export class OAuthCallbackComponent implements OnInit, OnDestroy {
       if (params['code'] !== undefined) {
         this.authService.callback(params['code']);
         this.authService.login();
-        this.router.navigate(['./itemlists']);
+        this.router.navigate([Paths.Index]);
       }
     });
   }

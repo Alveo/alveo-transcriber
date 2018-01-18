@@ -12,27 +12,29 @@ import { RequiresListGuard } from './shared/requires-list.guard';
 import { RequiresListIndexGuard } from './shared/requires-list-index.guard';
 import { RequiresAuthGuard } from './shared/requires-auth.guard';
 
+import { Paths } from './shared/paths';
+
 const routes: Routes = [
       {
-        path: '',
+        path: Paths.SelectDataSource,
         component: DataSourceComponent,
       },
       {
-        path: 'oauth/callback',
+        path: Paths.OAuthCallback,
         component: OAuthCallbackComponent,
       },
       {
-        path: 'lists/index',
+        path: Paths.ListIndex,
         component: ListIndexComponent,
         canActivate: [RequiresListIndexGuard],
       },
       {
-        path: 'lists/view',
+        path: Paths.ListView,
         component: ListsComponent,
         canActivate: [RequiresListGuard],
       },
       {
-        path: 'annotator',
+        path: Paths.Annotator,
         component: AnnotatorComponent,
         canActivate: [RequiresListGuard],
       },

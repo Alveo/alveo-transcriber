@@ -23,7 +23,7 @@ export class AnnotatorComponent {
   ) { }
 
   actionBack(): void {
-    this.router.navigate(['/']);
+    this.router.navigate(this.annotatorService.getBackUrl());
   }
 
   downloadFile(url, filename): void {

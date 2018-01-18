@@ -163,6 +163,7 @@ export class SessionService {
       this.annotatorService.audioFileName = this.active_doc['dcterms:identifier'];
       this.annotatorService.audioFileURL = this.active_doc['alveo:url'];
     }
+    this.annotatorService.setBackUrl(['lists/view']);
   }
 
   public getActiveDoc(): any {

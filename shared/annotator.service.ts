@@ -51,6 +51,16 @@ export class AnnotatorService {
 
   selectedAnnotation: Annotation;
 
+  backUrl: any[] = [''];
+
+  public setBackUrl(url: any[]) {
+    this.backUrl = url;
+  }
+
+  public getBackUrl(): any[] {
+    return this.backUrl;
+  }
+
   rebase(annotations: Array<Annotation>): any {
     this.annotations = annotations;
     this.selectFirst();

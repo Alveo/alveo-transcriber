@@ -5,13 +5,14 @@ import 'rxjs/Observable';
 
 import { DBService } from './db.service';
 import { AnnotatorService } from '../../annotator/shared/annotator.service';
+import { AlveoService } from './alveo.service';
 
 import { Paths } from './paths';
 
 @Injectable()
 export class SessionService {
   private list_index: any = null;
-  private stored_route: any = [];
+  private stored_route: any = [''];
   private active_list: any = null;
   private active_doc: any = null;
   private active_doc_data: ArrayBuffer = null;
@@ -20,6 +21,7 @@ export class SessionService {
   constructor(
     private router: Router,
     private annotatorService: AnnotatorService,
+    private alveoService: AlveoService,
     private dbService: DBService) {
     this.dbService.get("sessionService").then(
       data => {
@@ -30,7 +32,15 @@ export class SessionService {
         this.active_doc_data = data['active_doc_data'];
         this.stored_route = data['stored_route'];
 
-        this.load_init = false;
+        this.alveoService.getListDirectory(true, false).subscribe(
+          (lists) => {
+            this.list_index = lists;
+            this.load_init = false;
+          },
+          (error) => {
+            this.load_init = false;
+          }
+        );
       },
       error => {
         console.log("Stored session data not found. Initialising.");
@@ -103,7 +113,7 @@ export class SessionService {
   }
 
   public resetSession() {
-    this.navigate([Paths.Index]);
+    //this.router.navigate([Paths.Index]);
 
     if (!this.load_init) {
       this.setActiveList(null);

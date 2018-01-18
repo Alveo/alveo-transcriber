@@ -7,7 +7,7 @@ import { ListIndexComponent } from './listindex/listindex.component';
 import { ListsComponent } from './lists/lists.component';
 import { AnnotatorComponent } from '../annotator/annotator.component';
 
-import { RequiresSelectionGuard } from './shared/requires-selection.guard';
+import { RequiresListGuard } from './shared/requires-selection.guard';
 import { RequiresAuthGuard } from './shared/requires-auth.guard';
 
 const routes: Routes = [
@@ -22,12 +22,12 @@ const routes: Routes = [
       {
         path: 'lists/view',
         component: ListsComponent,
-        canActivate: [RequiresSelectionGuard],
+        canActivate: [RequiresListGuard],
       },
       {
         path: 'annotator',
         component: AnnotatorComponent,
-        canActivate: [RequiresSelectionGuard],
+        canActivate: [RequiresListGuard],
       },
       {
         path: '**',
@@ -41,7 +41,7 @@ const routes: Routes = [
   exports: [RouterModule],
   providers: [
     RequiresAuthGuard,
-    RequiresSelectionGuard,
+    RequiresListGuard,
   ]
 })
 

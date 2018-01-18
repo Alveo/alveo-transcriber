@@ -8,7 +8,7 @@ import {
 import { SessionService } from './session.service';
 
 @Injectable()
-export class RequiresSelectionGuard implements CanActivate {
+export class RequiresListGuard implements CanActivate {
   constructor(
     private sessionService: SessionService
   ) {}

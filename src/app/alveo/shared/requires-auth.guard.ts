@@ -16,17 +16,16 @@ export class RequiresAuthGuard implements CanActivate {
   ) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    const url: string = state.url;
+    if (this.sessionService.isLoading()) {
+      this.sessionService.refreshSession(state.url)
+      return false;
+    }
 
-    return this.checkLogin(url);
-  }
-
-  checkLogin(url: string): boolean {
     if (this.authService.isLoggedIn()) {
       return true;
     }
 
-    this.sessionService.resetSession(url);
+    this.sessionService.refreshSession();
     return false;
   }
 }

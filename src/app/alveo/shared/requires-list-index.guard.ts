@@ -14,11 +14,16 @@ export class RequiresListIndexGuard implements CanActivate {
   ) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+    if (this.sessionService.isLoading()) {
+      this.sessionService.refreshSession(state.url)
+      return false;
+    }
+
     if (this.sessionService.getListIndex() != null) {
       return true;
     }
 
-    this.sessionService.resetSession(state.url);
+    this.sessionService.refreshSession();
     return false;
   }
 }

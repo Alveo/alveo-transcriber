@@ -57,6 +57,7 @@ import { ItemsComponent } from './lists/items/items.component';
 import { DocsComponent } from './lists/items/docs/docs.component';
 
 import { AlveoService } from './shared/alveo.service';
+import { AnnotationsService } from './shared/annotations.service';
 import { AuthService } from './shared/auth.service';
 import { DBService } from './shared/db.service';
 import { ApiService } from './shared/api.service';
@@ -131,6 +132,7 @@ import 'hammerjs';
     AuthService,
     AlveoService,
     DBService,
+    AnnotationsService,
     ApiService,
     {
       provide: HTTP_INTERCEPTORS,

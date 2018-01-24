@@ -23,6 +23,7 @@ export class SessionService {
     private alveoService: AlveoService,
     private annotationsService: AnnotationsService,
     private dbService: DBService) {
+    this.annotationEventSubscribe();
     this.loading.push("dbinstance");
     this.dbService.instance(Databases.Cache).get("sessionService").then(
       data => {
@@ -35,10 +36,10 @@ export class SessionService {
 
         if (this.active_doc !== null) {
           this.loading.push("annotatorprep");
+          this.annotationsService.setFileUrl(this.active_doc['alveo:url']);
           this.annotationsService.prepareAnnotator(
             this.active_doc['dcterms:identifier'],
-            this.active_doc_data,
-            [Paths.ListView]).then(
+            this.active_doc_data).then(
               () => {
                 this.loading.pop(this.loading.filter(inst => inst === "annotatorprep"));
               }
@@ -61,6 +62,16 @@ export class SessionService {
         this.updateStorage();
 
         this.loading.pop(this.loading.filter(inst => inst === "dbservice"));
+      }
+    );
+  }
+
+  private annotationEventSubscribe() {
+    this.annotationsService.serviceEvent.subscribe(
+      (event) => {
+        if (event === 'exit') {
+          this.navigate([Paths.ListView]);
+        }
       }
     );
   }
@@ -175,10 +186,10 @@ export class SessionService {
     this.active_doc_data = docData;
     this.updateStorage();
 
+    this.annotationsService.setFileUrl(this.active_doc['alveo:url']);
     return this.annotationsService.prepareAnnotator(
       doc['dcterms:identifier'],
-      docData,
-      [Paths.ListView]
+      docData
     );
   }
 

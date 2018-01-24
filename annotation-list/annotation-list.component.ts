@@ -10,7 +10,7 @@ import { AnnotatorService } from '../shared/annotator.service';
 })
 
 export class AnnotationListComponent implements OnChanges {
-  @Input() annotation: Annotation;
+  @Input() annotations: Array<Annotation>;
 
   constructor(
     public annotatorService: AnnotatorService

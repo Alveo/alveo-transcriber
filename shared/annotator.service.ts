@@ -57,7 +57,18 @@ export class AnnotatorService {
 
   rebase(annotations: Array<Annotation>): any {
     this.annotations = annotations;
+    this.sortAnnotations();
     this.selectFirst();
+  }
+
+  private sortAnnotations() {
+    this.annotations = this.annotations.sort(
+      (left,right):number => {
+        if (left.start < right.start) return -1;
+        if (left.start > right.start) return 1;
+        return 0;
+      }
+    );
   }
 
   emitUpdate(): any {
@@ -97,6 +108,7 @@ export class AnnotatorService {
   }
 
   createAnnotationFromSegment(segment: any): string {
+    console.log(segment['start']);
     this.annotations.push(new Annotation(
       segment['id'],
       segment['start'],
@@ -105,6 +117,8 @@ export class AnnotatorService {
       segment['caption'],
       segment['cap_type']
     ));
+
+    this.sortAnnotations();
 
     return segment['id'];
   }

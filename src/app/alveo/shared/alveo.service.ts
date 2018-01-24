@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { AuthService } from './auth.service';
-import { DBService } from './db.service';
+import { DBService, Databases } from './db.service';
 import { ApiService } from './api.service';
 
 @Injectable()
@@ -16,7 +16,7 @@ export class AlveoService {
   private cacheRequest(storageName: string): Observable<any> {
     return new Observable((observer) =>
       {
-        this.dbService.get(storageName).then(
+        this.dbService.instance(Databases.Cache).get(storageName).then(
           storageName => {
             if (storageName['storage'] === null) {
               observer.error("404");
@@ -89,7 +89,7 @@ export class AlveoService {
                   data => {
                     if (useCache) {
                       console.log("Caching "+storageClass);
-                      this.dbService.put(storageClass, {storage: data});
+                      this.dbService.instance(Databases.Cache).put(storageClass, {storage: data});
                     }
 
                     observer.next(data);

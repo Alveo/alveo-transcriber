@@ -2,20 +2,53 @@ import { Injectable } from '@angular/core';
 
 import PouchDB from 'pouchdb';
 
+export enum Databases {
+  Cache = 'alveott_cache',
+  Annotations = 'alveott_annotations',
+}
+
 @Injectable()
 export class DBService {
-  private database: any;
+  private databases: Array<any> = [];
 
   constructor() {
-    this.database = new PouchDB('alveott');
+    this.useDatabase(Databases.Cache);
+    this.useDatabase(Databases.Annotations);
   }
 
-  public destroy() {
+  public useDatabase(databaseName: string) {
+    this.databases.push({
+      "name": databaseName,
+      "instance": new Database(databaseName)
+    });
+  }
+
+  public instance(databaseName: string): Database {
+    for (let database of this.databases) {
+      if (database['name'] === databaseName) {
+        return database['instance'];
+      }
+    }
+    return null;
+  }
+}
+
+class Database {
+  databaseName: string;
+  database: PouchDB;
+
+  constructor(databaseName: string) {
+    this.databaseName = databaseName;
+
+    this.database = new PouchDB(this.databaseName);
+  }
+
+  public destroy(): any {
     return new Promise((complete, error) =>
       {
         this.database.destroy().then(
           data => {
-            this.database = new PouchDB('alveott');
+            this.database = new PouchDB(this.databaseName);
             complete();
           },
           error => {
@@ -27,11 +60,11 @@ export class DBService {
     );
   }
 
-  public get(key: string) {
+  public get(key: string): any {
     return this.database.get(key);
   }
 
-  public put(key: string, value: any) {
+  public put(key: string, value: any): any {
     value._id = key;
     return this.get(key).then(result => {
       value._rev = result._rev;

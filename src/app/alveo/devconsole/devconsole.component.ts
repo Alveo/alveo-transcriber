@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { AlveoService } from '../shared/alveo.service';
 import { AuthService } from '../shared/auth.service';
-import { DBService } from '../shared/db.service';
+import { DBService, Databases } from '../shared/db.service';
 import { SessionService } from '../shared/session.service';
 
 import { Paths } from '../shared/paths'
@@ -29,7 +29,7 @@ export class DevConsoleComponent {
     if (!this.isLoggedIn()) {
       this.authService.initiateLogin();
     } else {
-      this.dbService.put('lists', {storage:null}).then(
+      this.dbService.instance(Databases.Cache).put('lists', {storage:null}).then(
         success => {
           this.alveoService.getListDirectory().subscribe(
             data => {
@@ -48,7 +48,7 @@ export class DevConsoleComponent {
   }
 
   resetStore(): void {
-    this.dbService.destroy().then(
+    this.dbService.instance(Databases.Cache).destroy().then(
       success => {
         this.sessionService.reset();
         this.sessionService.navigate([Paths.Index]);

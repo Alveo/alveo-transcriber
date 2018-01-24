@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import 'rxjs/Observable';
 
-import { DBService } from './db.service';
+import { DBService, Databases } from './db.service';
 import { AnnotatorService } from '../../annotator/shared/annotator.service';
 import { AlveoService } from './alveo.service';
 
@@ -23,7 +23,7 @@ export class SessionService {
     private annotatorService: AnnotatorService,
     private alveoService: AlveoService,
     private dbService: DBService) {
-    this.dbService.get("sessionService").then(
+    this.dbService.instance(Databases.Cache).get("sessionService").then(
       data => {
         console.log("Stored session data has been found and loaded.");
 
@@ -77,7 +77,7 @@ export class SessionService {
   }
 
   public updateStorage(): Promise<any> {
-    return this.dbService.put("sessionService", {
+    return this.dbService.instance(Databases.Cache).put("sessionService", {
       "stored_route": this.stored_route,
       "active_list": this.active_list,
       "active_doc": this.active_doc,
@@ -88,7 +88,7 @@ export class SessionService {
   private dbRequest(storageName: string): Observable<any> {
     return new Observable((observer) =>
       {
-        this.dbService.get(storageName).then(
+        this.dbService.instance(Databases.Cache).get(storageName).then(
           storageName => {
             observer.next(storageName[storageName]);
             observer.complete();

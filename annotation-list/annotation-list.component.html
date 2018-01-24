@@ -1,5 +1,7 @@
 <div class="annotation-container">
-  <div class="annotation" *ngFor="let annotation of this.annotations">
+  <div class="annotation" *ngFor="let annotation of this.annotations"
+    (click)="this.annotationClick(annotation)"
+    [class.selected]="this.getSelectedAnnotation() === annotation">
     <mat-form-field class="caption-type">
       <mat-select [(ngModel)]="annotation.cap_type" placeholder="Caption Type">
         <mat-option *ngFor="let option of annotation.cap_options" value="{{option}}">{{option}}</mat-option>

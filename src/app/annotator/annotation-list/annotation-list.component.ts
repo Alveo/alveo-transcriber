@@ -16,6 +16,8 @@ export class AnnotationListComponent implements OnChanges, OnInit {
   constructor(public annotatorService: AnnotatorService) {} 
 
   ngOnInit(): void {
+    this.selectedAnnotation = this.annotatorService.getSelectedAnnotation();
+
     this.annotatorService.annotationsEvent.subscribe((event) => {
       if (event.type === "selectAnnotation") {
         if (event.new !== null) {

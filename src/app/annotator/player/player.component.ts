@@ -54,6 +54,9 @@ export class PlayerComponent implements OnInit {
         this.annotations = this.annotatorService.getAnnotations();
         this.loadRegions();
       }
+      else if (event.type === 'resize') {
+        this.setHeight(event.newSize);
+      }
       /*
       else if (event.type === "selectAnnotation") {
         if (event.new !== null) {
@@ -109,6 +112,13 @@ export class PlayerComponent implements OnInit {
     }
   }
 
+  public setHeight(pixels: number) {
+    this.player.drawer.setHeight(pixels);
+    this.player.params.height = pixels;
+    this.player.empty();
+    this.player.drawBuffer();
+  }
+
   ngOnInit(): void {
     this.zoom = 3;
     this.player = WaveSurfer.create({
@@ -116,7 +126,7 @@ export class PlayerComponent implements OnInit {
       waveColor: 'black',
       progressColor: 'white',
       controls: true,
-      barHeight: 15,
+      barHeight: 20,
       plugins: [
         MinimapPlugin.create(),
         RegionsPlugin.create(),
@@ -141,6 +151,8 @@ export class PlayerComponent implements OnInit {
       this.player.enableDragSelection({
           color: BASE_COLOUR,
       });
+
+      this.setHeight(120);
 
       this.ready = true;
       // (slider as HTMLInputElement).value = this.player.params.minPxPerSec;

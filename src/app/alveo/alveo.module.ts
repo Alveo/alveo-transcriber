@@ -59,6 +59,7 @@ import { DocsComponent } from './lists/items/docs/docs.component';
 import { AlveoService } from './shared/alveo.service';
 import { AnnotationsService } from './shared/annotations.service';
 import { AuthService } from './shared/auth.service';
+import { SegmentorService } from './shared/segmentor.service';
 import { DBService } from './shared/db.service';
 import { ApiService } from './shared/api.service';
 import { SessionService } from './shared/session.service';
@@ -133,6 +134,7 @@ import 'hammerjs';
     AlveoService,
     DBService,
     AnnotationsService,
+    SegmentorService,
     ApiService,
     {
       provide: HTTP_INTERCEPTORS,

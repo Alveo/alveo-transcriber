@@ -53,8 +53,11 @@ export class DocsComponent {
     this.alveoService.getAudioFile(doc['alveo:url']).subscribe(
       docData => {
         if (this.selectedDoc === doc) {
-          this.sessionService.setActiveDoc(doc, docData);
-          this.sessionService.navigate([Paths.Annotator]);
+          this.sessionService.setActiveDoc(doc, docData).then(
+            () => {
+              this.sessionService.navigate([Paths.Annotator]);
+            }
+          );
         }
       },
       error => {

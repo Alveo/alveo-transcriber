@@ -13,10 +13,36 @@ import { AnnotatorService } from './shared/annotator.service';
 })
 
 export class AnnotatorComponent {
+  private viewMode = "list";
+
   constructor(
     private dialog: MatDialog,
     private annotatorService: AnnotatorService,
   ) { }
+
+  public getViewMode() {
+    return this.viewMode;
+  }
+
+  public setViewMode(mode: string) {
+    this.viewMode = mode;
+  }
+
+  public setSingleView() {
+    this.setViewMode("single");
+    this.annotatorService.annotationsEvent.emit({
+      type: "resize",
+      newSize: 200,
+    })
+  }
+
+  public setListView() {
+    this.setViewMode("list");
+    this.annotatorService.annotationsEvent.emit({
+      type: "resize",
+      newSize: 120,
+    })
+  }
 
   actionBack(): void {
     this.annotatorService.signalExit();

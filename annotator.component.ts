@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { MatDialog } from '@angular/material';
 
 import { Dialog } from './dialog/dialog.component';
 
 import { AnnotatorService } from './shared/annotator.service';
-import { SegmentorService } from './shared/segmentor.service';
 
 @Component({
   selector: 'annotator',
@@ -17,13 +15,11 @@ import { SegmentorService } from './shared/segmentor.service';
 export class AnnotatorComponent {
   constructor(
     private dialog: MatDialog,
-    private router: Router,
-    private segService: SegmentorService,
     private annotatorService: AnnotatorService,
   ) { }
 
   actionBack(): void {
-    this.router.navigate(this.annotatorService.getBackUrl());
+    this.annotatorService.signalExit();
   }
 
   downloadFile(url, filename): void {
@@ -70,11 +66,7 @@ export class AnnotatorComponent {
       + 'be permanent. Do you wish to proceed?');
     dialogStatus.afterClosed().subscribe(result => {
       if (result === true) {
-        this.segService.segment(this.getAudioFileURL(),
-          (data) => {
-            this.annotatorService.rebuild(data.json());
-          }
-        );
+        this.annotatorService.signalAutoSegment();
       }
     });
   }
@@ -96,6 +88,6 @@ export class AnnotatorComponent {
   }
 
   getAudioFileURL(): string {
-    return this.annotatorService.getAudioFileURL();
+    return ''; //this.annotatorService.getAudioFileURL();
   }
 }

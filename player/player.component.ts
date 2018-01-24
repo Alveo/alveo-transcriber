@@ -24,15 +24,15 @@ const SELECTED_COLOUR = 'rgba(0, 200, 200, 0.2)';
   styleUrls: ['./player.component.css'],
 })
 export class PlayerComponent implements OnInit {
-  player: any;
+  player: any = null;
   @Input() clip: any;
   @Input() annotations: any;
 
-  annotatorSubscription: any;
+  annotatorSubscription: any = null;
 
-  selectedRegion: any;
+  selectedRegion: any = null;
 
-  ready: boolean;
+  ready: boolean = null;
 
   private zoom: number;
   private zoom_threshold: number = 10;
@@ -57,13 +57,12 @@ export class PlayerComponent implements OnInit {
       else if (event.type === 'resize') {
         this.setHeight(event.newSize);
       }
-      /*
       else if (event.type === "selectAnnotation") {
         if (event.new !== null) {
           let newRegion = this.findRegion(event.new.id);
-          this.selectRegion(newRegion);
+          this.selectRegion(newRegion, false);
         }
-      }*/
+      }
     });
   }
 
@@ -108,7 +107,7 @@ export class PlayerComponent implements OnInit {
     }
 
     if (this.annotations.length > 0) {
-      this.selectRegion(this.findRegion(this.annotations[0].id))
+      this.selectRegion(this.findRegion(this.annotations[0].id), false)
     }
   }
 
@@ -218,21 +217,23 @@ export class PlayerComponent implements OnInit {
   }
 
   unselectRegion(region: Region): void {
-    if (region !== undefined) {
+    if (region !== null) {
       region.update({color: BASE_COLOUR});
       this.selectedRegion = null;
     }
   }
 
-  selectRegion(region: Region): void {
-    if (region !== undefined) {
+  selectRegion(region: Region, notify: boolean=true): void {
+    if (region !== null) {
       this.unselectRegion(this.selectedRegion);
 
       this.gotoRegion(region);
       region.update({color: SELECTED_COLOUR});
 
-      const annotation = this.annotatorService.getAnnotationByID(region.id)
-      this.annotatorService.selectAnnotation(annotation)
+      if (notify === true) {
+        const annotation = this.annotatorService.getAnnotationByID(region.id)
+        this.annotatorService.selectAnnotation(annotation)
+      }
 
       this.selectedRegion = region;
     }

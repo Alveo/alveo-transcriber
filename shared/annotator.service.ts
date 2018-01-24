@@ -51,6 +51,10 @@ export class AnnotatorService {
 
   selectedAnnotation: Annotation;
 
+  public getSelectedAnnotation(): Annotation {
+    return this.selectedAnnotation;
+  }
+
   rebase(annotations: Array<Annotation>): any {
     this.annotations = annotations;
     this.selectFirst();

@@ -42,24 +42,14 @@ export class Annotation {
 export class AnnotatorService {
   annotationsEvent: EventEmitter<any> = new EventEmitter();
   annotationsUpdate: EventEmitter<any> = new EventEmitter();
+  externalEvent: EventEmitter<any> = new EventEmitter();
 
   audioFile: any;
   audioFileName: string;
-  audioFileURL: string;
 
   annotations: Array<Annotation> = [];
 
   selectedAnnotation: Annotation;
-
-  backUrl: any[] = [''];
-
-  public setBackUrl(url: any[]) {
-    this.backUrl = url;
-  }
-
-  public getBackUrl(): any[] {
-    return this.backUrl;
-  }
 
   rebase(annotations: Array<Annotation>): any {
     this.annotations = annotations;
@@ -174,7 +164,11 @@ export class AnnotatorService {
     return this.audioFileName;
   }
 
-  getAudioFileURL(): any {
-    return this.audioFileURL;
+  public signalExit(): any {
+    this.externalEvent.emit('exit');
+  }
+
+  public signalAutoSegment(): any {
+    this.externalEvent.emit('autosegment');
   }
 }

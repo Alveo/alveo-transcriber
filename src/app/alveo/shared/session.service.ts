@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 import 'rxjs/Observable';
 
 import { DBService, Databases } from './db.service';
-import { AnnotatorService } from '../../annotator/shared/annotator.service';
 import { AlveoService } from './alveo.service';
+import { AnnotationsService } from './annotations.service';
 
 import { Paths } from './paths';
 
@@ -16,13 +16,14 @@ export class SessionService {
   private active_list: any = null;
   private active_doc: any = null;
   private active_doc_data: ArrayBuffer = null;
-  private load_init = true;
+  private loading: any = [];
 
   constructor(
     private router: Router,
-    private annotatorService: AnnotatorService,
     private alveoService: AlveoService,
+    private annotationsService: AnnotationsService,
     private dbService: DBService) {
+    this.loading.push("dbinstance");
     this.dbService.instance(Databases.Cache).get("sessionService").then(
       data => {
         console.log("Stored session data has been found and loaded.");
@@ -32,15 +33,25 @@ export class SessionService {
         this.active_doc_data = data['active_doc_data'];
         this.stored_route = data['stored_route'];
 
-        this.prepareDoc();
+        if (this.active_doc !== null) {
+          this.loading.push("annotatorprep");
+          this.annotationsService.prepareAnnotator(
+            this.active_doc['dcterms:identifier'],
+            this.active_doc_data,
+            [Paths.ListView]).then(
+              () => {
+                this.loading.pop(this.loading.filter(inst => inst === "annotatorprep"));
+              }
+            );
+        }
 
         this.alveoService.getListDirectory(true, false).subscribe(
           (lists) => {
             this.list_index = lists;
-            this.load_init = false;
+            this.loading.pop(this.loading.filter(inst => inst === "dbservice"));
           },
           (error) => {
-            this.load_init = false;
+            this.loading.pop(this.loading.filter(inst => inst === "dbservice"));
           }
         );
       },
@@ -49,19 +60,26 @@ export class SessionService {
 
         this.updateStorage();
 
-        this.load_init = false;
+        this.loading.pop(this.loading.filter(inst => inst === "dbservice"));
       }
     );
+  }
+
+  public isLoading(): boolean {
+    if (this.loading.length > 0) {
+      return true;
+    }
+    return false;
   }
 
   public onReady(): Observable<any> {
     return new Observable(
       (observer) => {
         let interval = setInterval(() => {
-          if (this.load_init === false) {
+          if (this.loading.length === 0) {
+            clearInterval(interval);
             observer.next();
             observer.complete();
-            clearInterval(interval);
           }
         }, 5);
       }
@@ -122,9 +140,15 @@ export class SessionService {
     return this.navigate(this.stored_route);
   }
 
-  public resetSession(url: string) {
+  public refreshSession(url=null) {
     this.onReady().subscribe(
-      () => this.router.navigate([url])
+      () => {
+        if (url === null) {
+          url = Paths.Index;
+        }
+
+        this.router.navigate([url])
+      }
     );
   }
 
@@ -146,24 +170,16 @@ export class SessionService {
     return this.active_list;
   }
 
-  public setActiveDoc(doc: any, docData: ArrayBuffer) {
+  public setActiveDoc(doc: any, docData: ArrayBuffer): Promise<any> {
     this.active_doc = doc;
     this.active_doc_data = docData;
     this.updateStorage();
 
-    /* TMP */
-    this.prepareDoc();
-  }
-
-  /* TMP */
-  private prepareDoc() {
-    this.annotatorService.audioFile = this.active_doc_data;
-    this.annotatorService.rebase([]);
-    if (this.active_doc != null) {
-      this.annotatorService.audioFileName = this.active_doc['dcterms:identifier'];
-      this.annotatorService.audioFileURL = this.active_doc['alveo:url'];
-    }
-    this.annotatorService.setBackUrl(['lists/view']);
+    return this.annotationsService.prepareAnnotator(
+      doc['dcterms:identifier'],
+      docData,
+      [Paths.ListView]
+    );
   }
 
   public getActiveDoc(): any {

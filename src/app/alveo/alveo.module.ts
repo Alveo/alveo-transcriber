@@ -47,7 +47,7 @@ import { DataSourceComponent } from './datasource/datasource.component';
 import { AlveoRoutingModule } from './routing.module';
 import { NavComponent } from './nav/nav.component';
 import { AuthComponent } from './auth/auth.component';
-import { OAuthCallbackComponent } from './auth/auth.component';
+import { OAuthCallbackComponent } from './auth/auth-callback.component';
 
 import { ListIndexComponent } from './listindex/listindex.component';
 import { ListTableComponent } from './listindex/listtable/listtable.component';

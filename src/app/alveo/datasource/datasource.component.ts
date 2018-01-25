@@ -22,7 +22,7 @@ export class DataSourceComponent implements OnInit {
   @ViewChild('dataPromptTemplate')
   private dataPromptTemplate: TemplateRef<any>;
 
-  ready: boolean = false;
+  ready = false;
 
   constructor(
     private authService: AuthService,
@@ -48,7 +48,7 @@ export class DataSourceComponent implements OnInit {
   public whenReady(): Observable<any> {
     return new Observable(
       (observer) => {
-        let interval = setInterval(() => {
+        const interval = setInterval(() => {
           if (this.ready === true) {
             clearInterval(interval);
             observer.next();
@@ -59,7 +59,7 @@ export class DataSourceComponent implements OnInit {
     );
   }
 
-  public getData(useCache: boolean=true, useApi: boolean=true): void {
+  public getData(useCache: boolean= true, useApi: boolean= true): void {
     this.ready = false;
     this.alveoService.getListDirectory(useCache, useApi).subscribe(
       lists => {

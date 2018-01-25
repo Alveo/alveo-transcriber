@@ -19,7 +19,7 @@ export class AlveoService {
         this.dbService.instance(Databases.Cache).get(storageName).then(
           storageName => {
             if (storageName['storage'] === null) {
-              observer.error("404");
+              observer.error('404');
             }
             observer.next(storageName['storage']);
             observer.complete();
@@ -67,7 +67,7 @@ export class AlveoService {
             if (useCache) {
               this.cacheRequest(storageClass).subscribe(
                 data => {
-                  console.log("Using DB source for: " + storageClass)
+                  console.log('Using DB source for: ' + storageClass)
                   cacheObserver.next(data);
                   cacheObserver.complete()
                 },
@@ -76,7 +76,7 @@ export class AlveoService {
                 }
               );
             } else {
-              cacheObserver.error("Cache requests not allowed, method flag disabled");
+              cacheObserver.error('Cache requests not allowed, method flag disabled');
             }
           }).subscribe(
             data => {
@@ -88,7 +88,7 @@ export class AlveoService {
                 this.apiRequest(request).subscribe(
                   data => {
                     if (useCache) {
-                      console.log("Caching "+storageClass);
+                      console.log('Caching ' + storageClass);
                       this.dbService.instance(Databases.Cache).put(storageClass, {storage: data});
                     }
 
@@ -100,7 +100,7 @@ export class AlveoService {
                   }
                 )
               } else {
-                observer.error("API requests not allowed, method flag disabled");
+                observer.error('API requests not allowed, method flag disabled');
               }
             }
           );

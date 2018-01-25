@@ -13,13 +13,13 @@ export class AnnotationListComponent implements OnChanges, OnInit {
   @Input() annotations: Array<Annotation>;
   private selectedAnnotation: Annotation = null;
 
-  constructor(public annotatorService: AnnotatorService) {} 
+  constructor(public annotatorService: AnnotatorService) {}
 
   ngOnInit(): void {
     this.selectedAnnotation = this.annotatorService.getSelectedAnnotation();
 
     this.annotatorService.annotationsEvent.subscribe((event) => {
-      if (event.type === "selectAnnotation") {
+      if (event.type === 'selectAnnotation') {
         if (event.new !== null) {
           this.selectedAnnotation = event.new;
         }
@@ -28,7 +28,7 @@ export class AnnotationListComponent implements OnChanges, OnInit {
   }
 
   ngOnChanges(changes: any): void {
-    console.log("update emitted");
+    console.log('update emitted');
     this.annotatorService.emitUpdate();
   }
 

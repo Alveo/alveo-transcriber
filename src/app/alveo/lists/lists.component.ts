@@ -5,7 +5,7 @@ import { SessionService } from '../shared/session.service';
 
 import { Paths } from '../shared/paths';
 
-/* Component to handle an outer list display 
+/* Component to handle an outer list display
  *   Displays list name, size
  *   Provides list items to the items component */
 @Component({
@@ -27,7 +27,7 @@ export class ListsComponent implements OnInit {
   }
 
   public getListSize(): number {
-    let list = this.getList();
+    const list = this.getList();
     if (list === null) {
       return 0;
     }
@@ -35,7 +35,7 @@ export class ListsComponent implements OnInit {
   }
 
   public getListName(): string {
-    let list = this.getList();
+    const list = this.getList();
     if (list === null) {
       return 'null';
     }
@@ -43,7 +43,7 @@ export class ListsComponent implements OnInit {
   }
 
   public getListItems(): Array<any> {
-    let list = this.getList();
+    const list = this.getList();
     if (list === null) {
       return [];
     }

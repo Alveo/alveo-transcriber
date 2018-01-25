@@ -18,13 +18,13 @@ export class DBService {
 
   public useDatabase(databaseName: string) {
     this.databases.push({
-      "name": databaseName,
-      "instance": new Database(databaseName)
+      'name': databaseName,
+      'instance': new Database(databaseName)
     });
   }
 
   public instance(databaseName: string): Database {
-    for (let database of this.databases) {
+    for (const database of this.databases) {
       if (database['name'] === databaseName) {
         return database['instance'];
       }

@@ -10,8 +10,8 @@ export class AnnotationsService {
   private annotationsEvent: any = null;
   private annotatorEvent: any = null;
 
-  private docIdentifier: string = '';
-  private fileUrl: string = '';
+  private docIdentifier = '';
+  private fileUrl = '';
 
   public serviceEvent: EventEmitter<any> = new EventEmitter();
 
@@ -35,7 +35,7 @@ export class AnnotationsService {
   }
 
   private autoSegment(fileUrl: string) {
-    if (fileUrl === "") {
+    if (fileUrl === '') {
       //raise exc
     }
 
@@ -49,7 +49,7 @@ export class AnnotationsService {
 
   public setAnnotations(docIdentifier: string, annotations: Array<Annotation>): Promise<any> {
     return this.dbService.instance(Databases.Annotations)
-      .put(docIdentifier, {"annotations":annotations});
+      .put(docIdentifier, {'annotations': annotations});
   }
 
   public watch(docIdentifier: string, annotatorWatcher: any, annotationWatcher: any) {
@@ -65,15 +65,15 @@ export class AnnotationsService {
 
     this.docIdentifier = docIdentifier;
 
-    this.annotatorEvent = annotatorWatcher.subscribe((event:any) => {
-      if (event === "exit") {
-        this.serviceEvent.emit("exit");
-      } else if (event === "autosegment") {
+    this.annotatorEvent = annotatorWatcher.subscribe((event: any) => {
+      if (event === 'exit') {
+        this.serviceEvent.emit('exit');
+      } else if (event === 'autosegment') {
         this.autoSegment(this.fileUrl);
       }
     });
 
-    this.annotationsEvent = annotationWatcher.subscribe((event:any) => {
+    this.annotationsEvent = annotationWatcher.subscribe((event: any) => {
       this.setAnnotations(docIdentifier, this.annotatorService.annotations);
     });
   }

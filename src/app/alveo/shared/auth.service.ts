@@ -23,7 +23,7 @@ export class AuthService {
   callbackUrl: string = environment.callbackURL;
 
   authCode: string; // oAuth
-  apiKey: string = "";
+  apiKey = '';
 
   constructor(
     private apiService: ApiService,
@@ -47,7 +47,7 @@ export class AuthService {
     return (this.apiKey.length > 0);
   }
 
-  public promptLogin(firstRun: boolean=false) {
+  public promptLogin(firstRun: boolean= false) {
     setTimeout(() => {
       if (this.dialog.openDialogs.length < 1) {
         this.dialog.open(AuthComponent, {

@@ -1,4 +1,4 @@
-import { 
+import {
   Injector,
   Injectable
 } from '@angular/core';

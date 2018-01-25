@@ -48,7 +48,7 @@ export class DocsComponent {
         }
       },
       error => {
-        if (error=== 403 && !this.authService.isLoggedIn()) {
+        if (error === 403 && !this.authService.isLoggedIn()) {
           this.authService.promptLogin();
         }
       }

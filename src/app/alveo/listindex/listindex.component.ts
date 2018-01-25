@@ -37,7 +37,7 @@ export class ListIndexComponent {
         this.sessionService.navigate([Paths.ListView]);
       },
       error => {
-        if (error===403 && !this.authService.isLoggedIn()) {
+        if (error === 403 && !this.authService.isLoggedIn()) {
           this.authService.promptLogin();
         } else {
           console.log(error)

@@ -4,15 +4,15 @@ import { AlveoService } from '../../shared/alveo.service';
 import { AuthService } from '../../shared/auth.service';
 
 enum ItemState {
-  UNCHECKED = "Unchecked",
-  FAILED = "Failed",
-  NOT_CACHED = "Not Cached",
-  DOWNLOADING = "Downloading",
-  READY = "Ready",
+  UNCHECKED = 'Unchecked',
+  FAILED = 'Failed',
+  NOT_CACHED = 'Not Cached',
+  DOWNLOADING = 'Downloading',
+  READY = 'Ready',
 }
 
 /* Display component for items
- *  Provides documents */ 
+ *  Provides documents */
 @Component({
   selector: 'items',
   templateUrl: './items.component.html',
@@ -33,7 +33,7 @@ export class ItemsComponent {
   }
 
   private generateItemList() {
-    for (let item of this.itemUrls) {
+    for (const item of this.itemUrls) {
       this.items.push({
         url: item,
         state: ItemState.UNCHECKED,
@@ -44,7 +44,7 @@ export class ItemsComponent {
 
   /* Checks whether the cache has the item already downloaded */
   private scanItemList() {
-    for (let item of this.items) {
+    for (const item of this.items) {
       this.alveoService.getItem(item['url'], true, false).subscribe(
         data => {
           item['state'] = ItemState.READY;
@@ -82,7 +82,7 @@ export class ItemsComponent {
   public getItems(): any {
     return this.items;
   }
-  
+
   public getItemCount(): any {
     return this.getItems().length;
   }

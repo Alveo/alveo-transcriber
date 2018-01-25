@@ -26,7 +26,7 @@ export class DevConsoleComponent {
     if (!this.authService.isLoggedIn()) {
       this.authService.promptLogin();
     } else {
-      this.dbService.instance(Databases.Cache).put('lists', {storage:null}).then(
+      this.dbService.instance(Databases.Cache).put('lists', {storage: null}).then(
         () => {
           this.alveoService.getListDirectory().subscribe(
             data => {

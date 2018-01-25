@@ -29,7 +29,7 @@ export class ApiService {
   /* Create a get request to Alveo API
    */
   private apiGet(url: string, headers: any= null): Observable<any> {
-    return new Observable((observer) => 
+    return new Observable((observer) =>
       {
         if (headers === null) {
           headers = new HttpHeaders()
@@ -45,7 +45,7 @@ export class ApiService {
   /* Create a get request to Alveo API
    */
   private apiPost(url: string, data: any, headers: any= null): Observable<any> {
-    return new Observable((observer) => 
+    return new Observable((observer) =>
       {
         if (headers === null) {
           headers = new HttpHeaders()
@@ -68,7 +68,7 @@ export class ApiService {
     return alveoUrl.replace(/^.*\/\/[^\/]+/, '');
   }
 
-  /* Fetch directory of lists from Alveo API 
+  /* Fetch directory of lists from Alveo API
    *  Expects JSON back from subscribe
    */
   public getListIndex(): Observable<any> {

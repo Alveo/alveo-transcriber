@@ -24,10 +24,10 @@ export class SessionService {
     private annotationsService: AnnotationsService,
     private dbService: DBService) {
     this.annotationEventSubscribe();
-    this.loading.push("dbinstance");
-    this.dbService.instance(Databases.Cache).get("sessionService").then(
+    this.loading.push('dbinstance');
+    this.dbService.instance(Databases.Cache).get('sessionService').then(
       data => {
-        console.log("Stored session data has been found and loaded.");
+        console.log('Stored session data has been found and loaded.');
 
         this.active_list = data['active_list'];
         this.active_doc = data['active_doc'];
@@ -35,13 +35,13 @@ export class SessionService {
         this.stored_route = data['stored_route'];
 
         if (this.active_doc !== null) {
-          this.loading.push("annotatorprep");
+          this.loading.push('annotatorprep');
           this.annotationsService.setFileUrl(this.active_doc['alveo:url']);
           this.annotationsService.prepareAnnotator(
             this.active_doc['dcterms:identifier'],
             this.active_doc_data).then(
               () => {
-                this.loading.pop(this.loading.filter(inst => inst === "annotatorprep"));
+                this.loading.pop(this.loading.filter(inst => inst === 'annotatorprep'));
               }
             );
         }
@@ -49,19 +49,19 @@ export class SessionService {
         this.alveoService.getListDirectory(true, false).subscribe(
           (lists) => {
             this.list_index = lists;
-            this.loading.pop(this.loading.filter(inst => inst === "dbservice"));
+            this.loading.pop(this.loading.filter(inst => inst === 'dbservice'));
           },
           (error) => {
-            this.loading.pop(this.loading.filter(inst => inst === "dbservice"));
+            this.loading.pop(this.loading.filter(inst => inst === 'dbservice'));
           }
         );
       },
       error => {
-        console.log("Stored session data not found. Initialising.");
+        console.log('Stored session data not found. Initialising.');
 
         this.updateStorage();
 
-        this.loading.pop(this.loading.filter(inst => inst === "dbservice"));
+        this.loading.pop(this.loading.filter(inst => inst === 'dbservice'));
       }
     );
   }
@@ -86,7 +86,7 @@ export class SessionService {
   public onReady(): Observable<any> {
     return new Observable(
       (observer) => {
-        let interval = setInterval(() => {
+        const interval = setInterval(() => {
           if (this.loading.length === 0) {
             clearInterval(interval);
             observer.next();
@@ -106,11 +106,11 @@ export class SessionService {
   }
 
   public updateStorage(): Promise<any> {
-    return this.dbService.instance(Databases.Cache).put("sessionService", {
-      "stored_route": this.stored_route,
-      "active_list": this.active_list,
-      "active_doc": this.active_doc,
-      "active_doc_data": this.active_doc_data,
+    return this.dbService.instance(Databases.Cache).put('sessionService', {
+      'stored_route': this.stored_route,
+      'active_list': this.active_list,
+      'active_doc': this.active_doc,
+      'active_doc_data': this.active_doc_data,
     });
   }
 
@@ -151,7 +151,7 @@ export class SessionService {
     return this.navigate(this.stored_route);
   }
 
-  public refreshSession(url=null) {
+  public refreshSession(url= null) {
     this.onReady().subscribe(
       () => {
         if (url === null) {

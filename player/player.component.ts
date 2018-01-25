@@ -227,10 +227,17 @@ export class PlayerComponent implements OnInit {
   }
 
   selectRegion(region: Region, notify: boolean= true): void {
-    if (region !== null) {
+    if (region !== null && region !== undefined) {
+
+      if (region !== this.selectedRegion) {
+        if (this.playing()) {
+          this.pause();
+        }
+        this.gotoRegion(region);
+      }
+
       this.unselectRegion(this.selectedRegion);
 
-      this.gotoRegion(region);
       region.update({color: SELECTED_COLOUR});
 
       if (notify === true) {

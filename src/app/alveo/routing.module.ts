@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AuthComponent } from './auth/auth.component';
 import { DataSourceComponent } from './datasource/datasource.component';
 import { OAuthCallbackComponent } from './auth/auth-callback.component';
 import { ListIndexComponent } from './listindex/listindex.component';

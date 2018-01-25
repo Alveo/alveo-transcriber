@@ -15,6 +15,6 @@ export class NavComponent {
   }
 
   actionLogout(): void {
-    this.authService.initiateLogout();
+    this.authService.logout();
   }
 }

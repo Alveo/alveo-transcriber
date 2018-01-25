@@ -15,16 +15,13 @@ mat-icon {
 .annotation {
   display: flex;
   flex: 1 1 100%;
+  padding-top: 0.6em;
 }
 
 .speaker {
   align-self: flex-end;
+  margin-left: 1em;
   margin-right: 1em;
-}
-
-.caption-type {
-  margin-right: 1em;
-  align-self: flex-end;
 }
 
 .caption {

@@ -84,7 +84,8 @@ export class PlayerComponent implements OnInit {
       ]
     });
 
-    this.player.loadArrayBuffer(this.clip);
+    // Use slice to prevent detached buffer issues
+    this.player.loadArrayBuffer(this.clip.slice(0));
 
     this.player.on('ready', () => {
       this.loadRegions();

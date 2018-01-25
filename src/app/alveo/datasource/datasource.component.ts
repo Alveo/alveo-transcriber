@@ -1,13 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
-
+import { Component, ViewChild, TemplateRef, ViewContainerRef, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { AuthService } from '../shared/auth.service';
 import { AlveoService } from '../shared/alveo.service';
 import { SessionService } from '../shared/session.service';
-
-import { AuthComponent } from '../auth/auth.component';
 
 import { Paths } from '../shared/paths';
 
@@ -23,39 +19,47 @@ import { Paths } from '../shared/paths';
   styleUrls: ['./datasource.component.css'],
 })
 export class DataSourceComponent implements OnInit {
+  @ViewChild('dataPromptTemplate')
+  private dataPromptTemplate: TemplateRef<any>;
+
   ready: boolean = false;
 
   constructor(
     private authService: AuthService,
     private alveoService: AlveoService,
     private sessionService: SessionService,
-    private dialog: MatDialog
+    private viewContainerRef: ViewContainerRef
   ) {}
 
   ngOnInit() {
     this.getData(true, false);
-  }
-
-  isReady(): boolean {
-    return this.ready;
-  }
-
-  isLoggedIn(): boolean {
-    return this.authService.isLoggedIn();
-  }
-
-  requireLogin() {
-    setTimeout(() => {
-      if (this.dialog.openDialogs.length < 1) {
-        this.dialog.open(AuthComponent, {
-          disableClose: true,
-          data: {firstRun: true}}
-        );
+    this.whenReady().subscribe(
+      () => {
+        if (!this.authService.isLoggedIn()) {
+          this.authService.promptLogin();
+        } else {
+          this.viewContainerRef.createEmbeddedView(this.dataPromptTemplate);
+          console.log(this.dataPromptTemplate);
+        }
       }
-    }, 50);
+    );
   }
 
-  getData(useCache: boolean=true, useApi: boolean=true): void {
+  public whenReady(): Observable<any> {
+    return new Observable(
+      (observer) => {
+        let interval = setInterval(() => {
+          if (this.ready === true) {
+            clearInterval(interval);
+            observer.next();
+            observer.complete();
+          }
+        }, 5);
+      }
+    );
+  }
+
+  public getData(useCache: boolean=true, useApi: boolean=true): void {
     this.ready = false;
     this.alveoService.getListDirectory(useCache, useApi).subscribe(
       lists => {

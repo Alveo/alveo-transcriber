@@ -24,9 +24,9 @@ const SELECTED_COLOUR = 'rgba(0, 200, 200, 0.2)';
   styleUrls: ['./player.component.css'],
 })
 export class PlayerComponent implements OnInit {
-  player: any = null;
+  player: WaveSurfer = null;
   @Input() clip: any;
-  @Input() annotations: any;
+  annotations: Array<any> = null;
 
   annotatorSubscription: any = null;
 
@@ -41,13 +41,16 @@ export class PlayerComponent implements OnInit {
     private dialog: MatDialog,
     private annotatorService: AnnotatorService,
     private router: Router) {
-    router.events.subscribe( (event: Event) => {
+  }
+
+  ngOnInit(): void {
+    this.annotations = this.annotatorService.getAnnotations();
+    this.router.events.subscribe( (event: Event) => {
       if (event instanceof NavigationStart) {
         this.player.destroy();
         this.annotatorSubscription.unsubscribe();
       }
     });
-
     this.annotatorSubscription = this.annotatorService.annotationsEvent.subscribe((event) => {
       if (event.type === 'rebuild') {
         this.player.clearRegions();
@@ -64,7 +67,84 @@ export class PlayerComponent implements OnInit {
         }
       }
     });
+
+    this.zoom = 3;
+    this.player = WaveSurfer.create({
+      container: '#waveform',
+      waveColor: 'black',
+      progressColor: 'white',
+      controls: true,
+      barHeight: 20,
+      plugins: [
+        MinimapPlugin.create(),
+        RegionsPlugin.create(),
+        TimelinePlugin.create({
+          container: '#timeline'
+        }),
+      ]
+    });
+
+    this.player.loadArrayBuffer(this.clip);
+
+    this.player.on('ready', () => {
+      this.loadRegions();
+      this.player.zoom(this.zoom);
+      this.player.enableDragSelection({
+          color: BASE_COLOUR,
+      });
+
+      this.setHeight(120);
+
+      this.ready = true;
+    });
+
+    /* Move cursor to beginning of region */
+    this.player.on('region-click', (region: Region, e: any) => {
+      e.stopPropagation(); // Stop click from being overridden by mousepos
+      this.selectRegion(region);
+    });
+
+    this.player.on('region-update-end', (region: Region) => {
+      if (this.ready === true) {
+        const annotation = this.annotatorService.getAnnotationByID(region.id)
+
+        if (annotation !== null) {
+          annotation.start = region.start;
+          annotation.end = region.end;
+
+          this.selectRegion(region);
+        }
+      }
+    });
+
+    this.player.on('region-created', (region: Region) => {
+      if (this.ready === true) {
+        if (region.id.startsWith('wavesurfer_')) {
+          const createFinish = this.player.on('region-update-end', 
+            (region: Region) => {
+              this.annotatorService.createAnnotationFromSegment(
+                {
+                  'id': region.id,
+                  'start': region.start,
+                  'end': region.end
+                }
+              );
+              // You'd think this would work, but it doesn't: createFinish.un();
+              // So instead we do a slightly more roundabout approach.
+              this.player.un(createFinish.name, createFinish.callback);
+            }
+          );
+        }
+      }
+    });
+
+    this.player.on('finish', () => {
+      this.stop();
+    });
+
+    setInterval(() => {}, 100);
   }
+
 
   play(): void {
     this.player.play();
@@ -116,83 +196,6 @@ export class PlayerComponent implements OnInit {
     this.player.params.height = pixels;
     this.player.empty();
     this.player.drawBuffer();
-  }
-
-  ngOnInit(): void {
-    this.zoom = 3;
-    this.player = WaveSurfer.create({
-      container: '#waveform',
-      waveColor: 'black',
-      progressColor: 'white',
-      controls: true,
-      barHeight: 20,
-      plugins: [
-        MinimapPlugin.create(),
-        RegionsPlugin.create(),
-        TimelinePlugin.create({
-          container: '#timeline'
-        }),
-      ]
-    });
-
-    this.player.loadArrayBuffer(this.clip.slice(0));
-    /*
-    var slider = document.querySelector('[data-action="zoom"]');
-    slider.addEventListener('input', () => {
-      var value = (slider as HTMLInputElement).value;
-      this.player.zoom(Number(value));
-    });
-     */
-
-    this.player.on('ready', () => {
-      this.loadRegions();
-      this.player.zoom(this.zoom);
-      this.player.enableDragSelection({
-          color: BASE_COLOUR,
-      });
-
-      this.setHeight(120);
-
-      this.ready = true;
-      // (slider as HTMLInputElement).value = this.player.params.minPxPerSec;
-    });
-
-    /* Move cursor to beginning of region */
-    this.player.on('region-click', (region: Region, e: any) => {
-      e.stopPropagation(); // Stop click from being overridden by mousepos
-      this.selectRegion(region);
-    });
-
-    this.player.on('region-update-end', (region: Region) => {
-      if (this.ready === true) {
-        const annotation = this.annotatorService.getAnnotationByID(region.id)
-
-        annotation.start = region.start;
-        annotation.end = region.end;
-
-        this.selectRegion(region);
-      }
-    });
-
-    this.player.on('region-created', (region: Region) => {
-      if (this.ready === true) {
-        if (region.id.startsWith('wavesurfer_')) {
-          this.annotatorService.createAnnotationFromSegment(
-            {
-              'id': region.id,
-              'start': region.start,
-              'end': region.end
-            });
-        }
-      }
-    });
-
-    this.player.on('finish', () => {
-      this.stop();
-    });
-
-    // Forces Angular to update component every second
-    setInterval(() => {}, 1000);
   }
 
   zoomIn() {

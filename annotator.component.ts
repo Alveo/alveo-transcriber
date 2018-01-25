@@ -98,7 +98,7 @@ export class AnnotatorComponent {
   }
 
   getSelectedAnnotation(): any {
-    return this.annotatorService.selectedAnnotation;
+    return this.annotatorService.getSelectedAnnotation();
   }
 
   getAnnotations(): any {
@@ -111,9 +111,5 @@ export class AnnotatorComponent {
 
   getAudioFileName(): string {
     return this.annotatorService.getAudioFileName();
-  }
-
-  getAudioFileURL(): string {
-    return ''; //this.annotatorService.getAudioFileURL();
   }
 }

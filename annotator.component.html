@@ -7,7 +7,7 @@
     <button mat-raised-button color="primary" (click)="this.exportJSON()">Export JSON</button>
   </div>
 
-  <player [clip]="this.getAudioFile()" [annotations]="this.getAnnotations()"></player>
+  <player [clip]="this.getAudioFile()"></player>
 
   <div *ngIf="this.getViewMode()!=='single'">
     <mat-icon class="clickable" (click)="this.setSingleView()">tab</mat-icon>

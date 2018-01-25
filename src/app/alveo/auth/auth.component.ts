@@ -1,10 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material';
 
-import { AuthService } from '../shared/auth.service';
-
 /* Component for displaying a login dialogue
- *  This is typically injected in, rather than used directly in a template */
+ *  Ideally should be injected in from a service, rather than direct use via a template. */
 @Component({
   selector: 'auth',
   templateUrl: './auth.component.html',
@@ -13,7 +11,6 @@ import { AuthService } from '../shared/auth.service';
 export class AuthComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: any,
-    private authService: AuthService,
     private dialog: MatDialog
   ) { }
 
@@ -22,6 +19,6 @@ export class AuthComponent {
   }
 
   actionLogin(): void {
-    this.authService.initiateLogin();
+    location.href = this.data['loginUrl'];
   }
 }

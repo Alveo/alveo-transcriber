@@ -7,12 +7,12 @@ import { SessionService } from '../shared/session.service';
 
 import { Paths } from '../shared/paths'
 
+/* Development/Debug component for controlling and testing session & database storage */
 @Component({
   selector: 'dev-console',
   templateUrl: './devconsole.component.html',
   styleUrls: ['./devconsole.component.css'],
 })
-
 export class DevConsoleComponent {
   constructor(
     private authService: AuthService,
@@ -21,16 +21,13 @@ export class DevConsoleComponent {
     private dbService: DBService
   ) {}
 
-  isLoggedIn(): boolean {
-    return this.authService.isLoggedIn();
-  }
-
-  getData(): void {
-    if (!this.isLoggedIn()) {
+  /* Attempts to set lists storage to null, then requests a refresh */
+  public refreshData(): void {
+    if (!this.authService.isLoggedIn()) {
       this.authService.promptLogin();
     } else {
       this.dbService.instance(Databases.Cache).put('lists', {storage:null}).then(
-        success => {
+        () => {
           this.alveoService.getListDirectory().subscribe(
             data => {
               this.sessionService.navigate([Paths.SelectDataSource]);
@@ -38,30 +35,38 @@ export class DevConsoleComponent {
             error => {
               console.log(error);
             }
-          );
-        },
-        error => {
-          console.log(error);
+          )
         }
+      ).catch(
+        (error) => console.log(error)
       );
     }
   }
 
-  resetStore(): void {
-    this.dbService.instance(Databases.Cache).destroy().then(
-      success => {
-        this.sessionService.reset();
-        this.sessionService.navigate([Paths.Index]);
-      },
-      error => {
-        console.log(error);
-      }
-    );
+  /* Delete annotations db */
+  public deleteAnnotations(): void {
+    this.dbService.instance(Databases.Annotations).destroy();
   }
 
-  resetSession(): void {
+  /* Delete cache db then redirect to index */
+  public deleteCache(): void {
+    this.dbService.instance(Databases.Cache).destroy().then(
+      () => {
+          this.sessionService.reset();
+          this.sessionService.navigate([Paths.Index]);
+        }
+      ).catch(
+       (error) => console.log(error)
+      );
+  }
+
+  /* Clear session data and redirect to index */
+  public resetSession(): void {
     this.sessionService.reset();
-    this.sessionService.updateStorage();
-    this.sessionService.navigate([Paths.Index]);
+    this.sessionService.updateStorage().then(
+      () => this.sessionService.navigate([Paths.Index])
+    ).catch(
+      (error) => console.log(error)
+    );
   }
 }

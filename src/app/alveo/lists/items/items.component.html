@@ -1,5 +1,5 @@
 <div id="item-display" *ngIf="this.getItemCount() > 0">
- <mat-expansion-panel *ngFor="let item of this.getItems()" (click)="onItemSelection(item)">
+  <mat-expansion-panel *ngFor="let item of this.getItems()" (click)="onItemSelection(item)">
     <mat-expansion-panel-header>
       <mat-panel-title>
         {{this.getItemUrl(item)}}

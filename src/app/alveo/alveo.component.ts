@@ -4,5 +4,5 @@ import { Component } from '@angular/core';
   selector: 'alveott',
   templateUrl: './alveo.component.html',
 })
-
-export class AlveoComponent { }
+export class AlveoComponent {
+}

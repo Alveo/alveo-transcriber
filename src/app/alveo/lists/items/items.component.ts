@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { AlveoService } from '../../shared/alveo.service';
 import { AuthService } from '../../shared/auth.service';
@@ -12,6 +11,8 @@ enum ItemState {
   READY = "Ready",
 }
 
+/* Display component for items
+ *  Provides documents */ 
 @Component({
   selector: 'items',
   templateUrl: './items.component.html',
@@ -19,15 +20,14 @@ enum ItemState {
 })
 export class ItemsComponent {
   @Input() itemUrls: Array<any> = [];
-  items: Array<any> = [];
+  private items: Array<any> = [];
 
   constructor(
-    private router: Router,
     private authService: AuthService,
     private alveoService: AlveoService) {
   }
 
-  private ngOnInit() {
+  ngOnInit() {
     this.generateItemList();
     this.scanItemList();
   }
@@ -42,6 +42,7 @@ export class ItemsComponent {
     }
   }
 
+  /* Checks whether the cache has the item already downloaded */
   private scanItemList() {
     for (let item of this.items) {
       this.alveoService.getItem(item['url'], true, false).subscribe(
@@ -54,6 +55,28 @@ export class ItemsComponent {
         }
       );
     }
+  }
+
+  private getItemDocuments(item: any): void {
+    return item['data']['alveo:documents'];
+  }
+
+  private retrieveItemData(item: any): void {
+    item['state'] = ItemState.DOWNLOADING;
+
+    this.alveoService.getItem(item['url']).subscribe(
+      data => {
+        item['state'] = ItemState.READY;
+        item['data'] = data;
+      },
+      error => {
+        item['state'] = ItemState.FAILED;
+        console.log(error);
+        if (error === 403 || !this.authService.isLoggedIn()) {
+          this.authService.promptLogin()
+        }
+      }
+    );
   }
 
   public getItems(): any {
@@ -86,31 +109,5 @@ export class ItemsComponent {
       this.retrieveItemData(item);
     }
     return item['data'];
-  }
-
-  private getItemDocuments(item: any): void {
-    return item['data']['alveo:documents'];
-  }
-
-  private retrieveItemData(item: any): void {
-    item['state'] = ItemState.DOWNLOADING;
-
-    this.alveoService.getItem(item['url']).subscribe(
-      data => {
-        item['state'] = ItemState.READY;
-        item['data'] = data;
-      },
-      error => {
-        item['state'] = ItemState.FAILED;
-        console.log(error);
-        if (error === 403 || !this.authService.isLoggedIn()) {
-          this.requireLogin()
-        }
-      }
-    );
-  }
-
-  private requireLogin() {
-    this.authService.promptLogin();
   }
 }

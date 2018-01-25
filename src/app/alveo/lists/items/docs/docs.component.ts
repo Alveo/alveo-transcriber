@@ -6,15 +6,16 @@ import { SessionService } from '../../../shared/session.service';
 
 import { Paths } from '../../../shared/paths';
 
+/* Display component for showing and selecting of docs
+ *   Provides route for Annotator module */
 @Component({
   selector: 'docs',
   templateUrl: './docs.component.html',
   styleUrls: ['./docs.component.css'],
 })
-
 export class DocsComponent {
   @Input() docs: any;
-  selectedDoc: any = null;
+  private selectedDoc: any = null;
 
   constructor(
     private sessionService: SessionService,
@@ -32,14 +33,10 @@ export class DocsComponent {
 
   public onSelect(doc: any): void {
     this.selectedDoc = doc;
-    this.downloadDoc(doc)
+    this.requestDoc(doc)
   }
 
-  private requireLogin() {
-    this.authService.promptLogin();
-  }
-
-  private downloadDoc(doc: any): void {
+  private requestDoc(doc: any): void {
     this.alveoService.getAudioFile(doc['alveo:url']).subscribe(
       docData => {
         if (this.selectedDoc === doc) {
@@ -52,7 +49,7 @@ export class DocsComponent {
       },
       error => {
         if (error=== 403 && !this.authService.isLoggedIn()) {
-          this.requireLogin();
+          this.authService.promptLogin();
         }
       }
     );

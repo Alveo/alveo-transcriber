@@ -8,12 +8,12 @@ import { SessionService } from '../shared/session.service';
 import { environment } from '../../../environments/environment';
 import { Paths } from '../shared/paths';
 
+/* Display component to show all item lists and handle selection events */
 @Component({
   selector: 'listindex',
   templateUrl: './listindex.component.html',
   styleUrls: ['./listindex.component.css'],
 })
-
 export class ListIndexComponent {
   constructor(
     private authService: AuthService,
@@ -21,35 +21,24 @@ export class ListIndexComponent {
     private sessionService: SessionService,
   ) {}
 
-  isDevMode(): boolean {
+  public isDevMode(): boolean {
     return environment.devTools;
   }
 
-  isLoggedIn(): boolean {
-    return this.authService.isLoggedIn();
-  }
-
-  listSize(): number {
-    return this.getLists().length;
-  }
-
-  getLists(): any {
+  public getLists(): any {
     return this.sessionService.getListIndex();
   }
 
-  requireLogin() {
-    this.authService.promptLogin();
-  }
-
-  onSelection(list): void {
+  /* Attempt to retrieve a selected list */
+  public onSelection(list): void {
     this.alveoService.getList(list['item_list_url']).subscribe(
       list => {
         this.sessionService.setActiveList(list);
         this.sessionService.navigate([Paths.ListView]);
       },
       error => {
-        if (error===403 && !this.isLoggedIn()) {
-          this.requireLogin();
+        if (error===403 && !this.authService.isLoggedIn()) {
+          this.authService.promptLogin();
         } else {
           console.log(error)
         }

@@ -40,22 +40,22 @@ export class Annotation {
 
 @Injectable()
 export class AnnotatorService {
-  annotationsEvent: EventEmitter<any> = new EventEmitter();
-  annotationsUpdate: EventEmitter<any> = new EventEmitter();
-  externalEvent: EventEmitter<any> = new EventEmitter();
+  public annotationsEvent: EventEmitter<any> = new EventEmitter();
+  public annotationsUpdate: EventEmitter<any> = new EventEmitter();
+  public externalEvent: EventEmitter<any> = new EventEmitter();
 
-  audioFile: any;
-  audioFileName: string;
+  public audioFile: any;
+  public audioFileName: string;
 
-  annotations: Array<Annotation> = [];
+  public annotations: Array<Annotation> = [];
 
-  selectedAnnotation: Annotation;
+  private selectedAnnotation: Annotation;
 
   public getSelectedAnnotation(): Annotation {
     return this.selectedAnnotation;
   }
 
-  rebase(annotations: Array<Annotation>): any {
+  public rebase(annotations: Array<Annotation>): any {
     this.annotations = annotations;
     this.sortAnnotations();
     this.selectFirst();
@@ -71,15 +71,15 @@ export class AnnotatorService {
     );
   }
 
-  emitUpdate(): any {
+  public emitUpdate(): any {
     this.annotationsUpdate.emit({})
   }
 
-  getAnnotations(): any {
+  public getAnnotations(): any {
     return this.annotations;
   }
 
-  rebuild(segments: any): void {
+  public rebuild(segments: any): void {
     this.annotations = [];
     let counter = 0;
 
@@ -99,7 +99,7 @@ export class AnnotatorService {
     this.selectFirst();
   }
 
-  selectFirst() {
+  public selectFirst() {
     if (this.annotations.length > 0) {
       this.selectAnnotation(this.annotations[0]);
     } else {
@@ -107,23 +107,25 @@ export class AnnotatorService {
     }
   }
 
-  createAnnotationFromSegment(segment: any): string {
-    console.log(segment['start']);
-    this.annotations.push(new Annotation(
+  public createAnnotationFromSegment(segment: any): Annotation {
+    const annotation = new Annotation(
       segment['id'],
       segment['start'],
       segment['end'],
       segment['speaker'],
       segment['caption'],
       segment['cap_type']
-    ));
+    );
 
+    this.annotations.push(annotation);
     this.sortAnnotations();
 
-    return segment['id'];
+    this.selectAnnotation(annotation);
+
+    return annotation;
   }
 
-  deleteAnnotationByID(id: string): boolean {
+  public deleteAnnotationByID(id: string): boolean {
     for (const annotation of this.annotations) {
       if (annotation.id === id) {
         if (id = this.selectedAnnotation.id) {
@@ -141,7 +143,7 @@ export class AnnotatorService {
     return false;
   }
 
-  getAnnotationByID(id: string): Annotation {
+  public getAnnotationByID(id: string): Annotation {
     for (const annotation of this.annotations) {
       if (annotation.id === id) {
         return annotation;
@@ -150,7 +152,7 @@ export class AnnotatorService {
     return null;
   }
 
-  selectAnnotation(annotation: Annotation) {
+  public selectAnnotation(annotation: Annotation) {
     const oldSelection = this.selectedAnnotation;
     this.selectedAnnotation = annotation;
 
@@ -163,22 +165,22 @@ export class AnnotatorService {
     );
   }
 
-  dumpCSV(): string {
+  public dumpCSV(): string {
     return json2csv({
       data: this.annotations,
       fields: ANNOTATION_CSV_FIELDS
     });
   }
 
-  dumpJSON(): any {
+  public dumpJSON(): any {
     return JSON.stringify(this.annotations, null, 2);
   }
 
-  getAudioFile(): any {
+  public getAudioFile(): any {
     return this.audioFile;
   }
 
-  getAudioFileName(): any {
+  public getAudioFileName(): any {
     return this.audioFileName;
   }
 

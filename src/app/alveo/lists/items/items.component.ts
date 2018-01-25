@@ -1,12 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { MatDialog } from '@angular/material';
-
 import { AlveoService } from '../../shared/alveo.service';
 import { AuthService } from '../../shared/auth.service';
-
-import { AuthComponent } from '../../auth/auth.component';
 
 enum ItemState {
   UNCHECKED = "Unchecked",
@@ -27,7 +23,6 @@ export class ItemsComponent {
 
   constructor(
     private router: Router,
-    private dialog: MatDialog,
     private authService: AuthService,
     private alveoService: AlveoService) {
   }
@@ -116,11 +111,6 @@ export class ItemsComponent {
   }
 
   private requireLogin() {
-    if (this.dialog.openDialogs.length < 1) {
-      this.dialog.open(AuthComponent, {
-        disableClose: false,
-        data: {firstRun: false}}
-      );
-    }
+    this.authService.promptLogin();
   }
 }

@@ -27,7 +27,7 @@ export class DevConsoleComponent {
 
   getData(): void {
     if (!this.isLoggedIn()) {
-      this.authService.initiateLogin();
+      this.authService.promptLogin();
     } else {
       this.dbService.instance(Databases.Cache).put('lists', {storage:null}).then(
         success => {

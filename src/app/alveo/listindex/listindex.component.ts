@@ -1,13 +1,9 @@
 import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material';
-
 import { Observable } from 'rxjs/Observable';
 
 import { AuthService } from '../shared/auth.service';
 import { AlveoService } from '../shared/alveo.service';
 import { SessionService } from '../shared/session.service';
-
-import { AuthComponent } from '../auth/auth.component';
 
 import { environment } from '../../../environments/environment';
 import { Paths } from '../shared/paths';
@@ -23,7 +19,6 @@ export class ListIndexComponent {
     private authService: AuthService,
     private alveoService: AlveoService,
     private sessionService: SessionService,
-    private dialog: MatDialog
   ) {}
 
   isDevMode(): boolean {
@@ -43,12 +38,7 @@ export class ListIndexComponent {
   }
 
   requireLogin() {
-    if (this.dialog.openDialogs.length < 1) {
-      this.dialog.open(AuthComponent, {
-        disableClose: false,
-        data: {firstRun: false}}
-      );
-    }
+    this.authService.promptLogin();
   }
 
   onSelection(list): void {

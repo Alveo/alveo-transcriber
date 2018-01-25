@@ -1,12 +1,8 @@
 import { Component, Input } from '@angular/core';
 
-import { MatDialog } from '@angular/material';
-
 import { AlveoService } from '../../../shared/alveo.service';
 import { AuthService } from '../../../shared/auth.service';
 import { SessionService } from '../../../shared/session.service';
-
-import { AuthComponent } from '../../../auth/auth.component';
 
 import { Paths } from '../../../shared/paths';
 
@@ -22,7 +18,6 @@ export class DocsComponent {
 
   constructor(
     private sessionService: SessionService,
-    private dialog: MatDialog,
     private authService: AuthService,
     private alveoService: AlveoService) {
   }
@@ -41,12 +36,7 @@ export class DocsComponent {
   }
 
   private requireLogin() {
-    if (this.dialog.openDialogs.length < 1) {
-      this.dialog.open(AuthComponent, {
-        disableClose: false,
-        data: {firstRun: false}}
-      );
-    }
+    this.authService.promptLogin();
   }
 
   private downloadDoc(doc: any): void {

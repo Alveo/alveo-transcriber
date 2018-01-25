@@ -1,12 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 import { AlveoService } from '../shared/alveo.service';
-import { AuthService } from '../shared/auth.service';
 import { SessionService } from '../shared/session.service';
-
-import { AuthComponent } from '../auth/auth.component';
-
-import { AnnotatorService } from '../../annotator/shared/annotator.service';
 
 import { Paths } from '../shared/paths';
 

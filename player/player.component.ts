@@ -35,7 +35,7 @@ export class PlayerComponent implements OnInit {
   ready: boolean = null;
 
   private zoom: number;
-  private zoom_threshold: number = 10;
+  private zoom_threshold = 10;
 
   constructor(
     private dialog: MatDialog,
@@ -57,9 +57,9 @@ export class PlayerComponent implements OnInit {
       else if (event.type === 'resize') {
         this.setHeight(event.newSize);
       }
-      else if (event.type === "selectAnnotation") {
+      else if (event.type === 'selectAnnotation') {
         if (event.new !== null) {
-          let newRegion = this.findRegion(event.new.id);
+          const newRegion = this.findRegion(event.new.id);
           this.selectRegion(newRegion, false);
         }
       }
@@ -223,7 +223,7 @@ export class PlayerComponent implements OnInit {
     }
   }
 
-  selectRegion(region: Region, notify: boolean=true): void {
+  selectRegion(region: Region, notify: boolean= true): void {
     if (region !== null) {
       this.unselectRegion(this.selectedRegion);
 

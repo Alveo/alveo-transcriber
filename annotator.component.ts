@@ -13,7 +13,7 @@ import { AnnotatorService } from './shared/annotator.service';
 })
 
 export class AnnotatorComponent {
-  private viewMode = "list";
+  private viewMode = 'list';
 
   constructor(
     private dialog: MatDialog,
@@ -29,17 +29,17 @@ export class AnnotatorComponent {
   }
 
   public setSingleView() {
-    this.setViewMode("single");
+    this.setViewMode('single');
     this.annotatorService.annotationsEvent.emit({
-      type: "resize",
+      type: 'resize',
       newSize: 200,
     })
   }
 
   public setListView() {
-    this.setViewMode("list");
+    this.setViewMode('list');
     this.annotatorService.annotationsEvent.emit({
-      type: "resize",
+      type: 'resize',
       newSize: 120,
     })
   }

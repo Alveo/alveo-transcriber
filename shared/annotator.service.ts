@@ -3,12 +3,12 @@ import { Injectable, EventEmitter } from '@angular/core';
 import * as json2csv from 'json2csv';
 
 const ANNOTATION_CSV_FIELDS = [
-  "id",
-  "start",
-  "end",
-  "speaker",
-  "caption",
-  "cap_type"
+  'id',
+  'start',
+  'end',
+  'speaker',
+  'caption',
+  'cap_type'
 ]
 
 export class Annotation {
@@ -63,7 +63,7 @@ export class AnnotatorService {
 
   private sortAnnotations() {
     this.annotations = this.annotations.sort(
-      (left,right):number => {
+      (left, right): number => {
         if (left.start < right.start) return -1;
         if (left.start > right.start) return 1;
         return 0;

@@ -11,14 +11,19 @@ import { AuthComponent } from '../auth/auth.component';
 
 import { Paths } from '../shared/paths';
 
+/* Component used to sort through logic on stored list directory data
+ *
+ *  Prompts users for login if they have reached the page with no auth
+ *  Prompts users to push download button if authenticated, but no data cached
+ *  Downloads data then redirects if successful
+ * */
 @Component({
   selector: 'datasource',
   templateUrl: './datasource.component.html',
   styleUrls: ['./datasource.component.css'],
 })
-
 export class DataSourceComponent implements OnInit {
-  loading: boolean = true;
+  ready: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -31,8 +36,8 @@ export class DataSourceComponent implements OnInit {
     this.getData(true, false);
   }
 
-  isLoading(): boolean {
-    return this.loading;
+  isReady(): boolean {
+    return this.ready;
   }
 
   isLoggedIn(): boolean {
@@ -51,13 +56,13 @@ export class DataSourceComponent implements OnInit {
   }
 
   getData(useCache: boolean=true, useApi: boolean=true): void {
-    this.loading = true;
+    this.ready = false;
     this.alveoService.getListDirectory(useCache, useApi).subscribe(
       lists => {
         this.sessionService.setListIndex(lists);
         this.sessionService.navigate([Paths.ListIndex]);
       },
-      error => { this.loading = false; console.log(error) }
+      error => { this.ready = true; console.log(error) }
     );
   }
 }

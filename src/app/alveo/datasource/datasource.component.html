@@ -1,8 +1,11 @@
-<ng-template #documentReadyTemplate [ngIf]="!this.isLoading()">
+<ng-template #documentReadyTemplate [ngIf]="this.isReady()">
   <ng-template #dataFetchTemplate [ngIf]="this.isLoggedIn()" [ngIfElse]="noDataAvailableTemplate">
     <div id="data-information" class="center">
-      <p class="info-text bottom-spacer">Great! You're all logged in. Now you need to choose a source of data to load. Right now, there is only the Alveo provider. Click it to begin.</p>
-      <button mat-raised-button color="primary" id="download-button" (click)="this.getData(true, true)">Download Alveo Data</button>
+      <p class="info-text bottom-spacer">
+        Great! You're all logged in. Now you need to choose a
+        source of data to load. Right now, there is only the Alveo provider. Click it to begin.
+      </p>
+      <button mat-raised-button color="primary" id="download-button" (click)="this.getData()">Download Alveo Data</button>
     </div>
   </ng-template>
 

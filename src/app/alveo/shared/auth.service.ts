@@ -1,7 +1,11 @@
 import { Injectable, EventEmitter } from '@angular/core';
+import { MatDialog } from '@angular/material';
+
 import { Observable } from 'rxjs/Observable';
 
 import { ApiService } from './api.service';
+
+import { AuthComponent } from '../auth/auth.component';
 
 import { environment } from '../../../environments/environment';
 
@@ -12,7 +16,7 @@ export class AuthService {
   loggedIn = false;
   redirectLoginUrl = '/login';
 
-  loginURL: string = environment.baseURL + environment.loginURL;
+  loginUrl: string = environment.baseURL + environment.loginURL;
 
   clientID: string = environment.clientID;
   clientSecret: string = environment.clientSecret;
@@ -21,10 +25,13 @@ export class AuthService {
   authCode: string; // oAuth
   apiKey: string = "";
 
-  constructor(private apiService: ApiService) {}
+  constructor(
+    private apiService: ApiService,
+    private dialog: MatDialog
+  ) {}
 
-  createLoginURL() {
-    return this.loginURL
+  private createLoginUrl() {
+    return this.loginUrl
           + '?response_type=code'
           + '&client_id='     + encodeURIComponent(this.clientID)
           + '&state='         + encodeURIComponent('')
@@ -32,26 +39,32 @@ export class AuthService {
           + '&scope='         + encodeURIComponent('');
   };
 
-  isLoggedIn(): boolean {
+  public isLoggedIn(): boolean {
     return this.loggedIn;
   }
 
-  isApiAuthed(): boolean {
+  public isApiAuthed(): boolean {
     return (this.apiKey.length > 0);
   }
 
-  initiateLogin(): void {
-    location.href = this.createLoginURL();
+  public promptLogin(firstRun: boolean=false) {
+    setTimeout(() => {
+      if (this.dialog.openDialogs.length < 1) {
+        this.dialog.open(AuthComponent, {
+          disableClose: true,
+          data: {
+            firstRun: firstRun,
+            loginUrl: this.createLoginUrl()
+          }
+        });
+      }
+    }, 50);
   }
 
   login(): void {
     this.loginStatus.emit('true');
     this.loggedIn = true;
     this.authoriseApi();
-  }
-
-  initiateLogout(): void {
-    this.logout();
   }
 
   logout(): void {

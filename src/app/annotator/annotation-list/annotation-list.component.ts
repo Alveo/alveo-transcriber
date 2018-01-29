@@ -12,8 +12,13 @@ export class AnnotationListComponent implements OnChanges {
   @Input() annotations: Array<Annotation>;
   @Input() selectedAnnotation: Annotation;
   @Output() annotationUpdate = new EventEmitter();
+  @Output() playerControlEvent = new EventEmitter();
 
   constructor() {}
+
+  public getSelectedAnnotation(): Annotation {
+    return this.selectedAnnotation;
+  }
 
   ngOnChanges(changes: any): void {
     if (this.getSelectedAnnotation() !== null) {
@@ -37,7 +42,29 @@ export class AnnotationListComponent implements OnChanges {
     }
   }
 
-  public getSelectedAnnotation(): Annotation {
-    return this.selectedAnnotation;
+  public requestSingleView(): void {
+    this.playerControlEvent.emit(
+      {
+        "type": "gosingleview"
+      }
+    );
+  }
+
+  public replayAnnotationRequest(): void {
+    this.playerControlEvent.emit(
+      {
+        "type": "replay",
+        "annotation": this.getSelectedAnnotation()
+      }
+    );
+  }
+
+  public deleteAnnotationRequest(): void {
+    this.playerControlEvent.emit(
+      {
+        "type": "delete",
+        "annotation": this.getSelectedAnnotation()
+      }
+    );
   }
 }

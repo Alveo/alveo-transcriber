@@ -41,9 +41,9 @@ export class PlayerComponent implements OnInit {
     private router: Router
   ) { }
 
-  public rebuild() {
+  public rebuild(annotations: Array<Annotation>) {
     this.player.clearRegions();
-    this.loadRegions();
+    this.loadRegions(annotations);
   }
 
   public selectAnnotation(annotation: any) {
@@ -86,7 +86,7 @@ export class PlayerComponent implements OnInit {
     this.player.loadArrayBuffer(this.clip.slice(0));
 
     this.player.on('ready', () => {
-      this.loadRegions();
+      this.loadRegions(this.annotations);
       this.player.zoom(this.zoom);
       this.player.enableDragSelection({
           color: BASE_COLOUR,
@@ -174,9 +174,9 @@ export class PlayerComponent implements OnInit {
     return Math.floor(this.player.getDuration());
   }
 
-  loadRegions(): void {
+  loadRegions(annotations: Array<Annotation>): void {
     if (this.player.handlers !== null) { // Hackish fix to stop wrapper.null implosions
-      for (const annotation of this.annotations) {
+      for (const annotation of annotations) {
         this.player.addRegion({
           id: annotation.id,
           start: annotation.start,

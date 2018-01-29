@@ -52,29 +52,22 @@ export class AnnotationsService {
       .put(docIdentifier, {'annotations': annotations});
   }
 
-  public watch(docIdentifier: string, annotatorWatcher: any, annotationWatcher: any) {
+  public watch(docIdentifier: string, annotatorWatcher: any) {
     if (this.annotatorEvent != null) {
       this.annotatorEvent.unsubscribe();
       this.annotatorEvent = null;
     }
 
-    if (this.annotationsEvent != null) {
-      this.annotationsEvent.unsubscribe();
-      this.annotationsEvent = null;
-    }
-
     this.docIdentifier = docIdentifier;
 
-    this.annotatorEvent = annotatorWatcher.subscribe((event: any) => {
-      if (event === 'exit') {
+    this.annotatorEvent = annotatorWatcher.subscribe((ev: any) => {
+      if (ev['type'] === 'exit') {
         this.serviceEvent.emit('exit');
-      } else if (event === 'autosegment') {
+      } else if (ev['type'] === 'autosegment') {
         this.autoSegment(this.fileUrl);
+      } else if (ev['type'] === 'save') {
+        this.setAnnotations(docIdentifier, ev['annotations']);
       }
-    });
-
-    this.annotationsEvent = annotationWatcher.subscribe((event: any) => {
-      this.setAnnotations(docIdentifier, this.annotatorService.annotations);
     });
   }
 
@@ -83,14 +76,10 @@ export class AnnotationsService {
       (resolve, reject) => {
         this.getAnnotations(identifier).then(
           (data) => {
-            this.annotatorService.rebase(data);
+            this.annotatorService.initialise(data, audioFile, identifier);
 
-            this.annotatorService.audioFile = audioFile;
-
-            this.annotatorService.audioFileName = identifier;
             this.watch(identifier,
-              this.annotatorService.externalEvent,
-              this.annotatorService.annotationsUpdate
+              this.annotatorService.externalEvent
             );
             resolve();
           },

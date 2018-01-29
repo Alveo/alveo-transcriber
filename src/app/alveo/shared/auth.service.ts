@@ -51,7 +51,7 @@ export class AuthService {
     setTimeout(() => {
       if (this.dialog.openDialogs.length < 1) {
         this.dialog.open(AuthComponent, {
-          disableClose: true,
+          disableClose: firstRun,
           data: {
             firstRun: firstRun,
             loginUrl: this.createLoginUrl()

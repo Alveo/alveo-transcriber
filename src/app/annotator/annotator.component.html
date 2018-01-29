@@ -15,7 +15,6 @@
   </div>
 
   <div *ngIf="this.getViewMode()!=='list'">
-    <mat-icon class="clickable" (click)="this.setListView()">list</mat-icon>
-    <annotations (annotationUpdate)="this.annotationEvent($event)" [annotation]="this.getSelectedAnnotation()"></annotations>
+    <annotations (playerControlEvent)="this.playerControlEvent($event)" (annotationUpdate)="this.annotationEvent($event)" [annotation]="this.getSelectedAnnotation()"></annotations>
   </div>
 </div>

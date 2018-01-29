@@ -113,12 +113,30 @@ export class AnnotatorComponent {
     return this.annotatorService.getAudioFileName();
   }
 
+  public playerEvent(ev: any): void {
+    console.log(ev);
+  }
+
+  public playerControlEvent(ev: any): void {
+    switch (ev['type']) {
+        case "golistview":
+          this.setListView();
+          break;
+        case "replay":
+          break;
+        case "goBack":
+          break;
+        case "goNext":
+          break;
+        case "delete":
+          break;
+    }
+  }
 
   public annotationEvent(ev: any): void {
-    console.log(ev);
-    if (event['type'] === 'select') {
-      this.annotatorService.selectAnnotation(event['annotation']);
-    } else if (event['type'] === 'edit') {
+    if (ev['type'] === 'select') {
+      this.annotatorService.selectAnnotation(ev['annotation']);
+    } else if (ev['type'] === 'edit') {
       this.annotatorService.emitUpdate();
     }
   }

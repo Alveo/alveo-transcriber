@@ -8,7 +8,6 @@ import * as RegionsPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.regions';
 import * as TimelinePlugin from 'wavesurfer.js/dist/plugin/wavesurfer.timeline';
 import * as MinimapPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.minimap';
 
-import { AnnotatorService } from '../shared/annotator.service';
 import { Annotation } from '../shared/annotator.service';
 
 import { MatDialog } from '@angular/material';
@@ -27,43 +26,43 @@ export class PlayerComponent implements OnInit {
   @Output() annotationEvent = new EventEmitter();
   @Input() annotations: Array<any>;
   @Input() clip: any;
-  private autoplay: boolean = false;
-  player: WaveSurfer = null;
 
-  annotatorSubscription: any = null;
-  selectedRegion: any = null;
-  ready: boolean = null;
+  private ready: boolean = null;
+
+  private autoplay: boolean = false;
+  private player: WaveSurfer = null;
+  private selectedRegion: any = null;
 
   private zoom: number;
   private zoom_threshold = 10;
 
   constructor(
     private dialog: MatDialog,
-    private annotatorService: AnnotatorService,
-    private router: Router) {
+    private router: Router
+  ) { }
+
+  public rebuild() {
+    this.player.clearRegions();
+    this.loadRegions();
+  }
+
+  public selectAnnotation(annotation: any) {
+    if (this.ready) {
+      if (annotation.new !== null) {
+        const newRegion = this.findRegion(annotation.new.id);
+        this.selectRegion(newRegion, false);
+      }
+    }
+  }
+
+  public resize(height: number) {
+    this.setHeight(height);
   }
 
   ngOnInit(): void {
     this.router.events.subscribe( (event: Event) => {
       if (event instanceof NavigationStart) {
         this.player.destroy();
-        this.annotatorSubscription.unsubscribe();
-      }
-    });
-    this.annotatorSubscription = this.annotatorService.annotationsEvent.subscribe((event) => {
-      if (event.type === 'rebuild') {
-        this.player.clearRegions();
-        this.annotations = this.annotatorService.getAnnotations();
-        this.loadRegions();
-      }
-      else if (event.type === 'resize') {
-        this.setHeight(event.newSize);
-      }
-      else if (event.type === 'selectAnnotation') {
-        if (event.new !== null) {
-          const newRegion = this.findRegion(event.new.id);
-          this.selectRegion(newRegion, false);
-        }
       }
     });
 
@@ -106,7 +105,7 @@ export class PlayerComponent implements OnInit {
 
     this.player.on('region-update-end', (region: Region) => {
       if (this.ready === true) {
-        const annotation = this.annotatorService.getAnnotationByID(region.id)
+        const annotation = this.getAnnotationByID(region.id)
 
         if (annotation !== null) {
           annotation.start = region.start;
@@ -122,8 +121,9 @@ export class PlayerComponent implements OnInit {
         if (region.id.startsWith('wavesurfer_')) {
           const createFinish = this.player.on('region-update-end', 
             (region: Region) => {
-              this.annotatorService.createAnnotationFromSegment(
+              this.annotationEvent.emit(
                 {
+                  'type': 'create',
                   'id': region.id,
                   'start': region.start,
                   'end': region.end
@@ -241,14 +241,16 @@ export class PlayerComponent implements OnInit {
       region.update({color: SELECTED_COLOUR});
 
       if (notify === true) {
-        const annotation = this.annotatorService.getAnnotationByID(region.id)
-        this.annotatorService.selectAnnotation(annotation)
-
+        this.annotationEvent.emit(
+          {
+            'type': 'select',
+            'annotation': this.getAnnotationByID(region.id)
+          }
+        );
         if (this.autoplay) {
           region.play();
         }
       }
-
       this.selectedRegion = region;
     }
   }
@@ -343,7 +345,7 @@ export class PlayerComponent implements OnInit {
     const dialogStatus = this.dialogOpen('Warning', 'Are you sure you wish to delete this segment?');
     dialogStatus.afterClosed().subscribe(result => {
       if (result === true) {
-        this.annotatorService.deleteAnnotationByID(this.selectedRegion.id);
+        this.deleteAnnotationByID(this.selectedRegion.id);
         const delRegion = this.selectedRegion;
         this.unselectRegion(delRegion);
         delRegion.remove();
@@ -354,4 +356,32 @@ export class PlayerComponent implements OnInit {
   public autoPlay(state: boolean): void {
     this.autoplay = state;
   }
+
+  public deleteAnnotationByID(id: string): boolean {
+    for (const annotation of this.annotations) {
+      if (annotation.id === id) {
+        if (id = this.selectedRegion.id) {
+          this.selectRegion(null);
+        }
+
+        const index = this.annotations.indexOf(annotation);
+        if (index !== -1) {
+          this.annotations.splice(index, 1);
+        }
+
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public getAnnotationByID(id: string): Annotation {
+    for (const annotation of this.annotations) {
+      if (annotation.id === id) {
+        return annotation;
+      }
+    }
+    return null;
+  }
+
 }

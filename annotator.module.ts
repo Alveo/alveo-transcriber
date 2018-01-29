@@ -17,7 +17,6 @@ import { PlayerComponent } from './player/player.component';
 import { AnnotationViewComponent } from './annotation-view/annotation-view.component';
 import { AnnotationListViewComponent } from './annotation-list-view/annotation-list-view.component';
 
-import { AnnotationPipe } from './annotations/annotation.pipe';
 import { DurationPipe } from './player/duration.pipe';
 import { DurationShortPipe } from './player/duration.pipe';
 
@@ -31,7 +30,6 @@ import { Dialog } from './dialog/dialog.component';
     PlayerComponent,
     AnnotationViewComponent,
     AnnotationListViewComponent,
-    AnnotationPipe,
     DurationPipe,
     DurationShortPipe,
     Dialog,

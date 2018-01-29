@@ -24,17 +24,17 @@
   <div class="annotation-container">
     <mat-icon>closed_caption</mat-icon>
     <mat-form-field id="caption-type">
-      <mat-select [(ngModel)]="this.annotation.cap_type" placeholder="Caption Type">
+      <mat-select (selectionChange)="this.updateAnnotation($event)" [(ngModel)]="this.annotation.cap_type" placeholder="Caption Type">
         <mat-option *ngFor="let option of this.annotation.cap_options" value="{{option}}">{{option}}</mat-option>
       </mat-select>
     </mat-form-field>
 
     <mat-form-field id="speaker">
-      <input matInput [(ngModel)]="this.annotation.speaker" placeholder="Speaker">
+      <input matInput (keyup)="this.updateAnnotation($event)" [(ngModel)]="this.annotation.speaker" placeholder="Speaker">
     </mat-form-field>
 
     <mat-form-field id="caption">
-      <textarea matInput [(ngModel)]="this.annotation.caption" placeholder="Caption"></textarea>
+      <textarea matInput (keyup)="this.updateAnnotation($event)" [(ngModel)]="this.annotation.caption" placeholder="Caption"></textarea>
     </mat-form-field>
   </div>
 </div>

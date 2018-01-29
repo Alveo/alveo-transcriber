@@ -13,11 +13,11 @@
     </div>
     <div class="annotation-forms">
       <mat-form-field class="speaker">
-        <input matInput [(ngModel)]="annotation.speaker" placeholder="Speaker">
+        <input matInput (keyup)="this.updateAnnotation($event)" [(ngModel)]="annotation.speaker" placeholder="Speaker">
       </mat-form-field>
 
       <mat-form-field class="caption">
-        <textarea matInput [(ngModel)]="annotation.caption" placeholder="Caption"></textarea>
+        <textarea matInput (keyup)="this.updateAnnotation($event)" [(ngModel)]="annotation.caption" placeholder="Caption"></textarea>
       </mat-form-field>
     </div>
   </div>

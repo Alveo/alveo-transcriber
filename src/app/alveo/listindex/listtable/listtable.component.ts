@@ -1,11 +1,5 @@
-import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { DataSource } from '@angular/cdk/collections';
-import { MatPaginator } from '@angular/material';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/startWith';
-import 'rxjs/add/observable/merge';
-import 'rxjs/add/operator/map';
+import { Component, ViewChild, Input, Output, EventEmitter } from '@angular/core';
+import { MatPaginator, MatTableDataSource } from '@angular/material';
 
 @Component({
   selector: 'listtable',
@@ -13,58 +7,21 @@ import 'rxjs/add/operator/map';
   styleUrls: ['./listtable.component.css'],
 })
 
-export class ListTableComponent implements OnInit {
+export class ListTableComponent {
   @Input() tableData: any;
   @Output() onSelection = new EventEmitter<any>();
-  selection: any;
 
-  displayedColumns = ['listName', 'items', 'shared'];
-  dataSource: ListDataSource = null;
+  private displayedColumns = ['listName', 'items', 'shared'];
+  private dataSource = new MatTableDataSource<Element>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  ngOnInit(): void {
-    this.dataSource = new ListDataSource(this.paginator, this.tableData);
+  ngAfterViewInit() {
+    this.dataSource = new MatTableDataSource<Element>(this.tableData);
+    this.dataSource.paginator = this.paginator;
   }
 
   onSelect(item): void {
-    this.selection = item;
     this.onSelection.emit(item);
   }
-}
-
-export class ListDataSource extends DataSource<any> {
-  dataChange: BehaviorSubject<any> = new BehaviorSubject<any>([]);
-  get data(): any { return this.dataChange.value; }
-
-  constructor(private _paginator: MatPaginator, tableData: any) {
-    super();
-
-    for (const list of tableData) {
-      this.addList(list);
-    }
-  }
-
-  addList(list: any) {
-    const copiedData = this.data.slice();
-    copiedData.push(list);
-    this.dataChange.next(copiedData);
-  }
-
-  /* This is based on the material.angular.io pagination example */
-  connect(): Observable<any[]> {
-    const displayDataChanges = [
-      this.dataChange,
-      this._paginator.page,
-    ];
-
-    return Observable.merge(...displayDataChanges).map(() => {
-      const data = this.data.slice();
-
-      const startIndex = this._paginator.pageIndex * this._paginator.pageSize;
-      return data.splice(startIndex, this._paginator.pageSize);
-    });
-  }
-
-  disconnect() {}
 }

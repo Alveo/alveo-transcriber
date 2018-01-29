@@ -143,46 +143,58 @@ export class AnnotatorComponent implements OnInit {
 
   public playerControlEvent(ev: any): void {
     switch (ev['type']) {
-        case "golistview":
-          this.setListView();
-          break;
-        case "gosingleview":
-          this.setSingleView();
-          break;
-        case "replay":
-          this.player.replaySelectedRegion();
-          break;
-        case "goBack":
-          this.player.selectPreviousRegion();
-          break;
-        case "goNext":
-          this.player.selectNextRegion();
-          break;
-        case "delete":
-          this.player.deleteSelectedRegion().then(
-            ()=> {
-              this.selectAnnotation(null);
-              this.annotatorService.save(this.annotations);
-            }
-          );
-          break;
+      case "golistview": {
+        this.setListView();
+        break;
+      }
+      case "gosingleview": {
+        this.setSingleView();
+        break;
+      }
+      case "replay": {
+        this.player.replaySelectedRegion();
+        break;
+      }
+      case "goBack": {
+        this.player.selectPreviousRegion();
+        break;
+      }
+      case "goNext": {
+        this.player.selectNextRegion();
+        break;
+      }
+      case "delete": {
+        this.player.deleteSelectedRegion().then(
+          ()=> {
+            this.selectAnnotation(null);
+            this.annotatorService.save(this.annotations);
+          }
+        );
+        break;
+      }
     }
   }
 
   public annotationEvent(ev: any): void {
-    if (ev['type'] === 'select') {
-      this.selectAnnotation(ev['annotation']);
-    } else if (ev['type'] === 'edit') {
-      this.annotatorService.save(this.annotations);
-    } else if (ev['type'] === 'create') {
-      this.createAnnotationFromSegment(
-          {
-            'id': ev.id,
-            'start': ev.start,
-            'end': ev.end
-          }
-        );
-      this.annotatorService.save(this.annotations);
+    switch (ev['type']) {
+      case 'select': {
+          this.selectAnnotation(ev['annotation']);
+          break;
+      }
+      case 'edit': {
+          this.annotatorService.save(this.annotations);
+          break;
+      }
+      case 'create': {
+        this.createAnnotationFromSegment(
+            {
+              'id': ev.id,
+              'start': ev.start,
+              'end': ev.end
+            }
+          );
+        this.annotatorService.save(this.annotations);
+      }
     }
   }
 

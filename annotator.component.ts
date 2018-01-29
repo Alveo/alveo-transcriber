@@ -124,6 +124,9 @@ export class AnnotatorComponent {
         case "golistview":
           this.setListView();
           break;
+        case "gosingleview":
+          this.setSingleView();
+          break;
         case "replay":
           this.player.replaySelectedRegion();
           break;

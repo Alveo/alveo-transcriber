@@ -1,14 +1,24 @@
+<div id="icons">
+  <mat-icon class="clickable" (click)="this.requestSingleView()">tab</mat-icon>
+</div>
+
 <div class="annotation-container">
   <div class="annotation" *ngFor="let annotation of this.annotations"
     (click)="this.annotationClick(annotation)"
     [class.selected]="this.getSelectedAnnotation() === annotation">
 
-    <mat-form-field class="speaker">
-      <input matInput [(ngModel)]="annotation.speaker" placeholder="Speaker">
-    </mat-form-field>
+    <div class="annotation-controls" *ngIf="this.getSelectedAnnotation() === annotation">
+      <mat-icon class="clickable" (click)="this.deleteAnnotationRequest()">delete</mat-icon>
+      <mat-icon class="clickable" (click)="this.replayAnnotationRequest()">replay</mat-icon>
+    </div>
+    <div class="annotation-forms">
+      <mat-form-field class="speaker">
+        <input matInput [(ngModel)]="annotation.speaker" placeholder="Speaker">
+      </mat-form-field>
 
-    <mat-form-field class="caption">
-      <textarea matInput [(ngModel)]="annotation.caption" placeholder="Caption"></textarea>
-    </mat-form-field>
+      <mat-form-field class="caption">
+        <textarea matInput [(ngModel)]="annotation.caption" placeholder="Caption"></textarea>
+      </mat-form-field>
+    </div>
   </div>
 </div>

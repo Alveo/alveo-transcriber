@@ -10,8 +10,7 @@
   <player (playerEvent)="this.playEvent($event)" (annotationEvent)="this.annotationEvent($event)" [clip]="this.getAudioFile()" [annotations]="this.getAnnotations()"></player>
 
   <div *ngIf="this.getViewMode()!=='single'">
-    <mat-icon class="clickable" (click)="this.setSingleView()">tab</mat-icon>
-    <annotation-list (annotationUpdate)="this.annotationEvent($event)" [selectedAnnotation]="this.getSelectedAnnotation()" [annotations]="this.getAnnotations()"></annotation-list>
+    <annotation-list (playerControlEvent)="this.playerControlEvent($event)" (annotationUpdate)="this.annotationEvent($event)" [selectedAnnotation]="this.getSelectedAnnotation()" [annotations]="this.getAnnotations()"></annotation-list>
   </div>
 
   <div *ngIf="this.getViewMode()!=='list'">

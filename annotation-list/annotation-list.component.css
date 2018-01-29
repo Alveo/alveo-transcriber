@@ -1,20 +1,34 @@
-mat-icon {
+.annotation-controls {
+  display: flex;
+  align-items: center;
+}
+
+.annotation-forms {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-display: column;
+  flex: 1 1 auto;
+}
+
+.mat-icon {
   font-size: 40px;
   width: 40px;
   height: 40px;
+  user-select: none;
+}
+
+.mat-icon.clickable:hover {
+  background: rgb(193, 236, 250);
+  cursor: pointer;
 }
 
 .annotation-container {
-  display: flex;
   overflow-y: scroll;
-  flex-display: column;
-
-  flex-wrap: wrap;
 }
 
 .annotation {
   display: flex;
-  flex: 1 1 100%;
+  flex: 1 1 auto;
   padding-top: 0.6em;
 }
 

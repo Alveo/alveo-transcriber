@@ -27,6 +27,7 @@ export class PlayerComponent implements OnInit {
   @Output() annotationEvent = new EventEmitter();
   @Input() annotations: Array<any>;
   @Input() clip: any;
+  private autoplay: boolean = false;
   player: WaveSurfer = null;
 
   annotatorSubscription: any = null;
@@ -242,6 +243,10 @@ export class PlayerComponent implements OnInit {
       if (notify === true) {
         const annotation = this.annotatorService.getAnnotationByID(region.id)
         this.annotatorService.selectAnnotation(annotation)
+
+        if (this.autoplay) {
+          region.play();
+        }
       }
 
       this.selectedRegion = region;
@@ -344,5 +349,9 @@ export class PlayerComponent implements OnInit {
         delRegion.remove();
       }
     });
+  }
+
+  public autoPlay(state: boolean): void {
+    this.autoplay = state;
   }
 }

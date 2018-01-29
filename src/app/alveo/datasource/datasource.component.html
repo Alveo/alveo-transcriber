@@ -1,9 +1,11 @@
 <ng-template #dataPromptTemplate>
   <div id="data-information" class="center">
-    <p class="info-text bottom-spacer">
-      Great! You're all logged in. Now you need to choose a
-      source of data to load. Right now, there is only the Alveo provider. Click it to begin.
-    </p>
-    <button mat-raised-button color="primary" id="download-button" (click)="this.getData()">Download Alveo Data</button>
+    <div class="dialogue">
+      <p class="info-text bottom-spacer">
+        Great! You're all logged in. Now you need to choose a
+        source of data to load. Right now, there is only the Alveo provider. Click it to begin.
+      </p>
+      <button mat-raised-button color="primary" id="download-button" (click)="this.getData()">Download Alveo Data</button>
+    </div>
   </div>
 </ng-template>

@@ -1,4 +1,4 @@
-import { Component, Input, Output, OnChanges, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { Annotation } from '../shared/annotator.service';
 
@@ -8,7 +8,7 @@ import { Annotation } from '../shared/annotator.service';
   styleUrls: ['./annotation-list.component.css'],
 })
 
-export class AnnotationListComponent implements OnChanges {
+export class AnnotationListComponent {
   @Input() annotations: Array<Annotation>;
   @Input() selectedAnnotation: Annotation;
   @Output() annotationUpdate = new EventEmitter();
@@ -20,8 +20,9 @@ export class AnnotationListComponent implements OnChanges {
     return this.selectedAnnotation;
   }
 
-  ngOnChanges(changes: any): void {
+  public updateAnnotation(ev: any): void {
     if (this.getSelectedAnnotation() !== null) {
+      console.log("Updated annotation");
       this.annotationUpdate.emit(
         {
           "type": "edit",

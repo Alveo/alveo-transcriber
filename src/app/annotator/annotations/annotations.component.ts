@@ -1,4 +1,4 @@
-import { Component, Input, Output, OnChanges, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { Annotation } from '../shared/annotator.service';
 
@@ -8,20 +8,23 @@ import { Annotation } from '../shared/annotator.service';
   styleUrls: ['./annotations.component.css'],
 })
 
-export class AnnotationsComponent implements OnChanges {
+export class AnnotationsComponent {
   @Input() annotation: Annotation;
   @Output() annotationUpdate = new EventEmitter();
   @Output() playerControlEvent = new EventEmitter();
 
   constructor() { }
 
-  ngOnChanges(changes: any): void {
-    this.annotationUpdate.emit(
-      {
-        "type": "edit",
-        "annotation": this.annotation
-      }
-    );
+  public updateAnnotation(ev: any): void {
+    if (this.annotation !== null) {
+      console.log("Updated annotation");
+      this.annotationUpdate.emit(
+        {
+          "type": "edit",
+          "annotation": this.annotation
+        }
+      );
+    }
   }
 
   public requestListView(): void {

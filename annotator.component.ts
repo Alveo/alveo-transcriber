@@ -32,6 +32,14 @@ export class AnnotatorComponent implements OnInit {
     this.annotations = this.annotatorService.getAnnotations();
     this.sortAnnotations();
     this.selectFirst();
+
+    this.annotatorService.moduleEvent.subscribe(
+      (ev: any) => {
+        if (ev['type'] === 'rebuild') {
+          this.rebuild(ev['segments']);
+        }
+      }
+    );
   }
 
   private setViewMode(mode: string): void {
@@ -203,7 +211,7 @@ export class AnnotatorComponent implements OnInit {
       counter += 1;
     }
 
-    this.player.rebuild();
+    this.player.rebuild(this.annotations);
 
     this.selectFirst();
   }

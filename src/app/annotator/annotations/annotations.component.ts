@@ -11,6 +11,7 @@ import { Annotation } from '../shared/annotator.service';
 export class AnnotationsComponent implements OnChanges {
   @Input() annotation: Annotation;
   @Output() annotationUpdate = new EventEmitter();
+  @Output() playerControlEvent = new EventEmitter();
 
   constructor() { }
 
@@ -18,6 +19,48 @@ export class AnnotationsComponent implements OnChanges {
     this.annotationUpdate.emit(
       {
         "type": "edit",
+        "annotation": this.annotation
+      }
+    );
+  }
+
+  public requestListView(): void {
+    this.playerControlEvent.emit(
+      {
+        "type": "golistview"
+      }
+    );
+  }
+
+  public replayAnnotationRequest(): void {
+    this.playerControlEvent.emit(
+      {
+        "type": "replay",
+        "annotation": this.annotation
+      }
+    );
+  }
+
+  public nextAnnotationRequest(): void {
+    this.playerControlEvent.emit(
+      {
+        "type": "goNext",
+      }
+    );
+  }
+
+  public backAnnotationRequest(): void {
+    this.playerControlEvent.emit(
+      {
+        "type": "goBack",
+      }
+    );
+  }
+
+  public deleteAnnotationRequest(): void {
+    this.playerControlEvent.emit(
+      {
+        "type": "delete",
         "annotation": this.annotation
       }
     );

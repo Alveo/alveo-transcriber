@@ -1,4 +1,7 @@
 <div id="conftable" class="mat-elevation-z8">
+  <mat-form-field id="search-field">
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+  </mat-form-field>
   <mat-table #table [dataSource]="dataSource">
 
     <!--- Note that these columns can be defined in any order.

@@ -22,8 +22,8 @@ export class ListTableComponent {
   }
 
   applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+    filterValue = filterValue.trim();
+    filterValue = filterValue.toLowerCase(); // MatTable filters by lowercase
     this.dataSource.filter = filterValue;
   }
 

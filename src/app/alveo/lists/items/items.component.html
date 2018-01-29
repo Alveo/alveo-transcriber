@@ -1,8 +1,11 @@
 <div id="item-display" *ngIf="this.getItemCount() > 0">
+  <mat-form-field id="search-field">
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+  </mat-form-field>
   <mat-expansion-panel *ngFor="let item of this.getItems()" (click)="onItemSelection(item)">
     <mat-expansion-panel-header>
       <mat-panel-title>
-        {{this.getItemUrl(item)}}
+        {{this.getItemName(item)}}
       </mat-panel-title>
       <mat-panel-description>
         {{this.getItemState(item)}}

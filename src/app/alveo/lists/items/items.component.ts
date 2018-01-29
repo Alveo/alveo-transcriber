@@ -28,6 +28,8 @@ export class ItemsComponent {
   public pageSize: number = 15;
   public pageIndex: number = 0;
 
+  public filter: string = "";
+
   constructor(
     private authService: AuthService,
     private alveoService: AlveoService) {
@@ -42,11 +44,21 @@ export class ItemsComponent {
   private generateItemList() {
     for (const item of this.itemUrls) {
       this.items.push({
+        name: item.split('/catalog/austalk/')[1],
         url: item,
         state: ItemState.UNCHECKED,
         data: null
       });
     }
+  }
+
+  private filterDisplay(): void {
+    this.itemDisplay = this.itemDisplay.filter(
+      item => item.name.includes(this.filter)
+    );
+    this.itemDisplaySize = this.itemDisplay.length;
+
+    this.pageIndex = 0;
   }
 
   private generateItemDisplay() {
@@ -57,11 +69,23 @@ export class ItemsComponent {
     }
     this.itemDisplay = this.items.slice(start, end);
     this.itemDisplaySize = this.getItemCount();
+
+    if (this.filter != "") {
+      this.filterDisplay();
+    }
   }
 
   public paginatorEvent(ev: any) {
     this.pageSize = ev.pageSize;
     this.pageIndex = ev.pageIndex;
+
+    this.generateItemDisplay();
+  }
+
+  public applyFilter(filter: any) {
+    filter = filter.trim();
+    filter = filter.toLowerCase(); // Data source is lower-case/numbers
+    this.filter = filter;
 
     this.generateItemDisplay();
   }
@@ -95,7 +119,6 @@ export class ItemsComponent {
       },
       error => {
         item['state'] = ItemState.FAILED;
-        console.log(error);
         if (error === 403 || !this.authService.isLoggedIn()) {
           this.authService.promptLogin()
         }
@@ -119,8 +142,12 @@ export class ItemsComponent {
     return item['state'];
   }
 
+  public getItemName(item: any): string {
+    return item['name'];
+  }
+
   public getItemUrl(item: any): string {
-    return item['url'].split('/catalog/')[1];
+    return item['url'];
   }
 
   public isDataReady(item: any): boolean {

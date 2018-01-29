@@ -341,16 +341,21 @@ export class PlayerComponent implements OnInit {
     return this.dialog.open(Dialog, {data: {title: title, text: text}});
   }
 
-  deleteSelectedRegion(): void {
+  deleteSelectedRegion(): Promise<any> {
     const dialogStatus = this.dialogOpen('Warning', 'Are you sure you wish to delete this segment?');
-    dialogStatus.afterClosed().subscribe(result => {
-      if (result === true) {
-        this.deleteAnnotationByID(this.selectedRegion.id);
-        const delRegion = this.selectedRegion;
-        this.unselectRegion(delRegion);
-        delRegion.remove();
+    return new Promise(
+      (resolve, reject) => {
+        dialogStatus.afterClosed().subscribe(result => {
+          if (result === true) {
+            this.deleteAnnotationByID(this.selectedRegion.id);
+            const delRegion = this.selectedRegion;
+            this.unselectRegion(delRegion);
+            delRegion.remove();
+            resolve();
+          }
+        });
       }
-    });
+    );
   }
 
   public autoPlay(state: boolean): void {

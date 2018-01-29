@@ -14,8 +14,8 @@ import {
 
 import { AnnotatorComponent } from './annotator.component';
 import { PlayerComponent } from './player/player.component';
-import { AnnotationsComponent } from './annotations/annotations.component';
-import { AnnotationListComponent } from './annotation-list/annotation-list.component';
+import { AnnotationViewComponent } from './annotation-view/annotation-view.component';
+import { AnnotationListViewComponent } from './annotation-list-view/annotation-list-view.component';
 
 import { AnnotationPipe } from './annotations/annotation.pipe';
 import { DurationPipe } from './player/duration.pipe';
@@ -29,12 +29,12 @@ import { Dialog } from './dialog/dialog.component';
   declarations: [
     AnnotatorComponent,
     PlayerComponent,
-    AnnotationsComponent,
+    AnnotationViewComponent,
+    AnnotationListViewComponent,
     AnnotationPipe,
     DurationPipe,
     DurationShortPipe,
     Dialog,
-    AnnotationListComponent,
   ],
   entryComponents: [
     Dialog,

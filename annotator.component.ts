@@ -177,22 +177,27 @@ export class AnnotatorComponent implements OnInit {
 
   public annotationEvent(ev: any): void {
     switch (ev['type']) {
+      case 'select-noemit': {
+        this.selectAnnotation(ev['annotation'], false);
+        break;
+      }
       case 'select': {
-          this.selectAnnotation(ev['annotation']);
-          break;
+        this.selectAnnotation(ev['annotation']);
+        break;
       }
       case 'edit': {
-          this.annotatorService.save(this.annotations);
-          break;
+        this.annotatorService.save(this.annotations);
+        break;
       }
       case 'create': {
-        this.createAnnotationFromSegment(
+        const annotation = this.createAnnotationFromSegment(
             {
               'id': ev.id,
               'start': ev.start,
               'end': ev.end
             }
           );
+        this.selectAnnotation(annotation);
         this.annotatorService.save(this.annotations);
       }
     }
@@ -252,16 +257,18 @@ export class AnnotatorComponent implements OnInit {
     return annotation;
   }
 
-  public selectAnnotation(annotation: Annotation): void {
+  public selectAnnotation(annotation: Annotation, emit: boolean = true): void {
     const oldSelection = this.selectedAnnotation;
     this.selectedAnnotation = annotation;
 
-    this.player.selectAnnotation(
-      {
-        'new': annotation,
-        'old': oldSelection
-      }
-    );
+    if (emit) {
+      this.player.selectAnnotation(
+        {
+          'new': annotation,
+          'old': oldSelection
+        }
+      );
+    }
   }
 
   public getSelectedAnnotation(): Annotation {

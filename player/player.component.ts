@@ -253,6 +253,13 @@ export class PlayerComponent implements OnInit {
         region.play();
       }
 
+      this.annotationEvent.emit(
+        {
+          'type': 'select-noemit',
+          'annotation': this.getAnnotationByID(region.id)
+        }
+      );
+
       this.selectedRegion = region;
     }
   }

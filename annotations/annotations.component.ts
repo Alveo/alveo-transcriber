@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, Output, OnChanges, EventEmitter } from '@angular/core';
 
 import { Annotation } from '../shared/annotator.service';
 import { AnnotatorService } from '../shared/annotator.service';
@@ -11,12 +11,18 @@ import { AnnotatorService } from '../shared/annotator.service';
 
 export class AnnotationsComponent implements OnChanges {
   @Input() annotation: Annotation;
+  @Output() annotationUpdate = new EventEmitter();
 
   constructor(
     public annotatorService: AnnotatorService
   ) { }
 
   ngOnChanges(changes: any): void {
-    this.annotatorService.emitUpdate();
+    this.annotationUpdate.emit(
+      {
+        "type": "edit",
+        "annotation": this.annotation
+      }
+    );
   }
 }

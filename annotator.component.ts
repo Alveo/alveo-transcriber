@@ -20,12 +20,12 @@ export class AnnotatorComponent {
     private annotatorService: AnnotatorService,
   ) { }
 
-  public getViewMode() {
-    return this.viewMode;
+  private setViewMode(mode: string) {
+    this.viewMode = mode;
   }
 
-  public setViewMode(mode: string) {
-    this.viewMode = mode;
+  public getViewMode() {
+    return this.viewMode;
   }
 
   public setSingleView() {
@@ -44,7 +44,7 @@ export class AnnotatorComponent {
     })
   }
 
-  actionBack(): void {
+  public actionBack(): void {
     this.annotatorService.signalExit();
   }
 
@@ -111,5 +111,15 @@ export class AnnotatorComponent {
 
   getAudioFileName(): string {
     return this.annotatorService.getAudioFileName();
+  }
+
+
+  public annotationEvent(ev: any): void {
+    console.log(ev);
+    if (event['type'] === 'select') {
+      this.annotatorService.selectAnnotation(event['annotation']);
+    } else if (event['type'] === 'edit') {
+      this.annotatorService.emitUpdate();
+    }
   }
 }

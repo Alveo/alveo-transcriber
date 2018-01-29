@@ -1,23 +1,25 @@
-<div id="container">
-  <div id="top-halign">
-    <p id="header">Transcribing: {{ this.getAudioFileName() }}</p>
-    <button mat-raised-button color="primary" (click)="this.actionBack()">Exit</button>
-    <button mat-raised-button color="primary" (click)="this.actionSegment()">Autosegment</button>
-    <button mat-raised-button color="primary" (click)="this.exportCSV()">Export CSV</button>
-    <button mat-raised-button color="primary" (click)="this.exportJSON()">Export JSON</button>
-  </div>
+<div class="container">
+    <div class="sticky-container" sticky [sticky-class]="extra-height">
+      <div class="top-halign">
+        <p id="header">Transcribing: {{ this.getAudioFileName() }}</p>
+        <button mat-raised-button color="primary" (click)="this.actionBack()">Exit</button>
+        <button mat-raised-button color="primary" (click)="this.actionSegment()">Autosegment</button>
+        <button mat-raised-button color="primary" (click)="this.exportCSV()">Export CSV</button>
+        <button mat-raised-button color="primary" (click)="this.exportJSON()">Export JSON</button>
+      </div>
 
-  <player (playerEvent)="this.playEvent($event)" (annotationEvent)="this.annotationEvent($event)" [clip]="this.getAudioFile()" [annotations]="this.getAnnotations()"></player>
+      <player (playerEvent)="this.playEvent($event)" (annotationEvent)="this.annotationEvent($event)" [clip]="this.getAudioFile()" [annotations]="this.getAnnotations()"></player>
 
-  <div class="settings">
-    <mat-checkbox (change)="this.replayCheckboxEvent($event)">Autoplay</mat-checkbox>
-  </div>
+      <div class="settings">
+        <mat-checkbox (change)="this.replayCheckboxEvent($event)">Autoplay</mat-checkbox>
+      </div>
 
-  <div *ngIf="this.getViewMode()!=='single'">
-    <annotation-list-view (playerControlEvent)="this.playerControlEvent($event)" (annotationUpdate)="this.annotationEvent($event)" [selectedAnnotation]="this.getSelectedAnnotation()" [annotations]="this.getAnnotations()"></annotation-list-view>
-  </div>
+      <div *ngIf="this.getViewMode()!=='list'">
+        <annotation-view (playerControlEvent)="this.playerControlEvent($event)" (annotationUpdate)="this.annotationEvent($event)" [annotation]="this.getSelectedAnnotation()"></annotation-view>
+      </div>
+    </div>
 
-  <div *ngIf="this.getViewMode()!=='list'">
-    <annotation-view (playerControlEvent)="this.playerControlEvent($event)" (annotationUpdate)="this.annotationEvent($event)" [annotation]="this.getSelectedAnnotation()"></annotation-view>
-  </div>
+    <div *ngIf="this.getViewMode()!=='single'">
+      <annotation-list-view (playerControlEvent)="this.playerControlEvent($event)" (annotationUpdate)="this.annotationEvent($event)" [selectedAnnotation]="this.getSelectedAnnotation()" [annotations]="this.getAnnotations()"></annotation-list-view>
+    </div>
 </div>

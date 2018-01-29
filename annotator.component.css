@@ -1,3 +1,6 @@
+.extra-height {
+  height: 800px;
+}
 .settings {
   display: flex;
 }
@@ -18,17 +21,21 @@
   cursor: pointer;
 }
 
-#container {
+.container {
   width: 80%;
   margin: auto;
   max-width: 70em;
+}
+
+.sticky-container {
+  background: white;
 }
 
 button {
   margin: 0.2em;
 }
 
-#top-halign {
+.top-halign {
   display: flex;
   padding-bottom: 0.6rem;
   flex-wrap: wrap;

@@ -1,7 +1,6 @@
 import { Component, Input, Output, OnChanges, EventEmitter } from '@angular/core';
 
 import { Annotation } from '../shared/annotator.service';
-import { AnnotatorService } from '../shared/annotator.service';
 
 @Component({
   selector: 'annotations',
@@ -13,9 +12,7 @@ export class AnnotationsComponent implements OnChanges {
   @Input() annotation: Annotation;
   @Output() annotationUpdate = new EventEmitter();
 
-  constructor(
-    public annotatorService: AnnotatorService
-  ) { }
+  constructor() { }
 
   ngOnChanges(changes: any): void {
     this.annotationUpdate.emit(

@@ -9,6 +9,10 @@
 
   <player (playerEvent)="this.playEvent($event)" (annotationEvent)="this.annotationEvent($event)" [clip]="this.getAudioFile()" [annotations]="this.getAnnotations()"></player>
 
+  <div class="settings">
+    <mat-checkbox (change)="this.replayCheckboxEvent($event)">Autoplay</mat-checkbox>
+  </div>
+
   <div *ngIf="this.getViewMode()!=='single'">
     <annotation-list (playerControlEvent)="this.playerControlEvent($event)" (annotationUpdate)="this.annotationEvent($event)" [selectedAnnotation]="this.getSelectedAnnotation()" [annotations]="this.getAnnotations()"></annotation-list>
   </div>

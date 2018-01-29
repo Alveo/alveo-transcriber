@@ -115,6 +115,14 @@ export class AnnotatorComponent {
     return this.annotatorService.getAudioFileName();
   }
 
+  public replayCheckboxEvent(ev: any): void {
+    if (ev['checked'] === true) {
+      this.player.autoPlay(true);
+    } else {
+      this.player.autoPlay(false);
+    }
+  }
+
   public playerEvent(ev: any): void {
     console.log(ev);
   }

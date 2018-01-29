@@ -17,7 +17,6 @@ export class AnnotationsComponent {
 
   public updateAnnotation(ev: any): void {
     if (this.annotation !== null) {
-      console.log("Updated annotation");
       this.annotationUpdate.emit(
         {
           "type": "edit",

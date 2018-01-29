@@ -39,24 +39,27 @@ export class Annotation {
 
 @Injectable()
 export class AnnotatorService {
-  public annotationsUpdate: EventEmitter<any> = new EventEmitter();
+  public moduleEvent: EventEmitter<any> = new EventEmitter();
   public externalEvent: EventEmitter<any> = new EventEmitter();
 
-  public audioFile: any;
-  public audioFileName: string;
+  private audioFile: any;
+  private audioFileName: string;
 
-  public annotations: Array<Annotation> = [];
+  private annotations: Array<Annotation> = [];
 
-  public rebase(annotations: Array<Annotation>): any {
+  public initialise(annotations: Array<Annotation>, audioFile: ArrayBuffer, audioFileName: string): any {
+    this.audioFile = audioFile;
+    this.audioFileName = audioFileName;
     this.annotations = annotations;
   }
 
-  public rebuild(thing: any): any {
-    console.log(thing);
-  }
-
-  public emitUpdate(): any {
-    this.annotationsUpdate.emit({})
+  public rebuild(data: any): void {
+    this.moduleEvent.emit(
+      {
+        'type': 'rebuild',
+        'segments': data
+      }
+    );
   }
 
   public getAnnotations(): any {
@@ -71,11 +74,29 @@ export class AnnotatorService {
     return this.audioFileName;
   }
 
+  public save(annotations: Array<Annotation>): any {
+    this.annotations = annotations;
+    this.externalEvent.emit(
+      {
+        'type': 'save',
+        'annotations': this.annotations
+      }
+    );
+  }
+
   public signalExit(): any {
-    this.externalEvent.emit('exit');
+    this.externalEvent.emit(
+      {
+        'type': 'exit'
+      }
+    );
   }
 
   public signalAutoSegment(): any {
-    this.externalEvent.emit('autosegment');
+    this.externalEvent.emit(
+      {
+        'type': 'autosegment'
+      }
+    );
   }
 }

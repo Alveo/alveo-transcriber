@@ -163,7 +163,7 @@ export class AnnotatorComponent implements OnInit {
     if (ev['type'] === 'select') {
       this.selectAnnotation(ev['annotation']);
     } else if (ev['type'] === 'edit') {
-      this.annotatorService.emitUpdate();
+      this.annotatorService.save(this.annotations);
     } else if (ev['type'] === 'create') {
       this.createAnnotationFromSegment(
           {

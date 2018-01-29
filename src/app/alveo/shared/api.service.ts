@@ -13,7 +13,6 @@ import { environment } from '../../../environments/environment';
 @Injectable()
 export class ApiService {
   alveoUrl: string = environment.baseURL;
-  loginURL: string = environment.loginURL;
 
   constructor(private http: HttpClient) {}
 

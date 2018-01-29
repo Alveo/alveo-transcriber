@@ -34,20 +34,20 @@ export class AnnotatorComponent implements OnInit {
     this.selectFirst();
   }
 
-  private setViewMode(mode: string) {
+  private setViewMode(mode: string): void {
     this.viewMode = mode;
   }
 
-  public getViewMode() {
+  public getViewMode(): string {
     return this.viewMode;
   }
 
-  public setSingleView() {
+  public setSingleView(): void {
     this.setViewMode('single');
     this.player.resize(200);
   }
 
-  public setListView() {
+  public setListView(): void {
     this.setViewMode('list');
     this.player.resize(120);
   }
@@ -56,7 +56,7 @@ export class AnnotatorComponent implements OnInit {
     this.annotatorService.signalExit();
   }
 
-  downloadFile(url, filename): void {
+  private downloadFile(url, filename): void {
     // Create named DL
     const anchor = document.createElement('a');
     anchor.download = filename;
@@ -71,7 +71,7 @@ export class AnnotatorComponent implements OnInit {
     URL.revokeObjectURL(url);
   }
 
-  exportCSV(): void {
+  public exportCSV(): void {
     const csv = json2csv({
       data: this.annotations,
       fields: ANNOTATION_CSV_FIELDS
@@ -83,7 +83,7 @@ export class AnnotatorComponent implements OnInit {
     this.downloadFile(url, this.getAudioFileName() + '.csv');
   }
 
-  exportJSON(): void {
+  public exportJSON(): void {
     const csv = JSON.stringify(this.annotations, null, 2);
     JSON.stringify(this.annotations, null, 2);
 
@@ -93,11 +93,11 @@ export class AnnotatorComponent implements OnInit {
     this.downloadFile(url, this.getAudioFileName() + '.json');
   }
 
-  dialogOpen(title: string, text: string): any {
+  private dialogOpen(title: string, text: string): any {
     return this.dialog.open(Dialog, {data: {title: title, text: text}});
   }
 
-  actionSegment(): void {
+  public actionSegment(): void {
     const dialogStatus = this.dialogOpen('Warning',
       'Using the segmentor service will erase all regions/annotations and '
       + 'replace them with ones from an automatic segmentor. Deletion may '
@@ -109,15 +109,15 @@ export class AnnotatorComponent implements OnInit {
     });
   }
 
-  getAnnotations(): any {
+  public getAnnotations(): any {
     return this.annotations;
   }
 
-  getAudioFile(): any {
+  public getAudioFile(): ArrayBuffer {
     return this.annotatorService.getAudioFile();
   }
 
-  getAudioFileName(): string {
+  public getAudioFileName(): string {
     return this.annotatorService.getAudioFileName();
   }
 
@@ -176,7 +176,7 @@ export class AnnotatorComponent implements OnInit {
     }
   }
 
-  private sortAnnotations() {
+  private sortAnnotations(): void {
     this.annotations = this.annotations.sort(
       (left, right): number => {
         if (left.start < right.start) return -1;
@@ -206,7 +206,7 @@ export class AnnotatorComponent implements OnInit {
     this.selectFirst();
   }
 
-  public selectFirst() {
+  public selectFirst(): void {
     if (this.annotations.length > 0) {
       this.selectAnnotation(this.annotations[0]);
     } else {
@@ -230,7 +230,7 @@ export class AnnotatorComponent implements OnInit {
     return annotation;
   }
 
-  public selectAnnotation(annotation: Annotation) {
+  public selectAnnotation(annotation: Annotation): void {
     const oldSelection = this.selectedAnnotation;
     this.selectedAnnotation = annotation;
 

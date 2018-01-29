@@ -150,7 +150,11 @@ export class AnnotatorComponent implements OnInit {
           this.player.selectNextRegion();
           break;
         case "delete":
-          this.player.deleteSelectedRegion();
+          this.player.deleteSelectedRegion().then(
+            ()=> {
+              this.selectAnnotation(null);
+            }
+          );
           break;
     }
   }

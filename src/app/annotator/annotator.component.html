@@ -14,10 +14,10 @@
   </div>
 
   <div *ngIf="this.getViewMode()!=='single'">
-    <annotation-list (playerControlEvent)="this.playerControlEvent($event)" (annotationUpdate)="this.annotationEvent($event)" [selectedAnnotation]="this.getSelectedAnnotation()" [annotations]="this.getAnnotations()"></annotation-list>
+    <annotation-list-view (playerControlEvent)="this.playerControlEvent($event)" (annotationUpdate)="this.annotationEvent($event)" [selectedAnnotation]="this.getSelectedAnnotation()" [annotations]="this.getAnnotations()"></annotation-list-view>
   </div>
 
   <div *ngIf="this.getViewMode()!=='list'">
-    <annotations (playerControlEvent)="this.playerControlEvent($event)" (annotationUpdate)="this.annotationEvent($event)" [annotation]="this.getSelectedAnnotation()"></annotations>
+    <annotation-view (playerControlEvent)="this.playerControlEvent($event)" (annotationUpdate)="this.annotationEvent($event)" [annotation]="this.getSelectedAnnotation()"></annotation-view>
   </div>
 </div>

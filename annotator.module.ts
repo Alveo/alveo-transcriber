@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-// import { CsvService } from "angular2-json2csv";
+import { StickyModule } from 'ng2-sticky-kit';
 
 import {
   MatButtonModule,
@@ -45,7 +45,8 @@ import { Dialog } from './dialog/dialog.component';
     MatIconModule,
     MatSelectModule,
     MatInputModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    StickyModule
   ],
   exports: [
     AnnotatorComponent,

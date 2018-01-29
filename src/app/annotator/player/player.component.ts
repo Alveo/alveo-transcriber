@@ -1,5 +1,4 @@
-import { OnInit } from '@angular/core';
-import { Component, Input, HostListener } from '@angular/core';
+import { OnInit, Input, Output, Component, EventEmitter } from '@angular/core';
 import { Router, NavigationStart, Event } from '@angular/router';
 
 /* WaveSurfer NPM headers */
@@ -24,14 +23,14 @@ const SELECTED_COLOUR = 'rgba(0, 200, 200, 0.2)';
   styleUrls: ['./player.component.css'],
 })
 export class PlayerComponent implements OnInit {
-  player: WaveSurfer = null;
+  @Output() playerEvent = new EventEmitter();
+  @Output() annotationEvent = new EventEmitter();
+  @Input() annotations: Array<any>;
   @Input() clip: any;
-  annotations: Array<any> = null;
+  player: WaveSurfer = null;
 
   annotatorSubscription: any = null;
-
   selectedRegion: any = null;
-
   ready: boolean = null;
 
   private zoom: number;
@@ -44,7 +43,6 @@ export class PlayerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.annotations = this.annotatorService.getAnnotations();
     this.router.events.subscribe( (event: Event) => {
       if (event instanceof NavigationStart) {
         this.player.destroy();

@@ -21,7 +21,20 @@ export class ListTableComponent {
     this.dataSource.paginator = this.paginator;
   }
 
-  onSelect(item): void {
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+    this.dataSource.filter = filterValue;
+  }
+
+  public onSelect(item): void {
     this.onSelection.emit(item);
+  }
+
+  public getDataCount(): number {
+    if (this.tableData !== null) {
+      return this.tableData.length;
+    }
+    return 0;
   }
 }

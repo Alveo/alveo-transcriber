@@ -1,3 +1,15 @@
+<div id="icons">
+  <mat-icon class="clickable" (click)="this.requestListView()">list</mat-icon>
+  <div id="controls">
+    <mat-icon class="clickable" (click)="this.replayAnnotationRequest()">replay</mat-icon>
+    <!-- Loop is bugged with WaveSurfer 2.0.3 -->
+    <!-- <mat-icon class="clickable" (click)="this.loopSelectedRegion()" *ngIf="this.selectedRegion!=null">loop</mat-icon> -->
+    <mat-icon class="clickable" (click)="this.backAnnotationRequest()">skip_previous</mat-icon>
+    <mat-icon class="clickable" (click)="this.nextAnnotationRequest()">skip_next</mat-icon>
+    <mat-icon class="clickable" (click)="this.deleteAnnotationRequest()">delete</mat-icon>
+  </div>
+</div>
+
 <div class="annotation-container"
   *ngIf="this.annotation != null">
   <mat-icon>closed_caption</mat-icon>

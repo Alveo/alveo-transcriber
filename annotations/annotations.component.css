@@ -1,7 +1,24 @@
+#icons {
+  display: flex;
+  padding-bottom: 0.3em;
+}
+
+#controls {
+  display: flex;
+  flex: 1 1 auto;
+  justify-content: center;
+}
+
 mat-icon {
   font-size: 40px;
   width: 40px;
   height: 40px;
+  user-select: none;
+}
+
+mat-icon.clickable:hover {
+  background: #EEEEEE;
+  cursor: pointer;
 }
 
 .annotation-container {

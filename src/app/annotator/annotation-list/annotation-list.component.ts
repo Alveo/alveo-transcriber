@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, Output, OnChanges, EventEmitter } from '@angular/core';
 
 import { Annotation } from '../shared/annotator.service';
 import { AnnotatorService } from '../shared/annotator.service';
@@ -9,31 +9,33 @@ import { AnnotatorService } from '../shared/annotator.service';
   styleUrls: ['./annotation-list.component.css'],
 })
 
-export class AnnotationListComponent implements OnChanges, OnInit {
+export class AnnotationListComponent implements OnChanges {
   @Input() annotations: Array<Annotation>;
-  private selectedAnnotation: Annotation = null;
+  @Input() selectedAnnotation: Annotation;
+  @Output() annotationUpdate = new EventEmitter();
 
   constructor(public annotatorService: AnnotatorService) {}
 
-  ngOnInit(): void {
-    this.selectedAnnotation = this.annotatorService.getSelectedAnnotation();
-
-    this.annotatorService.annotationsEvent.subscribe((event) => {
-      if (event.type === 'selectAnnotation') {
-        if (event.new !== null) {
-          this.selectedAnnotation = event.new;
-        }
-      }
-    });
-  }
-
   ngOnChanges(changes: any): void {
-    console.log('update emitted');
-    this.annotatorService.emitUpdate();
+    if (this.getSelectedAnnotation() !== null) {
+      this.annotationUpdate.emit(
+        {
+          "type": "edit",
+          "annotation": this.getSelectedAnnotation()
+        }
+      );
+    }
   }
 
   public annotationClick(annotation: Annotation): void {
-    this.annotatorService.selectAnnotation(annotation);
+    if (annotation !== null) {
+      this.annotationUpdate.emit(
+        {
+          "type": "select",
+          "annotation": annotation
+        }
+      );
+    }
   }
 
   public getSelectedAnnotation(): Annotation {

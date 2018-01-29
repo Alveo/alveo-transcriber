@@ -11,11 +11,11 @@
 
   <div *ngIf="this.getViewMode()!=='single'">
     <mat-icon class="clickable" (click)="this.setSingleView()">tab</mat-icon>
-    <annotation-list [annotations]="this.getAnnotations()"></annotation-list>
+    <annotation-list (annotationUpdate)="this.annotationEvent($event)" [selectedAnnotation]="this.getSelectedAnnotation()" [annotations]="this.getAnnotations()"></annotation-list>
   </div>
 
   <div *ngIf="this.getViewMode()!=='list'">
     <mat-icon class="clickable" (click)="this.setListView()">list</mat-icon>
-    <annotations [annotation]="this.getSelectedAnnotation()"></annotations>
+    <annotations (annotationUpdate)="this.annotationEvent($event)" [annotation]="this.getSelectedAnnotation()"></annotations>
   </div>
 </div>

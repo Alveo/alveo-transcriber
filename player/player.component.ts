@@ -334,7 +334,7 @@ export class PlayerComponent implements OnInit {
     return this.dialog.open(Dialog, {data: {title: title, text: text}});
   }
 
-  deleteRegion(): void {
+  deleteSelectedRegion(): void {
     const dialogStatus = this.dialogOpen('Warning', 'Are you sure you wish to delete this segment?');
     dialogStatus.afterClosed().subscribe(result => {
       if (result === true) {

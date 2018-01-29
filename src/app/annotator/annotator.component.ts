@@ -5,7 +5,8 @@ import { MatDialog } from '@angular/material';
 import { Dialog } from './dialog/dialog.component';
 import { PlayerComponent } from './player/player.component';
 
-import { AnnotatorService, ANNOTATION_CSV_FIELDS, Annotation } from './shared/annotator.service';
+import { AnnotatorService } from './shared/annotator.service';
+import { Annotation, ANNOTATION_CSV_FIELDS } from './shared/annotation';
 
 import * as json2csv from 'json2csv';
 

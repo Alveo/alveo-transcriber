@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-import { Annotation } from '../shared/annotator.service';
+import { Annotation } from '../shared/annotation';
 
 @Component({
   selector: 'annotations',

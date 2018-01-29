@@ -1,7 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 
 import { AnnotatorService } from '../../annotator/shared/annotator.service';
-import { Annotation } from '../../annotator/shared/annotator.service';
+import { Annotation } from '../../annotator/shared/annotation';
 import { SegmentorService } from './segmentor.service';
 import { DBService, Databases } from './db.service';
 

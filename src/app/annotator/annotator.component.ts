@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, AfterViewInit } from '@angular/core';
 
 import { MatDialog } from '@angular/material';
 
 import { Dialog } from './dialog/dialog.component';
+import { PlayerComponent } from './player/player.component';
 
 import { AnnotatorService } from './shared/annotator.service';
 
@@ -14,6 +15,7 @@ import { AnnotatorService } from './shared/annotator.service';
 
 export class AnnotatorComponent {
   private viewMode = 'list';
+  @ViewChild(PlayerComponent) player: PlayerComponent;
 
   constructor(
     private dialog: MatDialog,
@@ -123,12 +125,16 @@ export class AnnotatorComponent {
           this.setListView();
           break;
         case "replay":
+          this.player.replaySelectedRegion();
           break;
         case "goBack":
+          this.player.selectPreviousRegion();
           break;
         case "goNext":
+          this.player.selectNextRegion();
           break;
         case "delete":
+          this.player.deleteSelectedRegion();
           break;
     }
   }

@@ -189,6 +189,11 @@ export class AnnotatorComponent implements OnInit {
         this.annotatorService.save(this.annotations);
         break;
       }
+      case 'update': {
+        this.sortAnnotations();
+        this.annotatorService.save(this.annotations);
+        break;
+      }
       case 'create': {
         const annotation = this.createAnnotationFromSegment(
             {

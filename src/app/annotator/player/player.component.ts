@@ -112,6 +112,13 @@ export class PlayerComponent implements OnInit {
           annotation.end = region.end;
 
           this.selectRegion(region);
+
+          this.annotationEvent.emit(
+            {
+              'type': 'update',
+              'annotation': this.getAnnotationByID(region.id)
+            }
+          );
         }
       }
     });

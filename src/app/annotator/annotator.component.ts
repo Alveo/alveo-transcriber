@@ -154,6 +154,7 @@ export class AnnotatorComponent implements OnInit {
           this.player.deleteSelectedRegion().then(
             ()=> {
               this.selectAnnotation(null);
+              this.annotatorService.save(this.annotations);
             }
           );
           break;
@@ -173,6 +174,7 @@ export class AnnotatorComponent implements OnInit {
             'end': ev.end
           }
         );
+      this.annotatorService.save(this.annotations);
     }
   }
 

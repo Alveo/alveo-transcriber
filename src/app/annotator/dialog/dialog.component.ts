@@ -2,8 +2,8 @@ import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
-  selector: 'annotator-dialog',
-  templateUrl: './annotator-dialog.component.html',
+  selector: 'dialog',
+  templateUrl: './dialog.component.html',
 })
 export class Dialog {
   title: string;

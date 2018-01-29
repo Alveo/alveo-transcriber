@@ -22,6 +22,12 @@ export class ItemsComponent {
   @Input() itemUrls: Array<any> = [];
   private items: Array<any> = [];
 
+  private itemDisplay: Array<any> = null
+  private itemDisplaySize: number;
+
+  public pageSize: number = 15;
+  public pageIndex: number = 0;
+
   constructor(
     private authService: AuthService,
     private alveoService: AlveoService) {
@@ -30,6 +36,7 @@ export class ItemsComponent {
   ngOnInit() {
     this.generateItemList();
     this.scanItemList();
+    this.generateItemDisplay();
   }
 
   private generateItemList() {
@@ -40,6 +47,23 @@ export class ItemsComponent {
         data: null
       });
     }
+  }
+
+  private generateItemDisplay() {
+    const start = this.pageIndex * this.pageSize;
+    let end = start + this.pageSize;
+    if (end > this.items.length) {
+      end = this.items.length;
+    }
+    this.itemDisplay = this.items.slice(start, end);
+    this.itemDisplaySize = this.getItemCount();
+  }
+
+  public paginatorEvent(ev: any) {
+    this.pageSize = ev.pageSize;
+    this.pageIndex = ev.pageIndex;
+
+    this.generateItemDisplay();
   }
 
   /* Checks whether the cache has the item already downloaded */
@@ -80,11 +104,15 @@ export class ItemsComponent {
   }
 
   public getItems(): any {
-    return this.items;
+    return this.itemDisplay;
   }
 
   public getItemCount(): any {
-    return this.getItems().length;
+    return this.items.length;
+  }
+
+  public getListDisplaySize() {
+    return this.itemDisplaySize;
   }
 
   public getItemState(item: any): string {

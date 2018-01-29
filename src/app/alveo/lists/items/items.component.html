@@ -13,6 +13,9 @@
       <docs [docs]="this.getItemDocuments(item)"></docs>
     </div>
   </mat-expansion-panel>
+
+  <mat-paginator (page)="this.paginatorEvent($event)" [length]="this.getListDisplaySize()" [pageSize]="this.pageSize" [pageIndex]="this.pageIndex" [pageSizeOptions]="[5, 15, 45, 100]">
+  </mat-paginator>
 </div>
 
 <ng-template #waitDownloadTemplate>

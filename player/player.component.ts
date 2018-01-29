@@ -8,7 +8,7 @@ import * as RegionsPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.regions';
 import * as TimelinePlugin from 'wavesurfer.js/dist/plugin/wavesurfer.timeline';
 import * as MinimapPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.minimap';
 
-import { Annotation } from '../shared/annotator.service';
+import { Annotation } from '../shared/annotation';
 
 import { MatDialog } from '@angular/material';
 import { Dialog } from '../dialog/dialog.component';

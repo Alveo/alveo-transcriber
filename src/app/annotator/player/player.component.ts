@@ -48,9 +48,9 @@ export class PlayerComponent implements OnInit {
 
   public selectAnnotation(annotation: any) {
     if (this.ready) {
-      if (annotation.new !== null) {
-        const newRegion = this.findRegion(annotation.new.id);
-        this.selectRegion(newRegion, false);
+      if (annotation['new'] !== null) {
+        const newRegion = this.findRegion(annotation['new']['id']);
+        this.selectRegion(newRegion);
       }
     }
   }
@@ -187,7 +187,7 @@ export class PlayerComponent implements OnInit {
     }
 
     if (this.annotations.length > 0) {
-      this.selectRegion(this.findRegion(this.annotations[0].id), false)
+      this.selectRegion(this.findRegion(this.annotations[0].id))
     }
   }
 
@@ -226,7 +226,16 @@ export class PlayerComponent implements OnInit {
     }
   }
 
-  selectRegion(region: Region, notify: boolean= true): void {
+  public focusRegion(region: Region): void {
+    this.annotationEvent.emit(
+      {
+        'type': 'select',
+        'annotation': this.getAnnotationByID(region.id)
+      }
+    );
+  }
+
+  selectRegion(region: Region): void {
     if (region !== null && region !== undefined) {
 
       if (region !== this.selectedRegion) {
@@ -240,17 +249,10 @@ export class PlayerComponent implements OnInit {
 
       region.update({color: SELECTED_COLOUR});
 
-      if (notify === true) {
-        this.annotationEvent.emit(
-          {
-            'type': 'select',
-            'annotation': this.getAnnotationByID(region.id)
-          }
-        );
-        if (this.autoplay) {
-          region.play();
-        }
+      if (this.autoplay) {
+        region.play();
       }
+
       this.selectedRegion = region;
     }
   }

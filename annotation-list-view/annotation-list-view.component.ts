@@ -20,6 +20,12 @@ export class AnnotationListViewComponent {
     return this.selectedAnnotation;
   }
 
+  public selectAnnotation(selectedAnnotation: Annotation): void {
+    if (this.selectedAnnotation !== selectedAnnotation) {
+      this.annotationClick(selectedAnnotation);
+    }
+  }
+
   public updateAnnotation(ev: any): void {
     if (this.getSelectedAnnotation() !== null) {
       this.annotationUpdate.emit(

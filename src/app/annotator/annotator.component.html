@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="sticky-container" sticky [sticky-class]="extra-height">
+    <div class="sticky-container" sticky>
       <div class="top-halign">
         <p id="header">Transcribing: {{ this.getAudioFileName() }}</p>
         <button mat-raised-button color="primary" (click)="this.actionBack()">Exit</button>
@@ -8,10 +8,10 @@
         <button mat-raised-button color="primary" (click)="this.exportJSON()">Export JSON</button>
       </div>
 
-      <player (playerEvent)="this.playEvent($event)" (annotationEvent)="this.annotationEvent($event)" [clip]="this.getAudioFile()" [annotations]="this.getAnnotations()"></player>
+      <player (playerEvent)="this.playerEvent($event)" (annotationEvent)="this.annotationEvent($event)" [clip]="this.getAudioFile()" [annotations]="this.getAnnotations()"></player>
 
       <div class="settings">
-        <mat-checkbox (change)="this.replayCheckboxEvent($event)">Autoplay</mat-checkbox>
+        <mat-checkbox (change)="this.replayCheckboxEvent($event)" [checked]="true">Autoplay</mat-checkbox>
       </div>
 
       <div *ngIf="this.getViewMode()!=='list'">

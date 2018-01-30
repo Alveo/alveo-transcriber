@@ -7,18 +7,18 @@
     (click)="this.annotationClick(annotation)"
     [class.selected]="this.getSelectedAnnotation() === annotation">
 
-    <div class="annotation-controls" *ngIf="this.getSelectedAnnotation() === annotation">
-      <mat-icon class="clickable" (click)="this.deleteAnnotationRequest()">delete</mat-icon>
-      <mat-icon class="clickable" (click)="this.replayAnnotationRequest()">play_arrow</mat-icon>
-    </div>
+    <mat-icon class="clickable" (click)="this.replayAnnotationRequest()">play_arrow</mat-icon>
+
     <div class="annotation-forms">
       <mat-form-field class="speaker">
-        <input matInput (keyup)="this.updateAnnotation($event)" [(ngModel)]="annotation.speaker" placeholder="Speaker">
+        <input tabindex="-1" matInput (focus)="this.selectAnnotation(annotation)" (keyup)="this.updateAnnotation($event)" [(ngModel)]="annotation.speaker" placeholder="Speaker">
       </mat-form-field>
 
       <mat-form-field class="caption">
-        <textarea matInput (keyup)="this.updateAnnotation($event)" [(ngModel)]="annotation.caption" placeholder="Caption"></textarea>
+        <textarea matInput (focus)="this.selectAnnotation(annotation)" (keyup)="this.updateAnnotation($event)" [(ngModel)]="annotation.caption" placeholder="Caption"></textarea>
       </mat-form-field>
+
+      <mat-icon class="clickable" (click)="this.deleteAnnotationRequest()">delete</mat-icon>
     </div>
   </div>
 </div>

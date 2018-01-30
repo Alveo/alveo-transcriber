@@ -13,6 +13,7 @@ import * as json2csv from 'json2csv';
 @Component({
   selector: 'annotator',
   templateUrl: './annotator.component.html',
+  host: {'(window:keydown)': 'hotkeys($event)'},
   styleUrls: ['./annotator.component.css'],
 })
 
@@ -40,6 +41,16 @@ export class AnnotatorComponent implements OnInit {
         }
       }
     );
+
+    this.player.autoPlay(true);
+  }
+
+  hotkeys(ev){
+    if (ev.keyCode == 27) {
+      if (this.selectedAnnotation !== null) {
+        this.player.replaySelectedRegion();
+      }
+    }
   }
 
   private setViewMode(mode: string): void {

@@ -11,8 +11,8 @@ export class ListTableComponent {
   @Input() tableData: any;
   @Output() onSelection = new EventEmitter<any>();
 
-  private displayedColumns = ['listName', 'items', 'shared'];
-  private dataSource = new MatTableDataSource<Element>();
+  public displayedColumns = ['listName', 'items', 'shared'];
+  public dataSource = new MatTableDataSource<Element>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 

@@ -1,5 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 
+import { SessionService } from '../../shared/session.service';
+import { Paths } from '../../shared/paths';
+
 import { AlveoService } from '../../shared/alveo.service';
 import { AuthService } from '../../shared/auth.service';
 
@@ -32,8 +35,9 @@ export class ItemsComponent {
 
   constructor(
     private authService: AuthService,
-    private alveoService: AlveoService) {
-  }
+    private alveoService: AlveoService,
+    private sessionService: SessionService
+  ) { }
 
   ngOnInit() {
     this.generateItemList();
@@ -105,8 +109,8 @@ export class ItemsComponent {
     }
   }
 
-  private getItemDocuments(item: any): void {
-    return item['data']['alveo:documents'];
+  private getItemPrimaryDocument(item: any): void {
+    return item['data']['alveo:documents'][0];
   }
 
   private retrieveItemData(item: any): void {
@@ -164,5 +168,10 @@ export class ItemsComponent {
       this.retrieveItemData(item);
     }
     return item['data'];
+  }
+
+  public onDocumentSelection(ev: any, item: any): any {
+    console.log(Paths.Transcriber+'/'+this.getItemName(item));
+    this.sessionService.navigate([Paths.Transcriber+this.getItemName(item)]);
   }
 }

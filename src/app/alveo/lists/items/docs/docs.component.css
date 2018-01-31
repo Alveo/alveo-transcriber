@@ -1,5 +1,9 @@
+.button-aligner {
+  display: flex;
+}
+
 button {
-  width: 100%;
+  margin-left: auto;
   text-align: left;
   border-radius: 0;
   margin-bottom: 0.1em;

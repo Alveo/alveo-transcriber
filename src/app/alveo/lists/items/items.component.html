@@ -13,7 +13,7 @@
     </mat-expansion-panel-header>
 
     <div *ngIf="this.isDataReady(item); else waitDownloadTemplate">
-      <docs [docs]="this.getItemDocuments(item)"></docs>
+      <docs (onNavigate)="this.onDocumentSelection($event, item)" [alveo_doc]="this.getItemPrimaryDocument(item)"></docs>
     </div>
   </mat-expansion-panel>
 

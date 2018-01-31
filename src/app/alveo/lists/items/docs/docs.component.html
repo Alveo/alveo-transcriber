@@ -1,8 +1,5 @@
-<ng-template #dataDownloadTemplate [ngIf]="this.getDocs().length === 0" [ngIfElse]="audioDisplayTemplate">
-  <p class="center">No audio documents were found in this item.</p>
-</ng-template>
-
-<ng-template #audioDisplayTemplate>
-  <button mat-raised-button *ngFor="let doc of this.getDocs()" (click)="onSelect(doc)"
-              color="primary">{{this.shortenUrl(doc['alveo:url'])}}</button>
-</ng-template>
+<p>Annotations: WIP</p>
+<div class="button-aligner">
+  <!-- If downloaded, else display "Download" -->
+<button mat-raised-button (click)="this.navigate()" color="primary">Transcribe</button>
+</div>

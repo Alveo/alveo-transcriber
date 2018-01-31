@@ -2,14 +2,20 @@
   <button mat-raised-button id="back-button" color="primary" (click)="this.actionBack()">Back to Item Lists</button>
 </div>
 
-<div id="subheader">Viewing "{{this.getListName()}}" item list</div>
+<div *ngIf="this.isReady()">
+  <div id="subheader">{{this.getListName()}}</div>
 
-<div id="item-display">
-  <ng-template #listEmptyCheckTemplate [ngIf]="this.getListSize() === 0" [ngIfElse]="listLoadingTemplate">
-    <p class="center">This item list is empty.</p>
-  </ng-template>
+  <div id="item-display">
+    <ng-template #listEmptyCheckTemplate [ngIf]="this.getListSize() === 0" [ngIfElse]="listLoadingTemplate">
+      <p class="center">This item list is empty.</p>
+    </ng-template>
 
-  <ng-template #listLoadingTemplate>
-    <items [itemUrls]="this.getListItems()"></items>
-  </ng-template>
+    <ng-template #listLoadingTemplate>
+      <items [itemUrls]="this.getListItems()"></items>
+    </ng-template>
+  </div>
 </div>
+
+<loading-spinner *ngIf="!this.isReady()">
+  <p>Loading list ...</p>
+</loading-spinner>

@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 
 import { AlveoService } from '../shared/alveo.service';
+import { AuthService } from '../shared/auth.service';
 import { SessionService } from '../shared/session.service';
 
 import { Paths } from '../shared/paths';
@@ -15,11 +17,43 @@ import { Paths } from '../shared/paths';
 })
 export class ListsComponent implements OnInit {
   private list: Array<any> = null;
+  private ready: boolean = false;
 
-  constructor(private sessionService: SessionService) {}
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private authService: AuthService,
+    private alveoService: AlveoService,
+    private sessionService: SessionService
+  ) { }
 
   ngOnInit(): void {
-    this.list = this.sessionService.getActiveList();
+    this.activatedRoute.params.subscribe(
+      (params: Params) => {
+        const param_id = params['id'];
+        if (param_id === undefined) {
+          this.sessionService.navigate([Paths.ListIndex]);
+        } else {
+          this.alveoService.getList(param_id).subscribe(
+            list => {
+              this.list = list;
+              this.ready = true;
+            },
+            error => {
+              if (error === 403 && !this.authService.isLoggedIn()) {
+                this.authService.promptLogin();
+                this.ready = true;
+              } else {
+                console.log(error)
+              }
+            }
+          );
+        }
+      }
+    );
+  }
+
+  public isReady(): boolean {
+    return this.ready;
   }
 
   public getList(): Array<any> {

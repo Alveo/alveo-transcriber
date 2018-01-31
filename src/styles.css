@@ -59,3 +59,44 @@ h2 {
 .bottom-spacer {
   margin-bottom: 1em;
 }
+
+.preloaded-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preloaded-container {
+  height: 100vh;
+  text-align: center;
+}
+
+.preloaded-container .text-container .title {
+  font-size: 24px;
+  margin-bottom: 12px;
+}
+
+.preloaded-container .text-container .body {
+  font-size: 18px;
+}
+
+.app-preloaded-spinner {
+  width: 300px;
+  height: 300px;
+  border-radius: 300px;
+  border: 12px solid black;
+  border-top-color: rgba(246, 183, 23, 1);
+  border-left-color: rgba(246, 183, 23, 0.8);
+  border-bottom-color: rgba(246, 183, 23, 0.8);
+  border-right-color: rgba(246, 183, 23, 0.0);
+  animation: rotate 2000ms infinite linear;
+
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: -156px -6px -6px -156px;
+}
+@keyframes rotate {  
+  0% { transform: rotate(0deg); }
+  100% { transform:rotate(360deg); } 
+}

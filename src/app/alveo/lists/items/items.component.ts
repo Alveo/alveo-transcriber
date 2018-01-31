@@ -48,7 +48,7 @@ export class ItemsComponent {
   private generateItemList() {
     for (const item of this.itemUrls) {
       this.items.push({
-        name: item.split('/catalog/austalk/')[1],
+        id: item.split('/catalog/austalk/')[1],
         url: item,
         state: ItemState.UNCHECKED,
         data: null
@@ -58,7 +58,7 @@ export class ItemsComponent {
 
   private filterDisplay(): void {
     this.itemDisplay = this.itemDisplay.filter(
-      item => item.name.includes(this.filter)
+      item => item.id.includes(this.filter)
     );
     this.itemDisplaySize = this.itemDisplay.length;
 
@@ -97,7 +97,7 @@ export class ItemsComponent {
   /* Checks whether the cache has the item already downloaded */
   private scanItemList() {
     for (const item of this.items) {
-      this.alveoService.getItem(item['url'], true, false).subscribe(
+      this.alveoService.getItem(item['id'], true, false).subscribe(
         data => {
           item['state'] = ItemState.READY;
           item['data'] = data;
@@ -116,7 +116,7 @@ export class ItemsComponent {
   private retrieveItemData(item: any): void {
     item['state'] = ItemState.DOWNLOADING;
 
-    this.alveoService.getItem(item['url']).subscribe(
+    this.alveoService.getItem(item['id']).subscribe(
       data => {
         item['state'] = ItemState.READY;
         item['data'] = data;
@@ -147,7 +147,7 @@ export class ItemsComponent {
   }
 
   public getItemName(item: any): string {
-    return item['name'];
+    return item['id'];
   }
 
   public getItemUrl(item: any): string {

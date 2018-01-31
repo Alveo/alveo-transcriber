@@ -20,7 +20,7 @@ export class ApiInterceptor implements HttpInterceptor {
 
     request = request.clone({
       setHeaders: {
-        'X-Api-Key': authService.apiKey,
+        'X-Api-Key': authService.getApiKey(),
         'Accept': 'application/json'
       }
     });

@@ -11,24 +11,21 @@ import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class AuthService {
-  loginStatus: EventEmitter<any> = new EventEmitter();
+  private loginStatus: EventEmitter<any> = new EventEmitter();
+  private loggedIn: boolean = false;
 
-  loggedIn = false;
-  redirectLoginUrl = '/login';
+  private loginUrl: string = environment.alveoPaths.mainUrl + '/' + environment.alveoPaths.loginSuffix;
 
-  loginUrl: string = environment.baseURL + environment.loginURL;
+  private clientID: string = environment.clientID;
+  private clientSecret: string = environment.clientSecret;
+  private callbackUrl: string = environment.callbackURL;
 
-  clientID: string = environment.clientID;
-  clientSecret: string = environment.clientSecret;
-  callbackUrl: string = environment.callbackURL;
-
-  authCode: string; // oAuth
-  apiKey = '';
+  private apiKey: string = '';
 
   constructor(
     private apiService: ApiService,
     private dialog: MatDialog
-  ) {}
+  ) { }
 
   private createLoginUrl() {
     return this.loginUrl
@@ -38,6 +35,10 @@ export class AuthService {
           + '&redirect_uri='  + encodeURIComponent(this.callbackUrl)
           + '&scope='         + encodeURIComponent('');
   };
+
+  public getApiKey(): string {
+    return this.apiKey;
+  }
 
   public isLoggedIn(): boolean {
     return this.loggedIn;
@@ -61,42 +62,43 @@ export class AuthService {
     }, 50);
   }
 
-  login(): void {
+  public login(authCode: string): Promise<any> {
     this.loginStatus.emit('true');
     this.loggedIn = true;
-    this.authoriseApi();
+    return this.authoriseApi(authCode);
   }
 
-  logout(): void {
+  public logout(): void {
     this.loginStatus.emit('false')
     this.loggedIn = false;
     this.apiKey = '';
   }
 
-  callback(code: string): void {
-    this.authCode = code;
-  }
-
-  authoriseApi(): void {
-    this.apiService.getOAuthToken(
-      this.clientID,
-      this.clientSecret,
-      this.authCode,
-      this.callbackUrl,
-    ).subscribe(
-      data => {
-        this.apiService.getApiKey(data['access_token'])
-          .subscribe(
-            data => {
-              this.apiKey = data['apiKey'];
-            },
-            error => {
-              console.log(error);
-            }
-          );
-      },
-      error => {
-        console.log(error)
+  private authoriseApi(authCode: string): Promise<any> {
+    return new Promise(
+      (resolve, reject) => {
+        this.apiService.getOAuthToken(
+          this.clientID,
+          this.clientSecret,
+          authCode,
+          this.callbackUrl,
+        ).subscribe(
+          data => {
+            this.apiService.getApiKey(data['access_token'])
+              .subscribe(
+                data => {
+                  this.apiKey = data['apiKey'];
+                  resolve();
+                },
+                error => {
+                  reject(error);
+                }
+              );
+          },
+          error => {
+            reject(error);
+          }
+        );
       }
     );
   }

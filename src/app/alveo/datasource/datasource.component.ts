@@ -1,4 +1,4 @@
-import { Component, ViewChild, TemplateRef, ViewContainerRef, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { AuthService } from '../shared/auth.service';
@@ -19,54 +19,42 @@ import { Paths } from '../shared/paths';
   styleUrls: ['./datasource.component.css'],
 })
 export class DataSourceComponent implements OnInit {
-  @ViewChild('dataPromptTemplate')
-  private dataPromptTemplate: TemplateRef<any>;
-
-  ready = false;
+  private loading: boolean = false;
 
   constructor(
     private authService: AuthService,
     private alveoService: AlveoService,
     private sessionService: SessionService,
-    private viewContainerRef: ViewContainerRef
   ) {}
 
   ngOnInit() {
-    this.getData(true, false);
-    this.whenReady().subscribe(
-      () => {
+    this.getData(true, false).catch(
+      (error) => {
         if (!this.authService.isLoggedIn()) {
-          this.authService.promptLogin();
+          this.authService.promptLogin(true);
         } else {
-          this.viewContainerRef.createEmbeddedView(this.dataPromptTemplate);
-          console.log(this.dataPromptTemplate);
+          console.log(error);
         }
       }
     );
   }
 
-  public whenReady(): Observable<any> {
-    return new Observable(
-      (observer) => {
-        const interval = setInterval(() => {
-          if (this.ready === true) {
-            clearInterval(interval);
-            observer.next();
-            observer.complete();
-          }
-        }, 5);
-      }
-    );
+  public isLoading(): boolean {
+    return this.loading;
   }
 
-  public getData(useCache: boolean= true, useApi: boolean= true): void {
-    this.ready = false;
-    this.alveoService.getListDirectory(useCache, useApi).subscribe(
-      lists => {
-        this.sessionService.setListIndex(lists);
-        this.sessionService.navigate([Paths.ListIndex]);
-      },
-      error => { this.ready = true; console.log(error) }
+  public getData(useCache: boolean= true, useApi: boolean= true): Promise<any> {
+    this.loading = true;
+    return new Promise(
+      (resolve, reject) => {
+        this.alveoService.getListDirectory(useCache, useApi).subscribe(
+          lists => {
+            this.sessionService.navigate([Paths.ListIndex]);
+            resolve(lists);
+          },
+          error => { this.loading = false; reject(error) }
+        );
+      }
     );
   }
 }

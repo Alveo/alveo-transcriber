@@ -1,17 +1,14 @@
-#data-information {
+#data-container {
   display: flex;
   height: 80vh;
-}
-
-.dialogue {
-  display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   text-align: center;
 }
 
-.info-text {
+#data-container p {
+  font-size: 22px;
   padding-bottom: 1em;
   max-width: 35em;
 }

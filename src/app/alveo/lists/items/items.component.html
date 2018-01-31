@@ -12,15 +12,17 @@
       </mat-panel-description>
     </mat-expansion-panel-header>
 
-    <div *ngIf="this.isDataReady(item); else waitDownloadTemplate">
+    <div *ngIf="this.isDataReady(item)">
       <docs (onNavigate)="this.onDocumentSelection($event, item)" [alveo_doc]="this.getItemPrimaryDocument(item)"></docs>
     </div>
+    <loading-spinner [spinnerSize]="'small'" *ngIf="!this.isDataReady(item) && getItemState(item) !== 'Failed'">
+      <p>Downloading data</p>
+    </loading-spinner>
+    <p *ngIf="getItemState(item) === 'Failed'">
+      The item could not be downloaded.
+    </p>
   </mat-expansion-panel>
 
   <mat-paginator (page)="this.paginatorEvent($event)" [length]="this.getListDisplaySize()" [pageSize]="this.pageSize" [pageIndex]="this.pageIndex" [pageSizeOptions]="[5, 15, 45, 100]">
   </mat-paginator>
 </div>
-
-<ng-template #waitDownloadTemplate>
-  <p class="center">Downloading data</p>
-</ng-template>

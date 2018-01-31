@@ -47,7 +47,8 @@ import { DataSourceComponent } from './datasource/datasource.component';
 import { AlveoRoutingModule } from './routing.module';
 import { NavComponent } from './nav/nav.component';
 import { AuthComponent } from './auth/auth.component';
-import { OAuthCallbackComponent } from './auth/auth-callback.component';
+import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
+import { OAuthCallbackComponent } from './oauth-callback/oauth-callback.component';
 
 import { ListIndexComponent } from './listindex/listindex.component';
 import { ListTableComponent } from './listindex/listtable/listtable.component';
@@ -75,6 +76,7 @@ import 'hammerjs';
     DataSourceComponent,
     NavComponent,
     AuthComponent,
+    LoadingSpinnerComponent,
     OAuthCallbackComponent,
     ListIndexComponent,
     ListsComponent,

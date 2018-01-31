@@ -33,6 +33,8 @@ export class ItemsComponent {
 
   public filter: string = "";
 
+  private ready: boolean = false;
+
   constructor(
     private authService: AuthService,
     private alveoService: AlveoService,
@@ -41,8 +43,16 @@ export class ItemsComponent {
 
   ngOnInit() {
     this.generateItemList();
-    this.scanItemList();
-    this.generateItemDisplay();
+    this.scanItemList().then(
+      () => {
+        this.generateItemDisplay();
+        this.ready = true;
+      }
+    );
+  }
+
+  public isReady(): boolean {
+    return this.ready;
   }
 
   private generateItemList() {
@@ -95,18 +105,33 @@ export class ItemsComponent {
   }
 
   /* Checks whether the cache has the item already downloaded */
-  private scanItemList() {
-    for (const item of this.items) {
-      this.alveoService.getItem(item['id'], true, false).subscribe(
-        data => {
-          item['state'] = ItemState.READY;
-          item['data'] = data;
-        },
-        error => {
-          item['state'] = ItemState.NOT_CACHED;
+  private scanItemList(): Promise<any> {
+    let items_loaded = 0;
+    const item_count = this.items.length;
+
+    return new Promise(
+      (resolve, reject) => {
+        for (const item of this.items) {
+          this.alveoService.getItem(item['id'], true, false).subscribe(
+            data => {
+              item['state'] = ItemState.READY;
+              item['data'] = data;
+              items_loaded += 1;
+            },
+            error => {
+              item['state'] = ItemState.NOT_CACHED;
+              items_loaded += 1;
+            }
+          );
         }
-      );
-    }
+        const interval = setInterval(() => {
+          if (items_loaded === item_count) {
+            clearInterval(interval);
+            resolve();
+          }
+        }, 5);
+      }
+    );
   }
 
   private getItemPrimaryDocument(item: any): void {

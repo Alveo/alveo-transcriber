@@ -1,4 +1,4 @@
-<div id="item-display" *ngIf="this.getItemCount() > 0">
+<div id="item-display" *ngIf="this.getItemCount() > 0 && this.isReady()">
   <mat-form-field id="search-field">
     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
   </mat-form-field>
@@ -26,3 +26,7 @@
   <mat-paginator (page)="this.paginatorEvent($event)" [length]="this.getListDisplaySize()" [pageSize]="this.pageSize" [pageIndex]="this.pageIndex" [pageSizeOptions]="[5, 15, 45, 100]">
   </mat-paginator>
 </div>
+
+<loading-spinner *ngIf="!this.isReady()">
+  <p>Checking cache ...</p>
+</loading-spinner>

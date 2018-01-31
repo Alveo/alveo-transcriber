@@ -1,5 +1,4 @@
-import { Component } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Component, OnInit } from '@angular/core';
 
 import { AuthService } from '../shared/auth.service';
 import { AlveoService } from '../shared/alveo.service';
@@ -14,35 +13,45 @@ import { Paths } from '../shared/paths';
   templateUrl: './listindex.component.html',
   styleUrls: ['./listindex.component.css'],
 })
-export class ListIndexComponent {
+export class ListIndexComponent implements OnInit {
+  private ready: boolean = false;
+  private lists: Array<any>;
+
   constructor(
     private authService: AuthService,
     private alveoService: AlveoService,
     private sessionService: SessionService,
   ) {}
 
+  ngOnInit() {
+    this.alveoService.getListDirectory(true, false).subscribe(
+      (lists) => {
+        this.lists = lists;
+        this.ready = true;
+      },
+      (error) => {
+        // TODO Error
+        // TODO Auth?
+        console.log(error);
+      }
+    );
+  }
+
+  public isReady(): boolean {
+    return this.ready;
+  }
+
   public isDevMode(): boolean {
     return environment.devTools;
   }
 
   public getLists(): any {
-    return this.sessionService.getListIndex();
+    return this.lists;
   }
 
   /* Attempt to retrieve a selected list */
   public onSelection(list): void {
-    this.alveoService.getList(list['item_list_url']).subscribe(
-      list => {
-        this.sessionService.setActiveList(list);
-        this.sessionService.navigate([Paths.ListView]);
-      },
-      error => {
-        if (error === 403 && !this.authService.isLoggedIn()) {
-          this.authService.promptLogin();
-        } else {
-          console.log(error)
-        }
-      }
-    );
+    const url = this.sessionService.shortenItemUrl(list['item_list_url']);
+    this.sessionService.navigate([Paths.ListView+url]);
   }
 }

@@ -1,4 +1,4 @@
-<div class="center">
+<div *ngIf="this.isReady()" class="center">
   <ng-template #devConsoleTemplate [ngIf]="this.isDevMode()">
     <dev-console></dev-console>
   </ng-template>
@@ -7,3 +7,7 @@
 
   <listtable [tableData]="this.getLists()" (onSelection)="onSelection($event)"></listtable>
 </div>
+
+<loading-spinner *ngIf="!this.isReady()">
+  <p>Loading lists ... </p>
+</loading-spinner>

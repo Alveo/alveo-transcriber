@@ -30,9 +30,11 @@ export class ListIndexComponent implements OnInit {
         this.ready = true;
       },
       (error) => {
-        // TODO Error
-        // TODO Auth?
-        console.log(error);
+        if (error === 403 && !this.authService.isLoggedIn()) {
+          this.authService.promptLogin();
+        } else {
+          console.log(error)
+        }
       }
     );
   }
@@ -51,7 +53,7 @@ export class ListIndexComponent implements OnInit {
 
   /* Attempt to retrieve a selected list */
   public onSelection(list): void {
-    const url = this.sessionService.shortenItemUrl(list['item_list_url']);
-    this.sessionService.navigate([Paths.ListView+url]);
+    const id = this.sessionService.shortenItemUrl(list['item_list_url']);
+    this.sessionService.navigate([Paths.ListView+id]);
   }
 }

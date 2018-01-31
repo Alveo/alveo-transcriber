@@ -8,8 +8,8 @@ import { Paths } from '../shared/paths';
 
 /* Component for handling OAuth callback routes */
 @Component({
-  selector: 'auth-callback',
-  template: '',
+  selector: 'oauth-callback',
+  templateUrl: './oauth-callback.component.html',
 })
 export class OAuthCallbackComponent implements OnInit, OnDestroy {
   param_sub: any;
@@ -38,6 +38,9 @@ export class OAuthCallbackComponent implements OnInit, OnDestroy {
             );
           }
         );
+      }
+      else {
+        this.sessionService.navigate([Paths.Index]);
       }
     });
   }

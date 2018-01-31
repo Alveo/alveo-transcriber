@@ -63,6 +63,7 @@ import { SegmentorService } from './shared/segmentor.service';
 import { DBService } from './shared/db.service';
 import { ApiService } from './shared/api.service';
 import { SessionService } from './shared/session.service';
+import { AnnotationService } from './shared/annotation.service';
 import { AnnotatorModule } from '../annotator/annotator.module';
 
 import { ApiInterceptor } from './shared/api.interceptor';
@@ -136,6 +137,7 @@ import 'hammerjs';
     AlveoService,
     DBService,
     SegmentorService,
+    AnnotationService,
     ApiService,
     {
       provide: HTTP_INTERCEPTORS,

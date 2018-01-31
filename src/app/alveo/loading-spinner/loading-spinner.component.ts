@@ -11,7 +11,6 @@ export class LoadingSpinnerComponent {
   constructor() { }
 
   public usePageFill(): boolean {
-    console.log(this.spinnerSize);
     if (this.spinnerSize === "large") {
       return true;
     }

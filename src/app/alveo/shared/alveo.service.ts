@@ -144,7 +144,7 @@ export class AlveoService {
     return this.retrieve(this.apiService.getItem(item_id), 'item-'+item_id, useCache, useApi);
   }
 
-  public getAudioFile(file_id: any, useCache= true, useApi = true): Observable<any> {
-    return this.retrieve(this.apiService.getDocument(file_id), 'document-'+file_id, useCache, useApi);
+  public getAudioFile(item_id: any, file_id: any, useCache= true, useApi = true): Observable<any> {
+    return this.retrieve(this.apiService.getDocument(item_id, file_id), 'document-'+file_id, useCache, useApi);
   }
 }

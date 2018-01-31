@@ -5,8 +5,6 @@ import 'rxjs/Observable';
 
 import { DBService, Databases } from './db.service';
 import { AlveoService } from './alveo.service';
-// TODO
-//import { AnnotationsService } from './annotations.service';
 
 import { Paths } from './paths';
 
@@ -18,9 +16,8 @@ export class SessionService {
   constructor(
     private router: Router,
     private alveoService: AlveoService,
-    // TODO
-    //private annotationsService: AnnotationsService,
     private dbService: DBService) {
+
     this.annotationEventSubscribe();
     this.loading.push('dbservice');
     this.dbService.instance(Databases.Cache).get('sessionService').then(

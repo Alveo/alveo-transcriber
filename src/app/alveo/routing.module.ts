@@ -2,14 +2,10 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { DataSourceComponent } from './datasource/datasource.component';
-import { OAuthCallbackComponent } from './auth/auth-callback.component';
+import { OAuthCallbackComponent } from './oauth-callback/oauth-callback.component';
 import { ListIndexComponent } from './listindex/listindex.component';
 import { ListsComponent } from './lists/lists.component';
 import { TranscriberComponent } from './transcriber/transcriber.component';
-
-import { RequiresListGuard } from './shared/requires-list.guard';
-import { RequiresListIndexGuard } from './shared/requires-list-index.guard';
-import { RequiresAuthGuard } from './shared/requires-auth.guard';
 
 import { Paths } from './shared/paths';
 
@@ -25,15 +21,13 @@ const routes: Routes = [
       {
         path: Paths.ListIndex,
         component: ListIndexComponent,
-        canActivate: [RequiresListIndexGuard],
       },
       {
-        path: Paths.ListView,
+        path: Paths.ListView + ':id',
         component: ListsComponent,
-        canActivate: [RequiresListGuard],
       },
       {
-        path: Paths.Transcriber,
+        path: Paths.Transcriber + ':id',
         component: TranscriberComponent
       },
       {
@@ -46,11 +40,7 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes, {useHash: false})],
   exports: [RouterModule],
-  providers: [
-    RequiresAuthGuard,
-    RequiresListGuard,
-    RequiresListIndexGuard
-  ]
+  providers: []
 })
 
 export class AlveoRoutingModule {}

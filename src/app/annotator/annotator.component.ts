@@ -1,11 +1,10 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { MatDialog } from '@angular/material';
 
 import { Dialog } from './dialog/dialog.component';
 import { PlayerComponent } from './player/player.component';
 
-import { AnnotatorService } from './shared/annotator.service';
 import { Annotation, ANNOTATION_CSV_FIELDS } from './shared/annotation';
 
 import * as json2csv from 'json2csv';
@@ -18,29 +17,34 @@ import * as json2csv from 'json2csv';
 })
 
 export class AnnotatorComponent implements OnInit {
-  private viewMode = 'list';
-  @ViewChild(PlayerComponent) player: PlayerComponent;
+  @Input() audioFile: any = null;
+  @Input() audioFileName: string = "null";
+  @Input() annotations: Array<any> = [];
+  @Input() selectedAnnotation: Annotation = null;
+  @Input() viewMode: string = "list";
 
-  private annotations: Array<any> = [];
-  private selectedAnnotation: Annotation;
+  @Output() onExit = new EventEmitter<any>();
+  @Output() onAutosegment = new EventEmitter<any>();
+  @Output() onSave = new EventEmitter<any>();
+
+  // show autoSegmentor
+  // show CSV
+  // show JSON
+  // autoplay
+
+  @ViewChild(PlayerComponent) player: PlayerComponent;
 
   constructor(
     private dialog: MatDialog,
-    private annotatorService: AnnotatorService,
   ) { }
 
   ngOnInit() {
-    this.annotations = this.annotatorService.getAnnotations();
     this.sortAnnotations();
     this.selectFirst();
 
-    this.annotatorService.moduleEvent.subscribe(
-      (ev: any) => {
-        if (ev['type'] === 'rebuild') {
-          this.rebuild(ev['segments']);
-        }
-      }
-    );
+    //if (ev['type'] === 'rebuild') {
+          //this.rebuild(ev['segments']);
+          //}
 
     this.player.autoPlay(true);
   }
@@ -72,7 +76,7 @@ export class AnnotatorComponent implements OnInit {
   }
 
   public actionBack(): void {
-    this.annotatorService.signalExit();
+    this.onExit.emit({});
   }
 
   private downloadFile(url, filename): void {
@@ -123,7 +127,7 @@ export class AnnotatorComponent implements OnInit {
       + 'be permanent. Do you wish to proceed?');
     dialogStatus.afterClosed().subscribe(result => {
       if (result === true) {
-        this.annotatorService.signalAutoSegment();
+        this.onAutosegment.emit({});
       }
     });
   }
@@ -133,11 +137,11 @@ export class AnnotatorComponent implements OnInit {
   }
 
   public getAudioFile(): ArrayBuffer {
-    return this.annotatorService.getAudioFile();
+    return this.audioFile;
   }
 
   public getAudioFileName(): string {
-    return this.annotatorService.getAudioFileName();
+    return this.audioFileName;
   }
 
   public replayCheckboxEvent(ev: any): void {
@@ -178,12 +182,20 @@ export class AnnotatorComponent implements OnInit {
         this.player.deleteSelectedRegion().then(
           ()=> {
             this.selectAnnotation(null);
-            this.annotatorService.save(this.annotations);
+            this.saveAnnotations(this.annotations);
           }
         );
         break;
       }
     }
+  }
+
+  private saveAnnotations(annotations: Array<Annotation>) {
+    this.onSave.emit(
+      {
+        'annotations': annotations
+      }
+    );
   }
 
   public annotationEvent(ev: any): void {
@@ -197,12 +209,12 @@ export class AnnotatorComponent implements OnInit {
         break;
       }
       case 'edit': {
-        this.annotatorService.save(this.annotations);
+        this.saveAnnotations(this.annotations);
         break;
       }
       case 'update': {
         this.sortAnnotations();
-        this.annotatorService.save(this.annotations);
+        this.saveAnnotations(this.annotations);
         break;
       }
       case 'create': {
@@ -214,7 +226,7 @@ export class AnnotatorComponent implements OnInit {
             }
           );
         this.selectAnnotation(annotation);
-        this.annotatorService.save(this.annotations);
+        this.saveAnnotations(this.annotations);
       }
     }
   }

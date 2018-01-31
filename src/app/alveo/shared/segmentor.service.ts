@@ -1,4 +1,4 @@
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { environment } from '../../../environments/environment';
@@ -8,8 +8,8 @@ export class SegmentorService {
   segmentorUrl: string = environment.segmentorURL;
 
   constructor(
-    private http: Http
-  ) {}
+    private http: HttpClient
+  ) { }
 
   segment(path: string, callback= null): any {
     this.http.get(this.segmentorUrl + '?url=' + path)

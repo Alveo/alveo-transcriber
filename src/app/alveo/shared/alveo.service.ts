@@ -131,27 +131,15 @@ export class AlveoService {
     );
   }
 
-  public getList(listUrl: string, useCache= true, useApi= true): Observable<any> {
-    return this.retrieve(this.requestList(listUrl), listUrl, useCache, useApi);
+  public getList(list_id: string, useCache= true, useApi= true): Observable<any> {
+    return this.retrieve(this.apiService.getList(list_id), list_id, useCache, useApi);
   }
 
-  public requestList(listUrl: string): Observable<any> {
-    return this.apiService.getList(listUrl);
+  public getItem(item_id: any, useCache= true, useApi= true): Observable<any> {
+    return this.retrieve(this.apiService.getItem(item_id), item_id, useCache, useApi);
   }
 
-  public getItem(itemUrl: any, useCache= true, useApi= true): Observable<any> {
-    return this.retrieve(this.requestItem(itemUrl), itemUrl, useCache, useApi);
-  }
-
-  public requestItem(itemUrl: string): Observable<any> {
-    return this.apiService.getItem(itemUrl);
-  }
-
-  public getAudioFile(fileUrl: any, useCache= true, useApi = true): Observable<any> {
-    return this.retrieve(this.requestAudioFile(fileUrl), fileUrl, useCache, useApi);
-  }
-
-  public requestAudioFile(audioFileUrl: any) {
-    return this.apiService.getDocument(audioFileUrl);
+  public getAudioFile(file_id: any, useCache= true, useApi = true): Observable<any> {
+    return this.retrieve(this.apiService.getDocument(file_id), file_id, useCache, useApi);
   }
 }

@@ -12,7 +12,7 @@ import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class ApiService {
-  alveoUrl: string = environment.baseURL;
+  private alveoPaths = environment.alveoPaths;
 
   constructor(private http: HttpClient) {}
 
@@ -63,36 +63,37 @@ export class ApiService {
    *  currently not another alternative, so we will re-add the client-side
    *  expected domain for each request.
    */
-  private cleanUrl(alveoUrl): string {
-    return alveoUrl.replace(/^.*\/\/[^\/]+/, '');
+  private cleanUrl(url: string): string {
+    return url.replace(/^.*\/\/[^\/]+/, '');
   }
 
   /* Fetch directory of lists from Alveo API
    *  Expects JSON back from subscribe
    */
   public getListIndex(): Observable<any> {
-    return this.apiGet(this.alveoUrl + '/item_lists');
+    return this.apiGet(this.alveoPaths.mainUrl + '/' + this.alveoPaths.listSuffix);
   }
 
   /* Fetch list from Alveo API
    *  Expects JSON back from subscribe
    */
-  public getList(listId: string): Observable<any> {
-    return this.apiGet(this.alveoUrl + '/' + this.cleanUrl(listId));
+  public getList(id: string): Observable<any> {
+    return this.apiGet(this.alveoPaths.mainUrl + '/' + this.alveoPaths.listSuffix + '/' + this.cleanUrl(id));
   }
 
   /* Fetch list item from Alveo API
    *  Expects JSON back from subscribe
    */
   public getItem(itemId: string): Observable<any> {
-    return this.apiGet(this.alveoUrl + '/' + this.cleanUrl(itemId));
+    return this.apiGet(this.alveoPaths.mainUrl + '/' + this.alveoPaths.itemSuffix + '/' + this.cleanUrl(itemId));
   }
 
   /* Fetch document via Alveo API
    *  Expects ArrayBuffer back from subscribe
    */
-  public getDocument(documentId: string): Observable<any> {
-    return this.apiGet(this.alveoUrl + '/' + this.cleanUrl(documentId),
+  public getDocument(itemId: string, documentId: string): Observable<any> {
+    // TODO
+    return this.apiGet(this.alveoPaths.mainUrl + '/' + this.alveoPaths.itemSuffix + '/' + this.cleanUrl(itemId) + '/document/' + documentId,
       {'responseType': 'arraybuffer'});
   }
 
@@ -101,7 +102,7 @@ export class ApiService {
    *  These variables are obtained by the Auth service
    */
   public getOAuthToken(clientID: string, clientSecret: string, authCode: string, callbackUrl: string): Observable<any> {
-    return this.apiPost(this.alveoUrl + '/oauth/token',
+    return this.apiPost(this.alveoPaths.mainUrl + '/' + this.alveoPaths.oAuthTokenSuffix,
       {
         'grant_type': 'authorization_code',
         'client_id': clientID,
@@ -124,6 +125,6 @@ export class ApiService {
         }),
     };
 
-    return this.apiGet(this.alveoUrl + '/account_api_key', requestHeaders)
+    return this.apiGet(this.alveoPaths.mainUrl + '/' + this.alveoPaths.apiKeySuffix, requestHeaders)
   }
 }

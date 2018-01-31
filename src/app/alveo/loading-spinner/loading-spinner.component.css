@@ -1,9 +1,12 @@
-:host {
+.container {
   display: flex;
-  height: 80vh;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.container.pageFill {
+  height: 80vh;
 }
 
 .mat-spinner {

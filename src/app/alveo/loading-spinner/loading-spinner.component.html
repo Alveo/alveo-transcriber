@@ -1,2 +1,4 @@
-<mat-spinner></mat-spinner>
-<ng-content></ng-content>
+<div class="container" [class.pageFill]="this.usePageFill()">
+  <mat-spinner [diameter]="this.getSpinnerDiameter()"></mat-spinner>
+  <ng-content></ng-content>
+</div>

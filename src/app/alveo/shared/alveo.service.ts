@@ -89,11 +89,16 @@ export class AlveoService {
                   data => {
                     if (useCache) {
                       console.log('Caching ' + storageClass);
-                      this.dbService.instance(Databases.Cache).put(storageClass, {storage: data});
+                      this.dbService.instance(Databases.Cache).put(storageClass, {storage: data}).then(
+                        () => {
+                          observer.next(data);
+                          observer.complete;
+                        }
+                      );
+                    } else {
+                      observer.next(data);
+                      observer.complete;
                     }
-
-                    observer.next(data);
-                    observer.complete;
                   },
                   error => {
                     observer.error(error);
@@ -136,10 +141,10 @@ export class AlveoService {
   }
 
   public getItem(item_id: any, useCache= true, useApi= true): Observable<any> {
-    return this.retrieve(this.apiService.getItem(item_id), 'item-'item_id, useCache, useApi);
+    return this.retrieve(this.apiService.getItem(item_id), 'item-'+item_id, useCache, useApi);
   }
 
   public getAudioFile(file_id: any, useCache= true, useApi = true): Observable<any> {
-    return this.retrieve(this.apiService.getDocument(file_id), 'document-'file_id, useCache, useApi);
+    return this.retrieve(this.apiService.getDocument(file_id), 'document-'+file_id, useCache, useApi);
   }
 }

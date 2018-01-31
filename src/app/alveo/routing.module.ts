@@ -5,7 +5,7 @@ import { DataSourceComponent } from './datasource/datasource.component';
 import { OAuthCallbackComponent } from './auth/auth-callback.component';
 import { ListIndexComponent } from './listindex/listindex.component';
 import { ListsComponent } from './lists/lists.component';
-import { AnnotatorComponent } from '../annotator/annotator.component';
+import { TranscriberComponent } from './transcriber/transcriber.component';
 
 import { RequiresListGuard } from './shared/requires-list.guard';
 import { RequiresListIndexGuard } from './shared/requires-list-index.guard';
@@ -33,9 +33,8 @@ const routes: Routes = [
         canActivate: [RequiresListGuard],
       },
       {
-        path: Paths.Annotator,
-        component: AnnotatorComponent,
-        canActivate: [RequiresListGuard],
+        path: Paths.Transcriber,
+        component: TranscriberComponent
       },
       {
         path: '**',

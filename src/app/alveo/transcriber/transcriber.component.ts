@@ -1,27 +1,32 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
-import { AnnotatorService } from '../../annotator/shared/annotator.service';
+import { AnnotatorComponent } from '../../annotator/annotator.component'
 import { Annotation } from '../../annotator/shared/annotation';
-import { SegmentorService } from './segmentor.service';
-import { DBService, Databases } from './db.service';
+import { SegmentorService } from '../shared/segmentor.service';
+import { DBService, Databases } from '../shared/db.service';
 
-@Injectable()
-export class AnnotationsService {
-  private annotationsEvent: any = null;
-  private annotatorEvent: any = null;
+@Component({
+  selector: 'transcriber',
+  templateUrl: './transcriber.component.html',
+  styleUrls: ['./transcriber.component.css']
+})
+export class TranscriberComponent implements OnInit {
+  // doc as route input
+  private ready: boolean = false;
 
-  private docIdentifier = '';
-  private fileUrl = '';
-
-  public serviceEvent: EventEmitter<any> = new EventEmitter();
+  @ViewChild(AnnotatorComponent) annotator: AnnotatorComponent;
 
   constructor(
-    private annotatorService: AnnotatorService,
     private segmentorService: SegmentorService,
-    private dbService: DBService) {}
+    private dbService: DBService) {
+  }
 
-  public setFileUrl(url: string) {
-    this.fileUrl = url;
+  ngOnInit() {
+    // route input for doc
+  }
+
+  getAudioFile() {
+    //return this.
   }
 
   public getAnnotations(identifier: string): Promise<any> {
@@ -69,25 +74,5 @@ export class AnnotationsService {
         this.setAnnotations(docIdentifier, ev['annotations']);
       }
     });
-  }
-
-  public prepareAnnotator(identifier: string, audioFile: ArrayBuffer): Promise<any> {
-    return new Promise(
-      (resolve, reject) => {
-        this.getAnnotations(identifier).then(
-          (data) => {
-            this.annotatorService.initialise(data, audioFile, identifier);
-
-            this.watch(identifier,
-              this.annotatorService.externalEvent
-            );
-            resolve();
-          },
-          (error) => {
-            reject(error);
-          }
-        );
-      }
-    );
   }
 }

@@ -51,13 +51,12 @@ import { OAuthCallbackComponent } from './auth/auth-callback.component';
 
 import { ListIndexComponent } from './listindex/listindex.component';
 import { ListTableComponent } from './listindex/listtable/listtable.component';
-
+import { TranscriberComponent } from './transcriber/transcriber.component';
 import { ListsComponent } from './lists/lists.component';
 import { ItemsComponent } from './lists/items/items.component';
 import { DocsComponent } from './lists/items/docs/docs.component';
 
 import { AlveoService } from './shared/alveo.service';
-import { AnnotationsService } from './shared/annotations.service';
 import { AuthService } from './shared/auth.service';
 import { SegmentorService } from './shared/segmentor.service';
 import { DBService } from './shared/db.service';
@@ -82,6 +81,7 @@ import 'hammerjs';
     ItemsComponent,
     DocsComponent,
     ListTableComponent,
+    TranscriberComponent 
   ],
   entryComponents: [
     AuthComponent,
@@ -133,7 +133,6 @@ import 'hammerjs';
     AuthService,
     AlveoService,
     DBService,
-    AnnotationsService,
     SegmentorService,
     ApiService,
     {

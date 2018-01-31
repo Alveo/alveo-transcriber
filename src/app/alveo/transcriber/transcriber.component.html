@@ -1,0 +1,12 @@
+<annotator
+  [audioFile]="this.getAudioFile()"
+  [audioFileName]="this.getAudioFileName()"
+  [annotations]="this.getAnnotations()"
+  [selectedAnnotation]="this.getSelectedAnnotation()"
+  [viewMode]="this.getViewMode()"
+
+  (onExit)="this.exit($event)"
+  (onAutosegment)="this.autoSegmentAudioFile($event)"
+  (onSave)="this.saveAnnotations($event)"
+>
+</annotator>

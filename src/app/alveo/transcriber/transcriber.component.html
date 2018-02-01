@@ -1,12 +1,12 @@
-<annotator
+<annotator *ngIf="this.isReady()"
   [audioFile]="this.getAudioFile()"
-  [audioFileName]="this.getAudioFileName()"
+  [audioFileName]="this.getIdentifier()"
   [annotations]="this.getAnnotations()"
   [selectedAnnotation]="this.getSelectedAnnotation()"
   [viewMode]="this.getViewMode()"
 
   (onExit)="this.exit($event)"
-  (onAutosegment)="this.autoSegmentAudioFile($event)"
+  (onAutosegment)="this.autoSegment($event)"
   (onSave)="this.saveAnnotations($event)"
 >
 </annotator>

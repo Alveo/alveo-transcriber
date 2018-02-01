@@ -18,6 +18,8 @@ import { Paths } from '../shared/paths';
 })
 export class TranscriberComponent implements OnInit {
   private ready: boolean = false;
+  private loader_text: string = "";
+  private error: boolean = false;
 
   private item: any = null;
   private audioFileData: ArrayBuffer = null;
@@ -39,16 +41,20 @@ export class TranscriberComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(
       (params: Params) => {
+        this.loader_text = "Loading ...";
         const item_id = params['id'];
         if (item_id === undefined) {
           this.sessionService.navigate([Paths.ListIndex]);
         } else {
+          this.loader_text = "Loading item ...";
           this.prepareItem(item_id).then(
             (item) => {
+              this.loader_text = "Loading audio data ...";
               this.item = item;
               this.prepareAudioFile(item_id, item['alveo:documents'][0]['dcterms:identifier']).then(
                 (data) => {
                   this.audioFileData = data;
+                  this.loader_text = "Checking annotations ...";
 
                   this.loadAnnotations(this.getIdentifier()).then(
                     (annotations) => {
@@ -70,6 +76,14 @@ export class TranscriberComponent implements OnInit {
     );
   }
 
+  public getLoadingText(): string {
+    return this.loader_text;
+  }
+
+  public isError(): boolean {
+    return this.error;
+  }
+
   public isReady(): boolean {
     return this.ready;
   }
@@ -85,6 +99,7 @@ export class TranscriberComponent implements OnInit {
             if (error === 403 && !this.authService.isLoggedIn()) {
               this.authService.promptLogin();
             }
+            this.error = true;
             reject(error);
           }
         );
@@ -117,6 +132,7 @@ export class TranscriberComponent implements OnInit {
             if (error === 403 && !this.authService.isLoggedIn()) {
               this.authService.promptLogin();
             }
+            this.error = true;
             reject(error);
           }
         );
@@ -141,8 +157,8 @@ export class TranscriberComponent implements OnInit {
     return this.defaultView;
   }
 
-  public exit(ev: any) {
-    if (this.item === null) {
+  public exit() {
+    if (this.audioFileData === null) {
       this.sessionService.navigate([Paths.ListIndex]);
     } else {
       this.sessionService.navigate([Paths.ListView+'/'+this.getIdentifier()]);

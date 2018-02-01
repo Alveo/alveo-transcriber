@@ -19,8 +19,8 @@ export class AnnotationService {
     );
   }
 
-  public saveAnnotations(docIdentifier: string, annotations: Array<Annotation>): Promise<any> {
+  public saveAnnotations(identifier: string, annotations: Array<Annotation>): Promise<any> {
     return this.dbService.instance(Databases.Annotations)
-      .put(docIdentifier, {'annotations': annotations});
+      .put(identifier, {'annotations': annotations});
   }
 }

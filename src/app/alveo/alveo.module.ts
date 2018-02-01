@@ -6,36 +6,18 @@ import {
 } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
-  MatAutocompleteModule,
   MatButtonModule,
-  MatButtonToggleModule,
-  MatCardModule,
   MatCheckboxModule,
-  MatChipsModule,
-  MatDatepickerModule,
   MatDialogModule,
   MatExpansionModule,
-  MatGridListModule,
   MatIconModule,
   MatInputModule,
   MatListModule,
-  MatMenuModule,
-  MatNativeDateModule,
   MatPaginatorModule,
-  MatProgressBarModule,
   MatProgressSpinnerModule,
-  MatRadioModule,
   MatRippleModule,
   MatSelectModule,
-  MatSidenavModule,
-  MatSliderModule,
-  MatSlideToggleModule,
-  MatSnackBarModule,
-  MatSortModule,
   MatTableModule,
-  MatTabsModule,
-  MatToolbarModule,
-  MatTooltipModule,
 } from '@angular/material';
 import { CdkTableModule } from '@angular/cdk/table';
 
@@ -64,6 +46,7 @@ import { DBService } from './shared/db.service';
 import { ApiService } from './shared/api.service';
 import { SessionService } from './shared/session.service';
 import { AnnotationService } from './shared/annotation.service';
+import { MonitorService } from './shared/monitor.service';
 import { AnnotatorModule } from '../annotator/annotator.module';
 
 import { ApiInterceptor } from './shared/api.interceptor';
@@ -98,36 +81,18 @@ import 'hammerjs';
     AnnotatorModule,
 
     CdkTableModule,
-    MatAutocompleteModule,
     MatButtonModule,
-    MatButtonToggleModule,
-    MatCardModule,
     MatCheckboxModule,
-    MatChipsModule,
-    MatDatepickerModule,
     MatDialogModule,
     MatExpansionModule,
-    MatGridListModule,
     MatIconModule,
     MatInputModule,
     MatListModule,
-    MatMenuModule,
-    MatNativeDateModule,
     MatPaginatorModule,
-    MatProgressBarModule,
     MatProgressSpinnerModule,
-    MatRadioModule,
     MatRippleModule,
     MatSelectModule,
-    MatSidenavModule,
-    MatSliderModule,
-    MatSlideToggleModule,
-    MatSnackBarModule,
-    MatSortModule,
     MatTableModule,
-    MatTabsModule,
-    MatToolbarModule,
-    MatTooltipModule,
   ],
   exports: [
     AlveoComponent,
@@ -145,6 +110,7 @@ import 'hammerjs';
       multi: true
     },
     SessionService,
+    MonitorService
   ],
 })
 export class AlveoModule { }

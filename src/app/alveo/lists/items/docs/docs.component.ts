@@ -38,7 +38,10 @@ export class DocsComponent implements OnInit {
     return this.annotations.length;
   }
 
-  public navigate(): void {
-    this.onNavigate.emit({});
+  public select(): void {
+    this.onNavigate.emit({
+      "doc_id": this.getDocName(),
+      "doc": this.alveo_doc
+    });
   }
 }

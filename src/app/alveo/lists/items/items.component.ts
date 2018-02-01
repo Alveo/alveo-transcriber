@@ -1,6 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 
-import { SessionService } from '../../shared/session.service';
 import { Paths } from '../../shared/paths';
 
 import { AlveoService } from '../../shared/alveo.service';
@@ -23,6 +22,7 @@ enum ItemState {
 })
 export class ItemsComponent {
   @Input() itemUrls: Array<any> = [];
+  @Output() onSelect = new EventEmitter<any>();
   private items: Array<any> = [];
 
   private itemDisplay: Array<any> = null
@@ -38,7 +38,6 @@ export class ItemsComponent {
   constructor(
     private authService: AuthService,
     private alveoService: AlveoService,
-    private sessionService: SessionService
   ) { }
 
   ngOnInit() {
@@ -196,6 +195,9 @@ export class ItemsComponent {
   }
 
   public onDocumentSelection(ev: any, item: any): any {
-    this.sessionService.navigate([Paths.Transcriber+this.getItemName(item)]);
+    this.onSelect.emit({
+      "item_id": this.getItemName(item),
+      "doc_id": ev['doc_id'],
+    });
   }
 }

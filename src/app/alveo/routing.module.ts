@@ -27,7 +27,7 @@ const routes: Routes = [
         component: ListsComponent,
       },
       {
-        path: Paths.Transcriber + ':id',
+        path: Paths.Transcriber + ':id' + '/' + ':list_id',
         component: TranscriberComponent
       },
       {

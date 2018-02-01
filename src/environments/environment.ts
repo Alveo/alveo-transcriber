@@ -17,7 +17,5 @@ export const environment = {
 
   devTools: true,
 
-  mainTranscriber: 'alveo',
-
   segmentorURL: 'https://124.190.240.112:8080/api/segment/url'
 };

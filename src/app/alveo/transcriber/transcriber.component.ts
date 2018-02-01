@@ -20,6 +20,7 @@ export class TranscriberComponent implements OnInit {
   private ready: boolean = false;
   private loader_text: string = "";
   private error: boolean = false;
+  private list_id: string = "";
 
   private item: any = null;
   private audioFileData: ArrayBuffer = null;
@@ -43,6 +44,7 @@ export class TranscriberComponent implements OnInit {
       (params: Params) => {
         this.loader_text = "Loading ...";
         const item_id = params['id'];
+        this.list_id = params['list_id'];
         if (item_id === undefined) {
           this.sessionService.navigate([Paths.ListIndex]);
         } else {
@@ -158,10 +160,10 @@ export class TranscriberComponent implements OnInit {
   }
 
   public exit() {
-    if (this.audioFileData === null) {
-      this.sessionService.navigate([Paths.ListIndex]);
+    if (this.list_id != "") {
+      this.sessionService.navigate([Paths.ListView+'/'+this.list_id]);
     } else {
-      this.sessionService.navigate([Paths.ListView+'/'+this.getIdentifier()]);
+      this.sessionService.navigate([Paths.ListIndex]);
     }
   }
 

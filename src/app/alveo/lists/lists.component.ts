@@ -16,6 +16,7 @@ import { Paths } from '../shared/paths';
   styleUrls: ['./lists.component.css'],
 })
 export class ListsComponent implements OnInit {
+  private list_id: any;
   private list: Array<any> = null;
   private ready: boolean = false;
 
@@ -29,11 +30,11 @@ export class ListsComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(
       (params: Params) => {
-        const param_id = params['id'];
-        if (param_id === undefined) {
+        this.list_id = params['id'];
+        if (this.list_id === undefined) {
           this.sessionService.navigate([Paths.ListIndex]);
         } else {
-          this.alveoService.getList(param_id).subscribe(
+          this.alveoService.getList(this.list_id).subscribe(
             list => {
               this.list = list;
               this.ready = true;
@@ -86,5 +87,9 @@ export class ListsComponent implements OnInit {
 
   public actionBack(): void {
     this.sessionService.navigate([Paths.ListIndex]);
+  }
+
+  public transcribe(ev: any): void {
+    this.sessionService.navigate([Paths.Transcriber, ev['item_id'], this.list_id]);
   }
 }

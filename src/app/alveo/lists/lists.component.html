@@ -11,7 +11,7 @@
     </ng-template>
 
     <ng-template #listLoadingTemplate>
-      <items [itemUrls]="this.getListItems()"></items>
+      <items [itemUrls]="this.getListItems()" (onSelect)="this.transcribe($event)"></items>
     </ng-template>
   </div>
 </div>

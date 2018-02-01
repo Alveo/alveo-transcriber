@@ -11,6 +11,7 @@ import { AnnotationService } from '../../../shared/annotation.service';
   styleUrls: ['./docs.component.css'],
 })
 export class DocsComponent implements OnInit {
+  @Input() item_identifier: string = "";
   @Input() alveo_doc: any = null;
   @Output() onNavigate = new EventEmitter<any>();
   private annotations: Array<Annotation> = [];
@@ -20,8 +21,8 @@ export class DocsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    if (this.alveo_doc !== null) {
-      this.annotationService.loadAnnotations(this.getDocName()).then(
+    if (this.item_identifier !== "") {
+      this.annotationService.loadAnnotations(this.item_identifier).then(
         (annotations) => {
           this.annotations = annotations;
         }

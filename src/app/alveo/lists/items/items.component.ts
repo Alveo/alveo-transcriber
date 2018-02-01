@@ -196,7 +196,6 @@ export class ItemsComponent {
   }
 
   public onDocumentSelection(ev: any, item: any): any {
-    console.log(Paths.Transcriber+'/'+this.getItemName(item));
     this.sessionService.navigate([Paths.Transcriber+this.getItemName(item)]);
   }
 }

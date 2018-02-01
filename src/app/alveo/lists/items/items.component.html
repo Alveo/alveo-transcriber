@@ -13,7 +13,7 @@
     </mat-expansion-panel-header>
 
     <div *ngIf="this.isDataReady(item)">
-      <docs (onNavigate)="this.onDocumentSelection($event, item)" [alveo_doc]="this.getItemPrimaryDocument(item)"></docs>
+      <docs (onNavigate)="this.onDocumentSelection($event, item)" [item_identifier]="this.getItemName(item)" [alveo_doc]="this.getItemPrimaryDocument(item)"></docs>
     </div>
     <loading-spinner [spinnerSize]="'small'" *ngIf="!this.isDataReady(item) && getItemState(item) !== 'Failed'">
       <p>Downloading data</p>

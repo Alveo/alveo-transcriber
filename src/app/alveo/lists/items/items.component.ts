@@ -133,6 +133,10 @@ export class ItemsComponent {
     );
   }
 
+  private getItemDocuments(item: any): void {
+    return item['data']['alveo:documents'];
+  }
+
   private getItemPrimaryDocument(item: any): void {
     return item['data']['alveo:documents'][0];
   }

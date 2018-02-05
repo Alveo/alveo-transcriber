@@ -7,15 +7,18 @@
   <button mat-raised-button color="primary" (click)="this.exit()">Back</button>
 </div>
 
-<annotator *ngIf="this.isReady()"
-  [audioFile]="this.getAudioFile()"
-  [audioFileName]="this.getIdentifier()"
-  [annotations]="this.getAnnotations()"
-  [selectedAnnotation]="this.getSelectedAnnotation()"
-  [viewMode]="this.getViewMode()"
+<div *ngIf="this.isReady()">
+  <p class="center">Using source: {{ this.doc_id }}</p>
+  <annotator
+    [audioFile]="this.getAudioFile()"
+    [audioFileName]="this.getIdentifier()"
+    [annotations]="this.getAnnotations()"
+    [selectedAnnotation]="this.getSelectedAnnotation()"
+    [viewMode]="this.getViewMode()"
 
-  (onExit)="this.exit()"
-  (onAutosegment)="this.autoSegment($event)"
-  (onSave)="this.saveAnnotations($event)"
->
-</annotator>
+    (onExit)="this.exit()"
+    (onAutosegment)="this.autoSegment($event)"
+    (onSave)="this.saveAnnotations($event)"
+  >
+  </annotator>
+</div>

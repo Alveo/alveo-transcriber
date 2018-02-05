@@ -28,6 +28,9 @@ export class TranscriberComponent implements OnInit {
   private selectedAnnotation: Annotation = null;
   private defaultView: string = "list";
 
+  private item_id: string = '';
+  public doc_id: string = '';
+
   @ViewChild(AnnotatorComponent) annotator: AnnotatorComponent;
 
   constructor(
@@ -43,17 +46,18 @@ export class TranscriberComponent implements OnInit {
     this.activatedRoute.params.subscribe(
       (params: Params) => {
         this.loader_text = "Loading ...";
-        const item_id = params['id'];
+        this.item_id = params['item_id'];
+        this.doc_id = params['doc_id'];
         this.list_id = params['list_id'];
-        if (item_id === undefined) {
+        if (this.item_id === undefined) {
           this.sessionService.navigate([Paths.ListIndex]);
         } else {
           this.loader_text = "Loading item ...";
-          this.prepareItem(item_id).then(
+          this.prepareItem(this.item_id).then(
             (item) => {
               this.loader_text = "Loading audio data ...";
               this.item = item;
-              this.prepareAudioFile(item_id, item['alveo:documents'][0]['dcterms:identifier']).then(
+              this.prepareAudioFile(this.item_id, this.doc_id).then(
                 (data) => {
                   this.audioFileData = data;
                   this.loader_text = "Checking annotations ...";

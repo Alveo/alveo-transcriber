@@ -39,7 +39,7 @@ export class DocsComponent implements OnInit {
     return this.annotations.length;
   }
 
-  public select(doc: any): void {
+  public select(): void {
     this.onNavigate.emit({
       "doc_id": this.selectedDoc['dcterms:identifier'],
       "doc": this.selectedDoc

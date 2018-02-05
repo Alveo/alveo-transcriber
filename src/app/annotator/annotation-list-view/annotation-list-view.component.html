@@ -9,7 +9,7 @@
 
     <mat-icon class="clickable" (click)="this.replayAnnotationRequest()">play_arrow</mat-icon>
 
-    <div class="annotation-forms">
+    <div class="annotation-forms" id="{{annotation.id}}">
       <mat-form-field class="speaker">
         <input tabindex="-1" matInput (focus)="this.selectAnnotation(annotation)" (keyup)="this.updateAnnotation($event)" [(ngModel)]="annotation.speaker" placeholder="Speaker">
       </mat-form-field>

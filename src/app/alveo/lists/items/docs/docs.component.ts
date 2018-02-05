@@ -12,15 +12,20 @@ import { AnnotationService } from '../../../shared/annotation.service';
 })
 export class DocsComponent implements OnInit {
   @Input() item_identifier: string = "";
-  @Input() alveo_doc: any = null;
+  @Input() docs: Array<any> = [];
   @Output() onNavigate = new EventEmitter<any>();
   private annotations: Array<Annotation> = [];
+  public selectedDoc: any = null;
 
   constructor(
     private annotationService: AnnotationService
   ) { }
 
   ngOnInit() {
+    if (this.docs.length > 0) {
+      this.selectedDoc = this.docs[0];
+    }
+
     if (this.item_identifier !== "") {
       this.annotationService.loadAnnotations(this.item_identifier).then(
         (annotations) => {
@@ -30,18 +35,14 @@ export class DocsComponent implements OnInit {
     }
   }
 
-  public getDocName(): string {
-    return this.alveo_doc['dcterms:identifier'];
-  }
-
   public getAnnotationCount(): number {
     return this.annotations.length;
   }
 
-  public select(): void {
+  public select(doc: any): void {
     this.onNavigate.emit({
-      "doc_id": this.getDocName(),
-      "doc": this.alveo_doc
+      "doc_id": this.selectedDoc['dcterms:identifier'],
+      "doc": this.selectedDoc
     });
   }
 }

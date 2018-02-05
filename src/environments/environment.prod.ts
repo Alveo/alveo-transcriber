@@ -4,7 +4,7 @@ export const environment = {
   alveoPaths: {
     mainUrl: 'https://app.alveo.edu.au',
     listSuffix: "item_lists",
-    itemSuffix: "catalog/austalk",
+    itemSuffix: "catalog",
     apiKeySuffix: 'account_api_key',
     oAuthTokenSuffix: 'oauth/token',
     loginSuffix: 'oauth/authorize'
@@ -15,7 +15,7 @@ export const environment = {
 
   callbackURL: window.location.origin + '/oauth/callback',
 
-  devTools: false,
+  devTools: true,
 
   segmentorURL: '/api/segment/url'
 };

@@ -4,7 +4,7 @@ export const environment = {
   alveoPaths: {
     mainUrl: 'https://app.alveo.edu.au',
     listSuffix: "item_lists",
-    itemSuffix: "catalog/austalk",
+    itemSuffix: "catalog",
     apiKeySuffix: 'account_api_key',
     oAuthTokenSuffix: 'oauth/token',
     loginSuffix: 'oauth/authorize'

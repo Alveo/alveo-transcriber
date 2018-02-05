@@ -10,11 +10,31 @@ import { Annotation } from '../shared/annotation';
 
 export class AnnotationListViewComponent {
   @Input() annotations: Array<Annotation>;
-  @Input() selectedAnnotation: Annotation;
   @Output() annotationUpdate = new EventEmitter();
   @Output() playerControlEvent = new EventEmitter();
 
-  constructor() {}
+  private _selectedAnnotation: Annotation;
+  @Input() private set selectedAnnotation(annotation: Annotation) {
+    if (annotation != this._selectedAnnotation) {
+      this.scrollToAnnotation(annotation);
+    }
+    this._selectedAnnotation = annotation;
+  }
+  private get selectedAnnotation(): Annotation {
+    return this._selectedAnnotation;
+  }
+
+  constructor() { }
+
+  public scrollToAnnotation(annotation: Annotation) {
+    const elements = document.getElementsByClassName("annotation-forms");
+
+    for (var i = 0; i < elements.length; i++) {
+      if (elements[i].id === annotation.id) {
+        elements[i].scrollIntoView();
+      }
+    }
+  }
 
   public getSelectedAnnotation(): Annotation {
     return this.selectedAnnotation;

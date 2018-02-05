@@ -1,3 +1,7 @@
+:host {
+  min-height: 1000px;
+}
+
 .extra-height {
   height: 800px;
 }
@@ -22,13 +26,16 @@
 }
 
 .container {
+  display: flex;
+  flex-direction: column;
   width: 80%;
   margin: auto;
   max-width: 70em;
 }
 
-.sticky-container {
-  background: white;
+.annotation-container {
+  height: calc(100vh - 400px);
+  overflow-y: scroll;
 }
 
 button {

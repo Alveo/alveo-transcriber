@@ -34,8 +34,8 @@
 }
 
 .annotation-container {
-  height: calc(100vh - 400px);
-  overflow-y: scroll;
+  height: calc(100vh - 440px);
+  overflow-y: auto;
 }
 
 button {

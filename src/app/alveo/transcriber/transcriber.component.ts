@@ -120,7 +120,7 @@ export class TranscriberComponent implements OnInit {
     if (this.item === null) {
       return null;
     }
-    return this.item['alveo:metadata']['dc:title'];
+    return this.item['alveo:metadata']['alveo:handle'];
   }
   
   private prepareAudioFile(list_id: string, doc_id: string): Promise<any> {

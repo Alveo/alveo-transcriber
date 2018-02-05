@@ -57,7 +57,7 @@ export class ItemsComponent {
   private generateItemList() {
     for (const item of this.itemUrls) {
       this.items.push({
-        id: item.split('/catalog/austalk/')[1],
+        id: item.split('/catalog/')[1],
         url: item,
         state: ItemState.UNCHECKED,
         data: null

@@ -225,7 +225,8 @@ export class AnnotatorComponent implements OnInit {
               'end': ev.end
             }
           );
-        this.selectAnnotation(annotation);
+        // Selection event made within PlayerComponent
+        //this.selectAnnotation(annotation, false);
         this.saveAnnotations(this.annotations);
       }
     }

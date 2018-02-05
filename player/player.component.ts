@@ -133,9 +133,11 @@ export class PlayerComponent implements OnInit {
                   'type': 'create',
                   'id': region.id,
                   'start': region.start,
-                  'end': region.end
+                  'end': region.end,
                 }
               );
+              this.selectRegion(region, true);
+
               // You'd think this would work, but it doesn't: createFinish.un();
               // So instead we do a slightly more roundabout approach.
               this.player.un(createFinish.name, createFinish.callback);
@@ -242,7 +244,7 @@ export class PlayerComponent implements OnInit {
     );
   }
 
-  selectRegion(region: Region): void {
+  selectRegion(region: Region, ignoreAutoplay: boolean= false): void {
     if (region !== null && region !== undefined) {
 
       if (region !== this.selectedRegion) {
@@ -256,7 +258,7 @@ export class PlayerComponent implements OnInit {
 
       region.update({color: SELECTED_COLOUR});
 
-      if (this.autoplay) {
+      if (this.autoplay && !ignoreAutoplay) {
         region.play();
       }
 

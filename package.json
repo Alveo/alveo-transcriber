@@ -6,7 +6,7 @@
     "ng": "ng",
     "start": "ng serve --ssl --host 0.0.0.0",
     "build": "ng build",
-    "buildprod": "ng build --aot --prod",
+    "buildprod": "ng build --aot --prod --base-href /alveo-transcriber",
     "buildtest": "ng build --aot --env=staging",
     "buildgeneric": "ng build --aot --env=generic",
     "test": "ng test",

@@ -1,10 +1,54 @@
 :host {
-    text-align: right;
-    margin: 0.5em 1em;
+  text-align: right;
+  margin-bottom: 1em;
+  display: flex;
+  background: #F6B717;
 }
 
 :host a {
-    padding: 0.2em;
-    text-decoration: none;
+  padding: 0.2em;
+  text-decoration: none;
 }
 
+.navbar {
+  max-width: 900px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin: auto;
+}
+
+.flex-left {
+  flex: 1 1 100%;
+  text-align: left;
+}
+.flex-left a,
+.flex-right a {
+  text-decoration: none;
+  color: black;
+  margin-right: 30px;
+}
+
+
+.brand {
+  display: flex;
+  align-items: center;
+  margin-right: 30px;
+}
+.brand img {
+  margin: 3px 10px 3px 0;
+  color: #FFF;
+  text-shadow: none;
+}
+.brand p {
+  color: white;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+.brand:active,
+.brand:visited, 
+.brand:hover, {
+  text-decoration: none;
+  color: white;
+}

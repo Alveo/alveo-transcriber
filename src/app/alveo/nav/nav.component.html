@@ -1,3 +1,15 @@
-<a *ngIf="this.isLoggedIn()" (click)="this.actionLogout()" href="javascript:void(0)">Logout</a>
-<a href="http://alveo.edu.au/" target="_blank">Alveo</a>
-<a href="https://github.com/Alveo/alveo-transcriber">GitHub</a>
+<div class="navbar">
+  <a class="brand" href="http://alveo.edu.au/">
+    <img src="https://app.alveo.edu.au/assets/hcsvlab.png">
+    <p>Alveo</p>
+  </a>
+
+  <div class="flex-left">
+    <a href="https://github.com/Alveo/alveo-transcriber">GitHub</a>
+    <a href="https://github.com/Alveo/alveo-transcriber/wiki" target="_blank">Help</a>
+  </div>
+
+  <div class="flex-right">
+    <a *ngIf="this.isLoggedIn()" (click)="this.actionLogout()" href="javascript:void(0)">Logout</a>
+  </div>
+</div>

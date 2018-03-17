@@ -48,6 +48,11 @@ export class AuthService {
     return (this.apiKey.length > 0);
   }
 
+  public initiateLogin() {
+    // TODO return URI
+    location.href = this.createLoginUrl()
+  }
+
   public promptLogin(firstRun: boolean= false) {
     setTimeout(() => {
       if (this.dialog.openDialogs.length < 1) {

@@ -35,6 +35,10 @@ export class DocsComponent implements OnInit {
     }
   }
 
+  public getDocumentCount(): number {
+    return this.docs.length;
+  }
+
   public getAnnotationCount(): number {
     return this.annotations.length;
   }

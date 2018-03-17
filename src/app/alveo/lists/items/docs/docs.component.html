@@ -1,14 +1,17 @@
-<p>Annotations: {{ this.getAnnotationCount() }}</p>
-<div class="audio-channel">
-  <p>Use audio channel: </p>
-  <mat-form-field id="doc-source">
-    <mat-select [(ngModel)]="this.selectedDoc">
-      <mat-option *ngFor="let doc of this.docs" [value]="doc">{{doc['dcterms:identifier']}}</mat-option>
-    </mat-select>
-  </mat-form-field>
+<div *ngIf="this.getDocumentCount() === 0">
+  <p>There are no audio documents on this item to work with.</p>
 </div>
-<div class="button-aligner">
-  <!-- If downloaded, else display "Download" -->
-<button mat-raised-button (click)="this.select()" color="primary">Transcribe</button>
+<div *ngIf="this.getDocumentCount() > 0">
+  <p>Annotations: {{ this.getAnnotationCount() }}</p>
+  <div class="audio-channel">
+    <p>Use audio channel: </p>
+    <mat-form-field id="doc-source">
+      <mat-select [(ngModel)]="this.selectedDoc">
+        <mat-option *ngFor="let doc of this.docs" [value]="doc">{{doc['dcterms:identifier']}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="button-aligner">
+    <button mat-raised-button (click)="this.select()" color="primary">Transcribe</button>
+  </div>
 </div>
-

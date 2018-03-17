@@ -11,5 +11,6 @@
 
   <div class="flex-right">
     <a *ngIf="this.isLoggedIn()" (click)="this.actionLogout()" href="javascript:void(0)">Logout</a>
+    <a *ngIf="!this.isLoggedIn()" (click)="this.actionLogin()" href="javascript:void(0)">Login</a>
   </div>
 </div>

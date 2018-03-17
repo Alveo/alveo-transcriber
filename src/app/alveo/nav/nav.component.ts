@@ -14,6 +14,10 @@ export class NavComponent {
     return this.authService.isLoggedIn();
   }
 
+  public actionLogin(): void {
+    this.authService.initiateLogin();
+  }
+
   public actionLogout(): void {
     this.authService.logout();
   }

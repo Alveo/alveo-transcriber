@@ -3,7 +3,10 @@
 </div>
 
 <div *ngIf="this.isReady()">
-  <div id="subheader">{{this.getListName()}}</div>
+  <div id="subheader"
+       *ngIf="this.getListName() !== ''">
+    {{this.getListName()}}
+  </div>
 
   <div id="item-display">
     <ng-template #listEmptyCheckTemplate [ngIf]="this.getListSize() === 0" [ngIfElse]="listLoadingTemplate">

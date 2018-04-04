@@ -72,7 +72,7 @@ export class ListsComponent implements OnInit {
   public getListName(): string {
     const list = this.getList();
     if (list === null) {
-      return 'null';
+      return '';
     }
     return list['name'];
   }

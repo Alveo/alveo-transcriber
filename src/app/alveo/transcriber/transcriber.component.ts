@@ -28,6 +28,8 @@ export class TranscriberComponent implements OnInit {
   private selectedAnnotation: Annotation = null;
   private defaultView: string = "list";
 
+  private isSegmenting: boolean = false;
+
   private item_id: string = '';
   public doc_id: string = '';
 
@@ -146,7 +148,6 @@ export class TranscriberComponent implements OnInit {
     );
   }
 
-
   public getAudioFile() {
     return this.audioFileData;
   }
@@ -180,15 +181,24 @@ export class TranscriberComponent implements OnInit {
   }
 
   private autoSegment(ev: any): void {
-    this.segmentorService.segment(this.getAudioFileUrl(),
+    this.isSegmenting = true;
+
+    this.segmentorService.segment(this.getAudioFileUrl()).subscribe(
       (data) => {
+        this.isSegmenting = false;
         this.annotator.rebuild(data).then(
           (annotations) => {
             this.annotations = annotations;
             this.annotationService.saveAnnotations(this.getIdentifier(), annotations);
-          }
-        ).catch((error) => console.log(error));
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+      },
+      (error) => {
+        this.isSegmenting = false;
+        console.log(error);
       }
-    );
+    )
   }
 }

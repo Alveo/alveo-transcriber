@@ -21,6 +21,8 @@
     [showJSONExportButton]="true"
     [autoplayDefault]="true"
 
+    [segmentorWorking]="this.isSegmenting" 
+
     (onExit)="this.exit()"
     (onAutosegment)="this.autoSegment($event)"
     (onSave)="this.saveAnnotations($event)"

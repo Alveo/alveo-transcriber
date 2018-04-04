@@ -36,21 +36,39 @@
         <p>Rendering waveform ...</p>
       </div>
 
-      <player (playerEvent)="this.playerEvent($event)" (annotationEvent)="this.annotationEvent($event)" [clip]="this.getAudioFile()" [annotations]="this.getAnnotations()"></player>
+      <player
+        (playerEvent)="this.playerEvent($event)"
+        (annotationEvent)="this.annotationEvent($event)"
+        [clip]="this.getAudioFile()"
+        [annotations]="this.getAnnotations()">
+      </player>
 
       <div *ngIf="this.playerReady">
         <div class="settings">
-          <mat-checkbox (change)="this.replayCheckboxEvent($event)" [checked]="this.autoplayDefault">Autoplay</mat-checkbox>
+          <mat-checkbox
+            (change)="this.replayCheckboxEvent($event)"
+            [checked]="this.autoplayDefault">
+            Autoplay
+          </mat-checkbox>
         </div>
 
         <div *ngIf="this.getViewMode()!=='list'">
-          <annotation-view (playerControlEvent)="this.playerControlEvent($event)" (annotationUpdate)="this.annotationEvent($event)" [annotation]="this.getSelectedAnnotation()"></annotation-view>
+          <annotation-view
+            (playerControlEvent)="this.playerControlEvent($event)"
+            (annotationUpdate)="this.annotationEvent($event)"
+            [annotation]="this.getSelectedAnnotation()">
+          </annotation-view>
         </div>
       </div>
     </div>
 
     <div class="annotation-container"
       *ngIf="this.playerReady && this.getViewMode()!=='single'">
-      <annotation-list-view (playerControlEvent)="this.playerControlEvent($event)" (annotationUpdate)="this.annotationEvent($event)" [selectedAnnotation]="this.getSelectedAnnotation()" [annotations]="this.getAnnotations()"></annotation-list-view>
+      <annotation-list-view
+        (playerControlEvent)="this.playerControlEvent($event)"
+        (annotationUpdate)="this.annotationEvent($event)"
+        [selectedAnnotation]="this.getSelectedAnnotation()"
+         [annotations]="this.getAnnotations()">
+      </annotation-list-view>
     </div>
 </div>

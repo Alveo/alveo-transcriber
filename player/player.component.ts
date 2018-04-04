@@ -72,9 +72,8 @@ export class PlayerComponent implements OnInit {
       waveColor: 'black',
       progressColor: 'white',
       controls: true,
-      barHeight: 20,
+      normalize: true,
       plugins: [
-        MinimapPlugin.create(),
         RegionsPlugin.create(),
         TimelinePlugin.create({
           container: '#timeline'
@@ -92,7 +91,7 @@ export class PlayerComponent implements OnInit {
           color: BASE_COLOUR,
       });
 
-      this.setHeight(120);
+      this.setHeight(80);
 
       this.ready = true;
       this.onReady.emit({});
@@ -202,10 +201,7 @@ export class PlayerComponent implements OnInit {
   }
 
   public setHeight(pixels: number) {
-    this.player.drawer.setHeight(pixels);
-    this.player.params.height = pixels;
-    this.player.empty();
-    this.player.drawBuffer();
+    this.player.setHeight(pixels);
   }
 
   zoomIn() {

@@ -22,7 +22,7 @@ const SELECTED_COLOUR = 'rgba(0, 200, 200, 0.2)';
   styleUrls: ['./player.component.css'],
 })
 export class PlayerComponent implements OnInit {
-  @Output() playerEvent = new EventEmitter();
+  @Output() onReady = new EventEmitter();
   @Output() annotationEvent = new EventEmitter();
   @Input() annotations: Array<any>;
   @Input() clip: any;
@@ -95,9 +95,7 @@ export class PlayerComponent implements OnInit {
       this.setHeight(120);
 
       this.ready = true;
-      this.playerEvent.emit({
-        'type': 'ready'
-      });
+      this.onReady.emit({});
     });
 
     /* Move cursor to beginning of region */

@@ -2,6 +2,17 @@
   min-height: 1000px;
 }
 
+#player-loader {
+  margin: auto;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#player-loader p {
+  margin-top: 10px;
+}
+
 .extra-height {
   height: 800px;
 }

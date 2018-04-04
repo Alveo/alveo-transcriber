@@ -27,6 +27,8 @@ export class AnnotatorComponent implements OnInit {
   @Output() onAutosegment = new EventEmitter<any>();
   @Output() onSave = new EventEmitter<any>();
 
+  public playerReady: boolean = false;
+
   // show autoSegmentor
   // show CSV
   // show JSON
@@ -153,7 +155,16 @@ export class AnnotatorComponent implements OnInit {
   }
 
   public playerEvent(ev: any): void {
-    console.log(ev);
+    switch (ev['type']) {
+      case "ready": {
+        this.playerReady = true;
+        break;
+      }
+      default: {
+        console.log(ev);
+        break;
+      }
+    }
   }
 
   public playerControlEvent(ev: any): void {

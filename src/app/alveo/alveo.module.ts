@@ -19,6 +19,7 @@ import {
   MatRippleModule,
   MatSelectModule,
   MatTableModule,
+  MatSnackBarModule
 } from '@angular/material';
 import { CdkTableModule } from '@angular/cdk/table';
 
@@ -39,6 +40,7 @@ import { TranscriberComponent } from './transcriber/transcriber.component';
 import { ListsComponent } from './lists/lists.component';
 import { ItemsComponent } from './lists/items/items.component';
 import { DocsComponent } from './lists/items/docs/docs.component';
+import { ErrorNotifyComponent } from './error-notify/error-notify.component';
 
 import { AlveoService } from './shared/alveo.service';
 import { AuthService } from './shared/auth.service';
@@ -68,10 +70,12 @@ import 'hammerjs';
     ItemsComponent,
     DocsComponent,
     ListTableComponent,
-    TranscriberComponent 
+    TranscriberComponent,
+    ErrorNotifyComponent
   ],
   entryComponents: [
     AuthComponent,
+    ErrorNotifyComponent
   ],
   imports: [
     BrowserModule,
@@ -94,6 +98,7 @@ import 'hammerjs';
     MatRippleModule,
     MatSelectModule,
     MatTableModule,
+    MatSnackBarModule,
     FormsModule
   ],
   exports: [

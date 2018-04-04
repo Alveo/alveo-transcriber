@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material';
 
 import { DBService, Databases } from './db.service';
+
+import { ErrorNotifyComponent } from '../error-notify/error-notify.component';
 
 import { Paths } from './paths';
 
@@ -12,6 +15,7 @@ export class SessionService {
   private ready: boolean = false;
 
   constructor(
+    private snackBar: MatSnackBar,
     private router: Router,
     private dbService: DBService) {
 
@@ -109,5 +113,15 @@ export class SessionService {
         this.router.navigate([url])
       }
     );
+  }
+
+  public displayError(errorMessage: string, consoleError: any, duration: number=0) {
+    console.log(error);
+    this.snackBar.openFromComponent(ErrorNotifyComponent, {
+      'data': {
+        'message': errorMessage
+      },
+      'duration': duration
+    });
   }
 }

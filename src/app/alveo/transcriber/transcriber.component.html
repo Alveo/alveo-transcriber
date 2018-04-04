@@ -16,6 +16,11 @@
     [selectedAnnotation]="this.getSelectedAnnotation()"
     [viewMode]="this.getViewMode()"
 
+    [showSegmentorServiceButton]="true"
+    [showCSVExportButton]="true"
+    [showJSONExportButton]="true"
+    [autoplayDefault]="true"
+
     (onExit)="this.exit()"
     (onAutosegment)="this.autoSegment($event)"
     (onSave)="this.saveAnnotations($event)"

@@ -23,16 +23,18 @@ export class AnnotatorComponent implements OnInit {
   @Input() selectedAnnotation: Annotation = null;
   @Input() viewMode: string = "list";
 
+  @Input() segmentorWorking: boolean = false;
+
   @Output() onExit = new EventEmitter<any>();
   @Output() onAutosegment = new EventEmitter<any>();
   @Output() onSave = new EventEmitter<any>();
 
-  public playerReady: boolean = false;
+  @Input() showSegmentorServiceButton: boolean = false;
+  @Input() showCSVExportButton: boolean = true;
+  @Input() showJSONExportButton: boolean = true;
+  @Input() autoplayDefault: boolean = true;
 
-  // show autoSegmentor
-  // show CSV
-  // show JSON
-  // autoplay
+  public playerReady: boolean = false;
 
   @ViewChild(PlayerComponent) player: PlayerComponent;
 

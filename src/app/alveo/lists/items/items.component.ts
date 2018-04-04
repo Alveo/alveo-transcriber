@@ -178,6 +178,10 @@ export class ItemsComponent {
     return item['id'];
   }
 
+  public getItemIdentifier(item: any): string {
+    return item['data']['alveo:metadata']['alveo:handle'];
+  }
+
   public getItemUrl(item: any): string {
     return item['url'];
   }

@@ -12,4 +12,7 @@ export class ErrorNotifyComponent {
   public refreshPage(): void {
     window.location.reload();
   }
+
+  public close(data: any): void {
+  }
 }

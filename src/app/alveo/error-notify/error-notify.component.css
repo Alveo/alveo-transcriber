@@ -1,0 +1,22 @@
+.divider {
+  display: flex;
+}
+
+#header, #message, #close {
+  padding: 2px 8px 2px 8px;
+}
+
+#header {
+  color: red;
+  font-weight: bold;
+}
+
+#message {
+}
+
+#close {
+  color: yellow;
+}
+#close:hover {
+  cursor: pointer;
+}

@@ -13,6 +13,7 @@ import { Paths } from './paths';
 export class SessionService {
   private stored_route: any = [''];
   private ready: boolean = false;
+  private activeErrorRef: any = null;
 
   constructor(
     private snackBar: MatSnackBar,
@@ -67,9 +68,7 @@ export class SessionService {
             observer.next(storageName[storageName]);
             observer.complete();
           },
-          error => {
-            observer.error(error);
-          }
+          error => observer.error(error)
         );
       }
     );
@@ -85,15 +84,17 @@ export class SessionService {
       (resolve, reject) => {
         this.router.navigate(route).then(
           (data) => {
+            if (this.activeErrorRef !== null) {
+              this.activeErrorRef.dismiss();
+              this.activeErrorRef = null;
+            }
             this.stored_route = route;
             this.updateStorage().then(
               () => resolve(data)
             );
           })
         .catch(
-          (error) => {
-            reject(error)
-          }
+          (error) => reject(error)
         );
       }
     );
@@ -116,8 +117,8 @@ export class SessionService {
   }
 
   public displayError(errorMessage: string, consoleError: any, duration: number=0) {
-    console.log(error);
-    this.snackBar.openFromComponent(ErrorNotifyComponent, {
+    console.log(consoleError);
+    this.activeErrorRef = this.snackBar.openFromComponent(ErrorNotifyComponent, {
       'data': {
         'message': errorMessage
       },

@@ -156,17 +156,8 @@ export class AnnotatorComponent implements OnInit {
     }
   }
 
-  public playerEvent(ev: any): void {
-    switch (ev['type']) {
-      case "ready": {
-        this.playerReady = true;
-        break;
-      }
-      default: {
-        console.log(ev);
-        break;
-      }
-    }
+  public onPlayerReady(ev: any): void {
+    this.playerReady = true;
   }
 
   public playerControlEvent(ev: any): void {

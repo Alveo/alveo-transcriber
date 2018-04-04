@@ -36,8 +36,9 @@
         <p>Rendering waveform ...</p>
       </div>
 
+      <!-- This is required to trigger the playerReady event -->
       <player
-        (playerEvent)="this.playerEvent($event)"
+        (onReady)="this.onPlayerReady($event)"
         (annotationEvent)="this.annotationEvent($event)"
         [clip]="this.getAudioFile()"
         [annotations]="this.getAnnotations()">
@@ -68,7 +69,7 @@
         (playerControlEvent)="this.playerControlEvent($event)"
         (annotationUpdate)="this.annotationEvent($event)"
         [selectedAnnotation]="this.getSelectedAnnotation()"
-         [annotations]="this.getAnnotations()">
+        [annotations]="this.getAnnotations()">
       </annotation-list-view>
     </div>
 </div>

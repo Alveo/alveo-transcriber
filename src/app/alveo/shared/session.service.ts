@@ -124,5 +124,6 @@ export class SessionService {
       },
       'duration': duration
     });
+    this.activeErrorRef.instance.snackBarRef = this.activeErrorRef;
   }
 }

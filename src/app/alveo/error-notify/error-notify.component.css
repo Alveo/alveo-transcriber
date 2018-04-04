@@ -1,5 +1,6 @@
 .divider {
   display: flex;
+  justify-content: center;
 }
 
 #header, #message, #close {
@@ -7,15 +8,13 @@
 }
 
 #header {
+  padding-left: 2px;;
   color: red;
-  font-weight: bold;
 }
 
 #message {
 }
-
 #close {
-  color: yellow;
 }
 #close:hover {
   cursor: pointer;

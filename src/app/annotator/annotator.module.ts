@@ -9,6 +9,7 @@ import {
   MatSelectModule,
   MatInputModule,
   MatCheckboxModule,
+  MatProgressSpinnerModule
 } from '@angular/material';
 
 import { AnnotatorComponent } from './annotator.component';
@@ -41,7 +42,8 @@ import { Dialog } from './dialog/dialog.component';
     MatIconModule,
     MatSelectModule,
     MatInputModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     AnnotatorComponent,

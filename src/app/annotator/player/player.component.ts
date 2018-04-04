@@ -95,6 +95,9 @@ export class PlayerComponent implements OnInit {
       this.setHeight(120);
 
       this.ready = true;
+      this.playerEvent.emit({
+        'type': 'ready'
+      });
     });
 
     /* Move cursor to beginning of region */

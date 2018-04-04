@@ -5,9 +5,26 @@
         <button mat-raised-button color="primary" (click)="this.actionBack()">Exit</button>
 
         <div *ngIf="this.playerReady">
-          <button mat-raised-button color="primary" (click)="this.actionSegment()">Autosegment</button>
-          <button mat-raised-button color="primary" (click)="this.exportCSV()">Export CSV</button>
-          <button mat-raised-button color="primary" (click)="this.exportJSON()">Export JSON</button>
+          <button mat-raised-button
+            color="primary"
+            *ngIf="this.showSegmentorServiceButton"
+            (click)="this.actionSegment()">
+            Autosegment
+          </button>
+
+          <button mat-raised-button
+            color="primary"
+            *ngIf="this.showCSVExportButton"
+            (click)="this.exportCSV()">
+            Export CSV
+          </button>
+
+          <button mat-raised-button
+            color="primary"
+            *ngIf="this.showJSONExportButton"
+            (click)="this.exportJSON()">
+            Export JSON
+          </button>
         </div>
       </div>
 
@@ -23,7 +40,7 @@
 
       <div *ngIf="this.playerReady">
         <div class="settings">
-          <mat-checkbox (change)="this.replayCheckboxEvent($event)" [checked]="true">Autoplay</mat-checkbox>
+          <mat-checkbox (change)="this.replayCheckboxEvent($event)" [checked]="this.autoplayDefault">Autoplay</mat-checkbox>
         </div>
 
         <div *ngIf="this.getViewMode()!=='list'">

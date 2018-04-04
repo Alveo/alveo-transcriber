@@ -16,15 +16,6 @@ export class ApiService {
 
   constructor(private http: HttpClient) {}
 
-  /* Log API errors
-   *  All API errors should be prevented at higher level
-   */
-  private ErrorHandler(error: HttpErrorResponse) {
-    console.log(
-      'Alveo API Error (' + error.status.toString() + '): ' + error.message
-    );
-  }
-
   /* Create a get request to Alveo API
    */
   private apiGet(url: string, headers: any= null): Observable<any> {
@@ -35,7 +26,7 @@ export class ApiService {
         }
         this.http.get(url, headers).subscribe(
           data => {observer.next(data); observer.complete()},
-          error => {this.ErrorHandler(error); observer.error(error)}
+          error => {observer.error(error)}
         )
       }
     );
@@ -51,7 +42,7 @@ export class ApiService {
         }
         this.http.post(url, data, headers).subscribe(
           data => {observer.next(data); observer.complete()},
-          error => {this.ErrorHandler(error); observer.error(error)}
+          error => {observer.error(error)}
         )
       }
     );

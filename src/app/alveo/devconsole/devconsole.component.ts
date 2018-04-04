@@ -33,12 +33,12 @@ export class DevConsoleComponent {
               this.sessionService.navigate([Paths.SelectDataSource]);
             },
             error => {
-              console.log(error);
+              this.sessionService.displayError(error.message, error);
             }
           )
         }
       ).catch(
-        (error) => console.log(error)
+        (error) => this.sessionService.displayError(error.message, error)
       );
     }
   }
@@ -56,7 +56,7 @@ export class DevConsoleComponent {
           this.sessionService.navigate([Paths.Index]);
         }
       ).catch(
-       (error) => console.log(error)
+        (error) => this.sessionService.displayError(error.message, error)
       );
   }
 
@@ -66,7 +66,7 @@ export class DevConsoleComponent {
     this.sessionService.updateStorage().then(
       () => this.sessionService.navigate([Paths.Index])
     ).catch(
-      (error) => console.log(error)
+      (error) => this.sessionService.displayError(error.message, error)
     );
   }
 }

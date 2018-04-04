@@ -44,17 +44,14 @@ class Database {
   }
 
   public destroy(): any {
-    return new Promise((complete, error) =>
+    return new Promise((complete, reject) =>
       {
         this.database.destroy().then(
           data => {
             this.database = new PouchDB(this.databaseName);
             complete();
           },
-          error => {
-            console.log(error);
-            error();
-          }
+          error => reject(error)
         );
       }
     );
@@ -66,6 +63,8 @@ class Database {
 
   public put(key: string, value: any): any {
     value._id = key;
+
+    // TODO: This could probably be handled better by returning a promise.
     return this.get(key).then(result => {
       value._rev = result._rev;
       return this.database.put(value);

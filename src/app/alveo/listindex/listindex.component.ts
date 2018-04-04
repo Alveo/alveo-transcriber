@@ -33,7 +33,7 @@ export class ListIndexComponent implements OnInit {
         if (error === 403 && !this.authService.isLoggedIn()) {
           this.authService.promptLogin();
         } else {
-          console.log(error)
+          this.sessionService.displayError(error.message, error);
         }
       }
     );

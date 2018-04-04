@@ -76,9 +76,13 @@ export class TranscriberComponent implements OnInit {
                     }
                   );
                 }
-              ).catch((error) => console.log(error));
+              ).catch(
+                (error) => this.sessionService.displayError(error.message, error)
+              );
             }
-          ).catch((error) => console.log(error));
+          ).catch(
+            (error) => this.sessionService.displayError(error.message, error)
+          );
         }
       }
     );
@@ -192,12 +196,12 @@ export class TranscriberComponent implements OnInit {
             this.annotationService.saveAnnotations(this.getIdentifier(), annotations);
           })
           .catch((error) => {
-            console.log(error);
+            this.sessionService.displayError(error.message, error);
           })
       },
       (error) => {
         this.isSegmenting = false;
-        console.log(error);
+        this.sessionService.displayError(error.message, error);
       }
     )
   }

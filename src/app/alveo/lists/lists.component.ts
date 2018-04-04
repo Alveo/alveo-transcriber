@@ -44,7 +44,7 @@ export class ListsComponent implements OnInit {
                 this.authService.promptLogin();
                 this.ready = true;
               } else {
-                console.log(error)
+                this.sessionService.displayError(error.message, error);
               }
             }
           );

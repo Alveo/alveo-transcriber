@@ -123,7 +123,19 @@ export class TranscriberComponent implements OnInit {
     if (this.item === null) {
       return "";
     }
-    return this.item['alveo:documents'][0]['alveo:url'];
+
+    let doc = null;
+    for (let match of this.item['alveo:documents']) {
+      if (this.doc_id == match['dcterms:identifier']) {
+        doc = match;
+        break;
+      }
+    }
+
+    if (doc === null) {
+      throw new Error('Could not find document that should be locatable.');
+    }
+    return doc['alveo:url'];
   }
 
   public getIdentifier(): string {

@@ -41,6 +41,7 @@ import { ListsComponent } from './lists/lists.component';
 import { ItemsComponent } from './lists/items/items.component';
 import { DocsComponent } from './lists/items/docs/docs.component';
 import { ItemComponent } from './lists/items/item/item.component';
+import { ItemLoaderComponent } from './lists/items/item-loader/item-loader.component';
 import { ErrorNotifyComponent } from './error-notify/error-notify.component';
 
 import { AlveoService } from './shared/alveo.service';
@@ -71,6 +72,7 @@ import 'hammerjs';
     ItemsComponent,
     DocsComponent,
     ItemComponent,
+    ItemLoaderComponent,
     ListTableComponent,
     TranscriberComponent,
     ErrorNotifyComponent

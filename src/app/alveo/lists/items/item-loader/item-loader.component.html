@@ -1,0 +1,7 @@
+<loading-spinner [spinnerSize]="'small'" *ngIf="state !== 'Failed'">
+  <p>Downloading data</p>
+</loading-spinner>
+
+<p *ngIf="state === 'Failed'">
+  The item could not be downloaded.
+</p>

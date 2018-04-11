@@ -15,15 +15,10 @@
       (onTranscribe)="redirectTranscriber($event, item)">
     </item>
 
-    <div> <!-- Item downloader component -->
-      <loading-spinner [spinnerSize]="'small'" *ngIf="!this.isDataReady(item) && getItemState(item) !== 'Failed'">
-        <p>Downloading data</p>
-      </loading-spinner>
-
-      <p *ngIf="getItemState(item) === 'Failed'">
-        The item could not be downloaded.
-      </p>
-    </div>
+    <item-loader *ngIf="!this.isDataReady(item)"
+      [identifier]="item['id']"
+      [state]="item['state']">
+    </item-loader>
   </div>
 
   <mat-paginator

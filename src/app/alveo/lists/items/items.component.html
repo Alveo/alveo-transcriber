@@ -5,7 +5,7 @@
   <mat-expansion-panel *ngFor="let item of this.getItems()" (click)="onItemSelection(item)">
     <mat-expansion-panel-header>
       <mat-panel-title>
-        {{this.getItemName(item)}}
+        {{this.getItemIdentifier(item)}}
       </mat-panel-title>
       <mat-panel-description>
         {{this.getItemState(item)}}

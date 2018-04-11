@@ -174,7 +174,7 @@ export class ItemsComponent {
     return item['state'];
   }
 
-  public getItemName(item: any): string {
+  public getItemIdentifier(item: any): string {
     return item['id'];
   }
 
@@ -202,10 +202,10 @@ export class ItemsComponent {
     return item['data'];
   }
 
-  public onDocumentSelection(ev: any, item: any): any {
+  public onDocumentSelection(docEv: any, item: any): any {
     this.onSelect.emit({
-      "item_id": this.getItemName(item),
-      "doc_id": ev['doc_id'],
+      "item_id": this.getItemIdentifier(item),
+      "doc_id": docEv['doc_id'],
     });
   }
 }

@@ -90,6 +90,6 @@ export class ListsComponent implements OnInit {
   }
 
   public transcribe(ev: any): void {
-    this.sessionService.navigate([Paths.Transcriber, ev['item_id'], ev['doc_id'], this.list_id]);
+    this.sessionService.navigate([Paths.Transcriber, this.list_id, ev['item']['collection'], ev['item']['id'], ev['doc']['id']]);
   }
 }

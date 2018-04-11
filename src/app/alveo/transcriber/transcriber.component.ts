@@ -11,6 +11,8 @@ import { AnnotatorComponent } from '../../annotator/annotator.component'
 import { Annotation } from '../../annotator/shared/annotation';
 import { Paths } from '../shared/paths';
 
+import { environment } from '../../../environments/environment';
+
 @Component({
   selector: 'transcriber',
   templateUrl: './transcriber.component.html',
@@ -31,6 +33,7 @@ export class TranscriberComponent implements OnInit {
   private isSegmenting: boolean = false;
 
   private item_id: string = '';
+  private collection_id: string = '';
   public doc_id: string = '';
 
   @ViewChild(AnnotatorComponent) annotator: AnnotatorComponent;
@@ -48,18 +51,19 @@ export class TranscriberComponent implements OnInit {
     this.activatedRoute.params.subscribe(
       (params: Params) => {
         this.loader_text = "Loading ...";
+        this.list_id = params['list_id'];
+        this.collection_id = params['collection_id'];
         this.item_id = params['item_id'];
         this.doc_id = params['doc_id'];
-        this.list_id = params['list_id'];
         if (this.item_id === undefined) {
           this.sessionService.navigate([Paths.ListIndex]);
         } else {
           this.loader_text = "Loading item ...";
-          this.prepareItem(this.item_id).then(
+          this.prepareItem(this.collection_id+"/"+this.item_id).then(
             (item) => {
               this.loader_text = "Loading audio data ...";
               this.item = item;
-              this.prepareAudioFile(this.item_id, this.doc_id).then(
+              this.prepareAudioFile(this.collection_id+"/"+this.item_id, this.doc_id).then(
                 (data) => {
                   this.audioFileData = data;
                   this.loader_text = "Checking annotations ...";
@@ -120,22 +124,12 @@ export class TranscriberComponent implements OnInit {
   }
 
   public getAudioFileUrl(): string {
-    if (this.item === null) {
-      return "";
-    }
-
-    let doc = null;
-    for (let match of this.item['alveo:documents']) {
-      if (this.doc_id == match['dcterms:identifier']) {
-        doc = match;
-        break;
-      }
-    }
-
-    if (doc === null) {
-      throw new Error('Could not find document that should be locatable.');
-    }
-    return doc['alveo:url'];
+    let path = environment.alveoPaths.mainUrl
+      + '/' + environment.alveoPaths.itemSuffix
+      + '/' + this.collection_id
+      + '/' + this.item_id
+      + '/document/' + this.doc_id
+    return path
   }
 
   public getIdentifier(): string {

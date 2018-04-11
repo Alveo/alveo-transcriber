@@ -1,9 +1,11 @@
 import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
-
-import { Paths } from '../../shared/paths';
+import { Annotation } from '../../../annotator/shared/annotation';
+import { AnnotationService } from '../../shared/annotation.service';
 
 import { AlveoService } from '../../shared/alveo.service';
 import { AuthService } from '../../shared/auth.service';
+
+import { Paths } from '../../shared/paths';
 
 enum ItemState {
   UNCHECKED = 'Unchecked',
@@ -32,12 +34,14 @@ export class ItemsComponent {
   public pageIndex: number = 0;
 
   public filter: string = "";
+  private annotations: Array<Annotation> = [];
 
   private ready: boolean = false;
 
   constructor(
     private authService: AuthService,
     private alveoService: AlveoService,
+    private annotationService: AnnotationService
   ) { }
 
   ngOnInit() {
@@ -48,10 +52,22 @@ export class ItemsComponent {
         this.ready = true;
       }
     );
+
+    if (this.item_identifier !== "") {
+      this.annotationService.loadAnnotations(this.item_identifier).then(
+        (annotations) => {
+          this.annotations = annotations;
+        }
+      );
+    }
   }
 
   public isReady(): boolean {
     return this.ready;
+  }
+
+  public getAnnotationCount(): number {
+    return this.annotations.length;
   }
 
   private generateItemList() {
@@ -175,11 +191,7 @@ export class ItemsComponent {
   }
 
   public getItemIdentifier(item: any): string {
-    return item['id'];
-  }
-
-  public getItemIdentifier(item: any): string {
-    return item['data']['alveo:metadata']['alveo:handle'];
+    return item['id']
   }
 
   public getItemUrl(item: any): string {
@@ -202,10 +214,16 @@ export class ItemsComponent {
     return item['data'];
   }
 
-  public onDocumentSelection(docEv: any, item: any): any {
+  public onDocumentSelection(doc: any, item: any): any {
+    console.log(item['data']['alveo:metadata']);
     this.onSelect.emit({
-      "item_id": this.getItemIdentifier(item),
-      "doc_id": docEv['doc_id'],
+      "item": {
+        "id": item['data']['alveo:metadata']['dcterms:identifier'],
+        "collection": item['data']['alveo:metadata']['dcterms:isPartOf'],
+      },
+      "doc": {
+        "id": doc['doc_id']
+      }
     });
   }
 }

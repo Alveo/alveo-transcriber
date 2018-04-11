@@ -1,0 +1,32 @@
+<mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      {{this.getItemIdentifier(item)}}
+    </mat-panel-title>
+    <mat-panel-description>
+      Ready
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+
+  <div *ngIf="this.getDocumentCount() === 0">
+    <p>There are no audio documents on this item to work with.</p>
+  </div>
+
+  <div *ngIf="this.getDocumentCount() > 0">
+    <p>Annotations: {{ this.getAnnotationCount() }}</p>
+
+    <div class="audio-channel">
+      <p>Use audio channel: </p>
+      <docs [docs]="this.getDocuments()" (onSelectedDocChange)="selectedDoc=$event"></docs>
+    </div>
+
+    <div class="button-aligner">
+      <button mat-raised-button
+        (click)="this.transcribeAction()"
+        color="primary">
+        Transcribe
+      </button>
+    </div>
+  </div>
+</mat-expansion-panel>
+

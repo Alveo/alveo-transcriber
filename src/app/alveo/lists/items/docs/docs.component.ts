@@ -1,8 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 
-import { Annotation } from '../../../../annotator/shared/annotation';
-import { AnnotationService } from '../../../shared/annotation.service';
-
 /* Display component for showing and selecting of docs
  *   Provides route for Annotator module */
 @Component({
@@ -11,42 +8,23 @@ import { AnnotationService } from '../../../shared/annotation.service';
   styleUrls: ['./docs.component.css'],
 })
 export class DocsComponent implements OnInit {
-  @Input() item_identifier: string = "";
   @Input() docs: Array<any> = [];
-  @Output() onNavigate = new EventEmitter<any>();
-  private annotations: Array<Annotation> = [];
-  public selectedDoc: any = null;
+  @Output() onSelectedDocChange: any = new EventEmitter<any>();
+  
+  private selectedDoc: null;
 
-  constructor(
-    private annotationService: AnnotationService
-  ) { }
+  constructor() { }
 
   ngOnInit() {
     if (this.docs.length > 0) {
       this.selectedDoc = this.docs[0];
     }
+  }
 
-    if (this.item_identifier !== "") {
-      this.annotationService.loadAnnotations(this.item_identifier).then(
-        (annotations) => {
-          this.annotations = annotations;
-        }
-      );
+  public docSelect($event, doc): void {
+    if ($event['isUserInput'] === true) {
+      this.selectedDoc = doc;
+      this.onSelectedDocChange.emit(doc)
     }
-  }
-
-  public getDocumentCount(): number {
-    return this.docs.length;
-  }
-
-  public getAnnotationCount(): number {
-    return this.annotations.length;
-  }
-
-  public select(): void {
-    this.onNavigate.emit({
-      "doc_id": this.selectedDoc['dcterms:identifier'],
-      "doc": this.selectedDoc
-    });
   }
 }

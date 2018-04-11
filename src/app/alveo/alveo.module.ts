@@ -40,6 +40,7 @@ import { TranscriberComponent } from './transcriber/transcriber.component';
 import { ListsComponent } from './lists/lists.component';
 import { ItemsComponent } from './lists/items/items.component';
 import { DocsComponent } from './lists/items/docs/docs.component';
+import { ItemComponent } from './lists/items/item/item.component';
 import { ErrorNotifyComponent } from './error-notify/error-notify.component';
 
 import { AlveoService } from './shared/alveo.service';
@@ -69,6 +70,7 @@ import 'hammerjs';
     ListsComponent,
     ItemsComponent,
     DocsComponent,
+    ItemComponent,
     ListTableComponent,
     TranscriberComponent,
     ErrorNotifyComponent

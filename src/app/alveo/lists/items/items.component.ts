@@ -1,6 +1,4 @@
 import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
-import { Annotation } from '../../../annotator/shared/annotation';
-import { AnnotationService } from '../../shared/annotation.service';
 
 import { AlveoService } from '../../shared/alveo.service';
 import { AuthService } from '../../shared/auth.service';
@@ -34,14 +32,12 @@ export class ItemsComponent {
   public pageIndex: number = 0;
 
   public filter: string = "";
-  private annotations: Array<Annotation> = [];
 
   private ready: boolean = false;
 
   constructor(
     private authService: AuthService,
     private alveoService: AlveoService,
-    private annotationService: AnnotationService
   ) { }
 
   ngOnInit() {
@@ -52,22 +48,10 @@ export class ItemsComponent {
         this.ready = true;
       }
     );
-
-    if (this.item_identifier !== "") {
-      this.annotationService.loadAnnotations(this.item_identifier).then(
-        (annotations) => {
-          this.annotations = annotations;
-        }
-      );
-    }
   }
 
   public isReady(): boolean {
     return this.ready;
-  }
-
-  public getAnnotationCount(): number {
-    return this.annotations.length;
   }
 
   private generateItemList() {
@@ -148,15 +132,6 @@ export class ItemsComponent {
       }
     );
   }
-
-  private getItemDocuments(item: any): void {
-    return item['data']['alveo:documents'];
-  }
-
-  private getItemPrimaryDocument(item: any): void {
-    return item['data']['alveo:documents'][0];
-  }
-
   private retrieveItemData(item: any): void {
     item['state'] = ItemState.DOWNLOADING;
 
@@ -190,14 +165,6 @@ export class ItemsComponent {
     return item['state'];
   }
 
-  public getItemIdentifier(item: any): string {
-    return item['id']
-  }
-
-  public getItemUrl(item: any): string {
-    return item['url'];
-  }
-
   public isDataReady(item: any): boolean {
     if (this.getItemState(item) === ItemState.READY
       && item['data'] !== null) {
@@ -206,23 +173,21 @@ export class ItemsComponent {
     return false;
   }
 
-  public onItemSelection(item: any): any {
+  public onItemSelection(item: any): void {
     if (this.getItemState(item) === ItemState.NOT_CACHED
       && item['data'] === null) {
       this.retrieveItemData(item);
     }
-    return item['data'];
   }
 
-  public onDocumentSelection(doc: any, item: any): any {
-    console.log(item['data']['alveo:metadata']);
+  public redirectTranscriber(doc: any, item: any): any {
     this.onSelect.emit({
       "item": {
         "id": item['data']['alveo:metadata']['dcterms:identifier'],
         "collection": item['data']['alveo:metadata']['dcterms:isPartOf'],
       },
       "doc": {
-        "id": doc['doc_id']
+        "id": doc['dcterms:identifier']
       }
     });
   }

@@ -52,10 +52,6 @@ export class ItemComponent implements OnInit {
   }
 
   public transcribeAction(): void {
-    console.log(this.selectedDoc);
-    this.onTranscribe.emit({
-      "doc_id": null, // TODO this.selectedDoc['dcterms:identifier'],
-      "doc": null // TODO this.selectedDoc
-    });
+    this.onTranscribe.emit(this.selectedDoc);
   }
 }

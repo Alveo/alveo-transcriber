@@ -1,32 +1,36 @@
-<div id="item-display" *ngIf="this.getItemCount() > 0 && this.isReady()">
-  <mat-form-field id="search-field">
-    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
-  </mat-form-field>
-  <mat-expansion-panel *ngFor="let item of this.getItems()" (click)="onItemSelection(item)">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        {{this.getItemIdentifier(item)}}
-      </mat-panel-title>
-      <mat-panel-description>
-        {{this.getItemState(item)}}
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-
-    <div *ngIf="this.isDataReady(item)">
-      <docs (onNavigate)="this.onDocumentSelection($event, item)" [item_identifier]="this.getItemIdentifier(item)" [docs]="this.getItemDocuments(item)"></docs>
-    </div>
-    <loading-spinner [spinnerSize]="'small'" *ngIf="!this.isDataReady(item) && getItemState(item) !== 'Failed'">
-      <p>Downloading data</p>
-    </loading-spinner>
-    <p *ngIf="getItemState(item) === 'Failed'">
-      The item could not be downloaded.
-    </p>
-  </mat-expansion-panel>
-
-  <mat-paginator (page)="this.paginatorEvent($event)" [length]="this.getListDisplaySize()" [pageSize]="this.pageSize" [pageIndex]="this.pageIndex" [pageSizeOptions]="[5, 15, 45, 100]">
-  </mat-paginator>
-</div>
-
 <loading-spinner *ngIf="!this.isReady()">
   <p>Checking cache ...</p>
 </loading-spinner>
+
+<div id="item-display" *ngIf="this.getItemCount() > 0 && this.isReady()">
+  <mat-form-field id="search-field">
+    <input matInput
+    (keyup)="applyFilter($event.target.value)"
+    placeholder="Search">
+  </mat-form-field>
+
+  <div *ngFor="let item of this.getItems()">
+    <item *ngIf="this.isDataReady(item)"
+      [item]="item"
+      (onTranscribe)="redirectTranscriber($event, item)">
+    </item>
+
+    <div> <!-- Item downloader component -->
+      <loading-spinner [spinnerSize]="'small'" *ngIf="!this.isDataReady(item) && getItemState(item) !== 'Failed'">
+        <p>Downloading data</p>
+      </loading-spinner>
+
+      <p *ngIf="getItemState(item) === 'Failed'">
+        The item could not be downloaded.
+      </p>
+    </div>
+  </div>
+
+  <mat-paginator
+    (page)="this.paginatorEvent($event)"
+    [length]="this.getListDisplaySize()"
+    [pageSize]="this.pageSize"
+    [pageIndex]="this.pageIndex"
+    [pageSizeOptions]="[5, 15, 45, 100]">
+  </mat-paginator>
+</div>

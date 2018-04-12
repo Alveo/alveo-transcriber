@@ -81,21 +81,26 @@ export class TranscriberComponent implements OnInit {
                   );
                 }
               ).catch(
-                (error) => {
-                  this.raiseError();
-                  this.sessionService.displayError(error.message, error);
-                }
+                (error) => this.requestErrorHandler(error.message, error)
               );
             }
           ).catch(
-            (error) => {
-              this.raiseError();
-              this.sessionService.displayError(error.message, error);
-            }
+            (error) => this.requestErrorHandler(error.message, error)
           );
         }
       }
     );
+  }
+
+  public requestErrorHandler(message: string, error: any) {
+    if (error.status === 401) {
+      this.authService.promptLogin();
+      this.raiseError("Not authenticated")
+    } else if (error.status === 403) {
+      this.raiseError("Licence must be accepted first. Please do so on the main website.")
+    } else {
+      this.sessionService.displayError(error.message, error);
+    }
   }
 
   public getLoadingText(): string {
@@ -106,24 +111,17 @@ export class TranscriberComponent implements OnInit {
     return this.ready;
   }
 
-  public raiseError(): void {
+  public raiseError(message: string = "An error has occurred"): void {
     this.errorRaised = true;
-    this.loader_text = "An error has occurred.";
+    this.loader_text = message;
   }
 
   private prepareItem(list_id: string): Promise<any> {
     return new Promise(
       (resolve, reject) => {
         this.alveoService.getItem(list_id).subscribe(
-          list => {
-            resolve(list);
-          },
-          error => {
-            if (error.status === 401) {
-              this.authService.promptLogin();
-            }
-            reject(error);
-          }
+          list => resolve(list),
+          error => reject(error)
         );
       }
     );
@@ -149,15 +147,8 @@ export class TranscriberComponent implements OnInit {
     return new Promise(
       (resolve, reject) => {
         this.alveoService.getAudioFile(list_id, doc_id).subscribe(
-          audioData => {
-            resolve(audioData);
-          },
-          error => {
-            if (error.code === 401 && !this.authService.isLoggedIn()) {
-              this.authService.promptLogin();
-            }
-            reject(error);
-          }
+          audioData => resolve(audioData),
+          error => reject(error)
         );
       }
     );
@@ -216,4 +207,4 @@ export class TranscriberComponent implements OnInit {
       }
     )
   }
-}
+a

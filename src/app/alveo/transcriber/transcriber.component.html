@@ -1,5 +1,5 @@
 <div *ngIf="this.errorRaised" class="page-mid">
-  <p>An error has occurred.</p>
+  <p>{{this.getLoadingText()}}</p>
   <button mat-raised-button color="primary" (click)="this.exit()">Back</button>
 </div>
 

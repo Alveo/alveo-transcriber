@@ -207,4 +207,4 @@ export class TranscriberComponent implements OnInit {
       }
     )
   }
-a
+}

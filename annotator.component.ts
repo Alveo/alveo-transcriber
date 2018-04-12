@@ -124,6 +124,7 @@ export class AnnotatorComponent implements OnInit {
       + 'be permanent. Do you wish to proceed?');
     dialogStatus.afterClosed().subscribe(result => {
       if (result === true) {
+        this.player.pause();
         this.onAutosegment.emit({});
       }
     });

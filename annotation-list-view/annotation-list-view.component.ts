@@ -27,11 +27,13 @@ export class AnnotationListViewComponent {
   constructor() { }
 
   public scrollToAnnotation(annotation: Annotation) {
-    const elements = document.getElementsByClassName("annotation-forms");
+    if (annotation !== null) {
+      const elements = document.getElementsByClassName("annotation-forms");
 
-    for (var i = 0; i < elements.length; i++) {
-      if (elements[i].id === annotation.id) {
-        elements[i].scrollIntoView();
+      for (var i = 0; i < elements.length; i++) {
+        if (elements[i].id === annotation.id) {
+          elements[i].scrollIntoView();
+        }
       }
     }
   }

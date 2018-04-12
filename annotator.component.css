@@ -60,15 +60,3 @@ button {
   justify-content: center;
   flex-align: center;
 }
-
-#header {
-  flex: 1 1 100%;
-  font-size: 24px;
-  vertical-align: middle;
-  padding: 0.5rem 1rem 0.5rem 1rem;
-
-  text-align: center;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-}

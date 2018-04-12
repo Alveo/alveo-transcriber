@@ -1,7 +1,5 @@
 <div class="container">
     <div class="top-halign">
-      <button mat-raised-button color="primary" (click)="this.actionBack()">Exit</button>
-
       <div *ngIf="this.playerReady && !this.segmentorWorking">
         <button mat-raised-button
           color="primary"
@@ -23,6 +21,8 @@
           (click)="this.exportJSON()">
           Export JSON
         </button>
+
+        <button mat-raised-button color="primary" (click)="this.actionBack()">Exit</button>
       </div>
     </div>
 

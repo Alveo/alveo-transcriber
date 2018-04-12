@@ -104,8 +104,10 @@ export class AnnotatorComponent implements OnInit {
   }
 
   public exportJSON(): void {
-    const csv = JSON.stringify(this.annotations, null, 2);
-    JSON.stringify(this.annotations, null, 2);
+    const csv = JSON.stringify({
+      "doc_id": this.getAudioFileName(),
+      "annotations": this.annotations
+    }, null, 2);
 
     const blob = new Blob([csv], { type: 'application/json' });
     const url = window.URL.createObjectURL(blob);

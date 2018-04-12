@@ -1,7 +1,12 @@
-<loading-spinner [spinnerSize]="'small'" *ngIf="state !== 'Failed'">
-  <p>Downloading data</p>
-</loading-spinner>
-
-<p *ngIf="state === 'Failed'">
-  The item could not be downloaded.
-</p>
+<mat-expansion-panel [disabled]="true">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      {{this.identifier}}
+    </mat-panel-title>
+    <mat-panel-description>
+      {{this.state}}
+      <loading-spinner [spinnerSize]="'tiny'" [inline]="true" *ngIf="state === 'Downloading'">
+      </loading-spinner>
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+</mat-expansion-panel>

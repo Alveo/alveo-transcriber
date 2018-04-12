@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
-import { AuthService } from './auth.service';
 import { DBService, Databases } from './db.service';
 import { ApiService } from './api.service';
 
@@ -9,7 +8,6 @@ import { ApiService } from './api.service';
 export class AlveoService {
   constructor(
     private apiService: ApiService,
-    private authService: AuthService,
     private dbService: DBService) {
   }
 
@@ -35,24 +33,15 @@ export class AlveoService {
   private apiRequest(request: Observable<any>): Observable<any> {
     return new Observable((observer) =>
       {
-        if (this.authService.isApiAuthed()) {
-          request.subscribe(
-            data => {
-              observer.next(data);
-              observer.complete();
-            },
-            error => {
-              observer.error(error);
-            }
-          );
-        } else {
-          observer.error(
-            {
-              "message": "Not authententicated",
-              "code": 401
-            }
-          );
-        }
+        request.subscribe(
+          data => {
+            observer.next(data);
+            observer.complete();
+          },
+          error => {
+            observer.error(error);
+          }
+        );
       }
     );
   }

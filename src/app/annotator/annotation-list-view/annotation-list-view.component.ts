@@ -26,13 +26,22 @@ export class AnnotationListViewComponent {
 
   constructor() { }
 
-  public scrollToAnnotation(annotation: Annotation) {
+  public scrollToAnnotation(annotation: Annotation, direct: boolean = false) {
     if (annotation !== null) {
       const elements = document.getElementsByClassName("annotation-forms");
 
       for (var i = 0; i < elements.length; i++) {
         if (elements[i].id === annotation.id) {
+          // Keep two elements above where possible, this is less confusing to the user
+          if (!direct) {
+            i -= 2;
+            if (i < 0) {
+              i = 0;
+            }
+          }
+
           elements[i].scrollIntoView();
+          break;
         }
       }
     }

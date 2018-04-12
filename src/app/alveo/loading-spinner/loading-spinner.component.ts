@@ -7,6 +7,7 @@ import { Component, Input } from '@angular/core';
 })
 export class LoadingSpinnerComponent {
   @Input() spinnerSize: string = "large";
+  @Input() inline: boolean = false;
 
   constructor() { }
 
@@ -19,6 +20,9 @@ export class LoadingSpinnerComponent {
 
   public getSpinnerDiameter(): number {
     switch (this.spinnerSize) {
+      case "tiny": {
+        return 20;
+      }
       case "small": {
         return 40;
       }

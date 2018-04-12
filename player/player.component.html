@@ -3,23 +3,23 @@
        The problem with hiding them before hand is that it can break the WaveSurfer timeline for some reason. -->
   <div id="waveform"></div>
   <div id="timeline"></div>
+</div>
 
-  <div id="controls" *ngIf="this.isReady()">
-    <ng-template #playingTemplate [ngIf]="this.playing()">
-      <mat-icon class="clickable" (click)="this.pause()">pause</mat-icon>
-    </ng-template>
+<div id="controls" *ngIf="this.isReady()">
+  <ng-template #playingTemplate [ngIf]="this.playing()">
+    <mat-icon class="clickable" (click)="this.pause()">pause</mat-icon>
+  </ng-template>
 
-    <ng-template #pausedTemplate [ngIf]="!this.playing()">
-      <mat-icon class="clickable" (click)="this.play()">play_arrow</mat-icon>
-    </ng-template>
+  <ng-template #pausedTemplate [ngIf]="!this.playing()">
+    <mat-icon class="clickable" (click)="this.play()">play_arrow</mat-icon>
+  </ng-template>
 
-    <mat-icon class="clickable" (click)="this.replayLast(5)">replay_5</mat-icon>
-    <mat-icon class="clickable" (click)="this.replayLast(10)">replay_10</mat-icon>
+  <mat-icon class="clickable" (click)="this.replayLast(5)">replay_5</mat-icon>
+  <mat-icon class="clickable" (click)="this.replayLast(10)">replay_10</mat-icon>
 
-    <mat-icon class="clickable" (click)="this.zoomIn()">zoom_in</mat-icon>
-    <mat-icon class="clickable" (click)="this.zoomOut()">zoom_out</mat-icon>
+  <mat-icon class="clickable" (click)="this.zoomIn()">zoom_in</mat-icon>
+  <mat-icon class="clickable" (click)="this.zoomOut()">zoom_out</mat-icon>
 
-    <p id="duration">{{this.getPos() | durationshort}} / {{this.getDuration() | durationshort}}</p>
+  <p id="duration">{{this.getPos() | durationshort}} / {{this.getDuration() | durationshort}}</p>
 
-  </div>
 </div>

@@ -1,31 +1,35 @@
-<loading-spinner *ngIf="!this.isReady() && !this.isError()">
-  <p>{{this.getLoadingText()}}</p>
-</loading-spinner>
-
-<div class="page-mid" *ngIf="this.isError()">
+<div *ngIf="this.errorRaised" class="page-mid">
   <p>An error has occurred.</p>
   <button mat-raised-button color="primary" (click)="this.exit()">Back</button>
 </div>
 
-<div *ngIf="this.isReady()">
-  <p class="center">Using source: {{ this.doc_id }}</p>
-  <annotator
-    [audioFile]="this.getAudioFile()"
-    [audioFileName]="this.getIdentifier()"
-    [annotations]="this.getAnnotations()"
-    [selectedAnnotation]="this.getSelectedAnnotation()"
-    [viewMode]="this.getViewMode()"
+<div *ngIf="!this.errorRaised">
+  <div class="page-mid" *ngIf="!this.isReady()">
+    <loading-spinner>
+      <p>{{this.getLoadingText()}}</p>
+      <button mat-raised-button color="primary" (click)="this.exit()">Back</button>
+    </loading-spinner>
+  </div>
 
-    [showSegmentorServiceButton]="true"
-    [showCSVExportButton]="true"
-    [showJSONExportButton]="true"
-    [autoplayDefault]="true"
+  <div *ngIf="this.isReady()">
+    <p class="center">Using source: {{ this.doc_id }}</p>
+    <annotator
+      [audioFile]="this.getAudioFile()"
+      [audioFileName]="this.getIdentifier()"
+      [annotations]="this.getAnnotations()"
+      [selectedAnnotation]="this.getSelectedAnnotation()"
+      [viewMode]="this.getViewMode()"
 
-    [segmentorWorking]="this.isSegmenting" 
+      [showSegmentorServiceButton]="true"
+      [showCSVExportButton]="true"
+      [showJSONExportButton]="true"
+      [autoplayDefault]="true"
 
-    (onExit)="this.exit()"
-    (onAutosegment)="this.autoSegment($event)"
-    (onSave)="this.saveAnnotations($event)"
-  >
-  </annotator>
+      [segmentorWorking]="this.isSegmenting" 
+
+      (onExit)="this.exit()"
+      (onAutosegment)="this.autoSegment($event)"
+      (onSave)="this.saveAnnotations($event)">
+    </annotator>
+  </div>
 </div>

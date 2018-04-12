@@ -21,7 +21,6 @@ import { environment } from '../../../environments/environment';
 export class TranscriberComponent implements OnInit {
   private ready: boolean = false;
   private loader_text: string = "";
-  private error: boolean = false;
   private list_id: string = "";
 
   private item: any = null;
@@ -29,6 +28,7 @@ export class TranscriberComponent implements OnInit {
   private annotations: Array<Annotation> = [];
   private selectedAnnotation: Annotation = null;
   private defaultView: string = "list";
+  private errorRaised: boolean = false;
 
   private isSegmenting: boolean = false;
 
@@ -81,11 +81,17 @@ export class TranscriberComponent implements OnInit {
                   );
                 }
               ).catch(
-                (error) => this.sessionService.displayError(error.message, error)
+                (error) => {
+                  this.raiseError();
+                  this.sessionService.displayError(error.message, error);
+                }
               );
             }
           ).catch(
-            (error) => this.sessionService.displayError(error.message, error)
+            (error) => {
+              this.raiseError();
+              this.sessionService.displayError(error.message, error);
+            }
           );
         }
       }
@@ -96,12 +102,13 @@ export class TranscriberComponent implements OnInit {
     return this.loader_text;
   }
 
-  public isError(): boolean {
-    return this.error;
-  }
-
   public isReady(): boolean {
     return this.ready;
+  }
+
+  public raiseError(): void {
+    this.errorRaised = true;
+    this.loader_text = "An error has occurred.";
   }
 
   private prepareItem(list_id: string): Promise<any> {
@@ -112,10 +119,9 @@ export class TranscriberComponent implements OnInit {
             resolve(list);
           },
           error => {
-            if (error === 403 && !this.authService.isLoggedIn()) {
+            if (error.code === 401 && !this.authService.isLoggedIn()) {
               this.authService.promptLogin();
             }
-            this.error = true;
             reject(error);
           }
         );
@@ -150,7 +156,6 @@ export class TranscriberComponent implements OnInit {
             if (error === 403 && !this.authService.isLoggedIn()) {
               this.authService.promptLogin();
             }
-            this.error = true;
             reject(error);
           }
         );

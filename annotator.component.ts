@@ -64,12 +64,10 @@ export class AnnotatorComponent implements OnInit {
 
   public setSingleView(): void {
     this.setViewMode('single');
-    this.player.resize(200);
   }
 
   public setListView(): void {
     this.setViewMode('list');
-    this.player.resize(120);
   }
 
   public actionBack(): void {

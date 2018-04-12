@@ -50,7 +50,8 @@ export class PlayerComponent implements OnInit {
     if (this.ready) {
       if (annotation['new'] !== null) {
         const newRegion = this.findRegion(annotation['new']['id']);
-        this.selectRegion(newRegion);
+        console.log(annotation['silently']);
+        this.selectRegion(newRegion, annotation['silently']);
       }
     }
   }
@@ -193,10 +194,6 @@ export class PlayerComponent implements OnInit {
           color: BASE_COLOUR,
         });
       }
-    }
-
-    if (this.annotations.length > 0) {
-      this.selectRegion(this.findRegion(this.annotations[0].id))
     }
   }
 

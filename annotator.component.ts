@@ -195,7 +195,7 @@ export class AnnotatorComponent implements OnInit {
 
   public annotationEvent(ev: any): void {
     switch (ev['type']) {
-      case 'select-noemit': {
+      case 'region-select': {
         this.selectAnnotation(ev['annotation'], false);
         break;
       }

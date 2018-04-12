@@ -32,7 +32,7 @@ export class AnnotatorComponent implements OnInit {
   @Input() showSegmentorServiceButton: boolean = false;
   @Input() showCSVExportButton: boolean = true;
   @Input() showJSONExportButton: boolean = true;
-  @Input() autoplayDefault: boolean = true;
+  @Input() autoPlay: boolean = true;
 
   public playerReady: boolean = false;
 
@@ -142,17 +142,12 @@ export class AnnotatorComponent implements OnInit {
   }
 
   public replayCheckboxEvent(ev: any): void {
-    if (ev['checked'] === true) {
-      this.player.autoPlay(true);
-    } else {
-      this.player.autoPlay(false);
-    }
+    this.autoPlay = ev['checked'];
   }
 
   public onPlayerReady(ev: any): void {
     this.selectFirst();
     this.playerReady = true;
-    this.player.autoPlay(this.autoplayDefault);
   }
 
   public playerControlEvent(ev: any): void {
@@ -268,7 +263,7 @@ export class AnnotatorComponent implements OnInit {
 
   public selectFirst(): void {
     if (this.annotations.length > 0) {
-      this.selectAnnotation(this.annotations[0], true, false);
+      this.selectAnnotation(this.annotations[0], true, true);
     } else {
       this.selectAnnotation(null);
     }

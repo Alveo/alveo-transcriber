@@ -32,9 +32,8 @@ export class DataSourceComponent implements OnInit {
       (error) => {
         if (!this.authService.isLoggedIn()) {
           this.authService.promptLogin(true);
-        } else {
-          this.sessionService.displayError(error.message, error)
-        }
+        } 
+        // No other applicable errors
       }
     );
   }

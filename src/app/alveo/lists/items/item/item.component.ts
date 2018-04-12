@@ -15,6 +15,8 @@ export class ItemComponent implements OnInit {
   private annotationCount: number = 0;
   private selectedSource: any = null;
 
+  private audioSources: any = [];
+
   constructor(
     private annotationService: AnnotationService
   ) { }
@@ -25,22 +27,25 @@ export class ItemComponent implements OnInit {
         this.annotationCount = annotations.length;
       }
     );
+
+    for (const doc of this.item['data']['alveo:documents']) {
+      // Need to force lower case as some Alveo collections use titlecase at the moment
+      if (doc['dcterms:type'].toLowerCase() === 'audio') {
+        this.audioSources.push(doc);
+      }
+    }
   }
 
   public getAnnotationCount(): number {
     return this.annotationCount;
   }
 
-  public getDocumentCount(): number {
-    return this.getDocuments().length;
-  }
-
   private getAnnotationHandle(): string {
     return this.item['data']['alveo:metadata']['alveo:handle'];
   }
 
-  private getDocuments(): any {
-    return this.item['data']['alveo:documents'];
+  private getAudioSources(): any {
+    return this.audioSources;
   }
 
   public getItemIdentifier(): string {

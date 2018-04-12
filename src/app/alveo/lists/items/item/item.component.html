@@ -8,17 +8,17 @@
     </mat-panel-description>
   </mat-expansion-panel-header>
 
-  <div *ngIf="this.getDocumentCount() === 0">
+  <div *ngIf="this.audioSources.length === 0">
     <p>There are no audio documents on this item to work with.</p>
   </div>
 
-  <div *ngIf="this.getDocumentCount() > 0">
+  <div *ngIf="this.audioSources.length > 0">
     <p>Annotations: {{ this.getAnnotationCount() }}</p>
 
     <div class="audio-channel">
       <p>Use audio channel: </p>
       <source-select
-        [sources]="this.getDocuments()"
+        [sources]="this.getAudioSources()"
         (onSelectedSourceChange)="selectedSource=$event">
       </source-select>
     </div>

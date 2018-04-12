@@ -119,7 +119,7 @@ export class TranscriberComponent implements OnInit {
             resolve(list);
           },
           error => {
-            if (error.code === 401 && !this.authService.isLoggedIn()) {
+            if (error.status === 401) {
               this.authService.promptLogin();
             }
             reject(error);

@@ -32,9 +32,15 @@ export class AnnotationListViewComponent {
 
       for (var i = 0; i < elements.length; i++) {
         if (elements[i].id === annotation.id) {
-          // Keep two elements above where possible, this is less confusing to the user
+          // Keep one to two elements above where possible, this is less confusing to the user
           if (!direct) {
-            i -= 2;
+            console.log(window.innerHeight);
+            if (window.innerHeight > 800) {
+              i -= 2;
+            } else if (window.innerHeight > 400) {
+              i -= 1;
+            }
+
             if (i < 0) {
               i = 0;
             }

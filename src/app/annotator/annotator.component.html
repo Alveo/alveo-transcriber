@@ -1,75 +1,72 @@
 <div class="container">
-    <div class="player-container">
-      <div class="top-halign">
-        <p id="header">Transcribing: {{ this.getAudioFileName() }}</p>
-        <button mat-raised-button color="primary" (click)="this.actionBack()">Exit</button>
-
-        <div *ngIf="this.playerReady && !this.segmentorWorking">
-          <button mat-raised-button
-            color="primary"
-            *ngIf="this.showSegmentorServiceButton"
-            (click)="this.actionSegment()">
-            Autosegment
-          </button>
-
-          <button mat-raised-button
-            color="primary"
-            *ngIf="this.showCSVExportButton"
-            (click)="this.exportCSV()">
-            Export CSV
-          </button>
-
-          <button mat-raised-button
-            color="primary"
-            *ngIf="this.showJSONExportButton"
-            (click)="this.exportJSON()">
-            Export JSON
-          </button>
-        </div>
-      </div>
-
-      <div *ngIf="!this.playerReady && !this.segmentorWorking"
-        id="player-loader">
-        <mat-spinner
-          [color]="primary">
-        </mat-spinner>
-        <p>Rendering waveform ...</p>
-      </div>
-
-      <div *ngIf="this.segmentorWorking"
-        id="player-loader">
-        <mat-spinner
-          [color]="primary">
-        </mat-spinner>
-        <p>Segmenting ...</p>
-      </div>
-
-      <!-- Must be hidden to trigger the playerReady event -->
-      <player
-        [hidden]="this.segmentorWorking"
-        (onReady)="this.onPlayerReady($event)"
-        (annotationEvent)="this.annotationEvent($event)"
-        [clip]="this.getAudioFile()"
-        [annotations]="this.getAnnotations()"
-        [autoPlay]="this.autoPlay">
-      </player>
+    <div class="top-halign">
+      <button mat-raised-button color="primary" (click)="this.actionBack()">Exit</button>
 
       <div *ngIf="this.playerReady && !this.segmentorWorking">
-        <div class="settings">
-          <mat-checkbox
-            (change)="this.replayCheckboxEvent($event)"
-            [checked]="this.autoPlay">
-            Autoplay
-          </mat-checkbox>
-        </div>
+        <button mat-raised-button
+          color="primary"
+          *ngIf="this.showSegmentorServiceButton"
+          (click)="this.actionSegment()">
+          Autosegment
+        </button>
 
-        <div *ngIf="this.getViewMode()!=='list'">
-          <annotation-view
-            (playerControlEvent)="this.playerControlEvent($event)"
-            (annotationUpdate)="this.annotationEvent($event)"
-            [annotation]="this.getSelectedAnnotation()">
-          </annotation-view>
-        </div>
+        <button mat-raised-button
+          color="primary"
+          *ngIf="this.showCSVExportButton"
+          (click)="this.exportCSV()">
+          Export CSV
+        </button>
+
+        <button mat-raised-button
+          color="primary"
+          *ngIf="this.showJSONExportButton"
+          (click)="this.exportJSON()">
+          Export JSON
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="!this.playerReady && !this.segmentorWorking"
+      id="player-loader">
+      <mat-spinner
+        [color]="primary">
+      </mat-spinner>
+      <p>Rendering waveform ...</p>
+    </div>
+
+    <div *ngIf="this.segmentorWorking"
+      id="player-loader">
+      <mat-spinner
+        [color]="primary">
+      </mat-spinner>
+      <p>Segmenting ...</p>
+    </div>
+
+    <!-- Must be hidden to trigger the playerReady event -->
+    <player
+      [hidden]="this.segmentorWorking"
+      (onReady)="this.onPlayerReady($event)"
+      (annotationEvent)="this.annotationEvent($event)"
+      [clip]="this.getAudioFile()"
+      [annotations]="this.getAnnotations()"
+      [autoPlay]="this.autoPlay">
+    </player>
+
+    <div *ngIf="this.playerReady && !this.segmentorWorking">
+      <div class="settings">
+        <mat-checkbox
+          (change)="this.replayCheckboxEvent($event)"
+          [checked]="this.autoPlay">
+          Autoplay
+        </mat-checkbox>
+      </div>
+
+      <div *ngIf="this.getViewMode()!=='list'">
+        <annotation-view
+          (playerControlEvent)="this.playerControlEvent($event)"
+          (annotationUpdate)="this.annotationEvent($event)"
+          [annotation]="this.getSelectedAnnotation()">
+        </annotation-view>
       </div>
     </div>
 

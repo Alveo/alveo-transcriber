@@ -12,7 +12,8 @@
   </div>
 
   <div *ngIf="this.isReady()">
-    <p class="center">Using source: {{ this.doc_id }}</p>
+    <p id="header">Transcribing: {{ this.getIdentifier() }}</p>
+    <h5 class="center">Channel: {{ this.doc_id }}</h5>
     <annotator
       [audioFile]="this.getAudioFile()"
       [audioFileName]="this.getIdentifier()"

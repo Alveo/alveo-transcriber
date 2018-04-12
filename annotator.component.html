@@ -59,9 +59,21 @@
           [checked]="this.autoPlay">
           Autoplay
         </mat-checkbox>
+
+        <mat-icon *ngIf="this.getViewMode()==='list'"
+          class="clickable"
+          (click)="this.setSingleView()">
+          tab
+        </mat-icon>
+
+        <mat-icon *ngIf="this.getViewMode()==='single'"
+          class="clickable"
+          (click)="this.setListView()">
+          list 
+        </mat-icon>
       </div>
 
-      <div *ngIf="this.getViewMode()!=='list'">
+      <div *ngIf="this.getViewMode()==='single'">
         <annotation-view
           (playerControlEvent)="this.playerControlEvent($event)"
           (annotationUpdate)="this.annotationEvent($event)"
@@ -71,7 +83,7 @@
     </div>
 
     <div class="annotation-container"
-      *ngIf="this.playerReady && !this.segmentorWorking && this.getViewMode()!=='single'">
+      *ngIf="this.playerReady && !this.segmentorWorking && this.getViewMode()==='list'">
       <annotation-list-view
         (playerControlEvent)="this.playerControlEvent($event)"
         (annotationUpdate)="this.annotationEvent($event)"

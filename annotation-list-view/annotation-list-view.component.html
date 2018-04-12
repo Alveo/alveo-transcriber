@@ -1,7 +1,3 @@
-<div id="icons">
-  <mat-icon class="clickable" (click)="this.requestSingleView()">tab</mat-icon>
-</div>
-
 <div class="annotation-container">
   <div class="annotation" *ngFor="let annotation of this.annotations"
     [class.selected]="this.getSelectedAnnotation() === annotation">

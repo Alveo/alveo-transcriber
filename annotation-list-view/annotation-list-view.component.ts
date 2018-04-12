@@ -79,14 +79,6 @@ export class AnnotationListViewComponent {
     }
   }
 
-  public requestSingleView(): void {
-    this.playerControlEvent.emit(
-      {
-        "type": "gosingleview"
-      }
-    );
-  }
-
   public replayAnnotationRequest(): void {
     this.playerControlEvent.emit(
       {

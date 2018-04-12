@@ -18,6 +18,10 @@
 }
 .settings {
   display: flex;
+  align-items: center;
+}
+.settings mat-checkbox {
+  padding-right: 8px;
 }
 
 .mat-checkbox {
@@ -45,7 +49,7 @@
 }
 
 .annotation-container {
-  height: calc(100vh - 440px);
+  height: calc(100vh - 370px);
   overflow-y: auto;
 }
 

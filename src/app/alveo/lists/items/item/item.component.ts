@@ -15,7 +15,7 @@ export class ItemComponent implements OnInit {
   private annotationCount: number = 0;
   private selectedSource: any = null;
 
-  private audioSources: any = [];
+  public audioSources: any = [];
 
   constructor(
     private annotationService: AnnotationService

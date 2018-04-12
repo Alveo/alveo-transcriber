@@ -28,13 +28,14 @@ export class TranscriberComponent implements OnInit {
   private annotations: Array<Annotation> = [];
   private selectedAnnotation: Annotation = null;
   private defaultView: string = "list";
-  private errorRaised: boolean = false;
 
   private isSegmenting: boolean = false;
 
   private item_id: string = '';
   private collection_id: string = '';
+
   public doc_id: string = '';
+  public  errorRaised: boolean = false;
 
   @ViewChild(AnnotatorComponent) annotator: AnnotatorComponent;
 

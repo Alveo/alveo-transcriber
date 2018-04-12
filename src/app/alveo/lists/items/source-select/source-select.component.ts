@@ -10,7 +10,7 @@ export class SourceSelectComponent implements OnInit {
   @Input() sources: Array<any> = [];
   @Output() onSelectedSourceChange: any = new EventEmitter<any>();
   
-  private selectedSource: null;
+  public selectedSource: null;
 
   constructor() { }
 

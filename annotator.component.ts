@@ -44,13 +44,6 @@ export class AnnotatorComponent implements OnInit {
 
   ngOnInit() {
     this.sortAnnotations();
-    this.selectFirst();
-
-    //if (ev['type'] === 'rebuild') {
-          //this.rebuild(ev['segments']);
-          //}
-
-    this.player.autoPlay(true);
   }
 
   hotkeys(ev){
@@ -157,7 +150,9 @@ export class AnnotatorComponent implements OnInit {
   }
 
   public onPlayerReady(ev: any): void {
+    this.selectFirst();
     this.playerReady = true;
+    this.player.autoPlay(this.autoplayDefault);
   }
 
   public playerControlEvent(ev: any): void {
@@ -273,7 +268,7 @@ export class AnnotatorComponent implements OnInit {
 
   public selectFirst(): void {
     if (this.annotations.length > 0) {
-      this.selectAnnotation(this.annotations[0]);
+      this.selectAnnotation(this.annotations[0], true, false);
     } else {
       this.selectAnnotation(null);
     }
@@ -295,7 +290,9 @@ export class AnnotatorComponent implements OnInit {
     return annotation;
   }
 
-  public selectAnnotation(annotation: Annotation, emit: boolean = true): void {
+  // Silently param prevents audio from playing even when autoPlay is checked.
+  //  This is mainly used after autosegmenting or after the transcriber is ready.
+  public selectAnnotation(annotation: Annotation, emit: boolean = true, silently: boolean = false): void {
     const oldSelection = this.selectedAnnotation;
     this.selectedAnnotation = annotation;
 
@@ -303,7 +300,8 @@ export class AnnotatorComponent implements OnInit {
       this.player.selectAnnotation(
         {
           'new': annotation,
-          'old': oldSelection
+          'old': oldSelection,
+          'silently': silently
         }
       );
     }

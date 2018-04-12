@@ -34,7 +34,6 @@ export class AnnotationListViewComponent {
         if (elements[i].id === annotation.id) {
           // Keep one to two elements above where possible, this is less confusing to the user
           if (!direct) {
-            console.log(window.innerHeight);
             if (window.innerHeight > 800) {
               i -= 2;
             } else if (window.innerHeight > 400) {

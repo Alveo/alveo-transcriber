@@ -26,14 +26,6 @@ export class AnnotationViewComponent {
     }
   }
 
-  public requestListView(): void {
-    this.playerControlEvent.emit(
-      {
-        "type": "golistview"
-      }
-    );
-  }
-
   public replayAnnotationRequest(): void {
     this.playerControlEvent.emit(
       {

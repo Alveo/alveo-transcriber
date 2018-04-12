@@ -1,6 +1,5 @@
 <div *ngIf="this.annotation === null">
   <div id="icons">
-    <mat-icon class="clickable" (click)="this.requestListView()">list</mat-icon>
     <div id="controls">
       <mat-icon class="clickable" (click)="this.backAnnotationRequest()">skip_previous</mat-icon>
       <mat-icon class="clickable" (click)="this.nextAnnotationRequest()">skip_next</mat-icon>
@@ -10,7 +9,6 @@
 
 <div *ngIf="this.annotation !== null">
   <div id="icons">
-    <mat-icon class="clickable" (click)="this.requestListView()">list</mat-icon>
     <div id="controls">
       <mat-icon class="clickable" (click)="this.replayAnnotationRequest()">replay</mat-icon>
       <!-- Loop is bugged with WaveSurfer 2.0.3 -->

@@ -26,10 +26,10 @@ export class PlayerComponent implements OnInit {
   @Output() annotationEvent = new EventEmitter();
   @Input() annotations: Array<any>;
   @Input() clip: any;
+  @Input() autoPlay: boolean = false;
 
   private ready: boolean = null;
 
-  private autoplay: boolean = false;
   private player: WaveSurfer = null;
   private selectedRegion: any = null;
 
@@ -252,7 +252,7 @@ export class PlayerComponent implements OnInit {
 
       region.update({color: SELECTED_COLOUR});
 
-      if (this.autoplay && !ignoreAutoplay) {
+      if (this.autoPlay && !ignoreAutoplay) {
         region.play();
       }
 
@@ -368,10 +368,6 @@ export class PlayerComponent implements OnInit {
         });
       }
     );
-  }
-
-  public autoPlay(state: boolean): void {
-    this.autoplay = state;
   }
 
   public deleteAnnotationByID(id: string): boolean {

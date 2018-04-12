@@ -44,20 +44,21 @@
         <p>Segmenting ...</p>
       </div>
 
-      <!-- This is required to trigger the playerReady event -->
+      <!-- Must be hidden to trigger the playerReady event -->
       <player
         [hidden]="this.segmentorWorking"
         (onReady)="this.onPlayerReady($event)"
         (annotationEvent)="this.annotationEvent($event)"
         [clip]="this.getAudioFile()"
-        [annotations]="this.getAnnotations()">
+        [annotations]="this.getAnnotations()"
+        [autoPlay]="this.autoPlay">
       </player>
 
       <div *ngIf="this.playerReady && !this.segmentorWorking">
         <div class="settings">
           <mat-checkbox
             (change)="this.replayCheckboxEvent($event)"
-            [checked]="this.autoplayDefault">
+            [checked]="this.autoPlay">
             Autoplay
           </mat-checkbox>
         </div>

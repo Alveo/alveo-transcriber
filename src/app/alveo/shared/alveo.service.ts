@@ -46,8 +46,12 @@ export class AlveoService {
             }
           );
         } else {
-          //observer.error("Warning: API request ignored: not API authed");
-          observer.error(403);
+          observer.error(
+            {
+              "message": "Not authententicated",
+              "code": 401
+            }
+          );
         }
       }
     );

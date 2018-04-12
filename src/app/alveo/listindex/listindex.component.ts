@@ -30,7 +30,7 @@ export class ListIndexComponent implements OnInit {
         this.ready = true;
       },
       (error) => {
-        if (error === 403 && !this.authService.isLoggedIn()) {
+        if (error.code === 401 && !this.authService.isLoggedIn()) {
           this.authService.promptLogin();
         } else {
           this.sessionService.displayError(error.message, error);

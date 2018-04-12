@@ -142,7 +142,7 @@ export class ItemsComponent {
       },
       error => {
         item['state'] = ItemState.FAILED;
-        if (error === 403 || !this.authService.isLoggedIn()) {
+        if (error.code === 401 || !this.authService.isLoggedIn()) {
           this.authService.promptLogin()
         }
       }

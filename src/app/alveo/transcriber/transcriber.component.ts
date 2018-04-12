@@ -153,7 +153,7 @@ export class TranscriberComponent implements OnInit {
             resolve(audioData);
           },
           error => {
-            if (error === 403 && !this.authService.isLoggedIn()) {
+            if (error.code === 401 && !this.authService.isLoggedIn()) {
               this.authService.promptLogin();
             }
             reject(error);

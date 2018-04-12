@@ -50,7 +50,6 @@ export class PlayerComponent implements OnInit {
     if (this.ready) {
       if (annotation['new'] !== null) {
         const newRegion = this.findRegion(annotation['new']['id']);
-        console.log(annotation['silently']);
         this.selectRegion(newRegion, annotation['silently']);
       }
     }
@@ -232,10 +231,12 @@ export class PlayerComponent implements OnInit {
   public focusRegion(region: Region): void {
     this.annotationEvent.emit(
       {
-        'type': 'select',
+        'type': 'region-select',
         'annotation': this.getAnnotationByID(region.id)
       }
     );
+
+    this.selectedRegion = region;
   }
 
   selectRegion(region: Region, ignoreAutoplay: boolean= false): void {
@@ -258,7 +259,7 @@ export class PlayerComponent implements OnInit {
 
       this.annotationEvent.emit(
         {
-          'type': 'select-noemit',
+          'type': 'region-select',
           'annotation': this.getAnnotationByID(region.id)
         }
       );

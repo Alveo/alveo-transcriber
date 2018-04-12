@@ -39,7 +39,7 @@ import { ListTableComponent } from './listindex/listtable/listtable.component';
 import { TranscriberComponent } from './transcriber/transcriber.component';
 import { ListsComponent } from './lists/lists.component';
 import { ItemsComponent } from './lists/items/items.component';
-import { DocsComponent } from './lists/items/docs/docs.component';
+import { SourceSelectComponent } from './lists/items/source-select/source-select.component';
 import { ItemComponent } from './lists/items/item/item.component';
 import { ItemLoaderComponent } from './lists/items/item-loader/item-loader.component';
 import { ErrorNotifyComponent } from './error-notify/error-notify.component';
@@ -70,7 +70,7 @@ import 'hammerjs';
     ListIndexComponent,
     ListsComponent,
     ItemsComponent,
-    DocsComponent,
+    SourceSelectComponent,
     ItemComponent,
     ItemLoaderComponent,
     ListTableComponent,

@@ -1,5 +1,0 @@
-<mat-form-field>
-  <mat-select [(ngModel)]="this.selectedDoc">
-    <mat-option (onSelectionChange)="this.docSelect($event, doc)" *ngFor="let doc of this.docs" [value]="doc">{{doc['dcterms:identifier']}}</mat-option>
-  </mat-select>
-</mat-form-field>

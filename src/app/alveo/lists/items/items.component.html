@@ -16,6 +16,7 @@
     </item>
 
     <item-loader *ngIf="!this.isDataReady(item)"
+      (click)="this.onItemSelection(item)"
       [identifier]="item['id']"
       [state]="item['state']">
     </item-loader>

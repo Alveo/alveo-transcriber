@@ -1,0 +1,5 @@
+<mat-form-field>
+  <mat-select [(ngModel)]="this.selectedSource">
+    <mat-option (onSelectionChange)="this.sourceSelect($event, source)" *ngFor="let source of this.sources" [value]="source">{{source['dcterms:identifier']}}</mat-option>
+  </mat-select>
+</mat-form-field>

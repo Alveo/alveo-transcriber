@@ -13,7 +13,7 @@ export class ItemComponent implements OnInit {
   @Input() item: any = null;
   @Output() onTranscribe = new EventEmitter<any>();
   private annotationCount: number = 0;
-  private selectedDoc: any = null;
+  private selectedSource: any = null;
 
   constructor(
     private annotationService: AnnotationService
@@ -52,6 +52,6 @@ export class ItemComponent implements OnInit {
   }
 
   public transcribeAction(): void {
-    this.onTranscribe.emit(this.selectedDoc);
+    this.onTranscribe.emit(this.selectedSource);
   }
 }

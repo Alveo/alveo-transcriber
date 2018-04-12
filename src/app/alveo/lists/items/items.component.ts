@@ -1,5 +1,7 @@
 import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 
+import { SessionService } from '../../shared/session.service';
+
 import { AlveoService } from '../../shared/alveo.service';
 import { AuthService } from '../../shared/auth.service';
 
@@ -36,8 +38,9 @@ export class ItemsComponent {
   private ready: boolean = false;
 
   constructor(
-    private authService: AuthService,
     private alveoService: AlveoService,
+    private authService: AuthService,
+    private sessionService: SessionService,
   ) { }
 
   ngOnInit() {
@@ -142,8 +145,12 @@ export class ItemsComponent {
       },
       error => {
         item['state'] = ItemState.FAILED;
-        if (error.code === 401 || !this.authService.isLoggedIn()) {
+        if (error.status === 401) {
           this.authService.promptLogin()
+        } else if (error.status === 403) {
+          this.sessionService.displayError('Licence for "'+item['id']+'" has not been accepted, please accept licence for this collection at https://app.alveo.edu.au/', error);
+        } else {
+          this.sessionService.displayError(error.message, error);
         }
       }
     );

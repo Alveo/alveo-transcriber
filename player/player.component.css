@@ -32,7 +32,6 @@ mat-icon.clickable:hover {
 #duration {
   flex: 1 1 100%;
   font-size: 28px;
-  font-weight: 550;
   vertical-align: middle;
   text-align: right;
 }

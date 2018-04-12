@@ -17,7 +17,7 @@ Web based speech transcription tool for the Alveo project
 - `npm run-script buildprod`
 
 ##### Production (GitHub Pages)
-- `npm run-script buildprod`
-- `cd dist/`
-- `cp index.html 404.html`
-- Copying index.html to 404.html is required until GitHub gets single page application support.
+1. `npm run-script buildprod`
+2. `cd docs/`
+3. `cp index.html 404.html`
+  - Copying index.html to 404.html is required until GitHub gets single page application support.

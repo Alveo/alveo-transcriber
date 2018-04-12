@@ -4,17 +4,18 @@
 
 <div class="annotation-container">
   <div class="annotation" *ngFor="let annotation of this.annotations"
-    (click)="this.annotationClick(annotation)"
     [class.selected]="this.getSelectedAnnotation() === annotation">
 
     <mat-icon class="clickable" (click)="this.replayAnnotationRequest()">play_arrow</mat-icon>
 
     <div class="annotation-forms" id="{{annotation.id}}">
-      <mat-form-field class="speaker">
+      <mat-form-field class="speaker"
+        (click)="this.annotationClick(annotation)">
         <input tabindex="-1" matInput (focus)="this.selectAnnotation(annotation)" (keyup)="this.updateAnnotation($event)" [(ngModel)]="annotation.speaker" placeholder="Speaker">
       </mat-form-field>
 
-      <mat-form-field class="caption">
+      <mat-form-field class="caption"
+        (click)="this.annotationClick(annotation)">
         <textarea matInput (focus)="this.selectAnnotation(annotation)" (keyup)="this.updateAnnotation($event)" [(ngModel)]="annotation.caption" placeholder="Caption"></textarea>
       </mat-form-field>
 

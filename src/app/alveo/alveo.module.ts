@@ -22,6 +22,7 @@ import {
   MatSnackBarModule
 } from '@angular/material';
 import { CdkTableModule } from '@angular/cdk/table';
+import { AnnotatorModule } from '@davidlirving/alveo-transcriber-module';
 
 import { AlveoComponent } from './alveo.component';
 
@@ -52,7 +53,6 @@ import { ApiService } from './shared/api.service';
 import { SessionService } from './shared/session.service';
 import { AnnotationService } from './shared/annotation.service';
 import { MonitorService } from './shared/monitor.service';
-import { AnnotatorModule } from '../annotator/annotator.module';
 
 import { ApiInterceptor } from './shared/api.interceptor';
 

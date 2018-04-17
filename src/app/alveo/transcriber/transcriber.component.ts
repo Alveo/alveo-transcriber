@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
+import { AnnotatorComponent, Annotation } from '@davidlirving/alveo-transcriber-module';
 
 import { AlveoService } from '../shared/alveo.service';
 import { AnnotationService } from '../shared/annotation.service';
@@ -7,8 +8,6 @@ import { AuthService } from '../shared/auth.service';
 import { SessionService } from '../shared/session.service';
 import { SegmentorService } from '../shared/segmentor.service';
 
-import { AnnotatorComponent } from '../../annotator/annotator.component'
-import { Annotation } from '../../annotator/shared/annotation';
 import { Paths } from '../shared/paths';
 
 import { environment } from '../../../environments/environment';

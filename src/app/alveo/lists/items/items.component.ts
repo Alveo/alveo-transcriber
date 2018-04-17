@@ -7,6 +7,8 @@ import { AuthService } from '../../shared/auth.service';
 
 import { Paths } from '../../shared/paths';
 
+import { environment } from '../../../../environments/environment';
+
 enum ItemState {
   UNCHECKED = 'Unchecked',
   FAILED = 'Failed',
@@ -151,7 +153,7 @@ export class ItemsComponent {
           item['state'] = ItemState.NOT_AUTHENTICATED;
         } else if (error.status === 403) {
           item['state'] = ItemState.NOT_LICENCED;
-          this.sessionService.displayError('Licence for "'+item['id']+'" has not been accepted, please accept licence for this collection at https://app.alveo.edu.au/', error);
+          this.sessionService.displayError('Licence for "'+item['id']+'" has not been accepted, please accept licence for this collection at '+environment.alveoPaths.mainUrl, error);
         } else {
           this.sessionService.displayError(error.message, error);
           item['state'] = ItemState.FAILED;

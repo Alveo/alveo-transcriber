@@ -11,7 +11,8 @@ import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class AuthService {
-  private loginStatus: EventEmitter<any> = new EventEmitter();
+  private onLogin: EventEmitter<any> = new EventEmitter();
+  private onLogout: EventEmitter<any> = new EventEmitter();
   private loggedIn: boolean = false;
 
   private loginUrl: string = environment.alveoPaths.mainUrl + '/' + environment.alveoPaths.loginSuffix;
@@ -41,7 +42,7 @@ export class AuthService {
   }
 
   public isLoggedIn(): boolean {
-    return this.loggedIn;
+    return (this.apiKey != '');
   }
 
   public isApiAuthed(): boolean {
@@ -68,14 +69,12 @@ export class AuthService {
   }
 
   public login(authCode: string): Promise<any> {
-    this.loginStatus.emit('true');
-    this.loggedIn = true;
+    this.onLogin.emit();
     return this.authoriseApi(authCode);
   }
 
   public logout(): void {
-    this.loginStatus.emit('false')
-    this.loggedIn = false;
+    this.onLogout.emit()
     this.apiKey = '';
   }
 

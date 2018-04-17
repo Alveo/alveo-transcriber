@@ -2,7 +2,7 @@ import { Component, ViewChild, OnInit, Input, Output, EventEmitter } from '@angu
 
 import { MatDialog } from '@angular/material';
 
-import { Dialog } from './dialog/dialog.component';
+import { DialogComponent } from './dialog/dialog.component';
 import { PlayerComponent } from './player/player.component';
 
 import { Annotation, ANNOTATION_CSV_FIELDS } from './shared/annotation';
@@ -114,7 +114,7 @@ export class AnnotatorComponent implements OnInit {
   }
 
   private dialogOpen(title: string, text: string): any {
-    return this.dialog.open(Dialog, {data: {title: title, text: text}});
+    return this.dialog.open(DialogComponent, {data: {title: title, text: text}});
   }
 
   public actionSegment(): void {

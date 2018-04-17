@@ -5,13 +5,11 @@ import { MAT_DIALOG_DATA } from '@angular/material';
   selector: 'annotator-dialog', // Can't be 'dialog', conflicts
   templateUrl: './dialog.component.html',
 })
-export class Dialog {
+export class DialogComponent {
   title: string;
   text: string;
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) private data: any,
-  ) {
+  constructor(@Inject(MAT_DIALOG_DATA) private data: any) {
     this.title = data.title;
     this.text = data.text;
   }

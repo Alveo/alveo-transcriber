@@ -7,7 +7,8 @@ import { PlayerComponent } from './player/player.component';
 
 import { Annotation, ANNOTATION_CSV_FIELDS } from './shared/annotation';
 
-import * as json2csv from 'json2csv';
+import * as json2csv_ from 'json2csv';
+const json2csv = json2csv_;
 
 @Component({
   selector: 'annotator',

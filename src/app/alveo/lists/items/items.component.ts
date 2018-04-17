@@ -10,6 +10,8 @@ import { Paths } from '../../shared/paths';
 enum ItemState {
   UNCHECKED = 'Unchecked',
   FAILED = 'Failed',
+  NOT_AUTHED = 'Not Authenticated',
+  NOT_LICENCED = 'Licence Not Accepted',
   NOT_CACHED = 'Not Cached',
   DOWNLOADING = 'Downloading',
   READY = 'Ready',
@@ -144,13 +146,15 @@ export class ItemsComponent {
         item['data'] = data;
       },
       error => {
-        item['state'] = ItemState.FAILED;
         if (error.status === 401) {
           this.authService.promptLogin()
+          item['state'] = ItemState.NOT_AUTHED;
         } else if (error.status === 403) {
+          item['state'] = ItemState.NOT_LICENCED;
           this.sessionService.displayError('Licence for "'+item['id']+'" has not been accepted, please accept licence for this collection at https://app.alveo.edu.au/', error);
         } else {
           this.sessionService.displayError(error.message, error);
+          item['state'] = ItemState.FAILED;
         }
       }
     );

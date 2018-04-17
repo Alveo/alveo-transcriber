@@ -11,7 +11,7 @@ import * as MinimapPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.minimap';
 import { Annotation } from '../shared/annotation';
 
 import { MatDialog } from '@angular/material';
-import { Dialog } from '../dialog/dialog.component';
+import { DialogComponent } from '../dialog/dialog.component';
 
 const BASE_COLOUR = 'rgba(0, 100, 0, 0.2)';
 const SELECTED_COLOUR = 'rgba(0, 200, 200, 0.2)';
@@ -351,7 +351,7 @@ export class PlayerComponent implements OnInit {
   }
 
   dialogOpen(title: string, text: string): any {
-    return this.dialog.open(Dialog, {data: {title: title, text: text}});
+    return this.dialog.open(DialogComponent, {data: {title: title, text: text}});
   }
 
   deleteSelectedRegion(): Promise<any> {

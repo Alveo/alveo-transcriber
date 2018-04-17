@@ -19,7 +19,7 @@ import { AnnotationListViewComponent } from './annotation-list-view/annotation-l
 
 import { DurationPipe, DurationShortPipe } from './player/duration.pipe';
 
-import { Dialog } from './dialog/dialog.component';
+import { DialogComponent } from './dialog/dialog.component';
 
 @NgModule({
   declarations: [
@@ -29,10 +29,10 @@ import { Dialog } from './dialog/dialog.component';
     AnnotationListViewComponent,
     DurationPipe,
     DurationShortPipe,
-    Dialog,
+    DialogComponent,
   ],
   entryComponents: [
-    Dialog,
+    DialogComponent,
   ],
   imports: [
     BrowserModule,

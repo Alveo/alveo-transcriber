@@ -21,6 +21,8 @@ import { DurationPipe, DurationShortPipe } from './player/duration.pipe';
 
 import { DialogComponent } from './dialog/dialog.component';
 
+import { Annotation } from './shared/annotation';
+
 @NgModule({
   declarations: [
     AnnotatorComponent,
@@ -30,6 +32,7 @@ import { DialogComponent } from './dialog/dialog.component';
     DurationPipe,
     DurationShortPipe,
     DialogComponent,
+    Annotation
   ],
   entryComponents: [
     DialogComponent,
@@ -47,6 +50,7 @@ import { DialogComponent } from './dialog/dialog.component';
   ],
   exports: [
     AnnotatorComponent,
+    Annotation
   ],
   providers: [],
 })

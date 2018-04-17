@@ -5,7 +5,6 @@ import { AnnotatorModule } from './transcriber/annotator.module';
 
 import { AppComponent } from './app.component';
 
-
 @NgModule({
   declarations: [
     AppComponent
@@ -15,7 +14,8 @@ import { AppComponent } from './app.component';
     AnnotatorModule,
   ],
   exports: [
-    AnnotatorModule
+    CommonModule,
+    AnnotatorModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

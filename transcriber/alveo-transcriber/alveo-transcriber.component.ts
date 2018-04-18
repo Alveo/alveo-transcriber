@@ -34,9 +34,9 @@ export class AlveoTranscriber implements OnInit {
 
   @Input() segmentorWorking = false;
 
-  @Output() onExit = new EventEmitter<any>();
-  @Output() onAutosegment = new EventEmitter<any>();
-  @Output() onSave = new EventEmitter<any>();
+  @Output() exit = new EventEmitter<any>();
+  @Output() autosegment = new EventEmitter<any>();
+  @Output() save = new EventEmitter<any>();
 
   @Input() showSegmentorServiceButton = false;
   @Input() showCSVExportButton = true;
@@ -80,7 +80,7 @@ export class AlveoTranscriber implements OnInit {
   }
 
   public actionBack(): void {
-    this.onExit.emit({});
+    this.exit.emit({});
   }
 
   private downloadFile(url, filename): void {
@@ -134,7 +134,7 @@ export class AlveoTranscriber implements OnInit {
     dialogStatus.afterClosed().subscribe(result => {
       if (result === true) {
         this.player.pause();
-        this.onAutosegment.emit({});
+        this.autosegment.emit({});
       }
     });
   }
@@ -195,7 +195,7 @@ export class AlveoTranscriber implements OnInit {
   }
 
   private saveAnnotations(annotations: Array<Annotation>) {
-    this.onSave.emit(
+    this.save.emit(
       {
         'annotations': annotations
       }

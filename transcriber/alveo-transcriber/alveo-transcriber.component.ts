@@ -55,8 +55,9 @@ export class AlveoTranscriber implements OnInit {
     this.sortAnnotations();
   }
 
-  @HostListener('keydown') hotkeys(ev) {
-    if (ev.keyCode === 27) {
+  @HostListener('document:keydown', ['$event'])
+  hotkeys(ev: KeyboardEvent) {
+    if (ev.key === "Escape") {
       if (this.selectedAnnotation !== null) {
         this.player.replaySelectedRegion();
       }

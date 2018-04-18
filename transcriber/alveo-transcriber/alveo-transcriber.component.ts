@@ -20,7 +20,7 @@ import * as json2csv_ from 'json2csv';
 const json2csv = json2csv_;
 
 @Component({
-  selector: 'alveo-transcriber',
+  selector: 'avl-ngt-transcriber',
   templateUrl: './alveo-transcriber.component.html',
   styleUrls: ['./alveo-transcriber.component.css'],
 })

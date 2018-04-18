@@ -17,7 +17,7 @@ const BASE_COLOUR = 'rgba(0, 100, 0, 0.2)';
 const SELECTED_COLOUR = 'rgba(0, 200, 200, 0.2)';
 
 @Component({
-  selector: 'player',
+  selector: 'avl-ngt-player',
   templateUrl: './player.component.html',
   styleUrls: ['./player.component.css'],
 })

@@ -3,7 +3,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Annotation } from '../shared/annotation';
 
 @Component({
-  selector: 'transcription-list-editor',
+  selector: 'avl-ngt-transcription-list-editor',
   templateUrl: './transcription-list-editor.component.html',
   styleUrls: ['./transcription-list-editor.component.css'],
 })

@@ -1,94 +1,94 @@
 <div class="container">
-    <div class="top-halign">
-      <div *ngIf="this.playerReady && !this.segmentorWorking">
-        <button mat-raised-button
-          color="primary"
-          *ngIf="this.showSegmentorServiceButton"
-          (click)="this.actionSegment()">
-          Autosegment
-        </button>
-
-        <button mat-raised-button
-          color="primary"
-          *ngIf="this.showCSVExportButton"
-          (click)="this.exportCSV()">
-          Export CSV
-        </button>
-
-        <button mat-raised-button
-          color="primary"
-          *ngIf="this.showJSONExportButton"
-          (click)="this.exportJSON()">
-          Export JSON
-        </button>
-
-        <button mat-raised-button color="primary" (click)="this.actionBack()">Exit</button>
-      </div>
-    </div>
-
-    <div *ngIf="!this.playerReady && !this.segmentorWorking"
-      id="player-loader">
-      <mat-spinner
-        [color]="primary">
-      </mat-spinner>
-      <p>Rendering waveform ...</p>
-    </div>
-
-    <div *ngIf="this.segmentorWorking"
-      id="player-loader">
-      <mat-spinner
-        [color]="primary">
-      </mat-spinner>
-      <p>Segmenting ...</p>
-    </div>
-
-    <!-- Must be hidden to trigger the playerReady event -->
-    <player
-      [hidden]="this.segmentorWorking"
-      (loadingFinish)="this.onPlayerReady($event)"
-      (annotationEvent)="this.annotationEvent($event)"
-      [clip]="this.getAudioFile()"
-      [annotations]="this.getAnnotations()"
-      [autoPlay]="this.autoPlay">
-    </player>
-
+  <div class="top-halign">
     <div *ngIf="this.playerReady && !this.segmentorWorking">
-      <div class="settings">
-        <mat-checkbox
-          (change)="this.replayCheckboxEvent($event)"
-          [checked]="this.autoPlay">
-          Autoplay
-        </mat-checkbox>
+      <button mat-raised-button
+        color="primary"
+        *ngIf="this.showSegmentorServiceButton"
+        (click)="this.actionSegment()">
+        Autosegment
+      </button>
 
-        <mat-icon *ngIf="this.getViewMode()==='list'"
-          class="clickable"
-          (click)="this.setSingleView()">
-          tab
-        </mat-icon>
+      <button mat-raised-button
+        color="primary"
+        *ngIf="this.showCSVExportButton"
+        (click)="this.exportCSV()">
+        Export CSV
+      </button>
 
-        <mat-icon *ngIf="this.getViewMode()==='single'"
-          class="clickable"
-          (click)="this.setListView()">
-          list 
-        </mat-icon>
-      </div>
+      <button mat-raised-button
+        color="primary"
+        *ngIf="this.showJSONExportButton"
+        (click)="this.exportJSON()">
+        Export JSON
+      </button>
 
-      <div *ngIf="this.getViewMode()==='single'">
-        <transcription-editor
-          (playerControlEvent)="this.playerControlEvent($event)"
-          (annotationUpdate)="this.annotationEvent($event)"
-          [annotation]="this.getSelectedAnnotation()">
-        </transcription-editor>
-      </div>
+      <button mat-raised-button color="primary" (click)="this.actionBack()">Exit</button>
+    </div>
+  </div>
+
+  <div *ngIf="!this.playerReady && !this.segmentorWorking"
+    id="player-loader">
+    <mat-spinner
+      [color]="primary">
+    </mat-spinner>
+    <p>Rendering waveform ...</p>
+  </div>
+
+  <div *ngIf="this.segmentorWorking"
+    id="player-loader">
+    <mat-spinner
+      [color]="primary">
+    </mat-spinner>
+    <p>Segmenting ...</p>
+  </div>
+
+  <!-- Must be hidden and not disabled when needing to trigger onPlayerReady -->
+  <avl-ngt-player
+    [hidden]="this.segmentorWorking"
+    (loadingFinish)="this.onPlayerReady($event)"
+    (annotationEvent)="this.annotationEvent($event)"
+    [clip]="this.getAudioFile()"
+    [annotations]="this.getAnnotations()"
+    [autoPlay]="this.autoPlay">
+  </avl-ngt-player>
+
+  <div *ngIf="this.playerReady && !this.segmentorWorking">
+    <div class="settings">
+      <mat-checkbox
+        (change)="this.replayCheckboxEvent($event)"
+        [checked]="this.autoPlay">
+        Autoplay
+      </mat-checkbox>
+
+      <mat-icon *ngIf="this.getViewMode()==='list'"
+        class="clickable"
+        (click)="this.setSingleView()">
+        tab
+      </mat-icon>
+
+      <mat-icon *ngIf="this.getViewMode()==='single'"
+        class="clickable"
+        (click)="this.setListView()">
+        list 
+      </mat-icon>
     </div>
 
-    <div class="annotation-container"
-      *ngIf="this.playerReady && !this.segmentorWorking && this.getViewMode()==='list'">
-      <transcription-list-editor
+    <div *ngIf="this.getViewMode()==='single'">
+      <avl-ngt-transcription-editor
         (playerControlEvent)="this.playerControlEvent($event)"
         (annotationUpdate)="this.annotationEvent($event)"
-        [selectedAnnotation]="this.getSelectedAnnotation()"
-        [annotations]="this.getAnnotations()">
-      </transcription-list-editor>
+        [annotation]="this.getSelectedAnnotation()">
+      </avl-ngt-transcription-editor>
     </div>
+  </div>
+
+  <div class="annotation-container"
+    *ngIf="this.playerReady && !this.segmentorWorking && this.getViewMode()==='list'">
+    <avl-ngt-transcription-list-editor
+      (playerControlEvent)="this.playerControlEvent($event)"
+      (annotationUpdate)="this.annotationEvent($event)"
+      [selectedAnnotation]="this.getSelectedAnnotation()"
+      [annotations]="this.getAnnotations()">
+    </avl-ngt-transcription-list-editor>
+  </div>
 </div>

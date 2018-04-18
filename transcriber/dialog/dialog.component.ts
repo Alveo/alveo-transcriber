@@ -2,7 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
-  selector: 'annotator-dialog', // Can't be 'dialog', conflicts
+  selector: 'avl-ngt-dialog',
   templateUrl: './dialog.component.html',
 })
 export class DialogComponent {

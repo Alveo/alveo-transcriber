@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
@@ -12,30 +12,27 @@ import {
   MatProgressSpinnerModule
 } from '@angular/material';
 
-import { AnnotatorComponent } from './annotator.component';
+import { AlveoTranscriber } from './alveo-transcriber/alveo-transcriber.component';
+import { TranscriptionEditorComponent } from './transcription-editor/transcription-editor.component';
+import { TranscriptionListEditorComponent } from './transcription-list-editor/transcription-list-editor.component';
 import { PlayerComponent } from './player/player.component';
-import { AnnotationViewComponent } from './annotation-view/annotation-view.component';
-import { AnnotationListViewComponent } from './annotation-list-view/annotation-list-view.component';
 
 import { DurationPipe, DurationShortPipe } from './player/duration.pipe';
 
 import { DialogComponent } from './dialog/dialog.component';
 
-import { Annotation } from './shared/annotation';
-
 @NgModule({
   declarations: [
-    AnnotatorComponent,
+    AlveoTranscriber,
+    TranscriptionEditorComponent,
+    TranscriptionListEditorComponent,
     PlayerComponent,
-    AnnotationViewComponent,
-    AnnotationListViewComponent,
     DurationPipe,
     DurationShortPipe,
-    DialogComponent,
-    Annotation
+    DialogComponent
   ],
   entryComponents: [
-    DialogComponent,
+    DialogComponent
   ],
   imports: [
     CommonModule,
@@ -49,9 +46,8 @@ import { Annotation } from './shared/annotation';
     MatProgressSpinnerModule
   ],
   exports: [
-    AnnotatorComponent,
-    Annotation
+    AlveoTranscriber
   ],
   providers: [],
 })
-export class AnnotatorModule { }
+export class AlveoTranscriberModule { }

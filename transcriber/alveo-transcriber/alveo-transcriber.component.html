@@ -74,21 +74,21 @@
       </div>
 
       <div *ngIf="this.getViewMode()==='single'">
-        <annotation-view
+        <transcription-editor
           (playerControlEvent)="this.playerControlEvent($event)"
           (annotationUpdate)="this.annotationEvent($event)"
           [annotation]="this.getSelectedAnnotation()">
-        </annotation-view>
+        </transcription-editor>
       </div>
     </div>
 
     <div class="annotation-container"
       *ngIf="this.playerReady && !this.segmentorWorking && this.getViewMode()==='list'">
-      <annotation-list-view
+      <transcription-list-editor
         (playerControlEvent)="this.playerControlEvent($event)"
         (annotationUpdate)="this.annotationEvent($event)"
         [selectedAnnotation]="this.getSelectedAnnotation()"
         [annotations]="this.getAnnotations()">
-      </annotation-list-view>
+      </transcription-list-editor>
     </div>
 </div>

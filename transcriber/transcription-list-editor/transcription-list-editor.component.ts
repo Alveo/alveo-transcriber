@@ -3,12 +3,12 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Annotation } from '../shared/annotation';
 
 @Component({
-  selector: 'annotation-list-view',
-  templateUrl: './annotation-list-view.component.html',
-  styleUrls: ['./annotation-list-view.component.css'],
+  selector: 'transcription-list-editor',
+  templateUrl: './transcription-list-editor.component.html',
+  styleUrls: ['./transcription-list-editor.component.css'],
 })
 
-export class AnnotationListViewComponent {
+export class TranscriptionListEditorComponent {
   @Input() annotations: Array<Annotation>;
   @Output() annotationUpdate = new EventEmitter();
   @Output() playerControlEvent = new EventEmitter();

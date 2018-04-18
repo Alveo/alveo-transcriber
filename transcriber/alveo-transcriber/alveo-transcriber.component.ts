@@ -2,22 +2,22 @@ import { Component, ViewChild, OnInit, Input, Output, EventEmitter } from '@angu
 
 import { MatDialog } from '@angular/material';
 
-import { DialogComponent } from './dialog/dialog.component';
-import { PlayerComponent } from './player/player.component';
+import { DialogComponent } from '../dialog/dialog.component';
+import { PlayerComponent } from '../player/player.component';
 
-import { Annotation, ANNOTATION_CSV_FIELDS } from './shared/annotation';
+import { Annotation, ANNOTATION_CSV_FIELDS } from '../shared/annotation';
 
 import * as json2csv_ from 'json2csv';
 const json2csv = json2csv_;
 
 @Component({
-  selector: 'annotator',
-  templateUrl: './annotator.component.html',
+  selector: 'alveo-transcriber',
+  templateUrl: './alveo-transcriber.component.html',
   host: {'(window:keydown)': 'hotkeys($event)'},
-  styleUrls: ['./annotator.component.css'],
+  styleUrls: ['./alveo-transcriber.component.css'],
 })
 
-export class AnnotatorComponent implements OnInit {
+export class AlveoTranscriber implements OnInit {
   @Input() audioFile: any = null;
   @Input() audioFileName: string = "null";
   @Input() annotations: Array<any> = [];

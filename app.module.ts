@@ -1,7 +1,7 @@
-import { BrowserModule } from '@angular/common';
+import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { AnnotatorModule } from './transcriber/annotator.module';
+import { AlveoTranscriberModule } from './transcriber/alveo-transcriber.module';
 
 import { AppComponent } from './app.component';
 
@@ -11,10 +11,10 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
-    AnnotatorModule,
+    AlveoTranscriberModule,
   ],
   exports: [
-    AnnotatorModule,
+    AlveoTranscriberModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

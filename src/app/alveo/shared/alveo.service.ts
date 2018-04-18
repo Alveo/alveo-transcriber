@@ -12,14 +12,14 @@ export class AlveoService {
   }
 
   private cacheRequest(storageName: string): Observable<any> {
-    return new Observable((observer) =>
-      {
+    return new Observable(
+      (observer) => {
         this.dbService.instance(Databases.Cache).get(storageName).then(
-          storageName => {
-            if (storageName['storage'] === null) {
+          data => {
+            if (data['storage'] === null) {
               observer.error('404');
             }
-            observer.next(storageName['storage']);
+            observer.next(data['storage']);
             observer.complete();
           },
           error => {
@@ -31,8 +31,8 @@ export class AlveoService {
   }
 
   private apiRequest(request: Observable<any>): Observable<any> {
-    return new Observable((observer) =>
-      {
+    return new Observable(
+      (observer) => {
         request.subscribe(
           data => {
             observer.next(data);
@@ -51,52 +51,51 @@ export class AlveoService {
     storageClass: string,
     useCache= true,
     useApi= true,
-  ): Observable<any>
-  {
-    return new Observable((observer) =>
-      {
-        new Observable((cacheObserver) =>
-          {
+  ): Observable<any> {
+    return new Observable(
+      (observer) => {
+        new Observable(
+          (cacheObserver) => {
             if (useCache) {
               this.cacheRequest(storageClass).subscribe(
-                data => {
-                  console.log('Using DB source for: ' + storageClass)
-                  cacheObserver.next(data);
-                  cacheObserver.complete()
+                cachedData => {
+                  console.log('Using DB source for: ' + storageClass);
+                  cacheObserver.next(cachedData);
+                  cacheObserver.complete();
                 },
-                error => {
-                  cacheObserver.error(error);
+                cacheError => {
+                  cacheObserver.error(cacheError);
                 }
               );
             } else {
               cacheObserver.error('Cache requests not allowed, method flag disabled');
             }
           }).subscribe(
-            data => {
-              observer.next(data);
+            cachedData => {
+              observer.next(cachedData);
               observer.complete();
             },
-            error => {
+            cacheError => {
               if (useApi) {
                 this.apiRequest(request).subscribe(
-                  data => {
+                  responseData => {
                     if (useCache) {
                       console.log('Caching ' + storageClass);
-                      this.dbService.instance(Databases.Cache).put(storageClass, {storage: data}).then(
+                      this.dbService.instance(Databases.Cache).put(storageClass, {storage: responseData}).then(
                         () => {
-                          observer.next(data);
-                          observer.complete;
+                          observer.next(responseData);
+                          observer.complete();
                         }
                       );
                     } else {
-                      observer.next(data);
-                      observer.complete;
+                      observer.next(responseData);
+                      observer.complete();
                     }
                   },
-                  error => {
-                    observer.error(error);
+                  apiError => {
+                    observer.error(apiError);
                   }
-                )
+                );
               } else {
                 observer.error('API requests not allowed, method flag disabled');
               }
@@ -111,8 +110,8 @@ export class AlveoService {
   }
 
   private requestListDirectory(): Observable<any> {
-    return new Observable((observer) =>
-      {
+    return new Observable(
+      (observer) => {
         this.apiService.getListIndex().subscribe(
           (data) => {
             let lists = data['own'];
@@ -130,14 +129,14 @@ export class AlveoService {
   }
 
   public getList(list_id: string, useCache= true, useApi= true): Observable<any> {
-    return this.retrieve(this.apiService.getList(list_id), 'list:'+list_id, useCache, useApi);
+    return this.retrieve(this.apiService.getList(list_id), 'list:' + list_id, useCache, useApi);
   }
 
   public getItem(item_id: any, useCache= true, useApi= true): Observable<any> {
-    return this.retrieve(this.apiService.getItem(item_id), 'item:'+item_id, useCache, useApi);
+    return this.retrieve(this.apiService.getItem(item_id), 'item:' + item_id, useCache, useApi);
   }
 
   public getAudioFile(item_id: any, file_id: any, useCache= true, useApi = true): Observable<any> {
-    return this.retrieve(this.apiService.getDocument(item_id, file_id), 'docfile:'+file_id, useCache, useApi);
+    return this.retrieve(this.apiService.getDocument(item_id, file_id), 'docfile:' + file_id, useCache, useApi);
   }
 }

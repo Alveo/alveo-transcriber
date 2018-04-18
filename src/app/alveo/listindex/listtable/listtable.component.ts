@@ -1,4 +1,4 @@
-import { Component, ViewChild, Input, Output, EventEmitter } from '@angular/core';
+import { Component, ViewChild, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 
 @Component({
@@ -7,9 +7,9 @@ import { MatPaginator, MatTableDataSource } from '@angular/material';
   styleUrls: ['./listtable.component.css'],
 })
 
-export class ListTableComponent {
+export class ListTableComponent implements AfterViewInit {
   @Input() tableData: any;
-  @Output() onSelection = new EventEmitter<any>();
+  @Output() listSelect = new EventEmitter<any>();
 
   public displayedColumns = ['listName', 'items', 'shared'];
   public dataSource = new MatTableDataSource<Element>();
@@ -28,7 +28,7 @@ export class ListTableComponent {
   }
 
   public onSelect(item): void {
-    this.onSelection.emit(item);
+    this.listSelect.emit(item);
   }
 
   public getDataCount(): number {

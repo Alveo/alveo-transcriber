@@ -5,7 +5,7 @@
 
   <h2>Your item lists</h2>
 
-  <listtable [tableData]="this.getLists()" (onSelection)="onSelection($event)"></listtable>
+  <listtable [tableData]="this.getLists()" (listSelect)="onSelection($event)"></listtable>
 </div>
 
 <loading-spinner *ngIf="!this.isReady()">

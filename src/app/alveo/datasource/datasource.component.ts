@@ -19,7 +19,7 @@ import { Paths } from '../shared/paths';
   styleUrls: ['./datasource.component.css'],
 })
 export class DataSourceComponent implements OnInit {
-  private loading: boolean = false;
+  private loading = false;
 
   constructor(
     private authService: AuthService,
@@ -32,7 +32,7 @@ export class DataSourceComponent implements OnInit {
       (error) => {
         if (!this.authService.isLoggedIn()) {
           this.authService.promptLogin(true);
-        } 
+        }
         // No other applicable errors
       }
     );
@@ -51,7 +51,7 @@ export class DataSourceComponent implements OnInit {
             this.sessionService.navigate([Paths.ListIndex]);
             resolve(lists);
           },
-          error => { this.loading = false; reject(error) }
+          error => { this.loading = false; reject(error); }
         );
       }
     );

@@ -14,7 +14,7 @@ import { Paths } from '../shared/paths';
   styleUrls: ['./listindex.component.css'],
 })
 export class ListIndexComponent implements OnInit {
-  private ready: boolean = false;
+  private ready = false;
   private lists: Array<any>;
 
   constructor(
@@ -54,6 +54,6 @@ export class ListIndexComponent implements OnInit {
   /* Attempt to retrieve a selected list */
   public onSelection(list): void {
     const id = this.sessionService.shortenItemUrl(list['item_list_url']);
-    this.sessionService.navigate([Paths.ListView+id]);
+    this.sessionService.navigate([Paths.ListView + id]);
   }
 }

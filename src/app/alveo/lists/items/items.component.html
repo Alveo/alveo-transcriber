@@ -12,7 +12,7 @@
   <div *ngFor="let item of this.getItems()">
     <item *ngIf="this.isDataReady(item)"
       [item]="item"
-      (onTranscribe)="redirectTranscriber($event, item)">
+      (transcribe)="onTranscribe($event, item)">
     </item>
 
     <item-loader *ngIf="!this.isDataReady(item)"

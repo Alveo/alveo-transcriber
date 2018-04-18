@@ -13,7 +13,7 @@ import { environment } from '../../../environments/environment';
 export class AuthService {
   private onLogin: EventEmitter<any> = new EventEmitter();
   private onLogout: EventEmitter<any> = new EventEmitter();
-  private loggedIn: boolean = false;
+  private loggedIn = false;
 
   private loginUrl: string = environment.alveoPaths.mainUrl + '/' + environment.alveoPaths.loginSuffix;
 
@@ -21,7 +21,7 @@ export class AuthService {
   private clientSecret: string = environment.clientSecret;
   private callbackUrl: string = environment.callbackURL;
 
-  private apiKey: string = '';
+  private apiKey = '';
 
   constructor(
     private apiService: ApiService,
@@ -35,14 +35,14 @@ export class AuthService {
           + '&state='         + encodeURIComponent('')
           + '&redirect_uri='  + encodeURIComponent(this.callbackUrl)
           + '&scope='         + encodeURIComponent('');
-  };
+  }
 
   public getApiKey(): string {
     return this.apiKey;
   }
 
   public isLoggedIn(): boolean {
-    return (this.apiKey != '');
+    return (this.apiKey !== '');
   }
 
   public isApiAuthed(): boolean {
@@ -51,7 +51,7 @@ export class AuthService {
 
   public initiateLogin() {
     // TODO return URI
-    location.href = this.createLoginUrl()
+    location.href = this.createLoginUrl();
   }
 
   public promptLogin(firstRun: boolean= false) {
@@ -74,7 +74,7 @@ export class AuthService {
   }
 
   public logout(): void {
-    this.onLogout.emit()
+    this.onLogout.emit();
     this.apiKey = '';
   }
 
@@ -87,20 +87,20 @@ export class AuthService {
           authCode,
           this.callbackUrl,
         ).subscribe(
-          data => {
-            this.apiService.getApiKey(data['access_token'])
+          tokenResponse => {
+            this.apiService.getApiKey(tokenResponse['access_token'])
               .subscribe(
-                data => {
-                  this.apiKey = data['apiKey'];
+                apiResponse => {
+                  this.apiKey = apiResponse['apiKey'];
                   resolve();
                 },
-                error => {
-                  reject(error);
+                apiError => {
+                  reject(apiError);
                 }
               );
           },
-          error => {
-            reject(error);
+          tokenError => {
+            reject(tokenError);
           }
         );
       }

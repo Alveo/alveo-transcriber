@@ -18,23 +18,23 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./transcriber.component.css']
 })
 export class TranscriberComponent implements OnInit {
-  private ready: boolean = false;
-  private loader_text: string = "";
-  private list_id: string = "";
+  private ready = false;
+  private loader_text = '';
+  private list_id = '';
 
   private item: any = null;
   private audioFileData: ArrayBuffer = null;
   private annotations: Array<Annotation> = [];
   private selectedAnnotation: Annotation = null;
-  private defaultView: string = "list";
+  private defaultView = 'list';
 
-  private isSegmenting: boolean = false;
+  private isSegmenting = false;
 
-  private item_id: string = '';
-  private collection_id: string = '';
+  private item_id = '';
+  private collection_id = '';
 
-  public doc_id: string = '';
-  public  errorRaised: boolean = false;
+  public doc_id = '';
+  public  errorRaised = false;
 
   @ViewChild(AlveoTranscriber) annotator: AlveoTranscriber;
 
@@ -50,7 +50,7 @@ export class TranscriberComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(
       (params: Params) => {
-        this.loader_text = "Loading ...";
+        this.loader_text = 'Loading ...';
         this.list_id = params['list_id'];
         this.collection_id = params['collection_id'];
         this.item_id = params['item_id'];
@@ -58,15 +58,15 @@ export class TranscriberComponent implements OnInit {
         if (this.item_id === undefined) {
           this.sessionService.navigate([Paths.ListIndex]);
         } else {
-          this.loader_text = "Loading item ...";
-          this.prepareItem(this.collection_id+"/"+this.item_id).then(
+          this.loader_text = 'Loading item ...';
+          this.prepareItem(this.collection_id + '/' + this.item_id).then(
             (item) => {
-              this.loader_text = "Loading audio data ...";
+              this.loader_text = 'Loading audio data ...';
               this.item = item;
-              this.prepareAudioFile(this.collection_id+"/"+this.item_id, this.doc_id).then(
+              this.prepareAudioFile(this.collection_id + '/' + this.item_id, this.doc_id).then(
                 (data) => {
                   this.audioFileData = data;
-                  this.loader_text = "Checking annotations ...";
+                  this.loader_text = 'Checking annotations ...';
 
                   this.loadAnnotations(this.getIdentifier()).then(
                     (annotations) => {
@@ -95,9 +95,9 @@ export class TranscriberComponent implements OnInit {
   public requestErrorHandler(message: string, error: any) {
     if (error.status === 401) {
       this.authService.promptLogin();
-      this.raiseError("Not authenticated")
+      this.raiseError('Not authenticated');
     } else if (error.status === 403) {
-      this.raiseError("Licence must be accepted first. Please do so on the main website.")
+      this.raiseError('Licence must be accepted first. Please do so on the main website.');
     } else {
       this.sessionService.displayError(error.message, error);
     }
@@ -111,7 +111,7 @@ export class TranscriberComponent implements OnInit {
     return this.ready;
   }
 
-  public raiseError(message: string = "An error has occurred"): void {
+  public raiseError(message: string = 'An error has occurred'): void {
     this.errorRaised = true;
     this.loader_text = message;
   }
@@ -128,12 +128,12 @@ export class TranscriberComponent implements OnInit {
   }
 
   public getAudioFileUrl(): string {
-    let path = environment.alveoPaths.mainUrl
+    const path = environment.alveoPaths.mainUrl
       + '/' + environment.alveoPaths.itemSuffix
       + '/' + this.collection_id
       + '/' + this.item_id
-      + '/document/' + this.doc_id
-    return path
+      + '/document/' + this.doc_id;
+    return path;
   }
 
   public getIdentifier(): string {
@@ -142,7 +142,7 @@ export class TranscriberComponent implements OnInit {
     }
     return this.item['alveo:metadata']['alveo:handle'];
   }
-  
+
   private prepareAudioFile(list_id: string, doc_id: string): Promise<any> {
     return new Promise(
       (resolve, reject) => {
@@ -171,8 +171,8 @@ export class TranscriberComponent implements OnInit {
   }
 
   public exit() {
-    if (this.list_id != "") {
-      this.sessionService.navigate([Paths.ListView+'/'+this.list_id]);
+    if (this.list_id !== '') {
+      this.sessionService.navigate([Paths.ListView + '/' + this.list_id]);
     } else {
       this.sessionService.navigate([Paths.ListIndex]);
     }
@@ -199,12 +199,12 @@ export class TranscriberComponent implements OnInit {
           })
           .catch((error) => {
             this.sessionService.displayError(error.message, error);
-          })
+          });
       },
       (error) => {
         this.isSegmenting = false;
         this.sessionService.displayError(error.message, error);
       }
-    )
+    );
   }
 }

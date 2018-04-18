@@ -7,6 +7,53 @@ export enum Databases {
   Annotations = 'alveott_annotations',
 }
 
+class Database {
+  databaseName: string;
+  database: PouchDB;
+
+  constructor(databaseName: string) {
+    this.databaseName = databaseName;
+
+    this.database = new PouchDB(this.databaseName);
+  }
+
+  public destroy(): any {
+    return new Promise(
+      (complete, reject) => {
+        this.database.destroy().then(
+          data => {
+            this.database = new PouchDB(this.databaseName);
+            complete();
+          },
+          error => reject(error)
+        );
+      }
+    );
+  }
+
+  public get(key: string): any {
+    return this.database.get(key);
+  }
+
+  public put(key: string, value: any): any {
+    value._id = key;
+
+    // TODO: This could probably be handled better by returning a promise.
+    return this.get(key).then(result => {
+      value._rev = result._rev;
+      return this.database.put(value);
+    }).catch(error => {
+      if (error.status === 404) {
+        return this.database.put(value);
+      } else if (error.status === 409) {
+        return this.put(key, value);
+      } else {
+        console.log(error);
+      }
+    });
+  }
+}
+
 @Injectable()
 export class DBService {
   private databases: Array<any> = [];
@@ -33,51 +80,3 @@ export class DBService {
   }
 }
 
-class Database {
-  databaseName: string;
-  database: PouchDB;
-
-  constructor(databaseName: string) {
-    this.databaseName = databaseName;
-
-    this.database = new PouchDB(this.databaseName);
-  }
-
-  public destroy(): any {
-    return new Promise((complete, reject) =>
-      {
-        this.database.destroy().then(
-          data => {
-            this.database = new PouchDB(this.databaseName);
-            complete();
-          },
-          error => reject(error)
-        );
-      }
-    );
-  }
-
-  public get(key: string): any {
-    return this.database.get(key);
-  }
-
-  public put(key: string, value: any): any {
-    value._id = key;
-
-    // TODO: This could probably be handled better by returning a promise.
-    return this.get(key).then(result => {
-      value._rev = result._rev;
-      return this.database.put(value);
-    }).catch(error => {
-      if (error.status === 404) {
-        return this.database.put(value);
-      }
-      else if (error.status === 409) {
-        return this.put(key, value);
-      }
-      else {
-        console.log(error);
-      }
-    });
-  }
-}

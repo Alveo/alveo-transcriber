@@ -12,7 +12,7 @@ import { Paths } from './paths';
 @Injectable()
 export class SessionService {
   private stored_route: any = [''];
-  private ready: boolean = false;
+  private ready = false;
   private activeErrorRef: any = null;
 
   constructor(
@@ -61,11 +61,11 @@ export class SessionService {
   }
 
   private dbRequest(storageName: string): Observable<any> {
-    return new Observable((observer) =>
-      {
+    return new Observable(
+      (observer) => {
         this.dbService.instance(Databases.Cache).get(storageName).then(
-          storageName => {
-            observer.next(storageName[storageName]);
+          data => {
+            observer.next(data[storageName]);
             observer.complete();
           },
           error => observer.error(error)
@@ -111,12 +111,12 @@ export class SessionService {
           url = Paths.Index;
         }
 
-        this.router.navigate([url])
+        this.router.navigate([url]);
       }
     );
   }
 
-  public displayError(errorMessage: string, consoleError: any, duration: number=0) {
+  public displayError(errorMessage: string, consoleError: any, duration: number= 0) {
     console.log(consoleError);
     this.activeErrorRef = this.snackBar.openFromComponent(ErrorNotifyComponent, {
       'data': {

@@ -3,8 +3,7 @@ import {
   HttpClient,
   HttpErrorResponse,
   HttpHeaders
-}
-from '@angular/common/http';
+} from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 
@@ -19,15 +18,15 @@ export class ApiService {
   /* Create a get request to Alveo API
    */
   private apiGet(url: string, headers: any= null): Observable<any> {
-    return new Observable((observer) =>
-      {
+    return new Observable(
+      (observer) => {
         if (headers === null) {
-          headers = new HttpHeaders()
+          headers = new HttpHeaders();
         }
         this.http.get(url, headers).subscribe(
-          data => {observer.next(data); observer.complete()},
-          error => {observer.error(error)}
-        )
+          data => {observer.next(data); observer.complete(); },
+          error => {observer.error(error); }
+        );
       }
     );
   }
@@ -35,15 +34,20 @@ export class ApiService {
   /* Create a get request to Alveo API
    */
   private apiPost(url: string, data: any, headers: any= null): Observable<any> {
-    return new Observable((observer) =>
-      {
+    return new Observable(
+      (observer) => {
         if (headers === null) {
-          headers = new HttpHeaders()
+          headers = new HttpHeaders();
         }
         this.http.post(url, data, headers).subscribe(
-          data => {observer.next(data); observer.complete()},
-          error => {observer.error(error)}
-        )
+          responseData => {
+            observer.next(responseData);
+            observer.complete();
+          },
+          error => {
+            observer.error(error);
+          }
+        );
       }
     );
   }
@@ -116,6 +120,6 @@ export class ApiService {
         }),
     };
 
-    return this.apiGet(this.alveoPaths.mainUrl + '/' + this.alveoPaths.apiKeySuffix, requestHeaders)
+    return this.apiGet(this.alveoPaths.mainUrl + '/' + this.alveoPaths.apiKeySuffix, requestHeaders);
   }
 }

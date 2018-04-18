@@ -6,13 +6,13 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./loading-spinner.component.css']
 })
 export class LoadingSpinnerComponent {
-  @Input() spinnerSize: string = "large";
-  @Input() inline: boolean = false;
+  @Input() spinnerSize = 'large';
+  @Input() inline = false;
 
   constructor() { }
 
   public usePageFill(): boolean {
-    if (this.spinnerSize === "large") {
+    if (this.spinnerSize === 'large') {
       return true;
     }
     return false;
@@ -20,16 +20,16 @@ export class LoadingSpinnerComponent {
 
   public getSpinnerDiameter(): number {
     switch (this.spinnerSize) {
-      case "tiny": {
+      case 'tiny': {
         return 20;
       }
-      case "small": {
+      case 'small': {
         return 40;
       }
-      case "medium": {
+      case 'medium': {
         return 80;
       }
-      case "large": {
+      case 'large': {
         return 140;
       }
     }

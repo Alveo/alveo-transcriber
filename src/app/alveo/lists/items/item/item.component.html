@@ -19,13 +19,13 @@
       <p>Use audio channel: </p>
       <source-select
         [sources]="this.getAudioSources()"
-        (onSelectedSourceChange)="selectedSource=$event">
+        (sourceChange)="selectedSource=$event">
       </source-select>
     </div>
 
     <div class="button-aligner">
       <button mat-raised-button
-        (click)="this.transcribeAction()"
+        (click)="this.onTranscribe()"
         color="primary">
         Transcribe
       </button>

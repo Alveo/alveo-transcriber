@@ -6,8 +6,8 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./item-loader.component.css'],
 })
 export class ItemLoaderComponent {
-  @Input() identifier: string = "";
-  @Input() state: string = "";
+  @Input() identifier = '';
+  @Input() state = '';
 
   constructor() { }
 }

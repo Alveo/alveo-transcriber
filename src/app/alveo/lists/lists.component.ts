@@ -18,7 +18,7 @@ import { Paths } from '../shared/paths';
 export class ListsComponent implements OnInit {
   private list_id: any;
   private list: Array<any> = null;
-  private ready: boolean = false;
+  private ready = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -89,7 +89,7 @@ export class ListsComponent implements OnInit {
     this.sessionService.navigate([Paths.ListIndex]);
   }
 
-  public transcribe(ev: any): void {
+  public onTranscribe(ev: any): void {
     this.sessionService.navigate([Paths.Transcriber, this.list_id, ev['item']['collection'], ev['item']['id'], ev['doc']['id']]);
   }
 }

@@ -27,22 +27,23 @@ export class OAuthCallbackComponent implements OnInit, OnDestroy {
    *  is available. Else it will redirect them to the most relevant place to be.
    */
   ngOnInit() {
-    this.param_sub = this.route.queryParams.subscribe(params => {
-      if (params['code'] !== undefined) {
-        this.authService.login(params['code']).then(
-          () => {
-            this.sessionService.onReady().then(
-              () => {
-                this.sessionService.navigateToStoredRoute();
-              }
-            );
-          }
-        );
+    this.param_sub = this.route.queryParams.subscribe(
+      params => {
+        if (params['code'] !== undefined) {
+          this.authService.login(params['code']).then(
+            () => {
+              this.sessionService.onReady().then(
+                () => {
+                  this.sessionService.navigateToStoredRoute();
+                }
+              );
+            }
+          );
+        } else {
+          this.sessionService.navigate([Paths.Index]);
+        }
       }
-      else {
-        this.sessionService.navigate([Paths.Index]);
-      }
-    });
+    );
   }
 
   ngOnDestroy() {

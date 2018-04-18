@@ -14,7 +14,7 @@ export class AnnotationService {
       (resolve, error) => {
         this.dbService.instance(Databases.Annotations).get(identifier)
           .then((data) => resolve(data['annotations']))
-          .catch((error) => resolve([]))
+          .catch((dbError) => resolve([]));
       }
     );
   }

@@ -26,20 +26,20 @@ enum ItemState {
   templateUrl: './items.component.html',
   styleUrls: ['./items.component.css'],
 })
-export class ItemsComponent {
+export class ItemsComponent implements OnInit {
   @Input() itemUrls: Array<any> = [];
-  @Output() onSelect = new EventEmitter<any>();
+  @Output() transcribeItem = new EventEmitter<any>();
   private items: Array<any> = [];
 
-  private itemDisplay: Array<any> = null
+  private itemDisplay: Array<any> = null;
   private itemDisplaySize: number;
 
-  public pageSize: number = 15;
-  public pageIndex: number = 0;
+  public pageSize = 15;
+  public pageIndex = 0;
 
-  public filter: string = "";
+  public filter = '';
 
-  private ready: boolean = false;
+  private ready = false;
 
   constructor(
     private alveoService: AlveoService,
@@ -90,7 +90,7 @@ export class ItemsComponent {
     this.itemDisplay = this.items.slice(start, end);
     this.itemDisplaySize = this.getItemCount();
 
-    if (this.filter != "") {
+    if (this.filter !== '') {
       this.filterDisplay();
     }
   }
@@ -149,11 +149,16 @@ export class ItemsComponent {
       },
       error => {
         if (error.status === 401) {
-          this.authService.promptLogin()
+          this.authService.promptLogin();
           item['state'] = ItemState.NOT_AUTHENTICATED;
         } else if (error.status === 403) {
           item['state'] = ItemState.NOT_LICENCED;
-          this.sessionService.displayError('Licence for "'+item['id']+'" has not been accepted, please accept licence for this collection at '+environment.alveoPaths.mainUrl, error);
+          this.sessionService.displayError(
+            'Licence for "'
+            + item['id']
+            + '" has not been accepted, please accept licence for this collection at '
+            + environment.alveoPaths.mainUrl,
+            error);
         } else {
           this.sessionService.displayError(error.message, error);
           item['state'] = ItemState.FAILED;
@@ -197,14 +202,14 @@ export class ItemsComponent {
     }
   }
 
-  public redirectTranscriber(doc: any, item: any): any {
-    this.onSelect.emit({
-      "item": {
-        "id": item['data']['alveo:metadata']['dcterms:identifier'],
-        "collection": item['data']['alveo:metadata']['dcterms:isPartOf'],
+  public onTranscribe(doc: any, item: any): any {
+    this.transcribeItem.emit({
+      'item': {
+        'id': item['data']['alveo:metadata']['dcterms:identifier'],
+        'collection': item['data']['alveo:metadata']['dcterms:isPartOf'],
       },
-      "doc": {
-        "id": doc['dcterms:identifier']
+      'doc': {
+        'id': doc['dcterms:identifier']
       }
     });
   }

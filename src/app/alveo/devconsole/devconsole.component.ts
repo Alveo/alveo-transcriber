@@ -5,7 +5,7 @@ import { AuthService } from '../shared/auth.service';
 import { DBService, Databases } from '../shared/db.service';
 import { SessionService } from '../shared/session.service';
 
-import { Paths } from '../shared/paths'
+import { Paths } from '../shared/paths';
 
 /* Development/Debug component for controlling and testing session & database storage */
 @Component({
@@ -35,7 +35,7 @@ export class DevConsoleComponent {
             error => {
               this.sessionService.displayError(error.message, error);
             }
-          )
+          );
         }
       ).catch(
         (error) => this.sessionService.displayError(error.message, error)

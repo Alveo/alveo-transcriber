@@ -3,8 +3,8 @@ export const environment = {
 
   alveoPaths: {
     mainUrl: 'https://app.alveo.edu.au',
-    listSuffix: "item_lists",
-    itemSuffix: "catalog",
+    listSuffix: 'item_lists',
+    itemSuffix: 'catalog',
     apiKeySuffix: 'account_api_key',
     oAuthTokenSuffix: 'oauth/token',
     loginSuffix: 'oauth/authorize'

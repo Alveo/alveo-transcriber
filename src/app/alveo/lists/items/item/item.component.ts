@@ -11,8 +11,8 @@ import { AnnotationService } from '../../../shared/annotation.service';
 })
 export class ItemComponent implements OnInit {
   @Input() item: any = null;
-  @Output() onTranscribe = new EventEmitter<any>();
-  private annotationCount: number = 0;
+  @Output() transcribe = new EventEmitter<any>();
+  private annotationCount = 0;
   private selectedSource: any = null;
 
   public audioSources: any = [];
@@ -56,7 +56,7 @@ export class ItemComponent implements OnInit {
     return this.item['url'];
   }
 
-  public transcribeAction(): void {
-    this.onTranscribe.emit(this.selectedSource);
+  public onTranscribe(): void {
+    this.transcribe.emit(this.selectedSource);
   }
 }

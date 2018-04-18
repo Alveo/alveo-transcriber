@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
@@ -38,7 +38,7 @@ import { Annotation } from './shared/annotation';
     DialogComponent,
   ],
   imports: [
-    BrowserModule,
+    CommonModule,
     FormsModule,
     MatButtonModule,
     MatDialogModule,

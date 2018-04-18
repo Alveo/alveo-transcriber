@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { BrowserModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { AnnotatorModule } from './transcriber/annotator.module';
@@ -10,11 +10,10 @@ import { AppComponent } from './app.component';
     AppComponent
   ],
   imports: [
-    CommonModule,
+    BrowserModule,
     AnnotatorModule,
   ],
   exports: [
-    CommonModule,
     AnnotatorModule,
   ],
   providers: [],

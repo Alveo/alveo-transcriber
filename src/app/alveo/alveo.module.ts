@@ -22,7 +22,7 @@ import {
   MatSnackBarModule
 } from '@angular/material';
 import { CdkTableModule } from '@angular/cdk/table';
-import { AnnotatorModule } from '@davidlirving/alveo-transcriber-module';
+import { AlveoTranscriberModule } from '@alveo-vl/angular-transcriber';
 
 import { AlveoComponent } from './alveo.component';
 
@@ -87,7 +87,7 @@ import 'hammerjs';
     HttpClientModule,
 
     AlveoRoutingModule,
-    AnnotatorModule,
+    AlveoTranscriberModule,
 
     CdkTableModule,
     MatButtonModule,

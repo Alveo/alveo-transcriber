@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { Annotation } from '@davidlirving/alveo-transcriber-module';
+import { Annotation } from '@alveo-vl/angular-transcriber';
 import { DBService, Databases } from './db.service';
-
 
 /* Service for handling the database interaction for Annotations */
 @Injectable()

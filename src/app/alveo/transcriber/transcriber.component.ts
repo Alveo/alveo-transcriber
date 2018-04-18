@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { AnnotatorComponent, Annotation } from '@davidlirving/alveo-transcriber-module';
+import { AlveoTranscriber, Annotation } from '@alveo-vl/angular-transcriber';
 
 import { AlveoService } from '../shared/alveo.service';
 import { AnnotationService } from '../shared/annotation.service';
@@ -36,7 +36,7 @@ export class TranscriberComponent implements OnInit {
   public doc_id: string = '';
   public  errorRaised: boolean = false;
 
-  @ViewChild(AnnotatorComponent) annotator: AnnotatorComponent;
+  @ViewChild(AlveoTranscriber) annotator: AlveoTranscriber;
 
   constructor(
     private segmentorService: SegmentorService,

@@ -45,7 +45,7 @@
     <!-- Must be hidden to trigger the playerReady event -->
     <player
       [hidden]="this.segmentorWorking"
-      (onReady)="this.onPlayerReady($event)"
+      (loadingFinish)="this.onPlayerReady($event)"
       (annotationEvent)="this.annotationEvent($event)"
       [clip]="this.getAudioFile()"
       [annotations]="this.getAnnotations()"

@@ -22,11 +22,11 @@ const SELECTED_COLOUR = 'rgba(0, 200, 200, 0.2)';
   styleUrls: ['./player.component.css'],
 })
 export class PlayerComponent implements OnInit {
-  @Output() onReady = new EventEmitter();
+  @Output() loadingFinish = new EventEmitter();
   @Output() annotationEvent = new EventEmitter();
   @Input() annotations: Array<any>;
   @Input() clip: any;
-  @Input() autoPlay: boolean = false;
+  @Input() autoPlay = false;
 
   private ready: boolean = null;
 
@@ -94,7 +94,7 @@ export class PlayerComponent implements OnInit {
       this.setHeight(80);
 
       this.ready = true;
-      this.onReady.emit({});
+      this.loadingFinish.emit({});
     });
 
     /* Move cursor to beginning of region */
@@ -105,7 +105,7 @@ export class PlayerComponent implements OnInit {
 
     this.player.on('region-update-end', (region: Region) => {
       if (this.ready === true) {
-        const annotation = this.getAnnotationByID(region.id)
+        const annotation = this.getAnnotationByID(region.id);
 
         if (annotation !== null) {
           annotation.start = region.start;
@@ -126,17 +126,17 @@ export class PlayerComponent implements OnInit {
     this.player.on('region-created', (region: Region) => {
       if (this.ready === true) {
         if (region.id.startsWith('wavesurfer_')) {
-          const createFinish = this.player.on('region-update-end', 
-            (region: Region) => {
+          const createFinish = this.player.on('region-update-end',
+            (newRegion: Region) => {
               this.annotationEvent.emit(
                 {
                   'type': 'create',
-                  'id': region.id,
-                  'start': region.start,
-                  'end': region.end,
+                  'id': newRegion.id,
+                  'start': newRegion.start,
+                  'end': newRegion.end,
                 }
               );
-              this.selectRegion(region, true);
+              this.selectRegion(newRegion, true);
 
               // You'd think this would work, but it doesn't: createFinish.un();
               // So instead we do a slightly more roundabout approach.

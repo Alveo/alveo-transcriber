@@ -15,7 +15,7 @@ export class TranscriptionListEditorComponent {
 
   private _selectedAnnotation: Annotation;
   @Input() private set selectedAnnotation(annotation: Annotation) {
-    if (annotation != this._selectedAnnotation) {
+    if (annotation !== this._selectedAnnotation) {
       this.scrollToAnnotation(annotation);
     }
     this._selectedAnnotation = annotation;
@@ -28,9 +28,9 @@ export class TranscriptionListEditorComponent {
 
   public scrollToAnnotation(annotation: Annotation, direct: boolean = false) {
     if (annotation !== null) {
-      const elements = document.getElementsByClassName("annotation-forms");
+      const elements = document.getElementsByClassName('annotation-forms');
 
-      for (var i = 0; i < elements.length; i++) {
+      for (let i = 0; i < elements.length; i++) {
         if (elements[i].id === annotation.id) {
           // Keep one to two elements above where possible, this is less confusing to the user
           if (!direct) {
@@ -66,8 +66,8 @@ export class TranscriptionListEditorComponent {
     if (this.getSelectedAnnotation() !== null) {
       this.annotationUpdate.emit(
         {
-          "type": "edit",
-          "annotation": this.getSelectedAnnotation()
+          'type': 'edit',
+          'annotation': this.getSelectedAnnotation()
         }
       );
     }
@@ -77,8 +77,8 @@ export class TranscriptionListEditorComponent {
     if (annotation !== null) {
       this.annotationUpdate.emit(
         {
-          "type": "select",
-          "annotation": annotation
+          'type': 'select',
+          'annotation': annotation
         }
       );
     }
@@ -87,8 +87,8 @@ export class TranscriptionListEditorComponent {
   public replayAnnotationRequest(): void {
     this.playerControlEvent.emit(
       {
-        "type": "replay",
-        "annotation": this.getSelectedAnnotation()
+        'type': 'replay',
+        'annotation': this.getSelectedAnnotation()
       }
     );
   }
@@ -96,8 +96,8 @@ export class TranscriptionListEditorComponent {
   public deleteAnnotationRequest(): void {
     this.playerControlEvent.emit(
       {
-        "type": "delete",
-        "annotation": this.getSelectedAnnotation()
+        'type': 'delete',
+        'annotation': this.getSelectedAnnotation()
       }
     );
   }

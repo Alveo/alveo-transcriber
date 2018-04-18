@@ -19,8 +19,8 @@ export class TranscriptionEditorComponent {
     if (this.annotation !== null) {
       this.annotationUpdate.emit(
         {
-          "type": "edit",
-          "annotation": this.annotation
+          'type': 'edit',
+          'annotation': this.annotation
         }
       );
     }
@@ -29,8 +29,8 @@ export class TranscriptionEditorComponent {
   public replayAnnotationRequest(): void {
     this.playerControlEvent.emit(
       {
-        "type": "replay",
-        "annotation": this.annotation
+        'type': 'replay',
+        'annotation': this.annotation
       }
     );
   }
@@ -38,7 +38,7 @@ export class TranscriptionEditorComponent {
   public nextAnnotationRequest(): void {
     this.playerControlEvent.emit(
       {
-        "type": "goNext",
+        'type': 'goNext',
       }
     );
   }
@@ -46,7 +46,7 @@ export class TranscriptionEditorComponent {
   public backAnnotationRequest(): void {
     this.playerControlEvent.emit(
       {
-        "type": "goBack",
+        'type': 'goBack',
       }
     );
   }
@@ -54,8 +54,8 @@ export class TranscriptionEditorComponent {
   public deleteAnnotationRequest(): void {
     this.playerControlEvent.emit(
       {
-        "type": "delete",
-        "annotation": this.annotation
+        'type': 'delete',
+        'annotation': this.annotation
       }
     );
   }

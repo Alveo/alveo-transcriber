@@ -5,7 +5,7 @@ export const ANNOTATION_CSV_FIELDS = [
   'speaker',
   'caption',
   'cap_type'
-]
+];
 
 export class Annotation {
   id: string;

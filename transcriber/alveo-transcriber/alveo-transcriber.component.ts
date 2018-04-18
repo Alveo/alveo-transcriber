@@ -1,4 +1,12 @@
-import { Component, ViewChild, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  ViewChild,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter
+} from '@angular/core';
 
 import { MatDialog } from '@angular/material';
 
@@ -7,35 +15,35 @@ import { PlayerComponent } from '../player/player.component';
 
 import { Annotation, ANNOTATION_CSV_FIELDS } from '../shared/annotation';
 
+// Fix for module building
 import * as json2csv_ from 'json2csv';
 const json2csv = json2csv_;
 
 @Component({
   selector: 'alveo-transcriber',
   templateUrl: './alveo-transcriber.component.html',
-  host: {'(window:keydown)': 'hotkeys($event)'},
   styleUrls: ['./alveo-transcriber.component.css'],
 })
 
 export class AlveoTranscriber implements OnInit {
   @Input() audioFile: any = null;
-  @Input() audioFileName: string = "null";
+  @Input() audioFileName = 'null';
   @Input() annotations: Array<any> = [];
   @Input() selectedAnnotation: Annotation = null;
-  @Input() viewMode: string = "list";
+  @Input() viewMode = 'list';
 
-  @Input() segmentorWorking: boolean = false;
+  @Input() segmentorWorking = false;
 
   @Output() onExit = new EventEmitter<any>();
   @Output() onAutosegment = new EventEmitter<any>();
   @Output() onSave = new EventEmitter<any>();
 
-  @Input() showSegmentorServiceButton: boolean = false;
-  @Input() showCSVExportButton: boolean = true;
-  @Input() showJSONExportButton: boolean = true;
-  @Input() autoPlay: boolean = true;
+  @Input() showSegmentorServiceButton = false;
+  @Input() showCSVExportButton = true;
+  @Input() showJSONExportButton = true;
+  @Input() autoPlay = true;
 
-  public playerReady: boolean = false;
+  public playerReady = false;
 
   @ViewChild(PlayerComponent) player: PlayerComponent;
 
@@ -47,8 +55,8 @@ export class AlveoTranscriber implements OnInit {
     this.sortAnnotations();
   }
 
-  hotkeys(ev){
-    if (ev.keyCode == 27) {
+  @HostListener('keydown') hotkeys(ev) {
+    if (ev.keyCode === 27) {
       if (this.selectedAnnotation !== null) {
         this.player.replaySelectedRegion();
       }
@@ -104,8 +112,8 @@ export class AlveoTranscriber implements OnInit {
 
   public exportJSON(): void {
     const csv = JSON.stringify({
-      "doc_id": this.getAudioFileName(),
-      "annotations": this.annotations
+      'doc_id': this.getAudioFileName(),
+      'annotations': this.annotations
     }, null, 2);
 
     const blob = new Blob([csv], { type: 'application/json' });
@@ -154,29 +162,29 @@ export class AlveoTranscriber implements OnInit {
 
   public playerControlEvent(ev: any): void {
     switch (ev['type']) {
-      case "golistview": {
+      case 'golistview': {
         this.setListView();
         break;
       }
-      case "gosingleview": {
+      case 'gosingleview': {
         this.setSingleView();
         break;
       }
-      case "replay": {
+      case 'replay': {
         this.player.replaySelectedRegion();
         break;
       }
-      case "goBack": {
+      case 'goBack': {
         this.player.selectPreviousRegion();
         break;
       }
-      case "goNext": {
+      case 'goNext': {
         this.player.selectNextRegion();
         break;
       }
-      case "delete": {
+      case 'delete': {
         this.player.deleteSelectedRegion().then(
-          ()=> {
+          () => {
             this.selectAnnotation(null);
             this.saveAnnotations(this.annotations);
           }
@@ -222,7 +230,7 @@ export class AlveoTranscriber implements OnInit {
             }
           );
         // Selection event made within PlayerComponent
-        //this.selectAnnotation(annotation, false);
+        // this.selectAnnotation(annotation, false);
         this.saveAnnotations(this.annotations);
       }
     }
@@ -231,8 +239,12 @@ export class AlveoTranscriber implements OnInit {
   private sortAnnotations(): void {
     this.annotations = this.annotations.sort(
       (left, right): number => {
-        if (left.start < right.start) return -1;
-        if (left.start > right.start) return 1;
+        if (left.start < right.start) {
+          return -1;
+        }
+        if (left.start > right.start) {
+          return 1;
+        }
         return 0;
       }
     );

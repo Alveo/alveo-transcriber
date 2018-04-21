@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { AlveoTranscriber, Annotation } from '@alveo-vl/angular-transcriber';
 
-import { AlveoService } from '../shared/alveo.service';
+import { ApiService } from '../shared/api.service';
 import { AnnotationService } from '../shared/annotation.service';
 import { AuthService } from '../shared/auth.service';
 import { SessionService } from '../shared/session.service';
@@ -41,7 +41,7 @@ export class TranscriberComponent implements OnInit {
   constructor(
     private segmentorService: SegmentorService,
     private annotationService: AnnotationService,
-    private alveoService: AlveoService,
+    private apiService: ApiService,
     private sessionService: SessionService,
     private authService: AuthService,
     private activatedRoute: ActivatedRoute,
@@ -119,7 +119,7 @@ export class TranscriberComponent implements OnInit {
   private prepareItem(list_id: string): Promise<any> {
     return new Promise(
       (resolve, reject) => {
-        this.alveoService.getItem(list_id).subscribe(
+        this.apiService.jsAlveo.getItem(list_id).subscribe(
           list => resolve(list),
           error => reject(error)
         );
@@ -146,7 +146,7 @@ export class TranscriberComponent implements OnInit {
   private prepareAudioFile(list_id: string, doc_id: string): Promise<any> {
     return new Promise(
       (resolve, reject) => {
-        this.alveoService.getAudioFile(list_id, doc_id).subscribe(
+        this.apiService.jsAlveo.getAudioFile(list_id, doc_id).subscribe(
           audioData => resolve(audioData),
           error => reject(error)
         );

@@ -1,7 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material';
-
-import { Observable } from 'rxjs/Observable';
+import { JsAlveo } from '@alveo-vl/jsalveo';
 
 import { ApiService } from './api.service';
 
@@ -13,7 +12,6 @@ import { environment } from '../../../environments/environment';
 export class AuthService {
   private onLogin: EventEmitter<any> = new EventEmitter();
   private onLogout: EventEmitter<any> = new EventEmitter();
-  private loggedIn = false;
 
   private loginUrl: string = environment.alveoPaths.mainUrl + '/' + environment.alveoPaths.loginSuffix;
 
@@ -21,11 +19,11 @@ export class AuthService {
   private clientSecret: string = environment.clientSecret;
   private callbackUrl: string = environment.callbackURL;
 
-  private apiKey = '';
+  private loggedIn: boolean = false;
 
   constructor(
+    private dialog: MatDialog,
     private apiService: ApiService,
-    private dialog: MatDialog
   ) { }
 
   private createLoginUrl() {
@@ -37,20 +35,15 @@ export class AuthService {
           + '&scope='         + encodeURIComponent('');
   }
 
-  public getApiKey(): string {
-    return this.apiKey;
-  }
-
   public isLoggedIn(): boolean {
-    return (this.apiKey !== '');
+    return this.loggedIn;
   }
 
   public isApiAuthed(): boolean {
-    return (this.apiKey.length > 0);
+    return this.isLoggedIn();
   }
 
   public initiateLogin() {
-    // TODO return URI
     location.href = this.createLoginUrl();
   }
 
@@ -75,35 +68,14 @@ export class AuthService {
 
   public logout(): void {
     this.onLogout.emit();
-    this.apiKey = '';
   }
 
-  private authoriseApi(authCode: string): Promise<any> {
-    return new Promise(
-      (resolve, reject) => {
-        this.apiService.getOAuthToken(
-          this.clientID,
-          this.clientSecret,
-          authCode,
-          this.callbackUrl,
-        ).subscribe(
-          tokenResponse => {
-            this.apiService.getApiKey(tokenResponse['access_token'])
-              .subscribe(
-                apiResponse => {
-                  this.apiKey = apiResponse['apiKey'];
-                  resolve();
-                },
-                apiError => {
-                  reject(apiError);
-                }
-              );
-          },
-          tokenError => {
-            reject(tokenError);
-          }
-        );
-      }
+  public authoriseApi(authCode: string): Promise<any> {
+    return this.apiService.jsAlveo.oAuthenticate(
+      this.clientID,
+      this.clientSecret,
+      authCode,
+      this.callbackUrl
     );
   }
 }

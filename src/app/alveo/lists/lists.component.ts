@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
-import { AlveoService } from '../shared/alveo.service';
+import { ApiService } from '../shared/api.service';
 import { AuthService } from '../shared/auth.service';
 import { SessionService } from '../shared/session.service';
 
@@ -23,7 +23,7 @@ export class ListsComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private authService: AuthService,
-    private alveoService: AlveoService,
+    private apiService: ApiService,
     private sessionService: SessionService
   ) { }
 
@@ -34,7 +34,7 @@ export class ListsComponent implements OnInit {
         if (this.list_id === undefined) {
           this.sessionService.navigate([Paths.ListIndex]);
         } else {
-          this.alveoService.getList(this.list_id).subscribe(
+          this.apiService.jsAlveo.getList(this.list_id).subscribe(
             list => {
               this.list = list;
               this.ready = true;

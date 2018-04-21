@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { AuthService } from '../shared/auth.service';
-import { AlveoService } from '../shared/alveo.service';
+import { ApiService } from '../shared/api.service';
 import { SessionService } from '../shared/session.service';
 
 import { environment } from '../../../environments/environment';
@@ -19,12 +19,12 @@ export class ListIndexComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private alveoService: AlveoService,
+    private apiService: ApiService,
     private sessionService: SessionService,
   ) {}
 
   ngOnInit() {
-    this.alveoService.getListDirectory(true, false).subscribe(
+    this.apiService.jsAlveo.getListDirectory(true, false).subscribe(
       (lists) => {
         this.lists = lists;
         this.ready = true;

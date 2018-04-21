@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { AlveoService } from '../shared/alveo.service';
+import { ApiService } from '../shared/api.service';
 import { AuthService } from '../shared/auth.service';
 import { DBService, Databases } from '../shared/db.service';
 import { SessionService } from '../shared/session.service';
@@ -16,7 +16,7 @@ import { Paths } from '../shared/paths';
 export class DevConsoleComponent {
   constructor(
     private authService: AuthService,
-    private alveoService: AlveoService,
+    private apiService: ApiService,
     private sessionService: SessionService,
     private dbService: DBService
   ) {}
@@ -28,7 +28,7 @@ export class DevConsoleComponent {
     } else {
       this.dbService.instance(Databases.Cache).put('lists', {storage: null}).then(
         () => {
-          this.alveoService.getListDirectory().subscribe(
+          this.apiService.jsAlveo.getListDirectory().subscribe(
             data => {
               this.sessionService.navigate([Paths.SelectDataSource]);
             },

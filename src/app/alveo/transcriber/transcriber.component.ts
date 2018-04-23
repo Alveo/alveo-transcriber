@@ -47,7 +47,7 @@ export class TranscriberComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.activatedRoute.params.subscribe(
       (params: Params) => {
         this.loader_text = 'Loading ...';
@@ -58,38 +58,31 @@ export class TranscriberComponent implements OnInit {
         if (this.item_id === undefined) {
           this.sessionService.navigate([Paths.ListIndex]);
         } else {
-          this.loader_text = 'Loading item ...';
-          this.prepareItem(this.collection_id + '/' + this.item_id).then(
-            (item) => {
-              this.loader_text = 'Loading audio data ...';
-              this.item = item;
-              this.prepareAudioFile(this.collection_id + '/' + this.item_id, this.doc_id).then(
-                (data) => {
-                  this.audioFileData = data;
-                  this.loader_text = 'Checking annotations ...';
-
-                  this.loadAnnotations(this.getIdentifier()).then(
-                    (annotations) => {
-                      this.annotations = annotations;
-                      this.ready = true;
-                    }
-                  ).catch(
-                    () => {
-                      this.annotations = [];
-                      this.ready = true;
-                    }
-                  );
-                }
-              ).catch(
-                (error) => this.requestErrorHandler(error.message, error)
-              );
-            }
-          ).catch(
-            (error) => this.requestErrorHandler(error.message, error)
-          );
+          this.processData();
         }
       }
     );
+  }
+
+  private async processData(): Promise<any> {
+    try {
+      this.loader_text = 'Loading item ...';
+      this.item = await this.prepareItem(this.collection_id + '/' + this.item_id)
+
+      this.loader_text = 'Loading audio data ...';
+      this.audioFileData = await this.prepareAudioFile(this.collection_id + '/' + this.item_id, this.doc_id);
+
+      this.loader_text = 'Checking annotations ...';
+      try {
+        let data = await this.loadAnnotations(this.getIdentifier());
+        this.annotations = data['annotations'];
+        this.ready = true;
+      } catch(error) {
+        this.ready = true;
+      }
+    } catch(error) {
+      this.requestErrorHandler(error.message, error)
+    }
   }
 
   public requestErrorHandler(message: string, error: any) {
@@ -117,14 +110,7 @@ export class TranscriberComponent implements OnInit {
   }
 
   private prepareItem(item_id: string): Promise<any> {
-    return new Promise(
-      (resolve, reject) => {
-        this.apiService.getItem(item_id).subscribe(
-          list => resolve(list),
-          error => reject(error)
-        );
-      }
-    );
+    return this.apiService.getItem(item_id);
   }
 
   public getAudioFileUrl(): string {
@@ -144,14 +130,7 @@ export class TranscriberComponent implements OnInit {
   }
 
   private prepareAudioFile(item_id: string, doc_id: string): Promise<any> {
-    return new Promise(
-      (resolve, reject) => {
-        this.apiService.getAudioFile(item_id, doc_id).subscribe(
-          audioData => resolve(audioData),
-          error => reject(error)
-        );
-      }
-    );
+    return this.apiService.getAudioFile(item_id, doc_id);
   }
 
   public getAudioFile() {
@@ -186,25 +165,18 @@ export class TranscriberComponent implements OnInit {
     return this.annotationService.saveAnnotations(this.getIdentifier(), ev['annotations']);
   }
 
-  private autoSegment(ev: any): void {
+  private async autoSegment(ev: any) {
     this.isSegmenting = true;
-
-    this.segmentorService.segment(this.getAudioFileUrl()).subscribe(
-      (data) => {
-        this.isSegmenting = false;
-        this.annotator.rebuild(data).then(
-          (annotations) => {
-            this.annotations = annotations;
-            this.annotationService.saveAnnotations(this.getIdentifier(), annotations);
-          })
-          .catch((error) => {
-            this.sessionService.displayError(error.message, error);
-          });
-      },
-      (error) => {
-        this.isSegmenting = false;
-        this.sessionService.displayError(error.message, error);
-      }
-    );
+  
+    try {
+      let data = await this.segmentorService.segment(this.getAudioFileUrl());
+      this.isSegmenting = false;
+      let annotations = await this.annotator.rebuild(data);
+      this.annotations = annotations;
+      this.annotationService.saveAnnotations(this.getIdentifier(), annotations);
+    } catch(error) {
+      this.isSegmenting = false;
+      this.sessionService.displayError(error.message, error);
+    }
   }
 }

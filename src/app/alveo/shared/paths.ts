@@ -1,6 +1,6 @@
 export enum Paths {
-  Index = '',
-  SelectDataSource = '',
+  Index = 'lists',
+  SelectDataSource = 'welcome',
   OAuthCallback = 'oauth/callback',
   ListIndex = 'lists',
   ListView = 'lists/',

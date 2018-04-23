@@ -1,9 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  HttpClientModule,
-  HTTP_INTERCEPTORS
-} from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import {
@@ -79,7 +75,6 @@ import { MonitorService } from './shared/monitor.service';
   imports: [
     CommonModule,
     BrowserAnimationsModule,
-    HttpClientModule,
 
     AlveoRoutingModule,
     AlveoTranscriberModule,

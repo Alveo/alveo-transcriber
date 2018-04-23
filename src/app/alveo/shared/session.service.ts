@@ -54,6 +54,11 @@ export class SessionService {
     this.stored_route = [''];
   }
 
+  public setCallbackRoute(route: any): Promise<any> {
+    this.stored_route = route;
+    return this.updateStorage();
+  }
+
   public updateStorage(): Promise<any> {
     return this.database.put('sessionService', {
       'stored_route': this.stored_route,
@@ -76,7 +81,6 @@ export class SessionService {
       this.activeErrorRef.dismiss();
       this.activeErrorRef = null;
     }
-    this.stored_route = route;
 
     await this.updateStorage();
   }

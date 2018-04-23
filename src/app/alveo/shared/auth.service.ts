@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material';
 import { JsAlveo } from '@alveo-vl/jsalveo';
 
 import { ApiService } from './api.service';
+import { SessionService } from './session.service';
 
 import { AuthComponent } from '../auth/auth.component';
 
@@ -24,6 +25,7 @@ export class AuthService {
   constructor(
     private dialog: MatDialog,
     private apiService: ApiService,
+    private sessionService: SessionService
   ) { }
 
   private createLoginUrl() {
@@ -43,11 +45,15 @@ export class AuthService {
     return this.isLoggedIn();
   }
 
-  public initiateLogin() {
+  public async initiateLogin(callbackRoute?: any): Promise<any>{
+    if (callbackRoute == null) {
+      callbackRoute = [window.location.pathname];
+    }
+    await this.sessionService.setCallbackRoute(callbackRoute);
     location.href = this.createLoginUrl();
   }
 
-  public promptLogin(firstRun: boolean= false) {
+  public promptLogin(firstRun: boolean= false): void {
     setTimeout(() => {
       if (this.dialog.openDialogs.length < 1) {
         this.dialog.open(AuthComponent, {

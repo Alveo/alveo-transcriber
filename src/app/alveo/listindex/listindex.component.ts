@@ -29,7 +29,7 @@ export class ListIndexComponent implements OnInit {
       this.lists = lists['own'].concat(lists['shared']);
       this.ready = true;
     } catch(error) {
-      if (error.status === 401) {
+      if (error.statusCode === 401) {
         this.authService.promptLogin();
       } else {
         this.sessionService.displayError(error.message, error);

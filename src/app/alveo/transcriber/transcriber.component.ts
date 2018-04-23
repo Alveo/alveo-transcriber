@@ -93,10 +93,10 @@ export class TranscriberComponent implements OnInit {
   }
 
   public requestErrorHandler(message: string, error: any) {
-    if (error.status === 401) {
+    if (error.statusCode === 401) {
       this.authService.promptLogin();
       this.raiseError('Not authenticated');
-    } else if (error.status === 403) {
+    } else if (error.statusCode === 403) {
       this.raiseError('Licence must be accepted first. Please do so on the main website.');
     } else {
       this.sessionService.displayError(error.message, error);

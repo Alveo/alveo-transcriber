@@ -31,6 +31,8 @@ export class ListIndexComponent implements OnInit {
     } catch(error) {
       if (error.statusCode === 401) {
         this.authService.promptLogin();
+      } else if (error.message === "No data") {
+        this.sessionService.navigate([Paths.SelectDataSource]);
       } else {
         this.sessionService.displayError(error.message, error);
       }

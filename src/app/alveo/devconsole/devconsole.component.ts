@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { ApiService } from '../shared/api.service';
+import { AnnotationService } from '../shared/annotation.service';
 import { AuthService } from '../shared/auth.service';
-import { DBService, Databases } from '../shared/db.service';
 import { SessionService } from '../shared/session.service';
 
 import { Paths } from '../shared/paths';
@@ -18,7 +18,7 @@ export class DevConsoleComponent {
     private authService: AuthService,
     private apiService: ApiService,
     private sessionService: SessionService,
-    private dbService: DBService
+    private annotationService: AnnotationService
   ) {}
 
   /* Attempts to set lists storage to null, then requests a refresh */
@@ -27,8 +27,7 @@ export class DevConsoleComponent {
       this.authService.promptLogin();
     } else {
       try { 
-        await this.dbService.instance(Databases.Cache).put('lists', {storage: null});
-        await this.apiService.getListDirectory();
+        await this.apiService.getListDirectory(false, true); // TODO, won't actually store the purged result
         this.sessionService.navigate([Paths.SelectDataSource]);
       } catch(error) {
         this.sessionService.displayError(error.message, error);
@@ -38,7 +37,7 @@ export class DevConsoleComponent {
 
   /* Delete annotations db */
   public deleteAnnotations(): void {
-    this.dbService.instance(Databases.Annotations).destroy();
+    this.annotationService.destroyData();
   }
 
   /* Delete cache db then redirect to index */

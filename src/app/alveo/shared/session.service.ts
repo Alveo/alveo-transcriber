@@ -3,10 +3,9 @@ import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 
-import { DBService, Databases } from './db.service';
-
 import { ErrorNotifyComponent } from '../error-notify/error-notify.component';
 
+import { Database } from './database';
 import { Paths } from './paths';
 
 @Injectable()
@@ -14,17 +13,24 @@ export class SessionService {
   private stored_route: any = [''];
   private ready = false;
   private activeErrorRef: any = null;
+  private database: Database;
 
   constructor(
     private snackBar: MatSnackBar,
-    private router: Router,
-    private dbService: DBService) {
-    this.loadCache();
+    private router: Router) {
+    this.database = new Database("session-service");
+    this.loadSession();
   }
 
-  private async loadCache(): Promise<any> {
+  public async purge(): Promise<any> {
+    await this.database.rebuild();
+    this.reset();
+    await this.updateStorage();
+  }
+
+  private async loadSession(): Promise<any> {
     try {
-      const data = await this.dbService.instance(Databases.Cache).get('sessionService');
+      const data = await this.database.get('sessionService');
       console.log('Stored session data has been found and loaded.');
 
       this.stored_route = data['stored_route'];
@@ -49,13 +55,13 @@ export class SessionService {
   }
 
   public updateStorage(): Promise<any> {
-    return this.dbService.instance(Databases.Cache).put('sessionService', {
+    return this.database.put('sessionService', {
       'stored_route': this.stored_route,
     });
   }
 
   private async dbRequest(storageName: string): Promise<any> {
-    return this.dbService.instance(Databases.Cache).get(storageName);
+    return this.database.get(storageName);
   }
 
   public shortenItemUrl(item_url: string): string {

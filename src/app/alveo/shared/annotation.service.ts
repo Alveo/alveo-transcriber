@@ -1,26 +1,26 @@
 import { Injectable } from '@angular/core';
-
 import { Annotation } from '@alveo-vl/angular-transcriber';
-import { DBService, Databases } from './db.service';
+
+import { Database } from './database';
 
 /* Service for handling the database interaction for Annotations */
 @Injectable()
 export class AnnotationService {
-  constructor(
-    private dbService: DBService) {}
+  private database: Database;
+
+  constructor() {
+    this.database = new Database("annotation-service");
+  }
+
+  public destroyData(): Promise<any> {
+    return this.database.rebuild();
+  }
 
   public loadAnnotations(identifier: string): Promise<any> {
-    return new Promise(
-      (resolve, error) => {
-        this.dbService.instance(Databases.Annotations).get(identifier)
-          .then((data) => resolve(data['annotations']))
-          .catch((dbError) => resolve([]));
-      }
-    );
+    return this.database.get(identifier);
   }
 
   public saveAnnotations(identifier: string, annotations: Array<Annotation>): Promise<any> {
-    return this.dbService.instance(Databases.Annotations)
-      .put(identifier, {'annotations': annotations});
+    return this.database.put(identifier, {'annotations': annotations});
   }
 }

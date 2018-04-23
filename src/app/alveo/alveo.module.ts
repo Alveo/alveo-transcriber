@@ -43,7 +43,6 @@ import { ErrorNotifyComponent } from './error-notify/error-notify.component';
 
 import { AuthService } from './shared/auth.service';
 import { SegmentorService } from './shared/segmentor.service';
-import { DBService } from './shared/db.service';
 import { ApiService } from './shared/api.service';
 import { SessionService } from './shared/session.service';
 import { AnnotationService } from './shared/annotation.service';
@@ -100,7 +99,6 @@ import { MonitorService } from './shared/monitor.service';
   ],
   providers: [
     AuthService,
-    DBService,
     SegmentorService,
     AnnotationService,
     ApiService,

@@ -16,7 +16,7 @@
   "private": true,
   "dependencies": {
     "@alveo-vl/angular-transcriber": "^0.1.2",
-    "@alveo-vl/jsalveo": "^0.0.33",
+    "@alveo-vl/jsalveo": "^0.0.4",
     "@angular-devkit/core": "0.0.29",
     "@angular-devkit/schematics": "0.0.52",
     "@angular/animations": "^5.2.10",

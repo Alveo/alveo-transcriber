@@ -1,17 +1,19 @@
-//import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { TranscriberServices } from '@alveo-vl/jsalveo';
 
 import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class SegmentorService {
-  segmentorUrl: string = environment.segmentorURL;
+  private alveots: TranscriberServices;
 
-  constructor(
-    //private http: HttpClient
-  ) { }
+  constructor() {
+    this.alveots = new TranscriberServices({
+      apiUrl: environment.segmenterUrl
+    });
+  }
 
-  async segment(path: string): Promise<any> {
-    //return this.http.get(this.segmentorUrl + '?url=' + path);
+  public segment(path: string): Promise<any> {
+    return this.alveots.segment(path);
   }
 }

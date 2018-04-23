@@ -23,18 +23,18 @@ export class ApiService {
     return this.jsAlveo.oAuthenticate(clientID, clientSecret, authCode, callbackUrl);
   }
 
-  public getItem(item_id: string): Promise<any> {
-    return this.jsAlveo.getItem(item_id);
+  public getItem(item_id: string, useCache: boolean= true, useApi: boolean= true): Promise<any> {
+    return this.jsAlveo.getItem(item_id, useCache, useApi);
   }
 
-  public getList(list_id: string): Promise<any> {
-    return this.jsAlveo.getList(list_id);
+  public getList(list_id: string, useCache: boolean= true, useApi: boolean= true): Promise<any> {
+    return this.jsAlveo.getList(list_id, useCache, useApi);
   }
 
-  public getAudioFile(item_id: string, doc_id: string): Promise<any> {
+  public getAudioFile(item_id: string, doc_id: string, useCache: boolean= true, useApi: boolean= true): Promise<any> {
     // TODO should be getDocument.
     //  getAudioFile is likely only applicable to the transcriber
-    return this.jsAlveo.getAudioFile(item_id, doc_id);
+    return this.jsAlveo.getAudioFile(item_id, doc_id, useApi, useCache);
   }
 
   public getListDirectory(useCache: boolean= true, useApi: boolean= true): Promise<any> {

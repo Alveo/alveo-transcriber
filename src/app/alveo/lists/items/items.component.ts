@@ -47,14 +47,11 @@ export class ItemsComponent implements OnInit {
     private sessionService: SessionService,
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.generateItemList();
-    this.scanItemList().then(
-      () => {
-        this.generateItemDisplay();
-        this.ready = true;
-      }
-    );
+    await this.scanItemList();
+    this.generateItemDisplay();
+    this.ready = true;
   }
 
   public isReady(): boolean {
@@ -111,60 +108,42 @@ export class ItemsComponent implements OnInit {
   }
 
   /* Checks whether the cache has the item already downloaded */
-  private scanItemList(): Promise<any> {
-    let items_loaded = 0;
-    const item_count = this.items.length;
-
-    return new Promise(
-      (resolve, reject) => {
-        for (const item of this.items) {
-          this.apiService.getItem(item['id'], true, false).subscribe(
-            data => {
-              item['state'] = ItemState.READY;
-              item['data'] = data;
-              items_loaded += 1;
-            },
-            error => {
-              item['state'] = ItemState.NOT_CACHED;
-              items_loaded += 1;
-            }
-          );
-        }
-        const interval = setInterval(() => {
-          if (items_loaded === item_count) {
-            clearInterval(interval);
-            resolve();
-          }
-        }, 5);
+  async private scanItemList(): Promise<any> {
+    for (const item of this.items) {
+      try {
+        const itemdata = await this.apiService.getItem(item['id'], true, false);
+        item['state'] = ItemState.READY;
+        item['data'] = itemdata;
+      } catch(error) {
+        item['state'] = ItemState.NOT_CACHED;
       }
-    );
+    }
   }
-  private retrieveItemData(item: any): void {
+
+  async private retrieveItemData(item: any): void {
     item['state'] = ItemState.DOWNLOADING;
 
-    this.apiService.getItem(item['id']).subscribe(
-      data => {
-        item['state'] = ItemState.READY;
-        item['data'] = data;
-      },
-      error => {
-        if (error.status === 401) {
-          this.authService.promptLogin();
-          item['state'] = ItemState.NOT_AUTHENTICATED;
-        } else if (error.status === 403) {
-          item['state'] = ItemState.NOT_LICENCED;
-          this.sessionService.displayError(
-            'Licence for "'
-            + item['id']
-            + '" has not been accepted, please accept licence for this collection at '
-            + environment.alveoPaths.mainUrl,
-            error);
-        } else {
-          this.sessionService.displayError(error.message, error);
-          item['state'] = ItemState.FAILED;
-        }
+    try {
+      const itemdata = await this.apiService.getItem(item['id']);
+      item['state'] = ItemState.READY;
+      item['data'] = itemdata;
+    } catch(error) {
+      if (error.statusCode === 401) {
+        this.authService.promptLogin();
+        item['state'] = ItemState.NOT_AUTHENTICATED;
+      } else if (error.statusCode === 403) {
+        item['state'] = ItemState.NOT_LICENCED;
+        this.sessionService.displayError(
+          'Licence for "'
+          + item['id']
+          + '" has not been accepted, please accept licence for this collection at '
+          + environment.alveoPaths.mainUrl,
+          error);
+      } else {
+        this.sessionService.displayError(error.message, error);
+        item['state'] = ItemState.FAILED;
       }
-    );
+    }
   }
 
   public getItems(): any {

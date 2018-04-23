@@ -34,23 +34,24 @@ export class ListsComponent implements OnInit {
         if (this.list_id === undefined) {
           this.sessionService.navigate([Paths.ListIndex]);
         } else {
-          this.apiService.getList(this.list_id).subscribe(
-            list => {
-              this.list = list;
+          try {
+            this.prepareData(this.list_id);
+          } catch(error) {
+            if (error.statusCode === 401) {
+              this.authService.promptLogin();
               this.ready = true;
-            },
-            error => {
-              if (error.status === 401) {
-                this.authService.promptLogin();
-                this.ready = true;
-              } else {
-                this.sessionService.displayError(error.message, error);
-              }
+            } else {
+              this.sessionService.displayError(error.message, error);
             }
-          );
+          }
         }
       }
     );
+  }
+
+  async prepareData(list_id: string): Promise<any> {
+    this.list = await this.apiService.getList(list_id);
+    this.ready = true;
   }
 
   public isReady(): boolean {

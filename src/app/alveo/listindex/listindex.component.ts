@@ -25,7 +25,7 @@ export class ListIndexComponent implements OnInit {
 
   private async dataSetup() {
     try {
-      const lists = await this.apiService.jsAlveo.getListDirectory(true, false);
+      const lists = await this.apiService.getListDirectory(true, false);
       this.lists = lists['own'].concat(lists['shared']);
       this.ready = true;
     } catch(error) {

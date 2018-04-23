@@ -118,7 +118,7 @@ export class ItemsComponent implements OnInit {
     return new Promise(
       (resolve, reject) => {
         for (const item of this.items) {
-          this.apiService.jsAlveo.getItem(item['id'], true, false).subscribe(
+          this.apiService.getItem(item['id'], true, false).subscribe(
             data => {
               item['state'] = ItemState.READY;
               item['data'] = data;
@@ -142,7 +142,7 @@ export class ItemsComponent implements OnInit {
   private retrieveItemData(item: any): void {
     item['state'] = ItemState.DOWNLOADING;
 
-    this.apiService.jsAlveo.getItem(item['id']).subscribe(
+    this.apiService.getItem(item['id']).subscribe(
       data => {
         item['state'] = ItemState.READY;
         item['data'] = data;

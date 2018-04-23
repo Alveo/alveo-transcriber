@@ -46,8 +46,8 @@ export class DataSourceComponent implements OnInit {
     this.loading = true;
 
     try {
-      await this.apiService.jsAlveo.getListDirectory(useCache, useApi);
-      this.sessionService.navigate([Paths.ListIndex]);
+      await this.apiService.getListDirectory(useCache, useApi);
+      await this.sessionService.navigate([Paths.ListIndex]);
     } catch (error) {
       this.loading = false;
       return Promise.reject(error);

@@ -34,7 +34,7 @@ export class ListsComponent implements OnInit {
         if (this.list_id === undefined) {
           this.sessionService.navigate([Paths.ListIndex]);
         } else {
-          this.apiService.jsAlveo.getList(this.list_id).subscribe(
+          this.apiService.getList(this.list_id).subscribe(
             list => {
               this.list = list;
               this.ready = true;

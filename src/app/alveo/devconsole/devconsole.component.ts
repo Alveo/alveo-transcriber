@@ -28,7 +28,7 @@ export class DevConsoleComponent {
     } else {
       try { 
         await this.dbService.instance(Databases.Cache).put('lists', {storage: null});
-        await this.apiService.jsAlveo.getListDirectory();
+        await this.apiService.getListDirectory();
         this.sessionService.navigate([Paths.SelectDataSource]);
       } catch(error) {
         this.sessionService.displayError(error.message, error);
@@ -44,7 +44,7 @@ export class DevConsoleComponent {
   /* Delete cache db then redirect to index */
   public async deleteCache() {
     try {
-      await this.apiService.jsAlveo.purgeCache();
+      await this.apiService.purgeCache();
       this.sessionService.reset();
       this.sessionService.navigate([Paths.Index]);
     } catch(error) {

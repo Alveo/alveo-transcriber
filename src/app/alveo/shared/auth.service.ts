@@ -73,7 +73,7 @@ export class AuthService {
   }
 
   public authoriseApi(authCode: string): Promise<any> {
-    return this.apiService.jsAlveo.oAuthenticate(
+    return this.apiService.oAuthenticate(
       this.clientID,
       this.clientSecret,
       authCode,

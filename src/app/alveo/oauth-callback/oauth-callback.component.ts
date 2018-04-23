@@ -32,10 +32,7 @@ export class OAuthCallbackComponent implements OnInit, OnDestroy {
         try {
           const oauthCode = params['code'];
           if (oauthCode == null) {
-            throw new Error({
-              statusCode: 403,
-              message: "No auth code provided in argument parameters",
-            });
+            throw new Error("No auth code provided in argument parameters");
           }
           this.oauthCallback(oauthCode);
         } catch(error) {

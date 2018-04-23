@@ -116,10 +116,10 @@ export class TranscriberComponent implements OnInit {
     this.loader_text = message;
   }
 
-  private prepareItem(list_id: string): Promise<any> {
+  private prepareItem(item_id: string): Promise<any> {
     return new Promise(
       (resolve, reject) => {
-        this.apiService.jsAlveo.getItem(list_id).subscribe(
+        this.apiService.getItem(item_id).subscribe(
           list => resolve(list),
           error => reject(error)
         );
@@ -143,10 +143,10 @@ export class TranscriberComponent implements OnInit {
     return this.item['alveo:metadata']['alveo:handle'];
   }
 
-  private prepareAudioFile(list_id: string, doc_id: string): Promise<any> {
+  private prepareAudioFile(item_id: string, doc_id: string): Promise<any> {
     return new Promise(
       (resolve, reject) => {
-        this.apiService.jsAlveo.getAudioFile(list_id, doc_id).subscribe(
+        this.apiService.getAudioFile(item_id, doc_id).subscribe(
           audioData => resolve(audioData),
           error => reject(error)
         );

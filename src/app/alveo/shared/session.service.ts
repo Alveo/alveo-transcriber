@@ -81,8 +81,6 @@ export class SessionService {
       this.activeErrorRef.dismiss();
       this.activeErrorRef = null;
     }
-
-    await this.updateStorage();
   }
 
   public navigateToStoredRoute(): Promise<any> {

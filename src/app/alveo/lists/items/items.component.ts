@@ -108,7 +108,7 @@ export class ItemsComponent implements OnInit {
   }
 
   /* Checks whether the cache has the item already downloaded */
-  async private scanItemList(): Promise<any> {
+  private async scanItemList(): Promise<any> {
     for (const item of this.items) {
       try {
         const itemdata = await this.apiService.getItem(item['id'], true, false);
@@ -120,7 +120,7 @@ export class ItemsComponent implements OnInit {
     }
   }
 
-  async private retrieveItemData(item: any): void {
+  private async retrieveItemData(item: any): Promise<any> {
     item['state'] = ItemState.DOWNLOADING;
 
     try {

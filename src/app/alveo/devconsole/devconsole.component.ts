@@ -46,7 +46,7 @@ export class DevConsoleComponent {
     try {
       await this.apiService.purgeCache();
       this.sessionService.reset();
-      this.sessionService.navigate([Paths.Index]);
+      this.sessionService.navigate([Paths.SelectDataSource]);
     } catch(error) {
       this.sessionService.displayError(error.message, error);
     }

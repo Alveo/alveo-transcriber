@@ -22,17 +22,22 @@ export class ItemComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.annotationService.loadAnnotations(this.getAnnotationHandle()).then(
-      (annotations) => {
-        this.annotationCount = annotations.length;
-      }
-    );
+    this.processAnnotationCount();
 
     for (const doc of this.item['data']['alveo:documents']) {
       // Need to force lower case as some Alveo collections use titlecase at the moment
       if (doc['dcterms:type'].toLowerCase() === 'audio') {
         this.audioSources.push(doc);
       }
+    }
+  }
+
+  private async processAnnotationCount(): Promise<any> {
+    try {
+      const annotations = await this.annotationService.loadAnnotations(this.getAnnotationHandle());
+      this.annotationCount = annotations.length;
+    } catch(error) {
+      this.annotationCount = 0;
     }
   }
 

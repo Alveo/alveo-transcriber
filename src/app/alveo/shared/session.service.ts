@@ -19,35 +19,29 @@ export class SessionService {
     private snackBar: MatSnackBar,
     private router: Router,
     private dbService: DBService) {
-
-    this.dbService.instance(Databases.Cache).get('sessionService').then(
-      data => {
-        console.log('Stored session data has been found and loaded.');
-
-        this.stored_route = data['stored_route'];
-        this.ready = true;
-      },
-      error => {
-        console.log('Stored session data not found. Initialising.');
-
-        this.updateStorage().then(
-          () => this.ready = true
-        );
-      }
-    );
+    this.loadCache();
   }
 
-  public onReady(): Promise<any> {
-    return new Promise(
-      (resolve, reject) => {
-        const interval = setInterval(() => {
-          if (this.ready) {
-            clearInterval(interval);
-            resolve();
-          }
-        }, 5);
+  private async loadCache(): Promise<any> {
+    try {
+      const data = await this.dbService.instance(Databases.Cache).get('sessionService');
+      console.log('Stored session data has been found and loaded.');
+
+      this.stored_route = data['stored_route'];
+    } catch(error) {
+      console.log('Stored session data not found. Initialising.');
+      await this.updateStorage();
+    }
+    this.ready = true;
+  }
+
+  public async onReady(): Promise<any> {
+    const interval = setInterval(() => {
+      if (this.ready) {
+        clearInterval(interval);
+        Promise.resolve();
       }
-    );
+    }, 5);
   }
 
   public reset() {
@@ -60,18 +54,8 @@ export class SessionService {
     });
   }
 
-  private dbRequest(storageName: string): Observable<any> {
-    return new Observable(
-      (observer) => {
-        this.dbService.instance(Databases.Cache).get(storageName).then(
-          data => {
-            observer.next(data[storageName]);
-            observer.complete();
-          },
-          error => observer.error(error)
-        );
-      }
-    );
+  private async dbRequest(storageName: string): Promise<any> {
+    return this.dbService.instance(Databases.Cache).get(storageName);
   }
 
   public shortenItemUrl(item_url: string): string {
@@ -79,41 +63,30 @@ export class SessionService {
   }
 
   /* Navigate to the specified route if possible */
-  public navigate(route: any[]): Promise<any> {
-    return new Promise(
-      (resolve, reject) => {
-        this.router.navigate(route).then(
-          (data) => {
-            if (this.activeErrorRef !== null) {
-              this.activeErrorRef.dismiss();
-              this.activeErrorRef = null;
-            }
-            this.stored_route = route;
-            this.updateStorage().then(
-              () => resolve(data)
-            );
-          })
-        .catch(
-          (error) => reject(error)
-        );
-      }
-    );
+  public async navigate(route: any[]): Promise<any> {
+    let data = await this.router.navigate(route);
+
+    if (this.activeErrorRef !== null) {
+      this.activeErrorRef.dismiss();
+      this.activeErrorRef = null;
+    }
+    this.stored_route = route;
+
+    await this.updateStorage();
   }
 
   public navigateToStoredRoute(): Promise<any> {
     return this.navigate(this.stored_route);
   }
 
-  public refreshSession(url= null) {
-    this.onReady().then(
-      () => {
-        if (url === null) {
-          url = Paths.Index;
-        }
+  public async refreshSession(url= null) {
+    await this.onReady();
 
-        this.router.navigate([url]);
-      }
-    );
+    if (url === null) {
+      url = Paths.Index;
+    }
+
+    this.router.navigate([url]);
   }
 
   public displayError(errorMessage: string, consoleError: any, duration: number= 0) {

@@ -32,9 +32,7 @@ export class ApiService {
   }
 
   public getAudioFile(item_id: string, doc_id: string, useCache: boolean= true, useApi: boolean= true): Promise<any> {
-    // TODO should be getDocument.
-    //  getAudioFile is likely only applicable to the transcriber
-    return this.jsAlveo.getAudioFile(item_id, doc_id, useApi, useCache);
+    return this.jsAlveo.getDocument(item_id, doc_id, useApi, useCache);
   }
 
   public getListDirectory(useCache: boolean= true, useApi: boolean= true): Promise<any> {
@@ -43,5 +41,13 @@ export class ApiService {
 
   public purgeCache(): Promise<any> {
     return this.jsAlveo.purgeCache();
+  }
+
+  public purgeCacheByKey(key: string): Promise<any> {
+    return this.jsAlveo.purgeCache(key);
+  }
+
+  public unauthorize() {
+    this.jsAlveo.unregister();
   }
 }

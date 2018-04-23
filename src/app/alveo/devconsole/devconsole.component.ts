@@ -27,7 +27,7 @@ export class DevConsoleComponent {
       this.authService.promptLogin();
     } else {
       try { 
-        await this.apiService.getListDirectory(false, true); // TODO, won't actually store the purged result
+        await this.apiService.purgeCacheByKey('lists');
         this.sessionService.navigate([Paths.SelectDataSource]);
       } catch(error) {
         this.sessionService.displayError(error.message, error);

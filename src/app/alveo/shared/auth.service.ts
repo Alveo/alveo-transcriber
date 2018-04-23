@@ -74,6 +74,7 @@ export class AuthService {
   }
 
   public logout(): void {
+    this.apiService.unauthorize();
     this.onLogout.emit();
     this.loggedIn = false;
   }

@@ -22,24 +22,17 @@ export class DevConsoleComponent {
   ) {}
 
   /* Attempts to set lists storage to null, then requests a refresh */
-  public refreshData(): void {
+  public async refreshData() {
     if (!this.authService.isLoggedIn()) {
       this.authService.promptLogin();
     } else {
-      this.dbService.instance(Databases.Cache).put('lists', {storage: null}).then(
-        () => {
-          this.apiService.jsAlveo.getListDirectory().subscribe(
-            data => {
-              this.sessionService.navigate([Paths.SelectDataSource]);
-            },
-            error => {
-              this.sessionService.displayError(error.message, error);
-            }
-          );
-        }
-      ).catch(
-        (error) => this.sessionService.displayError(error.message, error)
-      );
+      try { 
+        await this.dbService.instance(Databases.Cache).put('lists', {storage: null});
+        await this.apiService.jsAlveo.getListDirectory();
+        this.sessionService.navigate([Paths.SelectDataSource]);
+      } catch(error) {
+        this.sessionService.displayError(error.message, error);
+      }
     }
   }
 
@@ -49,24 +42,24 @@ export class DevConsoleComponent {
   }
 
   /* Delete cache db then redirect to index */
-  public deleteCache(): void {
-    this.dbService.instance(Databases.Cache).destroy().then(
-      () => {
-          this.sessionService.reset();
-          this.sessionService.navigate([Paths.Index]);
-        }
-      ).catch(
-        (error) => this.sessionService.displayError(error.message, error)
-      );
+  public async deleteCache() {
+    try {
+      await this.apiService.jsAlveo.purgeCache();
+      this.sessionService.reset();
+      this.sessionService.navigate([Paths.Index]);
+    } catch(error) {
+      this.sessionService.displayError(error.message, error);
+    }
   }
 
   /* Clear session data and redirect to index */
-  public resetSession(): void {
+  public async resetSession() {
     this.sessionService.reset();
-    this.sessionService.updateStorage().then(
-      () => this.sessionService.navigate([Paths.Index])
-    ).catch(
-      (error) => this.sessionService.displayError(error.message, error)
-    );
+    try {
+      await this.sessionService.updateStorage();
+      this.sessionService.navigate([Paths.Index])
+    } catch(error) {
+      this.sessionService.displayError(error.message, error);
+    }
   }
 }

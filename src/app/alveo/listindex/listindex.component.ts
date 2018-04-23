@@ -23,20 +23,22 @@ export class ListIndexComponent implements OnInit {
     private sessionService: SessionService,
   ) {}
 
-  ngOnInit() {
-    this.apiService.jsAlveo.getListDirectory(true, false).subscribe(
-      (lists) => {
-        this.lists = lists;
-        this.ready = true;
-      },
-      (error) => {
-        if (error.status === 401) {
-          this.authService.promptLogin();
-        } else {
-          this.sessionService.displayError(error.message, error);
-        }
+  private async dataSetup() {
+    try {
+      const lists = await this.apiService.jsAlveo.getListDirectory(true, false);
+      this.lists = lists['own'].concat(lists['shared']);
+      this.ready = true;
+    } catch(error) {
+      if (error.status === 401) {
+        this.authService.promptLogin();
+      } else {
+        this.sessionService.displayError(error.message, error);
       }
-    );
+    }
+  }
+
+  ngOnInit() {
+    this.dataSetup();
   }
 
   public isReady(): boolean {

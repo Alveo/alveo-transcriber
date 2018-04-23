@@ -61,13 +61,15 @@ export class AuthService {
     }, 50);
   }
 
-  public login(authCode: string): Promise<any> {
+  async login(authCode: string): Promise<any> {
+    await this.authoriseApi(authCode);
     this.onLogin.emit();
-    return this.authoriseApi(authCode);
+    this.loggedIn = true;
   }
 
   public logout(): void {
     this.onLogout.emit();
+    this.loggedIn = false;
   }
 
   public authoriseApi(authCode: string): Promise<any> {

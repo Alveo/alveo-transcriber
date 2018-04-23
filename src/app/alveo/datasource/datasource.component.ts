@@ -42,18 +42,15 @@ export class DataSourceComponent implements OnInit {
     return this.loading;
   }
 
-  public getData(useCache: boolean= true, useApi: boolean= true): Promise<any> {
+  public async getData(useCache: boolean= true, useApi: boolean= true): Promise<any> {
     this.loading = true;
-    return new Promise(
-      (resolve, reject) => {
-        this.apiService.jsAlveo.getListDirectory(useCache, useApi).subscribe(
-          lists => {
-            this.sessionService.navigate([Paths.ListIndex]);
-            resolve(lists);
-          },
-          error => { this.loading = false; reject(error); }
-        );
-      }
-    );
+
+    try {
+      await this.apiService.jsAlveo.getListDirectory(useCache, useApi);
+      this.sessionService.navigate([Paths.ListIndex]);
+    } catch (error) {
+      this.loading = false;
+      return Promise.reject(error);
+    }
   }
 }

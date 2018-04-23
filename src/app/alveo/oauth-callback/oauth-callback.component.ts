@@ -29,21 +29,26 @@ export class OAuthCallbackComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.param_sub = this.route.queryParams.subscribe(
       params => {
-        if (params['code'] !== undefined) {
-          this.authService.login(params['code']).then(
-            () => {
-              this.sessionService.onReady().then(
-                () => {
-                  this.sessionService.navigateToStoredRoute();
-                }
-              );
-            }
-          );
-        } else {
+        try {
+          const oauthCode = params['code'];
+          if (oauthCode == null) {
+            throw new Error({
+              statusCode: 403,
+              message: "No auth code provided in argument parameters",
+            });
+          }
+          this.oauthCallback(oauthCode);
+        } catch(error) {
           this.sessionService.navigate([Paths.Index]);
         }
       }
     );
+  }
+
+  async oauthCallback(callbackCode: string) {
+    await this.authService.login(callbackCode);
+    await this.sessionService.onReady();
+    this.sessionService.navigateToStoredRoute();
   }
 
   ngOnDestroy() {

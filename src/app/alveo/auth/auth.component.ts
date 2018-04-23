@@ -21,7 +21,7 @@ export class AuthComponent {
     return this.data['firstRun'];
   }
 
-  public async actionLogin(): void {
+  public async actionLogin(): Promise<any> {
     let callbackRoute = this.data['callbackRoute'];
     if (callbackRoute == null) {
       callbackRoute = [window.location.pathname];

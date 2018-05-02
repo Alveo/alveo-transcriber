@@ -17,5 +17,6 @@ export const environment = {
 
   devTools: true,
 
-  segmenterUrl: 'https://segmenter.apps.alveo.edu.au'
+  segmenterUrl: 'https://segmenter.apps.alveo.edu.au',
+  segmenterAuth: 'app.alveo.edu.au'
 };

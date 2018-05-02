@@ -16,7 +16,7 @@
   "private": true,
   "dependencies": {
     "@alveo-vl/angular-transcriber": "^0.1.2",
-    "@alveo-vl/jsalveo": "^0.0.4",
+    "@alveo-vl/jsalveo": "^0.0.5",
     "@angular-devkit/core": "0.0.29",
     "@angular-devkit/schematics": "0.0.52",
     "@angular/animations": "^5.2.10",
@@ -50,7 +50,7 @@
     "@angular/language-service": "^5.2.10",
     "@types/jasmine": "~2.5.53",
     "@types/jasminewd2": "~2.0.2",
-    "@types/node": "^6.0.106",
+    "@types/node": "^6.0.107",
     "codelyzer": "^4.1.0",
     "jasmine-core": "~2.6.2",
     "jasmine-spec-reporter": "~4.1.0",

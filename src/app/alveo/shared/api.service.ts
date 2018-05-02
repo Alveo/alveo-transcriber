@@ -47,6 +47,10 @@ export class ApiService {
     return this.jsAlveo.purgeCache(key);
   }
 
+  public getApiKey(): string {
+    return this.jsAlveo.apiClient.apiKey;
+  }
+
   public unauthorize() {
     this.jsAlveo.unregister();
   }

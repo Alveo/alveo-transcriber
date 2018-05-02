@@ -89,7 +89,7 @@ MIT
 MIT
 MIT
 
-@alveo-vl/jsalveo@0.0.4
+@alveo-vl/jsalveo@0.0.5
 MIT
 MIT
 

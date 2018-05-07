@@ -166,17 +166,25 @@ export class TranscriberComponent implements OnInit {
   }
 
   private async autoSegment(ev: any) {
+    if (!this.authService.isLoggedIn()) {
+      this.authService.promptLogin()
+    } else {
+      this.runSegmenter()
+    }
+  }
+
+  private async runSegmenter() {
     this.isSegmenting = true;
   
     try {
       let data = await this.segmentorService.segment(this.getAudioFileUrl());
-      this.isSegmenting = false;
-      let annotations = await this.annotator.rebuild(data);
+      let annotations = await this.annotator.rebuild(data.results);
       this.annotations = annotations;
       this.annotationService.saveAnnotations(this.getIdentifier(), annotations);
     } catch(error) {
-      this.isSegmenting = false;
       this.sessionService.displayError(error.message, error);
+      this.isSegmenting = false;
     }
+    this.isSegmenting = false;
   }
 }

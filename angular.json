@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/a6",
+            "outputPath": "dist/alveo-transcription-tool",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -45,7 +45,7 @@
               "vendorChunk": false,
               "buildOptimizer": true
             },
-            {
+            "staging": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -67,18 +67,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "a6:build"
+            "browserTarget": "alveo-transcription-tool:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "a6:build:production"
+              "browserTarget": "alveo-transcription-tool:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "a6:build"
+            "browserTarget": "alveo-transcription-tool:build"
           }
         },
         "test": {

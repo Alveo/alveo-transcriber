@@ -15,7 +15,12 @@
     "lib": [
       "es2017",
       "dom"
-    ]
+    ],
+    "paths": {
+      "transcriber-component": [
+        "dist/transcriber-component"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true

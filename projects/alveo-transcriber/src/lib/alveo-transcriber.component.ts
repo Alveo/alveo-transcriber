@@ -10,10 +10,10 @@ import {
 
 import { MatDialog } from '@angular/material';
 
-import { DialogComponent } from '../dialog/dialog.component';
-import { PlayerComponent } from '../player/player.component';
+import { DialogComponent } from './dialog/dialog.component';
+import { PlayerComponent } from './player/player.component';
 
-import { Annotation, ANNOTATION_CSV_FIELDS } from '../shared/annotation';
+import { Annotation, ANNOTATION_CSV_FIELDS } from './shared/annotation';
 
 // Fix for module building
 import * as json2csv_ from 'json2csv';

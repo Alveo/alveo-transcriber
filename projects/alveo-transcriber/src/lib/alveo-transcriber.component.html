@@ -2,34 +2,38 @@
   <div class="top-halign">
     <div *ngIf="this.playerReady && !this.segmentorWorking">
       <button mat-raised-button
-        color="primary"
         *ngIf="this.showSegmentorServiceButton"
-        (click)="this.actionSegment()">
+        (click)="this.actionSegment()"
+        [color]="'primary'">
         Autosegment
       </button>
 
       <button mat-raised-button
-        color="primary"
         *ngIf="this.showCSVExportButton"
-        (click)="this.exportCSV()">
+        (click)="this.exportCSV()"
+       [color]="'primary'">
         Export CSV
       </button>
 
       <button mat-raised-button
-        color="primary"
         *ngIf="this.showJSONExportButton"
-        (click)="this.exportJSON()">
+        (click)="this.exportJSON()"
+        [color]="'primary'">
         Export JSON
       </button>
 
-      <button mat-raised-button color="primary" (click)="this.actionBack()">Exit</button>
+      <button mat-raised-button
+        (click)="this.actionBack()"
+        [color]="'primary'">
+        Exit
+      </button>
     </div>
   </div>
 
   <div *ngIf="!this.playerReady && !this.segmentorWorking"
     id="player-loader">
     <mat-spinner
-      [color]="primary">
+      [color]="'primary'">
     </mat-spinner>
     <p>Rendering waveform ...</p>
   </div>
@@ -37,7 +41,7 @@
   <div *ngIf="this.segmentorWorking"
     id="player-loader">
     <mat-spinner
-      [color]="primary">
+      [color]="'primary'">
     </mat-spinner>
     <p>Segmenting ...</p>
   </div>

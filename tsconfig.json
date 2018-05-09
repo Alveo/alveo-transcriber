@@ -17,8 +17,8 @@
       "dom"
     ],
     "paths": {
-      "transcriber-component": [
-        "dist/transcriber-component"
+      "alveo-transcriber": [
+        "dist/alveo-transcriber"
       ]
     }
   },

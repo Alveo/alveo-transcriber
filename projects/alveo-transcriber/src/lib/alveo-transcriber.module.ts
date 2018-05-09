@@ -12,7 +12,7 @@ import {
   MatProgressSpinnerModule
 } from '@angular/material';
 
-import { AlveoTranscriber } from './alveo-transcriber/alveo-transcriber.component';
+import { AlveoTranscriber } from './alveo-transcriber.component';
 import { TranscriptionEditorComponent } from './transcription-editor/transcription-editor.component';
 import { TranscriptionListEditorComponent } from './transcription-list-editor/transcription-list-editor.component';
 import { PlayerComponent } from './player/player.component';

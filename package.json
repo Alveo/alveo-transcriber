@@ -13,9 +13,9 @@
   },
   "private": true,
   "dependencies": {
-    "@alveo-vl/angular-transcriber": "^0.1.2",
     "@alveo-vl/jsalveo": "^0.0.5",
     "@angular/animations": "^6.0.0",
+    "@angular/cdk": "^6.0.1",
     "@angular/common": "^6.0.0",
     "@angular/compiler": "^6.0.0",
     "@angular/core": "^6.0.0",
@@ -30,6 +30,7 @@
     "json2csv": "^4.1.2",
     "pouchdb": "^6.4.3",
     "rxjs": "^6.0.0",
+    "rxjs-compat": "^6.0.0-tactical-rc.1",
     "wavesurfer.js": "^2.0.3",
     "zone.js": "^0.8.26"
   },

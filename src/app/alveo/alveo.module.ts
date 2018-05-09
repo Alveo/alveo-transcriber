@@ -18,7 +18,7 @@ import {
   MatSnackBarModule
 } from '@angular/material';
 import { CdkTableModule } from '@angular/cdk/table';
-import { AlveoTranscriberModule } from '@alveo-vl/angular-transcriber';
+import { AlveoTranscriberModule } from 'alveo-transcriber';
 
 import { AlveoComponent } from './alveo.component';
 

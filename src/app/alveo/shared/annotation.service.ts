@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Annotation } from '@alveo-vl/angular-transcriber';
+import { Annotation } from 'alveo-transcriber';
 
 import { Database } from './database';
 

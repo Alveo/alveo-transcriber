@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { AlveoTranscriber, Annotation } from '@alveo-vl/angular-transcriber';
+import { AlveoTranscriber, Annotation } from 'alveo-transcriber';
 
 import { ApiService } from '../shared/api.service';
 import { AnnotationService } from '../shared/annotation.service';

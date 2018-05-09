@@ -1,0 +1,66 @@
+:host {
+  min-height: 1000px;
+}
+
+#player-loader {
+  margin: auto;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#player-loader p {
+  margin-top: 10px;
+}
+
+.extra-height {
+  height: 800px;
+}
+.settings {
+  display: flex;
+  align-items: center;
+}
+.settings mat-checkbox {
+  padding-right: 8px;
+}
+
+.mat-checkbox {
+  margin-left: auto;
+}
+
+.mat-icon {
+  font-size: 40px;
+  width: 40px;
+  height: 40px;
+  user-select: none;
+}
+
+.mat-icon.clickable:hover {
+  background: #EEEEEE;
+  cursor: pointer;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  margin: auto;
+  max-width: 70em;
+}
+
+.annotation-container {
+  height: calc(100vh - 370px);
+  overflow-y: auto;
+}
+
+button {
+  margin: 0.2em;
+}
+
+.top-halign {
+  display: flex;
+  padding-bottom: 0.6rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  flex-align: center;
+}

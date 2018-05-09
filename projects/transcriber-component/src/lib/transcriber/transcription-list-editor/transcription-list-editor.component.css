@@ -1,0 +1,48 @@
+.annotation-controls {
+  display: flex;
+  align-items: center;
+}
+
+.annotation-forms {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-display: column;
+  flex: 1 1 auto;
+}
+
+.mat-icon {
+  font-size: 40px;
+  width: 40px;
+  height: 40px;
+  user-select: none;
+}
+
+.mat-icon.clickable:hover {
+  background: rgb(193, 236, 250);
+  cursor: pointer;
+}
+
+.annotation {
+  display: flex;
+  flex: 1 1 auto;
+  padding-top: 0.6em;
+}
+
+.speaker {
+  align-self: flex-end;
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
+.caption {
+  flex: 1 1 100%;
+  margin-right: 1em;
+}
+
+.selected {
+  background: lightblue;
+}
+
+.caption textarea {
+  height: 20px;
+}

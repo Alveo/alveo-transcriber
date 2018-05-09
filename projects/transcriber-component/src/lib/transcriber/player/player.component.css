@@ -1,0 +1,37 @@
+mat-icon {
+  font-size: 34px;
+  width: 34px;
+  height: 34px;
+  user-select: none;
+}
+
+mat-icon.clickable:hover {
+  background: #EEEEEE;
+  cursor: pointer;
+}
+
+#player-container {
+  text-align: center;
+  margin: auto;
+}
+#player-container.ready {
+  border-top: 1px solid #EEE;
+  border-left: 1px solid #EEE;
+  border-right: 1px solid #EEE;
+}
+
+#waveform {
+  position: relative;
+}
+
+#controls {
+  display: flex;
+  margin-top: 10px;
+}
+
+#duration {
+  flex: 1 1 100%;
+  font-size: 28px;
+  vertical-align: middle;
+  text-align: right;
+}

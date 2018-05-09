@@ -134,38 +134,38 @@
         }
       }
     },
-    "transcriber-component": {
-      "root": "projects/transcriber-component",
-      "sourceRoot": "projects/transcriber-component/src",
+    "alveo-transcriber": {
+      "root": "projects/alveo-transcriber",
+      "sourceRoot": "projects/alveo-transcriber/src",
       "projectType": "library",
       "prefix": "lib",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
-            "tsConfig": "projects/transcriber-component/tsconfig.lib.json",
-            "project": "projects/transcriber-component/ng-package.json"
+            "tsConfig": "projects/alveo-transcriber/tsconfig.lib.json",
+            "project": "projects/alveo-transcriber/ng-package.json"
           },
           "configurations": {
             "production": {
-              "project": "projects/transcriber-component/ng-package.prod.json"
+              "project": "projects/alveo-transcriber/ng-package.prod.json"
             }
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/transcriber-component/src/test.ts",
-            "tsConfig": "projects/transcriber-component/tsconfig.spec.json",
-            "karmaConfig": "projects/transcriber-component/karma.conf.js"
+            "main": "projects/alveo-transcriber/src/test.ts",
+            "tsConfig": "projects/alveo-transcriber/tsconfig.spec.json",
+            "karmaConfig": "projects/alveo-transcriber/karma.conf.js"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/transcriber-component/tsconfig.lib.json",
-              "projects/transcriber-component/tsconfig.spec.json"
+              "projects/alveo-transcriber/tsconfig.lib.json",
+              "projects/alveo-transcriber/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"

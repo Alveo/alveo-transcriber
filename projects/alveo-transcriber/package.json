@@ -1,5 +1,5 @@
 {
-  "name": "@alveo-vl/angular-transcriber",
+  "name": "alveo-transcriber",
   "version": "0.2.0",
   "peerDependencies": {
     "@angular/common": "^6.0.0-rc.0 || ^6.0.0",

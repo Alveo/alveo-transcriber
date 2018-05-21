@@ -6,7 +6,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --ssl --host 0.0.0.0",
-    "build-production": "ng build --prod --deploy-url ./alveo-transcriber/ --output-path docs",
+    "build-production": "ng build --prod --base-href ./alveo-transcriber/ --deploy-url ./alveo-transcriber/ --output-path docs && sh github-pages-build.sh",
     "build-staging": "ng build --env staging",
     "test": "ng test",
     "lint": "ng lint",

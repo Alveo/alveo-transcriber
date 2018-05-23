@@ -1,5 +1,5 @@
 # alveo-transcriber
-Web based speech transcription tool for the Alveo project
+Web based speech transcription tool for the Alveo service
 
 ## Setup 
 1. Install dependencies
@@ -12,9 +12,6 @@ Web based speech transcription tool for the Alveo project
   - `npm start`
   - `npm test`
 
-### Building
-##### Development
-- `npm run`
-
+## Build for GitHub pages
 ##### Production (GitHub Pages)
-- `npm run-script buildprod`
+- `npm run build-production`

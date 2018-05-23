@@ -25,7 +25,10 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/@alveo-vl/jsalveo/dist/jsalveo.js",
+              "node_modules/@alveo-vl/jsalveo/dist/transcriber-services.js"
+            ]
           },
           "configurations": {
             "production": {

@@ -103,7 +103,16 @@ import { MonitorService } from './shared/monitor.service';
     AnnotationService,
     ApiService,
     SessionService,
-    MonitorService
+    MonitorService,
+    {
+      provide: 'JsAlveo', useValue: window['jsalveo']()
+    },
+    {
+      provide: 'TranscriberServices', useValue: window['transcriberservices']()
+    },
+    {
+      provide: 'Annotation', useValue: window['annotation']()
+    },
   ],
 })
 export class AlveoModule { }

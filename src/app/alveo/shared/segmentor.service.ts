@@ -1,5 +1,4 @@
-import { Injectable } from '@angular/core';
-import { TranscriberServices } from '@alveo-vl/jsalveo';
+import { Inject, Injectable } from '@angular/core';
 
 import { ApiService } from './api.service';
 
@@ -7,13 +6,11 @@ import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class SegmentorService {
-  private alveots: TranscriberServices;
-
-  constructor(private apiService: ApiService) {
-    this.alveots = new TranscriberServices({
-      apiUrl: environment.segmenterUrl,
-      apiAuth: environment.segmenterAuth
-    });
+  constructor(
+    @Inject('TranscriberServices') public alveots: any,
+    private apiService: ApiService) {
+    this.alveots.apiUrl = environment.segmenterUrl;
+    this.alveots.apiAuth = environment.segmenterAuth;
   }
 
   public segment(path: string): Promise<any> {

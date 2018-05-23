@@ -1,6 +1,5 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { JsAlveo } from '@alveo-vl/jsalveo';
 
 import { ApiService } from './api.service';
 import { SessionService } from './session.service';

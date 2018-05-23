@@ -26,8 +26,7 @@
               "src/styles.css"
             ],
             "scripts": [
-              "node_modules/@alveo-vl/jsalveo/dist/jsalveo.js",
-              "node_modules/@alveo-vl/jsalveo/dist/transcriber-services.js"
+              "node_modules/@alveo-vl/jsalveo/dist/jsalveo.bundle.js"
             ]
           },
           "configurations": {

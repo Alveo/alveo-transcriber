@@ -48,6 +48,8 @@ import { SessionService } from './shared/session.service';
 import { AnnotationService } from './shared/annotation.service';
 import { MonitorService } from './shared/monitor.service';
 
+import { environment } from '../../environments/environment';
+
 @NgModule({
   declarations: [
     AlveoComponent,
@@ -105,13 +107,19 @@ import { MonitorService } from './shared/monitor.service';
     SessionService,
     MonitorService,
     {
-      provide: 'JsAlveo', useValue: window['jsalveo']()
+      provide: 'JsAlveo', useValue: new window['jsalveo'](
+        {
+          apiUrl: environment.alveoPaths.mainUrl
+        }
+      )
     },
     {
-      provide: 'TranscriberServices', useValue: window['transcriberservices']()
-    },
-    {
-      provide: 'Annotation', useValue: window['annotation']()
+      provide: 'TranscriberServices', useValue: new window['jsalveo_transcriber_services'](
+        {
+          apiUrl: environment.segmenterUrl,
+          apiAuth: environment.segmenterAuth
+        }
+      )
     },
   ],
 })

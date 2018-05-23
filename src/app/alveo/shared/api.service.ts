@@ -1,5 +1,4 @@
 import { Inject, Injectable } from '@angular/core';
-import { JsAlveo } from '@alveo-vl/jsalveo';
 
 import { environment } from '../../../environments/environment';
 

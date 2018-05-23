@@ -1,38 +1,33 @@
-import PouchDB from 'pouchdb';
+import Dexie from 'dexie';
+
+export class SimplifiedDatabase extends Dexie {
+  storage: Dexie.Table<any, any>;
+}
 
 export class Database {
   private databaseName: string;
-  private database: PouchDB;
+  private database: SimplifiedDatabase;
 
   constructor(databaseName: string) {
     this.databaseName = databaseName;
-    this.database = new PouchDB(this.databaseName);
+    this.initDb()
   }
 
   public async rebuild(): Promise<any> {
-    await this.database.destroy();
-    this.database = new PouchDB(this.databaseName);
+    await this.database.delete()
+    this.initDb()
+  }
+
+  public initDb() {
+    this.database = new SimplifiedDatabase(this.databaseName);
+    this.database.version(1).stores({storage: ""})
   }
 
   public get(key: string): Promise<any> {
-    return this.database.get(key);
+    return this.database.storage.get(key);
   }
 
-  public async put(key: string, value: any): Promise<any> {
-    value._id = key;
-
-    try {
-      var result = await this.get(key);
-      value._rev = result._rev;
-      await this.database.put(value);
-    } catch (error) {
-      if (error.status === 404) {
-        await this.database.put(value);
-      } else if (error.status === 409) {
-        await this.put(key, value);
-      } else {
-        return Promise.reject(error);
-      }
-    }
+  put(key, value) {
+    return this.database.storage.put(value, key)
   }
 }

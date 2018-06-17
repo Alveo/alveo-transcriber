@@ -1,5 +1,4 @@
 import { OnInit, Input, Output, Component, EventEmitter } from '@angular/core';
-import { Router, NavigationStart, Event } from '@angular/router';
 
 /* WaveSurfer NPM headers */
 import * as WaveSurfer from 'wavesurfer.js';
@@ -28,27 +27,27 @@ export class PlayerComponent implements OnInit {
   @Input() clip: any;
   @Input() autoPlay = false;
 
-  private ready: boolean = null;
+  private ready: boolean= null;
 
-  private player: WaveSurfer = null;
-  private selectedRegion: any = null;
+  private player: WaveSurfer= null;
+  private selectedRegion: any= null;
 
-  private zoom: number;
-  private zoom_threshold = 10;
+  private zoom: number= 3;
+  private zoom_threshold: number= 10;
 
   constructor(
     private dialog: MatDialog,
-    private router: Router
   ) { }
 
-  ngOnInit(): void {
-    this.router.events.subscribe( (event: Event) => {
-      if (event instanceof NavigationStart) {
-        this.player.destroy();
-      }
-    });
+  ngOnDestroy(): void {
+    this.player.destroy();
+  }
 
-    this.zoom = 3;
+  ngOnInit(): void {
+    // Do this to fix Angular redraw issues
+    setInterval(() => {}, 500);
+
+    // Initialise the player, won't be ready until it fires the 'ready' event after loading audio data
     this.player = WaveSurfer.create({
       container: '#waveform',
       waveColor: 'black',
@@ -59,13 +58,14 @@ export class PlayerComponent implements OnInit {
         RegionsPlugin.create(),
         TimelinePlugin.create({
           container: '#timeline'
-        }),
+        })
       ]
     });
 
-    // Use slice to prevent detached buffer issues
-    this.player.loadArrayBuffer(this.clip.slice(0));
+    // Begin loading audio data
+    this.player.loadArrayBuffer(this.clip);
 
+    // Set up deferred initialisation
     this.player.on('ready', () => {
       this.loadRegions(this.annotations);
       this.player.zoom(this.zoom);
@@ -79,34 +79,39 @@ export class PlayerComponent implements OnInit {
       this.loadingFinish.emit({});
     });
 
-    /* Move cursor to beginning of region */
+    // On region click, we want to go to the beginning of the region, usually to play it from the start
     this.player.on('region-click', (region: Region, e: any) => {
       e.stopPropagation(); // Stop click from being overridden by mousepos
       this.selectRegion(region);
     });
 
+    // When the player finishes, playing the file, reset to the beginning
+    this.player.on('finish', () => {
+      this.stop();
+    });
+
     this.player.on('region-update-end', (region: Region) => {
-      if (this.ready === true) {
-        const annotation = this.getAnnotationByID(region.id);
-
-        if (annotation !== null) {
-          annotation.start = region.start;
-          annotation.end = region.end;
-
-          this.selectRegion(region);
-
-          this.annotationEvent.emit(
-            {
-              'type': 'update',
-              'annotation': this.getAnnotationByID(region.id)
-            }
-          );
-        }
+      if (!this.ready) {
+        return;
       }
+
+      let annotation = this.getAnnotationByID(region.id);
+      if (annotation === null) {
+        return;
+      }
+
+      this.annotationEvent.emit(
+        {
+          'type': 'update-end',
+          'annotation': annotation,
+          'new-start': region.start,
+          'new-end': region.end
+        }
+      );
     });
 
     this.player.on('region-created', (region: Region) => {
-      if (this.ready === true) {
+      if (this.ready) {
         if (region.id.startsWith('wavesurfer_')) {
           const createFinish = this.player.on('region-update-end',
             (newRegion: Region) => {
@@ -128,13 +133,6 @@ export class PlayerComponent implements OnInit {
         }
       }
     });
-
-    this.player.on('finish', () => {
-      this.stop();
-    });
-
-    // Do this to fix update issues
-    setInterval(() => {}, 500);
   }
 
   public rebuild(annotations: Array<Annotation>) {

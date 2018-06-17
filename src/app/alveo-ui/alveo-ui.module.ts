@@ -51,6 +51,7 @@ import { environment } from '../../environments/environment';
 
 import { AlveoClientModule } from '../alveo-client/alveo-client.module';
 import { BrowserCacheModule } from '../browser-cache/browser-cache.module';
+import { OnlineStatusModule } from '../online-status/online-status.module';
 
 @NgModule({
   declarations: [
@@ -82,6 +83,7 @@ import { BrowserCacheModule } from '../browser-cache/browser-cache.module';
     AlveoRoutingModule,
     AlveoTranscriberModule,
     AlveoClientModule,
+    OnlineStatusModule,
 
     CdkTableModule,
     MatButtonModule,

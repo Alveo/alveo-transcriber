@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 
+import { AlveoTransServClientService } from '../../../../alveo-transserv-client/alveo-transserv-client.module';
 import { AnnotationsService } from '../../../../annotations/annotations.module';
 
 /* Display component for showing and selecting of docs
@@ -14,15 +15,18 @@ export class ItemComponent implements OnInit {
   @Output() transcribe = new EventEmitter<any>();
   private annotationCount = 0;
   private selectedSource: any = null;
+  private remotelyStored: boolean = false;
 
   public audioSources: any = [];
 
   constructor(
-    private annotationsService: AnnotationsService
+    private annotationsService: AnnotationsService,
+    private atsService: AlveoTransServClientService
   ) { }
 
   ngOnInit() {
     this.processAnnotationCount();
+    this.checkRemote();
 
     for (const doc of this.item['data']['alveo:documents']) {
       // Need to force lower case as some Alveo collections use titlecase at the moment
@@ -43,6 +47,36 @@ export class ItemComponent implements OnInit {
 
   public getAnnotationCount(): number {
     return this.annotationCount;
+  }
+
+  public async checkRemote(): Promise<any> {
+    try {
+      let response = await this.atsService.listRemoteStorageByKey(this.getAnnotationHandle());
+      if (response.storage_objects.length > 0) {
+        this.remotelyStored = true;
+      }
+    } catch(error) {
+      this.remotelyStored = false;
+      console.log(error);
+      if (error.status === 401) {
+      } else if (error.status === 404) {
+      }
+      else {
+        console.log(error);
+      }
+    }
+  }
+
+  public async upload(): Promise<any> {
+    try {
+      const annotations = await this.annotationsService.loadAnnotations(this.getAnnotationHandle());
+      let response = await this.atsService.pushRemoteStorage(this.getAnnotationHandle(), annotations);
+      await this.processAnnotationCount();
+      await this.checkRemote();
+      console.log(response)
+    } catch(error) {
+      console.log(error);
+    }
   }
 
   private getAnnotationHandle(): string {

@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { BrowserCacheDatabase } from '../browser-cache/browser-cache.module';
-
 import { BackendClientService } from './backend-client.service';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -113,5 +113,9 @@ export class AlveoClientService {
 
   public unregister() {
     this.apiKey = null;
+  }
+
+  public getApiUrl() {
+    return environment.alveoPaths.mainUrl;
   }
 }

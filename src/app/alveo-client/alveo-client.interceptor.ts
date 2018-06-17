@@ -18,6 +18,9 @@ export class AlveoClientInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const alveoClientService = this.injector.get(AlveoClientService);
+    if (!request.url.startsWith(alveoClientService.getApiUrl())) {
+      return next.handle(request);
+    }
 
     let accept = '';
     if (request.responseType === 'json') {

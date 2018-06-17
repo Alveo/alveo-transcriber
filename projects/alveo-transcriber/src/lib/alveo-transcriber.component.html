@@ -84,6 +84,11 @@
         [annotation]="this.getSelectedAnnotation()">
       </avl-ngt-transcription-editor>
     </div>
+
+    <div *ngIf="this.getAnnotations().length == 0" id="no-annotations">
+      <h3>Looks like there are no annotations yet.</h3>
+      <p>Drag along the waveform or click autosegment to begin.</p>
+    </div>
   </div>
 
   <div class="annotation-container"

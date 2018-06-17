@@ -57,6 +57,14 @@ button {
   margin: 0.2em;
 }
 
+#no-annotations {
+  text-align: center;
+  font-size: 22px;
+}
+#no-annotations h3 {
+  padding-bottom: 10px;
+}
+
 .top-halign {
   display: flex;
   padding-bottom: 0.6rem;

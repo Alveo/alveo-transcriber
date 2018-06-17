@@ -45,7 +45,7 @@ export class PlayerComponent implements OnInit {
 
   ngOnInit(): void {
     // Do this to fix Angular redraw issues
-    setInterval(() => {}, 500);
+    setInterval(() => {}, 100);
 
     // Initialise the player, won't be ready until it fires the 'ready' event after loading audio data
     this.player = WaveSurfer.create({
@@ -73,7 +73,7 @@ export class PlayerComponent implements OnInit {
           color: BASE_COLOUR,
       });
 
-      this.setHeight(80);
+      this.setPlayerHeight(80);
 
       this.ready = true;
       this.loadingFinish.emit({});
@@ -119,6 +119,7 @@ export class PlayerComponent implements OnInit {
     this.player.on('region-created', (region: Region) => {
       if (this.ready) {
         if (region.id.startsWith('wavesurfer_')) {
+          // Temporarily create a one-off event handler for once we finish creating a region
           const createFinish = this.player.on('region-update-end',
             (newRegion: Region) => {
               this.annotationEvent.emit(
@@ -139,22 +140,12 @@ export class PlayerComponent implements OnInit {
     });
   }
 
-  public rebuild(annotations: Array<Annotation>) {
-    this.player.clearRegions();
-    this.loadRegions(annotations);
+  public setPlayerHeight(pixels: number) {
+    this.player.setHeight(pixels);
   }
 
-  public selectAnnotation(annotation: any) {
-    if (this.ready) {
-      if (annotation['new'] !== null) {
-        const newRegion = this.findRegion(annotation['new']['id']);
-        this.selectRegion(newRegion, annotation['silently']);
-      }
-    }
-  }
-
-  public resize(height: number) {
-    this.setHeight(height);
+  public dialogOpen(title: string, text: string): any {
+    return this.dialog.open(DialogComponent, {data: {title: title, text: text}});
   }
 
   public play(): void {
@@ -162,8 +153,8 @@ export class PlayerComponent implements OnInit {
   }
 
   public stop(): void {
+    // Reset to beginning only if we're at the end and not a region end
     if (this.player.getCurrentTime() === this.player.getDuration()) {
-      // Reset to beginning only if we're at the end and not a region end
       this.player.stop();
     }
   }
@@ -185,21 +176,8 @@ export class PlayerComponent implements OnInit {
     return Math.floor(this.player.getDuration());
   }
 
-  public loadRegions(annotations: Array<Annotation>): void {
-    if (this.player.handlers !== null) { // Hackish fix to stop wrapper.null implosions
-      for (const annotation of annotations) {
-        this.player.addRegion({
-          id: annotation.id,
-          start: annotation.start,
-          end: annotation.end,
-          color: BASE_COLOUR,
-        });
-      }
-    }
-  }
-
-  public setHeight(pixels: number) {
-    this.player.setHeight(pixels);
+  public playing(): boolean {
+    return this.player.isPlaying();
   }
 
   public zoomIn(): void {
@@ -216,12 +194,46 @@ export class PlayerComponent implements OnInit {
     this.player.zoom(this.zoom);
   }
 
-  public gotoRegion(region: Region): void {
-    this.player.seekTo(region.start / this.player.getDuration());
+  public replayLast(seconds: number): void {
+    let position = (this.player.getCurrentTime() - seconds) / this.player.getDuration();
+    if (position < 0) {
+      position = 0;
+    }
+    this.player.seekTo(position);
   }
 
-  public playing(): boolean {
-    return this.player.isPlaying();
+  public isReady(): boolean {
+    return this.ready;
+  }
+
+  public replaySelectedRegion(): void {
+    this.selectedRegion.play();
+  }
+
+  public loopSelectedRegion(): void {
+    this.selectedRegion.playLoop();
+  }
+
+  public buildRegions(annotations: Array<Annotation>) {
+    this.player.clearRegions();
+    this.loadRegions(annotations);
+  }
+
+  public loadRegions(annotations: Array<Annotation>): void {
+    if (this.player.handlers !== null) { // Hackish fix to stop wrapper.null implosions
+      for (const annotation of annotations) {
+        this.player.addRegion({
+          id: annotation.id,
+          start: annotation.start,
+          end: annotation.end,
+          color: BASE_COLOUR,
+        });
+      }
+    }
+  }
+
+  public gotoRegion(region: Region): void {
+    this.player.seekTo(region.start / this.player.getDuration());
   }
 
   public unselectRegion(region: Region): void {
@@ -233,13 +245,13 @@ export class PlayerComponent implements OnInit {
 
   public selectRegion(region: Region, ignoreAutoplay: boolean= false): void {
     if (region !== null && region !== undefined) {
-
       if (this.playing()) {
         this.pause();
       }
-      this.gotoRegion(region);
 
       this.unselectRegion(this.selectedRegion);
+
+      this.gotoRegion(region);
 
       region.update({color: SELECTED_COLOUR});
 
@@ -278,7 +290,12 @@ export class PlayerComponent implements OnInit {
     }
 
     if (prevRegion !== null) {
-      this.selectRegion(prevRegion);
+      this.annotationEvent.emit(
+        {
+          'type': 'select',
+          'annotation': prevRegion
+        }
+      );
     }
   }
 
@@ -304,36 +321,17 @@ export class PlayerComponent implements OnInit {
       }
     }
     if (nextRegion !== null) {
-      this.selectRegion(nextRegion);
+      this.annotationEvent.emit(
+        {
+          'type': 'select',
+          'annotation': nextRegion
+        }
+      );
     }
   }
 
   public countRegions(): number {
     return Object.keys(this.player.regions.list).length;
-  }
-
-  public replayLast(seconds: number): void {
-    let position = (this.player.getCurrentTime() - seconds) / this.player.getDuration();
-    if (position < 0) {
-      position = 0;
-    }
-    this.player.seekTo(position);
-  }
-
-  public replaySelectedRegion(): void {
-    this.selectedRegion.play();
-  }
-
-  public loopSelectedRegion(): void {
-    this.selectedRegion.playLoop();
-  }
-
-  public isReady(): boolean {
-    return this.ready;
-  }
-
-  public dialogOpen(title: string, text: string): any {
-    return this.dialog.open(DialogComponent, {data: {title: title, text: text}});
   }
 
   public deleteSelectedRegion(): Promise<any> {
@@ -352,6 +350,16 @@ export class PlayerComponent implements OnInit {
       }
     );
   }
+
+  public selectAnnotation(annotation: any) {
+    if (this.ready) {
+      if (annotation['new'] !== null) {
+        const newRegion = this.findRegion(annotation['new']['id']);
+        this.selectRegion(newRegion, annotation['silently']);
+      }
+    }
+  }
+
 
   public deleteAnnotationByID(id: string): boolean {
     for (const annotation of this.annotations) {

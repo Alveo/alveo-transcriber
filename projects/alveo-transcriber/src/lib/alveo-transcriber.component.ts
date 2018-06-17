@@ -282,7 +282,7 @@ export class AlveoTranscriber implements OnInit {
           counter += 1;
         }
 
-        this.player.rebuild(this.annotations);
+        this.player.buildRegions(this.annotations);
         this.selectFirst();
 
         resolve(this.annotations);

@@ -5,7 +5,7 @@ import { MatSnackBar } from '@angular/material';
 
 import { ErrorNotifyComponent } from '../error-notify/error-notify.component';
 
-import { BrowserCacheDatabase } from '../../browser-cache/browser-cache';
+import { BrowserCacheDatabase } from '../../browser-cache/browser-cache.database';
 import { Paths } from './paths';
 
 @Injectable()

@@ -9,4 +9,4 @@ import { CommonModule } from '@angular/common';
 })
 export class BrowserCacheModule { }
 
-export { BrowserCacheDatabase } from './browser-cache';
+export { BrowserCacheDatabase } from './browser-cache.database';

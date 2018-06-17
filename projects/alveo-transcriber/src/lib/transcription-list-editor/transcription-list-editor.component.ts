@@ -56,48 +56,44 @@ export class TranscriptionListEditorComponent {
     return this.selectedAnnotation;
   }
 
-  public selectAnnotation(selectedAnnotation: Annotation): void {
-    if (this.selectedAnnotation !== selectedAnnotation) {
-      this.annotationClick(selectedAnnotation);
+  public selectAnnotation(annotation: Annotation): void {
+    if (this.selectedAnnotation !== annotation) {
+      this.annotationClick(annotation);
     }
   }
 
-  public updateAnnotation(ev: any): void {
-    if (this.getSelectedAnnotation() !== null) {
-      this.annotationUpdate.emit(
-        {
-          'type': 'edit',
-          'annotation': this.getSelectedAnnotation()
-        }
-      );
-    }
-  }
-
-  public annotationClick(annotation: Annotation): void {
-    if (annotation !== null) {
-      this.annotationUpdate.emit(
-        {
-          'type': 'select',
-          'annotation': annotation
-        }
-      );
-    }
-  }
-
-  public replayAnnotationRequest(): void {
-    this.playerControlEvent.emit(
+  public updateAnnotation(annotation: Annotation): void {
+    this.annotationUpdate.emit(
       {
-        'type': 'replay',
-        'annotation': this.getSelectedAnnotation()
+        'type': 'edit',
+        'annotation': annotation
       }
     );
   }
 
-  public deleteAnnotationRequest(): void {
+  public annotationClick(annotation: Annotation): void {
+    this.annotationUpdate.emit(
+      {
+        'type': 'select',
+        'annotation': annotation
+      }
+    );
+  }
+
+  public replayAnnotationRequest(annotation: Annotation): void {
+    this.playerControlEvent.emit(
+      {
+        'type': 'replay',
+        'annotation': annotation
+      }
+    );
+  }
+
+  public deleteAnnotationRequest(annotation: Annotation): void {
     this.playerControlEvent.emit(
       {
         'type': 'delete',
-        'annotation': this.getSelectedAnnotation()
+        'annotation': annotation
       }
     );
   }

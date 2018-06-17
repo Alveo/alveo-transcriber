@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+import { AlveoTransServClientService } from '../../alveo-transserv-client/alveo-transserv-client.module';
 import { SessionService } from '../../session/session.module';
 
 import { AuthService } from '../shared/auth.service';
@@ -15,9 +16,10 @@ export class OAuthCallbackComponent implements OnInit, OnDestroy {
   param_sub: any;
 
   constructor(
+    private atsService: AlveoTransServClientService,
+    private authService: AuthService,
     private route: ActivatedRoute,
     private sessionService: SessionService,
-    private authService: AuthService,
   ) { }
 
   /* Takes a route, provided by the routing module which requires an oauth token
@@ -45,6 +47,7 @@ export class OAuthCallbackComponent implements OnInit, OnDestroy {
   async oauthCallback(callbackCode: string) {
     await this.authService.login(callbackCode);
     await this.sessionService.onReady();
+    this.atsService.setApiKey(this.authService.getApiKey());
     this.sessionService.navigateToStoredRoute();
   }
 

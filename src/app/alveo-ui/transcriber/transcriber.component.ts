@@ -3,12 +3,12 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { AlveoTranscriber, Annotation } from 'alveo-transcriber';
 
 import { AlveoClientService } from '../../alveo-client/alveo-client.module';
+import { AlveoTransServClientService } from '../../alveo-transserv-client/alveo-transserv-client.module';
 import { AnnotationsService } from '../../annotations/annotations.module';
 import { SessionService } from '../../session/session.service';
 import { environment } from '../../../environments/environment';
 
 import { AuthService } from '../shared/auth.service';
-import { SegmentorService } from '../shared/segmentor.service';
 import { Paths } from '../shared/paths';
 
 @Component({
@@ -38,7 +38,7 @@ export class TranscriberComponent implements OnInit {
   @ViewChild(AlveoTranscriber) annotator: AlveoTranscriber;
 
   constructor(
-    private segmentorService: SegmentorService,
+    private atsService: AlveoTransServClientService,
     private annotationsService: AnnotationsService,
     private alveoClientService: AlveoClientService,
     private sessionService: SessionService,
@@ -73,7 +73,12 @@ export class TranscriberComponent implements OnInit {
 
       this.loader_text = 'Checking annotations ...';
       try {
-        this.annotations = await this.loadAnnotations(this.getIdentifier());
+        const annotations = await this.loadAnnotations(this.getIdentifier());
+        if (annotations === undefined) {
+          this.annotations = [];
+        } else {
+          this.annotations = annotations;
+        }
         this.ready = true;
       } catch (error) {
         this.ready = true;
@@ -175,7 +180,7 @@ export class TranscriberComponent implements OnInit {
     this.isSegmenting = true;
 
     try {
-      const data = await this.segmentorService.segment(this.getAudioFileUrl());
+      const data = await this.atsService.autosegment(this.getAudioFileUrl());
       const annotations = await this.annotator.rebuild(data.results);
       this.annotations = annotations;
       this.annotationsService.saveAnnotations(this.getIdentifier(), annotations);

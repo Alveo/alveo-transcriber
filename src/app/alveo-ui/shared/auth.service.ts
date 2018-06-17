@@ -77,6 +77,10 @@ export class AuthService {
     this.loggedIn = false;
   }
 
+  public getApiKey(): string {
+    return this.alveoClientService.getApiKey();
+  }
+
   public authoriseApi(authCode: string): Promise<any> {
     return this.alveoClientService.oAuthenticate(
       this.clientID,

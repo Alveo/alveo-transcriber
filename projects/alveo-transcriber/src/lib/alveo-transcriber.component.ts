@@ -60,7 +60,7 @@ export class AlveoTranscriber implements OnInit {
     const annotation = this.getSelectedAnnotation();
     if (ev.key === "Escape") {
       if (annotation !== null) {
-        this.player.replaySelectedRegion();
+        this.player.replayAnnotation(annotation);
       }
     }
     if (ev.key === "Delete") {
@@ -185,7 +185,7 @@ export class AlveoTranscriber implements OnInit {
         break;
       }
       case 'replay': {
-        this.player.replaySelectedRegion();
+        this.player.replayAnnotation(ev['annotation']);
         break;
       }
       case 'goBack': {

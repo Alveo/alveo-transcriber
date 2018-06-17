@@ -216,10 +216,6 @@ export class PlayerComponent implements OnInit {
     return this.ready;
   }
 
-  public replaySelectedRegion(): void {
-    this.selectedRegion.play();
-  }
-
   public loopSelectedRegion(): void {
     this.selectedRegion.playLoop();
   }
@@ -351,6 +347,11 @@ export class PlayerComponent implements OnInit {
 
       this.selectedRegion = region;
     }
+  }
+
+  public replayAnnotation(annotation: Annotation): void {
+    const region = this.findRegion(annotation.id);
+    region.play();
   }
 
   public getAnnotationByID(id: string): Annotation {

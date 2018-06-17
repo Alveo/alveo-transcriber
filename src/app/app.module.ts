@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { AlveoModule } from './alveo/alveo.module';
+import { AlveoUIModule } from './alveo-ui/alveo-ui.module';
 
 import { AppComponent } from './app.component';
 
@@ -11,7 +11,7 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
-    AlveoModule,
+    AlveoUiModule,
   ],
   bootstrap: [AppComponent]
 })

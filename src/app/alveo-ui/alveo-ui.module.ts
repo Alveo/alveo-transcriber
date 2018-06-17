@@ -20,7 +20,7 @@ import {
 import { CdkTableModule } from '@angular/cdk/table';
 import { AlveoTranscriberModule } from 'alveo-transcriber';
 
-import { AlveoComponent } from './alveo.component';
+import { AlveoUIComponent } from './alveo-ui.component';
 
 import { DevConsoleComponent } from './devconsole/devconsole.component';
 import { DataSourceComponent } from './datasource/datasource.component';
@@ -52,7 +52,7 @@ import { environment } from '../../environments/environment';
 
 @NgModule({
   declarations: [
-    AlveoComponent,
+    AlveoUIComponent,
     DevConsoleComponent,
     DataSourceComponent,
     NavComponent,
@@ -97,7 +97,7 @@ import { environment } from '../../environments/environment';
     FormsModule
   ],
   exports: [
-    AlveoComponent,
+    AlveoUIComponent,
   ],
   providers: [
     AuthService,
@@ -123,4 +123,4 @@ import { environment } from '../../environments/environment';
     },
   ],
 })
-export class AlveoModule { }
+export class AlveoUIModule { }

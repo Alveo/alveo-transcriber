@@ -1,14 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BrowserCacheDatabase } from './browser-cache';
 
 @NgModule({
   imports: [
-    CommonModule
-  ],
-  exports: [
-    //BrowserCacheDatabase
+    CommonModule,
   ],
   declarations: []
 })
 export class BrowserCacheModule { }
+
+export { BrowserCacheDatabase } from './browser-cache';

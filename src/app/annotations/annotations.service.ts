@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Annotation } from 'alveo-transcriber';
 
-import { BrowserCacheDatabase } from '../../browser-cache/browser-cache.database';
+import { BrowserCacheDatabase } from '../browser-cache/browser-cache.database';
 
 /* Service for handling the database interaction for Annotations */
 @Injectable()
-export class AnnotationService {
+export class AnnotationsService {
   private database: BrowserCacheDatabase;
 
   constructor() {

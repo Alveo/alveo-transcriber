@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 
-import { AnnotationService } from '../../../shared/annotation.service';
+import { AnnotationsService } from '../../../../annotations/annotations.module';
 
 /* Display component for showing and selecting of docs
  *   Provides route for Annotator module */
@@ -18,7 +18,7 @@ export class ItemComponent implements OnInit {
   public audioSources: any = [];
 
   constructor(
-    private annotationService: AnnotationService
+    private annotationsService: AnnotationsService
   ) { }
 
   ngOnInit() {
@@ -34,7 +34,7 @@ export class ItemComponent implements OnInit {
 
   private async processAnnotationCount(): Promise<any> {
     try {
-      const annotations = await this.annotationService.loadAnnotations(this.getAnnotationHandle());
+      const annotations = await this.annotationsService.loadAnnotations(this.getAnnotationHandle());
       this.annotationCount = annotations.length;
     } catch(error) {
       this.annotationCount = 0;

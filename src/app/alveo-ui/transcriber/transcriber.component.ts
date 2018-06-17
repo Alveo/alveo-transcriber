@@ -2,8 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { AlveoTranscriber, Annotation } from 'alveo-transcriber';
 
-import { AlveoClientService } from '../../alveo-client/alveo-client.service';
-import { AnnotationService } from '../shared/annotation.service';
+import { AlveoClientService } from '../../alveo-client/alveo-client.module';
+import { AnnotationsService } from '../../annotations/annotations.module';
 import { AuthService } from '../shared/auth.service';
 import { SessionService } from '../shared/session.service';
 import { SegmentorService } from '../shared/segmentor.service';
@@ -40,7 +40,7 @@ export class TranscriberComponent implements OnInit {
 
   constructor(
     private segmentorService: SegmentorService,
-    private annotationService: AnnotationService,
+    private annotationsService: AnnotationsService,
     private alveoClientService: AlveoClientService,
     private sessionService: SessionService,
     private authService: AuthService,
@@ -157,11 +157,11 @@ export class TranscriberComponent implements OnInit {
   }
 
   public loadAnnotations(identifier: string): Promise<any> {
-    return this.annotationService.loadAnnotations(identifier);
+    return this.annotationsService.loadAnnotations(identifier);
   }
 
   public saveAnnotations(ev: any): Promise<any> {
-    return this.annotationService.saveAnnotations(this.getIdentifier(), ev['annotations']);
+    return this.annotationsService.saveAnnotations(this.getIdentifier(), ev['annotations']);
   }
 
   private async autoSegment(ev: any) {
@@ -179,7 +179,7 @@ export class TranscriberComponent implements OnInit {
       let data = await this.segmentorService.segment(this.getAudioFileUrl());
       let annotations = await this.annotator.rebuild(data.results);
       this.annotations = annotations;
-      this.annotationService.saveAnnotations(this.getIdentifier(), annotations);
+      this.annotationsService.saveAnnotations(this.getIdentifier(), annotations);
     } catch(error) {
       this.sessionService.displayError(error.message, error);
       this.isSegmenting = false;

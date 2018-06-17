@@ -44,14 +44,13 @@ import { ErrorNotifyComponent } from './error-notify/error-notify.component';
 import { AuthService } from './shared/auth.service';
 import { SegmentorService } from './shared/segmentor.service';
 import { SessionService } from './shared/session.service';
-import { AnnotationService } from './shared/annotation.service';
-import { MonitorService } from './shared/monitor.service';
 
 import { environment } from '../../environments/environment';
 
 import { AlveoClientModule } from '../alveo-client/alveo-client.module';
 import { BrowserCacheModule } from '../browser-cache/browser-cache.module';
 import { OnlineStatusModule } from '../online-status/online-status.module';
+import { AnnotationsModule } from '../annotations/annotations.module';
 
 @NgModule({
   declarations: [
@@ -84,6 +83,7 @@ import { OnlineStatusModule } from '../online-status/online-status.module';
     AlveoTranscriberModule,
     AlveoClientModule,
     OnlineStatusModule,
+    AnnotationsModule,
 
     CdkTableModule,
     MatButtonModule,
@@ -109,9 +109,7 @@ import { OnlineStatusModule } from '../online-status/online-status.module';
   providers: [
     AuthService,
     SegmentorService,
-    AnnotationService,
     SessionService,
-    MonitorService,
     {
       provide: 'TranscriberServices', useValue: new window['jsalveo_transcriber_services'](
         {

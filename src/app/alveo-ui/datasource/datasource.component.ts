@@ -28,14 +28,11 @@ export class DataSourceComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.getData(true, false).catch(
-      (error) => {
-        if (!this.authService.isLoggedIn()) {
-          this.authService.promptLogin(true);
-        }
-        // No other applicable errors
-      }
-    );
+    this.setUp();
+  }
+
+  public async setUp() {
+    await this.getData(true, false);
   }
 
   public isLoading(): boolean {
@@ -50,7 +47,12 @@ export class DataSourceComponent implements OnInit {
       await this.sessionService.navigate([Paths.ListIndex]);
     } catch (error) {
       this.loading = false;
-      return Promise.reject(error);
+      if (!this.authService.isLoggedIn()) {
+        this.authService.promptLogin(true);
+      }
+      if (error.name == "HttpErrorResponse") {
+        console.log("HTTP error caught: ", error);
+      }
     }
   }
 }

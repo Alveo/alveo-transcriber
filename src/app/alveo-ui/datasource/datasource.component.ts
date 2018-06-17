@@ -51,7 +51,7 @@ export class DataSourceComponent implements OnInit {
         this.authService.promptLogin(true);
       }
       if (error.name == "HttpErrorResponse") {
-        console.log("HTTP error caught: ", error);
+        this.sessionService.displayError(error.message, error);
       }
     }
   }

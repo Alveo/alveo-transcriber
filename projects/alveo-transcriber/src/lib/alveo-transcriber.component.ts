@@ -217,22 +217,27 @@ export class AlveoTranscriber implements OnInit {
   }
 
   public annotationEvent(ev: any): void {
+    let annotation = ev['annotation']
     switch (ev['type']) {
       case 'region-select': {
-        this.selectAnnotation(ev['annotation'], false);
+        this.selectAnnotation(annotation, false);
         break;
       }
       case 'select': {
-        this.selectAnnotation(ev['annotation']);
+        this.selectAnnotation(annotation);
         break;
       }
       case 'edit': {
         this.saveAnnotations(this.annotations);
         break;
       }
-      case 'update': {
+      case 'resize':
+      case 'update-end': {
+        annotation.start = ev['new-start'];
+        annotation.end = ev['new-end'];
         this.sortAnnotations();
         this.saveAnnotations(this.annotations);
+        this.selectAnnotation(annotation, undefined, true);
         break;
       }
       case 'create': {
@@ -316,18 +321,17 @@ export class AlveoTranscriber implements OnInit {
   // Silently param prevents audio from playing even when autoPlay is checked.
   //  This is mainly used after autosegmenting or after the transcriber is ready.
   public selectAnnotation(annotation: Annotation, emit: boolean = true, silently: boolean = false): void {
-    const oldSelection = this.selectedAnnotation;
-    this.selectedAnnotation = annotation;
-
     if (emit) {
       this.player.selectAnnotation(
         {
           'new': annotation,
-          'old': oldSelection,
+          'old': this.selectedAnnotation,,
           'silently': silently
         }
       );
     }
+
+    this.selectedAnnotation = annotation;
   }
 
   public getSelectedAnnotation(): Annotation {

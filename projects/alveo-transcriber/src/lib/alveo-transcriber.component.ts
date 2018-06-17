@@ -219,10 +219,6 @@ export class AlveoTranscriber implements OnInit {
   public annotationEvent(ev: any): void {
     let annotation = ev['annotation']
     switch (ev['type']) {
-      case 'region-select': {
-        this.selectAnnotation(annotation, false);
-        break;
-      }
       case 'select': {
         this.selectAnnotation(annotation);
         break;
@@ -237,7 +233,7 @@ export class AlveoTranscriber implements OnInit {
         annotation.end = ev['new-end'];
         this.sortAnnotations();
         this.saveAnnotations(this.annotations);
-        this.selectAnnotation(annotation, undefined, true);
+        this.selectAnnotation(annotation, true);
         break;
       }
       case 'create': {
@@ -249,7 +245,7 @@ export class AlveoTranscriber implements OnInit {
             }
           );
         // Selection event made within PlayerComponent
-        // this.selectAnnotation(annotation, false);
+        this.selectAnnotation(annotation, false);
         this.saveAnnotations(this.annotations);
       }
     }
@@ -296,7 +292,7 @@ export class AlveoTranscriber implements OnInit {
 
   public selectFirst(): void {
     if (this.annotations.length > 0) {
-      this.selectAnnotation(this.annotations[0], true, true);
+      this.selectAnnotation(this.annotations[0], true);
     } else {
       this.selectAnnotation(null);
     }
@@ -318,18 +314,14 @@ export class AlveoTranscriber implements OnInit {
     return annotation;
   }
 
-  // Silently param prevents audio from playing even when autoPlay is checked.
-  //  This is mainly used after autosegmenting or after the transcriber is ready.
-  public selectAnnotation(annotation: Annotation, emit: boolean = true, silently: boolean = false): void {
-    if (emit) {
-      this.player.selectAnnotation(
-        {
-          'new': annotation,
-          'old': this.selectedAnnotation,,
-          'silently': silently
-        }
-      );
-    }
+  public selectAnnotation(annotation: Annotation, ignoreAutoplay: boolean = false): void {
+    this.player.selectAnnotation(
+      {
+        'new': annotation,
+        'old': this.selectedAnnotation,
+        'ignoreAutoplay': ignoreAutoplay
+      }
+    );
 
     this.selectedAnnotation = annotation;
   }

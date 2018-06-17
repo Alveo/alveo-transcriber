@@ -82,7 +82,13 @@ export class PlayerComponent implements OnInit {
     // On region click, we want to go to the beginning of the region, usually to play it from the start
     this.player.on('region-click', (region: Region, e: any) => {
       e.stopPropagation(); // Stop click from being overridden by mousepos
-      this.selectRegion(region);
+
+      this.annotationEvent.emit(
+        {
+          'type': 'select',
+          'annotation': this.getAnnotationByID(region.id)
+        }
+      );
     });
 
     // When the player finishes, playing the file, reset to the beginning
@@ -123,10 +129,8 @@ export class PlayerComponent implements OnInit {
                   'end': newRegion.end,
                 }
               );
-              this.selectRegion(newRegion, true);
-
-              // You'd think this would work, but it doesn't: createFinish.un();
-              // So instead we do a slightly more roundabout approach.
+              // You'd think createFinish.un() would work, but it does not.
+              // Instead we do a slightly more roundabout approach to the intended effect.
               this.player.un(createFinish.name, createFinish.callback);
             }
           );
@@ -227,26 +231,13 @@ export class PlayerComponent implements OnInit {
     }
   }
 
-  public focusRegion(region: Region): void {
-    this.annotationEvent.emit(
-      {
-        'type': 'region-select',
-        'annotation': this.getAnnotationByID(region.id)
-      }
-    );
-
-    this.selectedRegion = region;
-  }
-
   public selectRegion(region: Region, ignoreAutoplay: boolean= false): void {
     if (region !== null && region !== undefined) {
 
-      if (region !== this.selectedRegion) {
-        if (this.playing()) {
-          this.pause();
-        }
-        this.gotoRegion(region);
+      if (this.playing()) {
+        this.pause();
       }
+      this.gotoRegion(region);
 
       this.unselectRegion(this.selectedRegion);
 
@@ -255,13 +246,6 @@ export class PlayerComponent implements OnInit {
       if (this.autoPlay && !ignoreAutoplay) {
         region.play();
       }
-
-      this.annotationEvent.emit(
-        {
-          'type': 'region-select',
-          'annotation': this.getAnnotationByID(region.id)
-        }
-      );
 
       this.selectedRegion = region;
     }

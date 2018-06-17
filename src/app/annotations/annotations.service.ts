@@ -9,7 +9,7 @@ export class AnnotationsService {
   private database: BrowserCacheDatabase;
 
   constructor() {
-    this.database = new BrowserCacheDatabase("annotation-service");
+    this.database = new BrowserCacheDatabase('annotation-service');
   }
 
   public destroyData(): Promise<any> {

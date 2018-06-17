@@ -28,10 +28,10 @@ export class ListIndexComponent implements OnInit {
       const lists = await this.alveoClientService.getListDirectory(true, false);
       this.lists = lists['own'].concat(lists['shared']);
       this.ready = true;
-    } catch(error) {
+    } catch (error) {
       if (error.statusCode === 401) {
         this.authService.promptLogin();
-      } else if (error.message === "No data") {
+      } else if (error.message === 'No data') {
         this.sessionService.navigate([Paths.SelectDataSource]);
       } else {
         this.sessionService.displayError(error.message, error);

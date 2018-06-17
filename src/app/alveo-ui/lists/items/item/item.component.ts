@@ -36,7 +36,7 @@ export class ItemComponent implements OnInit {
     try {
       const annotations = await this.annotationsService.loadAnnotations(this.getAnnotationHandle());
       this.annotationCount = annotations.length;
-    } catch(error) {
+    } catch (error) {
       this.annotationCount = 0;
     }
   }

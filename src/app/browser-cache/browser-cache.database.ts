@@ -1,5 +1,5 @@
 import Dexie from 'dexie';
-  
+
 export class SimplifiedDatabase extends Dexie {
   storage: Dexie.Table<any, any>;
 }
@@ -10,17 +10,17 @@ export class BrowserCacheDatabase {
 
   constructor(databaseName: string) {
     this.databaseName = databaseName;
-    this.initDb()
+    this.initDb();
   }
 
   public async rebuild(): Promise<any> {
-    await this.database.delete()
-    this.initDb()
+    await this.database.delete();
+    this.initDb();
   }
 
   public initDb() {
     this.database = new SimplifiedDatabase(this.databaseName);
-    this.database.version(1).stores({storage: ""})
+    this.database.version(1).stores({storage: ''});
   }
 
   public get(key: string): Promise<any> {
@@ -28,6 +28,6 @@ export class BrowserCacheDatabase {
   }
 
   put(key, value) {
-    return this.database.storage.put(value, key)
+    return this.database.storage.put(value, key);
   }
 }

@@ -18,7 +18,7 @@ export class AuthService {
   private clientSecret: string = environment.clientSecret;
   private callbackUrl: string = environment.callbackURL;
 
-  private loggedIn: boolean = false;
+  private loggedIn = false;
 
   constructor(
     private dialog: MatDialog,
@@ -43,7 +43,7 @@ export class AuthService {
     return this.isLoggedIn();
   }
 
-  public async initiateLogin(callbackRoute?: any): Promise<any>{
+  public async initiateLogin(callbackRoute?: any): Promise<any> {
     if (callbackRoute == null) {
       callbackRoute = [window.location.pathname];
     }

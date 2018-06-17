@@ -18,7 +18,7 @@ export class SessionService {
   constructor(
     private snackBar: MatSnackBar,
     private router: Router) {
-    this.database = new BrowserCacheDatabase("session-service");
+    this.database = new BrowserCacheDatabase('session-service');
     this.loadSession();
   }
 
@@ -34,7 +34,7 @@ export class SessionService {
       console.log('Stored session data has been found and loaded.');
 
       this.stored_route = data['stored_route'];
-    } catch(error) {
+    } catch (error) {
       console.log('Stored session data not found. Initialising.');
       await this.updateStorage();
     }
@@ -75,7 +75,7 @@ export class SessionService {
 
   /* Navigate to the specified route if possible */
   public async navigate(route: any[]): Promise<any> {
-    let data = await this.router.navigate(route);
+    const data = await this.router.navigate(route);
 
     if (this.activeErrorRef !== null) {
       this.activeErrorRef.dismiss();

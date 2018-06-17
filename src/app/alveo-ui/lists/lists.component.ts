@@ -44,7 +44,7 @@ export class ListsComponent implements OnInit {
     try {
       this.list = await this.alveoClientService.getList(list_id);
       this.ready = true;
-    } catch(error) {
+    } catch (error) {
       if (error.status === 401) {
         this.authService.promptLogin();
         this.ready = true;

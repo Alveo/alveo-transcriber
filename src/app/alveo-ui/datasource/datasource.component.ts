@@ -50,7 +50,7 @@ export class DataSourceComponent implements OnInit {
       if (!this.authService.isLoggedIn()) {
         this.authService.promptLogin(true);
       }
-      if (error.name == "HttpErrorResponse") {
+      if (error.name === 'HttpErrorResponse') {
         this.sessionService.displayError(error.message, error);
       }
     }

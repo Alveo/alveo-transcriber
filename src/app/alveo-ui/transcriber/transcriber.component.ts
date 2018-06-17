@@ -66,7 +66,7 @@ export class TranscriberComponent implements OnInit {
   private async processData(): Promise<any> {
     try {
       this.loader_text = 'Loading item ...';
-      this.item = await this.prepareItem(this.collection_id + '/' + this.item_id)
+      this.item = await this.prepareItem(this.collection_id + '/' + this.item_id);
 
       this.loader_text = 'Loading audio data ...';
       this.audioFileData = await this.prepareAudioFile(this.collection_id + '/' + this.item_id, this.doc_id);
@@ -75,11 +75,11 @@ export class TranscriberComponent implements OnInit {
       try {
         this.annotations = await this.loadAnnotations(this.getIdentifier());
         this.ready = true;
-      } catch(error) {
+      } catch (error) {
         this.ready = true;
       }
-    } catch(error) {
-      this.requestErrorHandler(error.message, error)
+    } catch (error) {
+      this.requestErrorHandler(error.message, error);
     }
   }
 
@@ -165,21 +165,21 @@ export class TranscriberComponent implements OnInit {
 
   private async autoSegment(ev: any) {
     if (!this.authService.isLoggedIn()) {
-      this.authService.promptLogin()
+      this.authService.promptLogin();
     } else {
-      this.runSegmenter()
+      this.runSegmenter();
     }
   }
 
   private async runSegmenter() {
     this.isSegmenting = true;
-  
+
     try {
-      let data = await this.segmentorService.segment(this.getAudioFileUrl());
-      let annotations = await this.annotator.rebuild(data.results);
+      const data = await this.segmentorService.segment(this.getAudioFileUrl());
+      const annotations = await this.annotator.rebuild(data.results);
       this.annotations = annotations;
       this.annotationsService.saveAnnotations(this.getIdentifier(), annotations);
-    } catch(error) {
+    } catch (error) {
       this.sessionService.displayError(error.message, error);
       this.isSegmenting = false;
     }

@@ -13,7 +13,7 @@ export class AlveoClientService {
   private database: BrowserCacheDatabase;
 
   constructor(private apiClient: BackendClientService) {
-    this.database = new BrowserCacheDatabase("AlveoClientCache");
+    this.database = new BrowserCacheDatabase('AlveoClientCache');
   }
 
   public async retrieve(storageKey: string, request: Observable<any>= null, useCache: boolean= true) {
@@ -23,7 +23,7 @@ export class AlveoClientService {
 
     if (useCache) {
       try {
-        let data = await this.database.get(storageKey);
+        const data = await this.database.get(storageKey);
         if (data != null) {
           console.log('Using cache for (AlveoClient): ' + storageKey);
 
@@ -33,7 +33,7 @@ export class AlveoClientService {
     }
 
     if (request != null) {
-      let response = await request.toPromise();
+      const response = await request.toPromise();
 
       if (useCache) {
         console.log('Caching (AlveoClient) ' + storageKey);
@@ -48,8 +48,8 @@ export class AlveoClientService {
 
   public getListDirectory(useCache: boolean= true, useApi: boolean= true) {
     return this.retrieve(
-      'lists', 
-      (useApi)? this.apiClient.getListIndex(): null, 
+      'lists',
+      (useApi) ? this.apiClient.getListIndex() : null,
       useCache
     );
   }
@@ -57,7 +57,7 @@ export class AlveoClientService {
   public getList(list_id: string, useCache: boolean= true, useApi: boolean= true) {
     return this.retrieve(
       'list:' + list_id,
-      (useApi)? this.apiClient.getList(list_id): null,
+      (useApi) ? this.apiClient.getList(list_id) : null,
       useCache
     );
   }
@@ -65,7 +65,7 @@ export class AlveoClientService {
   public getItem(item_id: string, useCache: boolean= true, useApi: boolean= true) {
     return this.retrieve(
       'item:' + item_id,
-      (useApi)? this.apiClient.getItem(item_id): null,
+      (useApi) ? this.apiClient.getItem(item_id) : null,
       useCache
     );
   }
@@ -73,7 +73,7 @@ export class AlveoClientService {
   public getDocument(item_id: string, document_id: string, useCache: boolean= true, useApi: boolean= true): Promise<any> {
     return this.retrieve(
       'document:' + item_id + ':' + document_id,
-      (useApi)? this.apiClient.getDocument(item_id, document_id): null,
+      (useApi) ? this.apiClient.getDocument(item_id, document_id) : null,
       useCache
     );
   }
@@ -83,14 +83,14 @@ export class AlveoClientService {
   }
 
   public async oAuthenticate(clientID: string, clientSecret: string, authCode: string, callbackUrl: string): Promise<any> {
-    let tokenResponse = await this.apiClient.getOAuthToken(
+    const tokenResponse = await this.apiClient.getOAuthToken(
         clientID,
         clientSecret,
         authCode,
         callbackUrl,
       ).toPromise();
 
-    let apiResponse = await this.apiClient.getApiKey(tokenResponse['access_token']).toPromise();
+    const apiResponse = await this.apiClient.getApiKey(tokenResponse['access_token']).toPromise();
 
     this.setApiKey(apiResponse['apiKey']);
   }

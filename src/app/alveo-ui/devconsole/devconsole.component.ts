@@ -26,10 +26,10 @@ export class DevConsoleComponent {
     if (!this.authService.isLoggedIn()) {
       this.authService.promptLogin();
     } else {
-      try { 
+      try {
         await this.alveoClientService.purgeCacheByKey('lists');
         this.sessionService.navigate([Paths.SelectDataSource]);
-      } catch(error) {
+      } catch (error) {
         this.sessionService.displayError(error.message, error);
       }
     }
@@ -46,7 +46,7 @@ export class DevConsoleComponent {
       await this.alveoClientService.purgeCache();
       this.sessionService.reset();
       this.sessionService.navigate([Paths.SelectDataSource]);
-    } catch(error) {
+    } catch (error) {
       this.sessionService.displayError(error.message, error);
     }
   }
@@ -56,8 +56,8 @@ export class DevConsoleComponent {
     this.sessionService.reset();
     try {
       await this.sessionService.updateStorage();
-      this.sessionService.navigate([Paths.Index])
-    } catch(error) {
+      this.sessionService.navigate([Paths.Index]);
+    } catch (error) {
       this.sessionService.displayError(error.message, error);
     }
   }

@@ -19,14 +19,14 @@ export class AlveoClientInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const alveoClientService = this.injector.get(AlveoClientService);
 
-    let accept = "";
-    if (request.responseType == "json") {
-      accept = "application/json"
+    let accept = '';
+    if (request.responseType === 'json') {
+      accept = 'application/json';
     } else {
       accept = request.responseType;
     }
 
-    // Alveo won't by default return JSON, so we inject the 
+    // Alveo won't by default return JSON, so we inject the
     // 'Accept' parameter into the headers based on the
     // responseType expected.
     request = request.clone({

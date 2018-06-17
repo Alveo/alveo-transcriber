@@ -112,7 +112,7 @@ export class ItemsComponent implements OnInit {
         const itemdata = await this.alveoClientService.getItem(item['id'], true, false);
         item['state'] = ItemState.READY;
         item['data'] = itemdata;
-      } catch(error) {
+      } catch (error) {
         item['state'] = ItemState.NOT_CACHED;
       }
     }
@@ -125,7 +125,7 @@ export class ItemsComponent implements OnInit {
       const itemdata = await this.alveoClientService.getItem(item['id']);
       item['state'] = ItemState.READY;
       item['data'] = itemdata;
-    } catch(error) {
+    } catch (error) {
       if (error.status === 401) {
         this.authService.promptLogin();
         item['state'] = ItemState.NOT_AUTHENTICATED;

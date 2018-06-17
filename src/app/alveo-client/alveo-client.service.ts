@@ -16,7 +16,7 @@ export class AlveoClientService {
     this.database = new BrowserCacheDatabase("AlveoClientCache");
   }
 
-  public async retrieve(storageKey: string, request: Promise<any>= null, useCache: boolean= true) {
+  public async retrieve(storageKey: string, request: Observable<any>= null, useCache: boolean= true) {
     if (!useCache && request == null) {
       throw new Error('Both cache and no API request provided, this is undefined behaviour');
     }
@@ -33,11 +33,11 @@ export class AlveoClientService {
     }
 
     if (request != null) {
-      let response = await request;
+      let response = await request.toPromise();
 
       if (useCache) {
         console.log('Caching (AlveoClient) ' + storageKey);
-        let a = await this.database.put(storageKey, response);
+        await this.database.put(storageKey, response);
       }
 
       return response;
@@ -49,7 +49,7 @@ export class AlveoClientService {
   public getListDirectory(useCache: boolean= true, useApi: boolean= true) {
     return this.retrieve(
       'lists', 
-      (useApi)? this.apiClient.getListIndex().toPromise(): null, 
+      (useApi)? this.apiClient.getListIndex(): null, 
       useCache
     );
   }
@@ -57,7 +57,7 @@ export class AlveoClientService {
   public getList(list_id: string, useCache: boolean= true, useApi: boolean= true) {
     return this.retrieve(
       'list:' + list_id,
-      (useApi)? this.apiClient.getList(list_id).toPromise(): null,
+      (useApi)? this.apiClient.getList(list_id): null,
       useCache
     );
   }
@@ -65,7 +65,7 @@ export class AlveoClientService {
   public getItem(item_id: string, useCache: boolean= true, useApi: boolean= true) {
     return this.retrieve(
       'item:' + item_id,
-      (useApi)? this.apiClient.getItem(item_id).toPromise(): null,
+      (useApi)? this.apiClient.getItem(item_id): null,
       useCache
     );
   }
@@ -73,7 +73,7 @@ export class AlveoClientService {
   public getDocument(item_id: string, document_id: string, useCache: boolean= true, useApi: boolean= true): Promise<any> {
     return this.retrieve(
       'document:' + item_id + ':' + document_id,
-      (useApi)? this.apiClient.getDocument(item_id, document_id).toPromise(): null,
+      (useApi)? this.apiClient.getDocument(item_id, document_id): null,
       useCache
     );
   }

@@ -15,7 +15,6 @@
   },
   "private": true,
   "dependencies": {
-    "@alveo-vl/jsalveo": "0.1.0",
     "@angular/animations": "^6.0.5",
     "@angular/cdk": "^6.2.1",
     "@angular/common": "^6.0.5",

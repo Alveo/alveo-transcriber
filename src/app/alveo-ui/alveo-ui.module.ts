@@ -20,70 +20,61 @@ import { CdkTableModule } from '@angular/cdk/table';
 
 import { AlveoTranscriberModule } from 'alveo-transcriber';
 
-import { AlveoUIComponent } from './alveo-ui.component';
-
-import { DevConsoleComponent } from './devconsole/devconsole.component';
-import { DataSourceComponent } from './datasource/datasource.component';
-
 import { AlveoRoutingModule } from './routing.module';
-import { NavComponent } from './nav/nav.component';
-import { AuthComponent } from './auth/auth.component';
-import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
-import { OAuthCallbackComponent } from './oauth-callback/oauth-callback.component';
 
+import { AlveoUIComponent } from './alveo-ui.component';
+import { AuthComponent } from './auth/auth.component';
+import { DataSourceComponent } from './datasource/datasource.component';
+import { DevConsoleComponent } from './devconsole/devconsole.component';
+import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 import { ListIndexComponent } from './listindex/listindex.component';
-import { ListTableComponent } from './listindex/listtable/listtable.component';
-import { TranscriberComponent } from './transcriber/transcriber.component';
 import { ListsComponent } from './lists/lists.component';
-import { ItemsComponent } from './lists/items/items.component';
-import { SourceSelectComponent } from './lists/items/source-select/source-select.component';
+import { ListTableComponent } from './listindex/listtable/listtable.component';
+import { NavComponent } from './nav/nav.component';
+import { OAuthCallbackComponent } from './oauth-callback/oauth-callback.component';
 import { ItemComponent } from './lists/items/item/item.component';
 import { ItemLoaderComponent } from './lists/items/item-loader/item-loader.component';
+import { ItemsComponent } from './lists/items/items.component';
+import { SourceSelectComponent } from './lists/items/source-select/source-select.component';
+import { TranscriberComponent } from './transcriber/transcriber.component';
 
 import { AuthService } from './shared/auth.service';
-import { SegmentorService } from './shared/segmentor.service';
-
-import { environment } from '../../environments/environment';
 
 import { AlveoClientModule } from '../alveo-client/alveo-client.module';
+import { AlveoTransServClientModule } from '../alveo-transserv-client/alveo-transserv-client.module';
+import { AnnotationsModule } from '../annotations/annotations.module';
 import { BrowserCacheModule } from '../browser-cache/browser-cache.module';
 import { OnlineStatusModule } from '../online-status/online-status.module';
-import { AnnotationsModule } from '../annotations/annotations.module';
 import { SessionModule } from '../session/session.module';
+
+import { environment } from '../../environments/environment';
 
 @NgModule({
   declarations: [
     AlveoUIComponent,
-    DevConsoleComponent,
-    DataSourceComponent,
-    NavComponent,
     AuthComponent,
-    LoadingSpinnerComponent,
-    OAuthCallbackComponent,
-    ListIndexComponent,
-    ListsComponent,
-    ItemsComponent,
-    SourceSelectComponent,
+    DataSourceComponent,
+    DevConsoleComponent,
     ItemComponent,
     ItemLoaderComponent,
+    ItemsComponent,
+    LoadingSpinnerComponent,
+    ListIndexComponent,
+    ListsComponent,
     ListTableComponent,
+    NavComponent,
+    OAuthCallbackComponent,
+    SourceSelectComponent,
     TranscriberComponent,
   ],
   entryComponents: [
     AuthComponent
   ],
   imports: [
-    CommonModule,
     BrowserAnimationsModule,
-
-    AlveoRoutingModule,
-    AlveoTranscriberModule,
-    AlveoClientModule,
-    OnlineStatusModule,
-    AnnotationsModule,
-    SessionModule,
-
+    CommonModule,
     CdkTableModule,
+    FormsModule,
     MatButtonModule,
     MatCheckboxModule,
     MatDialogModule,
@@ -96,24 +87,21 @@ import { SessionModule } from '../session/session.module';
     MatRippleModule,
     MatSelectModule,
     MatTableModule,
-    FormsModule,
 
-    BrowserCacheModule
+    AlveoClientModule,
+    AlveoRoutingModule,
+    AlveoTranscriberModule,
+    AlveoTransServClientModule,
+    AnnotationsModule,
+    BrowserCacheModule,
+    OnlineStatusModule,
+    SessionModule
   ],
   exports: [
     AlveoUIComponent,
   ],
   providers: [
-    AuthService,
-    SegmentorService,
-    {
-      provide: 'TranscriberServices', useValue: new window['jsalveo_transcriber_services'](
-        {
-          apiUrl: environment.alveoTranscriberServices.paths.mainUrl,
-          apiAuth: environment.alveoTranscriberServices.auth
-        }
-      )
-    },
+    AuthService
   ],
 })
 export class AlveoUIModule { }

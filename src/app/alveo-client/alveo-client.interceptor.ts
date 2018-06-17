@@ -20,14 +20,17 @@ export class AlveoClientInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const alveoClientService = this.injector.get(AlveoClientService);
 
-    if (request.url.startsWith(environment.alveoPaths.mainUrl)) {
+    const apiKey = alveoClientService.getApiKey();
+    if (apiKey != null) {
       request = request.clone({
         setHeaders: {
-          'X-Api-Key': alveoClientService.getApiKey()
+          'X-Api-Key': apiKey
         }
       });
 
-      console.log('Made API request to (AlveoClient) ' + request.url);
+      console.log('Made authenticated API request to (AlveoClient) ' + request.url);
+    } else {
+      console.log('Made unauthenticated API request to (AlveoClient) ' + request.url);
     }
 
     return next.handle(request);

@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 
 import { AlveoClientService } from '../../alveo-client/alveo-client.module';
 import { AnnotationsService } from '../../annotations/annotations.module';
+import { SessionService } from '../../session/session.module';
 
 import { AuthService } from '../shared/auth.service';
-import { SessionService } from '../shared/session.service';
-
 import { Paths } from '../shared/paths';
 
 /* Development/Debug component for controlling and testing session & database storage */

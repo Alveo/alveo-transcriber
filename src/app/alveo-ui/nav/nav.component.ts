@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 
+import { SessionService } from '../../session/session.module';
 import { environment } from '../../../environments/environment';
 
 import { AuthService } from '../shared/auth.service';
-import { SessionService } from '../shared/session.service';
 import { Paths } from '../shared/paths';
 
 /* Navigation bar component, primarily handles logout option */

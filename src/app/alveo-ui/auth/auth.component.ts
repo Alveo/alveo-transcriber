@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material';
 
-import { SessionService } from '../shared/session.service';
+import { SessionService } from '../../session/session.module';
 
 /* Component for displaying a login dialogue
  *  Ideally should be injected in from a service, rather than direct use via a template. */

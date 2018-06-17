@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { AlveoClientService } from '../../alveo-client/alveo-client.module';
+import { SessionService } from '../../session/session.module';
 
 import { AuthService } from '../shared/auth.service';
-import { SessionService } from '../shared/session.service';
-
 import { Paths } from '../shared/paths';
 
 /* Component used to sort through logic on stored list directory data

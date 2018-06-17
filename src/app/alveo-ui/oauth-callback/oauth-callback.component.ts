@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+import { SessionService } from '../../session/session.module';
+
 import { AuthService } from '../shared/auth.service';
-import { SessionService } from '../shared/session.service';
 import { Paths } from '../shared/paths';
 
 /* Component for handling OAuth callback routes */

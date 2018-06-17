@@ -15,9 +15,9 @@ import {
   MatRippleModule,
   MatSelectModule,
   MatTableModule,
-  MatSnackBarModule
 } from '@angular/material';
 import { CdkTableModule } from '@angular/cdk/table';
+
 import { AlveoTranscriberModule } from 'alveo-transcriber';
 
 import { AlveoUIComponent } from './alveo-ui.component';
@@ -39,11 +39,9 @@ import { ItemsComponent } from './lists/items/items.component';
 import { SourceSelectComponent } from './lists/items/source-select/source-select.component';
 import { ItemComponent } from './lists/items/item/item.component';
 import { ItemLoaderComponent } from './lists/items/item-loader/item-loader.component';
-import { ErrorNotifyComponent } from './error-notify/error-notify.component';
 
 import { AuthService } from './shared/auth.service';
 import { SegmentorService } from './shared/segmentor.service';
-import { SessionService } from './shared/session.service';
 
 import { environment } from '../../environments/environment';
 
@@ -51,6 +49,7 @@ import { AlveoClientModule } from '../alveo-client/alveo-client.module';
 import { BrowserCacheModule } from '../browser-cache/browser-cache.module';
 import { OnlineStatusModule } from '../online-status/online-status.module';
 import { AnnotationsModule } from '../annotations/annotations.module';
+import { SessionModule } from '../session/session.module';
 
 @NgModule({
   declarations: [
@@ -69,11 +68,9 @@ import { AnnotationsModule } from '../annotations/annotations.module';
     ItemLoaderComponent,
     ListTableComponent,
     TranscriberComponent,
-    ErrorNotifyComponent
   ],
   entryComponents: [
-    AuthComponent,
-    ErrorNotifyComponent
+    AuthComponent
   ],
   imports: [
     CommonModule,
@@ -84,6 +81,7 @@ import { AnnotationsModule } from '../annotations/annotations.module';
     AlveoClientModule,
     OnlineStatusModule,
     AnnotationsModule,
+    SessionModule,
 
     CdkTableModule,
     MatButtonModule,
@@ -98,7 +96,6 @@ import { AnnotationsModule } from '../annotations/annotations.module';
     MatRippleModule,
     MatSelectModule,
     MatTableModule,
-    MatSnackBarModule,
     FormsModule,
 
     BrowserCacheModule
@@ -109,7 +106,6 @@ import { AnnotationsModule } from '../annotations/annotations.module';
   providers: [
     AuthService,
     SegmentorService,
-    SessionService,
     {
       provide: 'TranscriberServices', useValue: new window['jsalveo_transcriber_services'](
         {

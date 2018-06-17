@@ -4,10 +4,10 @@ import { AlveoTranscriber, Annotation } from 'alveo-transcriber';
 
 import { AlveoClientService } from '../../alveo-client/alveo-client.module';
 import { AnnotationsService } from '../../annotations/annotations.module';
+import { SessionService } from '../../session/session.service';
 import { environment } from '../../../environments/environment';
 
 import { AuthService } from '../shared/auth.service';
-import { SessionService } from '../shared/session.service';
 import { SegmentorService } from '../shared/segmentor.service';
 import { Paths } from '../shared/paths';
 

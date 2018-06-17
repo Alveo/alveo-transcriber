@@ -1,10 +1,10 @@
 import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 
 import { AlveoClientService } from '../../../alveo-client/alveo-client.module';
+import { SessionService } from '../../../session/session.module';
 import { environment } from '../../../../environments/environment';
 
 import { AuthService } from '../../shared/auth.service';
-import { SessionService } from '../../shared/session.service';
 import { Paths } from '../../shared/paths';
 
 enum ItemState {

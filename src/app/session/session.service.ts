@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 
-import { BrowserCacheDatabase } from '../../browser-cache/browser-cache.module';
+import { Observable } from 'rxjs/Observable';
 
-import { ErrorNotifyComponent } from '../error-notify/error-notify.component';
-import { Paths } from './paths';
+import { BrowserCacheDatabase } from '../browser-cache/browser-cache.module';
+
+import { ErrorNotifyComponent } from './error-notify/error-notify.component';
 
 @Injectable()
 export class SessionService {
@@ -89,10 +89,6 @@ export class SessionService {
 
   public async refreshSession(url= null) {
     await this.onReady();
-
-    if (url === null) {
-      url = Paths.Index;
-    }
 
     this.router.navigate([url]);
   }

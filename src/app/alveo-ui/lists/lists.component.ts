@@ -45,11 +45,11 @@ export class ListsComponent implements OnInit {
       this.list = await this.alveoClientService.getList(list_id);
       this.ready = true;
     } catch(error) {
-      if (error.statusCode === 401) {
+      if (error.status === 401) {
         this.authService.promptLogin();
         this.ready = true;
       } else {
-        console.log(error.statusCode);
+        console.log(error.status);
         this.sessionService.displayError(error.message, error);
       }
     }

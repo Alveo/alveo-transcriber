@@ -128,10 +128,10 @@ export class ItemsComponent implements OnInit {
       item['state'] = ItemState.READY;
       item['data'] = itemdata;
     } catch(error) {
-      if (error.statusCode === 401) {
+      if (error.status === 401) {
         this.authService.promptLogin();
         item['state'] = ItemState.NOT_AUTHENTICATED;
-      } else if (error.statusCode === 403) {
+      } else if (error.status === 403) {
         item['state'] = ItemState.NOT_LICENCED;
         this.sessionService.displayError(
           'Licence for "'

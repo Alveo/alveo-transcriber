@@ -57,11 +57,27 @@ export class AlveoTranscriber implements OnInit {
 
   @HostListener('document:keydown', ['$event'])
   hotkeys(ev: KeyboardEvent) {
+    const annotation = this.getSelectedAnnotation();
     if (ev.key === "Escape") {
-      if (this.selectedAnnotation !== null) {
+      if (annotation !== null) {
         this.player.replaySelectedRegion();
       }
     }
+    if (ev.key === "Delete") {
+      if (annotation !== null) {
+        this.promptDelete(annotation);
+      }
+    }
+  }
+
+  private async promptDelete(annotation: Annotation): Promise<any> {
+    await this.player.deleteSelectedRegion();
+
+    if (this.getSelectedAnnotation() === annotation) {
+      this.selectAnnotation(null);
+    }
+
+    this.saveAnnotations(this.annotations);
   }
 
   private setViewMode(mode: string): void {
@@ -184,12 +200,9 @@ export class AlveoTranscriber implements OnInit {
         break;
       }
       case 'delete': {
-        this.player.deleteSelectedRegion().then(
-          () => {
-            this.selectAnnotation(null);
-            this.saveAnnotations(this.annotations);
-          }
-        );
+        if (ev['annotation'] !== null) {
+          this.promptDelete(ev['annotation']);
+        }
         break;
       }
     }

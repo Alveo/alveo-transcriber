@@ -6,6 +6,12 @@
   padding: 1em;
 }
 
+.control-panel p {
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
 button {
-  margin-top: 0.25em;
+  margin: 0.25em;
+  font-size: 14px;
 }

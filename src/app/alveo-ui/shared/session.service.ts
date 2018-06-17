@@ -3,9 +3,9 @@ import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 
-import { ErrorNotifyComponent } from '../error-notify/error-notify.component';
+import { BrowserCacheDatabase } from '../../browser-cache/browser-cache.module';
 
-import { BrowserCacheDatabase } from '../../browser-cache/browser-cache.database';
+import { ErrorNotifyComponent } from '../error-notify/error-notify.component';
 import { Paths } from './paths';
 
 @Injectable()

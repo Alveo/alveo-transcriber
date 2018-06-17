@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
-import { BackendClientService } from './backend-client.service';
+import { BrowserCacheDatabase } from '../browser-cache/browser-cache.module';
 
-import { BrowserCacheDatabase } from '../browser-cache/browser-cache.database';
+import { BackendClientService } from './backend-client.service';
 
 @Injectable({
   providedIn: 'root'

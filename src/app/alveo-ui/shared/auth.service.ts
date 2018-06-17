@@ -1,12 +1,12 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
-import { AlveoClientService } from '../../alveo-client/alveo-client.service';
-import { SessionService } from './session.service';
+import { AlveoClientService } from '../../alveo-client/alveo-client.module';
+import { environment } from '../../../environments/environment';
 
 import { AuthComponent } from '../auth/auth.component';
+import { SessionService } from './session.service';
 
-import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class AuthService {

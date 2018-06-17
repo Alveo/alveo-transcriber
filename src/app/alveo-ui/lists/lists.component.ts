@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
-import { AlveoClientService } from '../../alveo-client/alveo-client.service';
+import { AlveoClientService } from '../../alveo-client/alveo-client.module';
+
 import { AuthService } from '../shared/auth.service';
 import { SessionService } from '../shared/session.service';
-
 import { Paths } from '../shared/paths';
 
 /* Component to handle an outer list display

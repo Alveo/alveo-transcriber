@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Annotation } from 'alveo-transcriber';
 
-import { BrowserCacheDatabase } from '../browser-cache/browser-cache.database';
+import { BrowserCacheDatabase } from '../browser-cache/browser-cache.module';
 
 /* Service for handling the database interaction for Annotations */
 @Injectable()

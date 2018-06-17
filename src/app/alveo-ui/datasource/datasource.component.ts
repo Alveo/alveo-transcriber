@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
+import { AlveoClientService } from '../../alveo-client/alveo-client.module';
+
 import { AuthService } from '../shared/auth.service';
-import { AlveoClientService } from '../../alveo-client/alveo-client.service';
 import { SessionService } from '../shared/session.service';
 
 import { Paths } from '../shared/paths';

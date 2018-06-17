@@ -1,7 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 
-import { AlveoClientService } from '../../alveo-client/alveo-client.service';
-
+import { AlveoClientService } from '../../alveo-client/alveo-client.module';
 import { environment } from '../../../environments/environment';
 
 @Injectable()

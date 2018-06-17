@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 
 import { AuthService } from '../shared/auth.service';
 import { SessionService } from '../shared/session.service';
-
 import { Paths } from '../shared/paths';
 
 /* Component for handling OAuth callback routes */

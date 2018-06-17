@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
-import { AlveoClientService } from '../../alveo-client/alveo-client.service';
+import { AlveoClientService } from '../../alveo-client/alveo-client.module';
+import { environment } from '../../../environments/environment';
+
 import { AuthService } from '../shared/auth.service';
 import { SessionService } from '../shared/session.service';
-
-import { environment } from '../../../environments/environment';
 import { Paths } from '../shared/paths';
 
 /* Display component to show all item lists and handle selection events */

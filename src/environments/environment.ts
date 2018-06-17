@@ -14,7 +14,12 @@ export const environment = {
   alveoTranscriberServices: {
     paths: {
       mainUrl: 'https://segmenter.apps.alveo.edu.au/alveo',
-      segmenterSuffix: '/segment'
+      segmenterSuffix: '/segment',
+      storageSuffix: '/datastore/',
+      listSuffix: '/datastore/list/',
+      exportSuffix: '/datastore/export/',
+      userSuffix: '/datastore/user/',
+      revisionsSuffix: '/datastore/revisions/'
     },
     auth: 'app.alveo.edu.au'
   },

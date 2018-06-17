@@ -48,4 +48,51 @@ export class AlveoTransServClientService  {
       }
     ).toPromise();
   }
+
+  public listRemoteStorage(): Promise<any> {
+    return this.http.get(
+      this.atsPaths.mainUrl
+      + this.atsPaths.listSuffix,
+      {
+        'responseType': 'json'
+      }
+    ).toPromise();
+  }
+
+  public listRemoteStorageByKey(key: string): Promise<any> {
+    return this.http.get(
+      this.atsPaths.mainUrl
+      + this.atsPaths.listSuffix
+      + key,
+      {
+        'responseType': 'json'
+      }
+    ).toPromise();
+  }
+
+  public getRemoteStorage(key: string): Promise<any> {
+    return this.http.get(
+      this.atsPaths.mainUrl
+      + this.atsPaths.storageSuffix
+      + '?store_id=' + key,
+      {
+        'responseType': 'json'
+      }
+    ).toPromise();
+  }
+
+  public pushRemoteStorage(key: string, data: any): Promise<any> {
+    return this.http.post(
+      this.atsPaths.mainUrl
+      + this.atsPaths.storageSuffix
+      + '?store_id=' + key,
+      { 
+        key: key,
+        value: data
+      },
+      {
+        'responseType': 'json'
+      }
+    ).toPromise();
+  }
 }

@@ -115,4 +115,8 @@ export class BackendClientService {
       }
     );
   }
+
+  public getUserDetails(): Observable<any> {
+    return this.http.get(this.alveoPaths.mainUrl + '/' + this.alveoPaths.userDetails);
+  }
 }

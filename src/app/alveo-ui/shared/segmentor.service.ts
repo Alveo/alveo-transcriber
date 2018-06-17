@@ -9,8 +9,8 @@ export class SegmentorService {
   constructor(
     @Inject('TranscriberServices') public alveots: any,
     private apiService: ApiService) {
-    this.alveots.apiUrl = environment.segmenterUrl;
-    this.alveots.apiAuth = environment.segmenterAuth;
+    this.alveots.apiUrl = environment.alveoTranscriberServices.paths.mainUrl;
+    this.alveots.apiAuth = environment.alveoTranscriberServices.auth;
   }
 
   public segment(path: string): Promise<any> {

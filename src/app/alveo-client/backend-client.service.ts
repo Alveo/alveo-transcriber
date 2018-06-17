@@ -23,7 +23,7 @@ export class BackendClientService {
     return this.http.get(
       this.alveoPaths.mainUrl + '/' + this.alveoPaths.listSuffix,
       {
-        'responseType': 'application/json'
+        'responseType': 'json'
       }
     );
   }
@@ -35,7 +35,7 @@ export class BackendClientService {
     return this.http.get(
       this.alveoPaths.mainUrl + '/' + this.alveoPaths.listSuffix + '/' + id,
       {
-        'responseType': 'application/json'
+        'responseType': 'json'
       }
     );
   }
@@ -47,7 +47,7 @@ export class BackendClientService {
     return this.http.get(
       this.alveoPaths.mainUrl + '/' + this.alveoPaths.itemSuffix + '/' + itemId,
       {
-        'responseType': 'application/json'
+        'responseType': 'json'
       }
     );
   }
@@ -63,7 +63,7 @@ export class BackendClientService {
     return this.http.get(
       this.alveoPaths.mainUrl + '/' + url,
       {
-        'responseType': 'application/json'
+        'responseType': 'json'
       }
     );
   }
@@ -94,7 +94,7 @@ export class BackendClientService {
         'redirect_uri': callbackUrl
       },
       {
-        'responseType': 'application/json'
+        'responseType': 'json'
       }
     );
   }
@@ -111,7 +111,7 @@ export class BackendClientService {
               'Authorization': 'Bearer ' + token
             }
           ),
-        'responseType': 'application/json'
+        'responseType': 'json'
       }
     );
   }

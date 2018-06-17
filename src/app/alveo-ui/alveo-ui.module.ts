@@ -120,8 +120,8 @@ import { BrowserCacheModule } from '../browser-cache/browser-cache.module';
     {
       provide: 'TranscriberServices', useValue: new window['jsalveo_transcriber_services'](
         {
-          apiUrl: environment.segmenterUrl,
-          apiAuth: environment.segmenterAuth
+          apiUrl: environment.alveoTranscriberServices.paths.mainUrl,
+          apiAuth: environment.alveoTranscriberServices.auth
         }
       )
     },

@@ -35,6 +35,8 @@ export class PlayerComponent implements OnInit {
   private zoom: number= 3;
   private zoom_threshold: number= 10;
 
+  private isRebuildingRegions: boolean= false;
+
   constructor(
     private dialog: MatDialog,
   ) { }
@@ -102,9 +104,6 @@ export class PlayerComponent implements OnInit {
       }
 
       let annotation = this.getAnnotationByID(region.id);
-      if (annotation === null) {
-        return;
-      }
 
       this.annotationEvent.emit(
         {
@@ -136,6 +135,17 @@ export class PlayerComponent implements OnInit {
             }
           );
         }
+      }
+    });
+
+    this.player.on('region-removed', (region: Region) => {
+      if (!this.isRebuildingRegions) {
+        this.annotationEvent.emit(
+          {
+            'type': 'delete',
+            'annotation': this.getAnnotationByID(region.id)
+          }
+        );
       }
     });
   }
@@ -215,8 +225,10 @@ export class PlayerComponent implements OnInit {
   }
 
   public buildRegions(annotations: Array<Annotation>) {
+    this.isRebuildingRegions = true;
     this.player.clearRegions();
     this.loadRegions(annotations);
+    this.isRebuildingRegions = false;
   }
 
   public loadRegions(annotations: Array<Annotation>): void {
@@ -334,49 +346,18 @@ export class PlayerComponent implements OnInit {
     return Object.keys(this.player.regions.list).length;
   }
 
-  public deleteSelectedRegion(): Promise<any> {
-    const dialogStatus = this.dialogOpen('Warning', 'Are you sure you wish to delete this segment?');
-    return new Promise(
-      (resolve, reject) => {
-        dialogStatus.afterClosed().subscribe(result => {
-          if (result === true) {
-            this.deleteAnnotationByID(this.selectedRegion.id);
-            const delRegion = this.selectedRegion;
-            this.unselectRegion(delRegion);
-            delRegion.remove();
-            resolve();
-          }
-        });
-      }
-    );
+  public deleteAnnotation(annotation: Annotation): void {
+    const region = this.findRegion(annotation.id);
+    region.remove();
   }
 
-  public selectAnnotation(annotation: any) {
+  public selectAnnotation(annotation: any): void {
     if (this.ready) {
       if (annotation['new'] !== null) {
         const newRegion = this.findRegion(annotation['new']['id']);
         this.selectRegion(newRegion, annotation['silently']);
       }
     }
-  }
-
-
-  public deleteAnnotationByID(id: string): boolean {
-    for (const annotation of this.annotations) {
-      if (annotation.id === id) {
-        if (id = this.selectedRegion.id) {
-          this.selectRegion(null);
-        }
-
-        const index = this.annotations.indexOf(annotation);
-        if (index !== -1) {
-          this.annotations.splice(index, 1);
-        }
-
-        return true;
-      }
-    }
-    return false;
   }
 
   public getAnnotationByID(id: string): Annotation {

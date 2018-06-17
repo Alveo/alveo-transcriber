@@ -71,13 +71,11 @@ export class AlveoTranscriber implements OnInit {
   }
 
   private async promptDelete(annotation: Annotation): Promise<any> {
-    await this.player.deleteSelectedRegion();
-
-    if (this.getSelectedAnnotation() === annotation) {
-      this.selectAnnotation(null);
+    const dialogStatus = this.dialogOpen('Warning', 'Are you sure you wish to delete this segment?');
+    const confirmed = await dialogStatus.afterClosed().toPromise();
+    if (confirmed) {
+      this.player.deleteAnnotation(annotation);
     }
-
-    this.saveAnnotations(this.annotations);
   }
 
   private setViewMode(mode: string): void {
@@ -143,17 +141,16 @@ export class AlveoTranscriber implements OnInit {
     return this.dialog.open(DialogComponent, {data: {title: title, text: text}});
   }
 
-  public actionSegment(): void {
+  public async actionSegment(): Promise<any> {
     const dialogStatus = this.dialogOpen('Warning',
       'Using the segmentor service will erase all regions/annotations and '
       + 'replace them with ones from an automatic segmentor. Deletion may '
       + 'be permanent. Do you wish to proceed?');
-    dialogStatus.afterClosed().subscribe(result => {
-      if (result === true) {
-        this.player.pause();
-        this.autosegment.emit({});
-      }
-    });
+    const confirmed = await dialogStatus.afterClosed().toPromise();
+    if (confirmed) {
+      this.player.pause();
+      this.autosegment.emit({});
+    }
   }
 
   public getAnnotations(): any {
@@ -247,6 +244,12 @@ export class AlveoTranscriber implements OnInit {
         // Selection event made within PlayerComponent
         this.selectAnnotation(annotation, false);
         this.saveAnnotations(this.annotations);
+        break;
+      }
+      case 'delete': {
+        this.deleteAnnotation(annotation);
+        this.saveAnnotations(this.annotations);
+        break;
       }
     }
   }
@@ -328,5 +331,22 @@ export class AlveoTranscriber implements OnInit {
 
   public getSelectedAnnotation(): Annotation {
     return this.selectedAnnotation;
+  }
+
+  public deleteAnnotation(deletedAnnotation: Annotation): void {
+    for (const annotation of this.annotations) {
+      if (annotation === deletedAnnotation) {
+        if (deletedAnnotation === this.getSelectedAnnotation()) {
+          this.selectAnnotation(null);
+        }
+
+        const index = this.annotations.indexOf(annotation);
+        if (index !== -1) {
+          this.annotations.splice(index, 1);
+        }
+
+        break;
+      }
+    }
   }
 }

@@ -41,24 +41,6 @@ export class PlayerComponent implements OnInit {
     private router: Router
   ) { }
 
-  public rebuild(annotations: Array<Annotation>) {
-    this.player.clearRegions();
-    this.loadRegions(annotations);
-  }
-
-  public selectAnnotation(annotation: any) {
-    if (this.ready) {
-      if (annotation['new'] !== null) {
-        const newRegion = this.findRegion(annotation['new']['id']);
-        this.selectRegion(newRegion, annotation['silently']);
-      }
-    }
-  }
-
-  public resize(height: number) {
-    this.setHeight(height);
-  }
-
   ngOnInit(): void {
     this.router.events.subscribe( (event: Event) => {
       if (event instanceof NavigationStart) {
@@ -151,39 +133,57 @@ export class PlayerComponent implements OnInit {
       this.stop();
     });
 
-    setInterval(() => {}, 100);
+    // Do this to fix update issues
+    setInterval(() => {}, 500);
   }
 
+  public rebuild(annotations: Array<Annotation>) {
+    this.player.clearRegions();
+    this.loadRegions(annotations);
+  }
 
-  play(): void {
+  public selectAnnotation(annotation: any) {
+    if (this.ready) {
+      if (annotation['new'] !== null) {
+        const newRegion = this.findRegion(annotation['new']['id']);
+        this.selectRegion(newRegion, annotation['silently']);
+      }
+    }
+  }
+
+  public resize(height: number) {
+    this.setHeight(height);
+  }
+
+  public play(): void {
     this.player.play();
   }
 
-  stop(): void {
+  public stop(): void {
     if (this.player.getCurrentTime() === this.player.getDuration()) {
       // Reset to beginning only if we're at the end and not a region end
       this.player.stop();
     }
   }
 
-  pause(): void {
+  public pause(): void {
     this.player.pause();
   }
 
-  seek(position: number): void {
+  public seek(position: number): void {
     this.player.seekTo(0);
     this.player.skip(position);
   }
 
-  getPos(): number {
+  public getPos(): number {
     return Math.floor(this.player.getCurrentTime());
   }
 
-  getDuration(): number {
+  public getDuration(): number {
     return Math.floor(this.player.getDuration());
   }
 
-  loadRegions(annotations: Array<Annotation>): void {
+  public loadRegions(annotations: Array<Annotation>): void {
     if (this.player.handlers !== null) { // Hackish fix to stop wrapper.null implosions
       for (const annotation of annotations) {
         this.player.addRegion({
@@ -200,28 +200,29 @@ export class PlayerComponent implements OnInit {
     this.player.setHeight(pixels);
   }
 
-  zoomIn() {
+  public zoomIn(): void {
     if (this.zoom < this.zoom_threshold) {
       this.zoom += 1;
     }
     this.player.zoom(this.zoom);
   }
-  zoomOut() {
+
+  public zoomOut(): void {
     if (this.zoom > 0) {
       this.zoom -= 1;
     }
     this.player.zoom(this.zoom);
   }
 
-  gotoRegion(region: Region) {
+  public gotoRegion(region: Region): void {
     this.player.seekTo(region.start / this.player.getDuration());
   }
 
-  playing(): boolean {
+  public playing(): boolean {
     return this.player.isPlaying();
   }
 
-  unselectRegion(region: Region): void {
+  public unselectRegion(region: Region): void {
     if (region !== null) {
       region.update({color: BASE_COLOUR});
       this.selectedRegion = null;
@@ -239,7 +240,7 @@ export class PlayerComponent implements OnInit {
     this.selectedRegion = region;
   }
 
-  selectRegion(region: Region, ignoreAutoplay: boolean= false): void {
+  public selectRegion(region: Region, ignoreAutoplay: boolean= false): void {
     if (region !== null && region !== undefined) {
 
       if (region !== this.selectedRegion) {
@@ -268,11 +269,11 @@ export class PlayerComponent implements OnInit {
     }
   }
 
-  findRegion(id: string): Region {
+  private findRegion(id: string): Region {
     return this.player.regions.list[id];
   }
 
-  selectPreviousRegion(): Region {
+  public selectPreviousRegion(): Region {
     let beginning = null;
     if (this.selectedRegion === null) {
       beginning = this.player.getCurrentTime();
@@ -299,7 +300,7 @@ export class PlayerComponent implements OnInit {
     }
   }
 
-  selectNextRegion(): Region {
+  public selectNextRegion(): Region {
     let beginning = null;
     if (this.selectedRegion === null) {
       beginning = this.player.getCurrentTime();
@@ -325,36 +326,35 @@ export class PlayerComponent implements OnInit {
     }
   }
 
-  countRegions(): number {
+  public countRegions(): number {
     return Object.keys(this.player.regions.list).length;
   }
 
-  replayLast(seconds: number) {
+  public replayLast(seconds: number): void {
     let position = (this.player.getCurrentTime() - seconds) / this.player.getDuration();
     if (position < 0) {
       position = 0;
     }
-
     this.player.seekTo(position);
   }
 
-  replaySelectedRegion() {
+  public replaySelectedRegion(): void {
     this.selectedRegion.play();
   }
 
-  loopSelectedRegion() {
+  public loopSelectedRegion(): void {
     this.selectedRegion.playLoop();
   }
 
-  isReady(): boolean {
+  public isReady(): boolean {
     return this.ready;
   }
 
-  dialogOpen(title: string, text: string): any {
+  public dialogOpen(title: string, text: string): any {
     return this.dialog.open(DialogComponent, {data: {title: title, text: text}});
   }
 
-  deleteSelectedRegion(): Promise<any> {
+  public deleteSelectedRegion(): Promise<any> {
     const dialogStatus = this.dialogOpen('Warning', 'Are you sure you wish to delete this segment?');
     return new Promise(
       (resolve, reject) => {
@@ -397,5 +397,4 @@ export class PlayerComponent implements OnInit {
     }
     return null;
   }
-
 }

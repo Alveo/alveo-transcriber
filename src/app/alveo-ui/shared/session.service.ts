@@ -5,7 +5,7 @@ import { MatSnackBar } from '@angular/material';
 
 import { ErrorNotifyComponent } from '../error-notify/error-notify.component';
 
-import { Database } from './database';
+import { BrowserCacheDatabase } from '../../browser-cache/browser-cache';
 import { Paths } from './paths';
 
 @Injectable()
@@ -13,12 +13,12 @@ export class SessionService {
   private stored_route: any = [''];
   private ready = false;
   private activeErrorRef: any = null;
-  private database: Database;
+  private database: BrowserCacheDatabase;
 
   constructor(
     private snackBar: MatSnackBar,
     private router: Router) {
-    this.database = new Database("session-service");
+    this.database = new BrowserCacheDatabase("session-service");
     this.loadSession();
   }
 

@@ -50,6 +50,8 @@ import { MonitorService } from './shared/monitor.service';
 
 import { environment } from '../../environments/environment';
 
+import { BrowserCacheModule } from '../browser-cache/browser-cache.module';
+
 @NgModule({
   declarations: [
     AlveoUIComponent,
@@ -94,7 +96,9 @@ import { environment } from '../../environments/environment';
     MatSelectModule,
     MatTableModule,
     MatSnackBarModule,
-    FormsModule
+    FormsModule,
+
+    BrowserCacheModule
   ],
   exports: [
     AlveoUIComponent,

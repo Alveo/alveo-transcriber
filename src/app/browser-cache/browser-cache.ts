@@ -1,10 +1,10 @@
 import Dexie from 'dexie';
-
+  
 export class SimplifiedDatabase extends Dexie {
   storage: Dexie.Table<any, any>;
 }
 
-export class Database {
+export class BrowserCacheDatabase {
   private databaseName: string;
   private database: SimplifiedDatabase;
 

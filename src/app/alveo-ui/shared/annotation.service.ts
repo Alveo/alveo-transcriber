@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Annotation } from 'alveo-transcriber';
 
-import { Database } from './database';
+import { BrowserCacheDatabase } from '../../browser-cache/browser-cache';
 
 /* Service for handling the database interaction for Annotations */
 @Injectable()
 export class AnnotationService {
-  private database: Database;
+  private database: BrowserCacheDatabase;
 
   constructor() {
-    this.database = new Database("annotation-service");
+    this.database = new BrowserCacheDatabase("annotation-service");
   }
 
   public destroyData(): Promise<any> {

@@ -74,8 +74,7 @@ export class TranscriberComponent implements OnInit {
 
       this.loader_text = 'Checking annotations ...';
       try {
-        let data = await this.loadAnnotations(this.getIdentifier());
-        this.annotations = data['annotations'];
+        this.annotations = await this.loadAnnotations(this.getIdentifier());
         this.ready = true;
       } catch(error) {
         this.ready = true;

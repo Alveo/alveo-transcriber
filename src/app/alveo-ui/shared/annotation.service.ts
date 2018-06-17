@@ -21,6 +21,6 @@ export class AnnotationService {
   }
 
   public saveAnnotations(identifier: string, annotations: Array<Annotation>): Promise<any> {
-    return this.database.put(identifier, {'annotations': annotations});
+    return this.database.put(identifier, annotations);
   }
 }

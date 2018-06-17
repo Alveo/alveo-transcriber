@@ -248,33 +248,6 @@ export class PlayerComponent implements OnInit {
     this.player.seekTo(region.start / this.player.getDuration());
   }
 
-  public unselectRegion(region: Region): void {
-    if (region !== null) {
-      region.update({color: BASE_COLOUR});
-      this.selectedRegion = null;
-    }
-  }
-
-  public selectRegion(region: Region, ignoreAutoplay: boolean= false): void {
-    if (region !== null && region !== undefined) {
-      if (this.playing()) {
-        this.pause();
-      }
-
-      this.unselectRegion(this.selectedRegion);
-
-      this.gotoRegion(region);
-
-      region.update({color: SELECTED_COLOUR});
-
-      if (this.autoPlay && !ignoreAutoplay) {
-        region.play();
-      }
-
-      this.selectedRegion = region;
-    }
-  }
-
   private findRegion(id: string): Region {
     return this.player.regions.list[id];
   }
@@ -305,7 +278,7 @@ export class PlayerComponent implements OnInit {
       this.annotationEvent.emit(
         {
           'type': 'select',
-          'annotation': prevRegion
+          'annotation': this.getAnnotationByID(prevRegion)
         }
       );
     }
@@ -336,7 +309,7 @@ export class PlayerComponent implements OnInit {
       this.annotationEvent.emit(
         {
           'type': 'select',
-          'annotation': nextRegion
+          'annotation': this.getAnnotationByID(nextRegion)
         }
       );
     }
@@ -351,12 +324,32 @@ export class PlayerComponent implements OnInit {
     region.remove();
   }
 
-  public selectAnnotation(annotation: any): void {
-    if (this.ready) {
-      if (annotation['new'] !== null) {
-        const newRegion = this.findRegion(annotation['new']['id']);
-        this.selectRegion(newRegion, annotation['silently']);
+  // This should not be called by this component itself
+  public selectAnnotation(annotation: Annotation, ignoreAutoplay: boolean): void {
+    if (this.selectedRegion !== null) {
+      this.selectedRegion.update({color: BASE_COLOUR});
+      this.selectedRegion = null;
+    }
+
+    let region = null;
+    if (annotation !== null) {
+      region = this.findRegion(annotation.id);
+    }
+
+    if (region !== null && region !== undefined) {
+      if (this.playing()) {
+        this.pause();
       }
+
+      this.gotoRegion(region);
+
+      region.update({color: SELECTED_COLOUR});
+
+      if (this.autoPlay && !ignoreAutoplay) {
+        region.play();
+      }
+
+      this.selectedRegion = region;
     }
   }
 

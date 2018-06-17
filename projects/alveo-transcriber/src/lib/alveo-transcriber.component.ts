@@ -318,13 +318,7 @@ export class AlveoTranscriber implements OnInit {
   }
 
   public selectAnnotation(annotation: Annotation, ignoreAutoplay: boolean = false): void {
-    this.player.selectAnnotation(
-      {
-        'new': annotation,
-        'old': this.selectedAnnotation,
-        'ignoreAutoplay': ignoreAutoplay
-      }
-    );
+    this.player.selectAnnotation(annotation, ignoreAutoplay);
 
     this.selectedAnnotation = annotation;
   }

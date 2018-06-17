@@ -2,7 +2,7 @@ import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 
 import { SessionService } from '../../shared/session.service';
 
-import { ApiService } from '../../shared/api.service';
+import { AlveoClientService } from '../../../alveo-client/alveo-client.service';
 import { AuthService } from '../../shared/auth.service';
 
 import { Paths } from '../../shared/paths';
@@ -42,7 +42,7 @@ export class ItemsComponent implements OnInit {
   private ready = false;
 
   constructor(
-    private apiService: ApiService,
+    private alveoClientService: AlveoClientService,
     private authService: AuthService,
     private sessionService: SessionService,
   ) { }
@@ -111,7 +111,7 @@ export class ItemsComponent implements OnInit {
   private async scanItemList(): Promise<any> {
     for (const item of this.items) {
       try {
-        const itemdata = await this.apiService.getItem(item['id'], true, false);
+        const itemdata = await this.alveoClientService.getItem(item['id'], true, false);
         item['state'] = ItemState.READY;
         item['data'] = itemdata;
       } catch(error) {
@@ -124,7 +124,7 @@ export class ItemsComponent implements OnInit {
     item['state'] = ItemState.DOWNLOADING;
 
     try {
-      const itemdata = await this.apiService.getItem(item['id']);
+      const itemdata = await this.alveoClientService.getItem(item['id']);
       item['state'] = ItemState.READY;
       item['data'] = itemdata;
     } catch(error) {

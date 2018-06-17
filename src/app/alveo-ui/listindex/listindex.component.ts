@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { AlveoClientService } from '../../alveo-client/alveo-client.service';
 import { AuthService } from '../shared/auth.service';
-import { ApiService } from '../shared/api.service';
 import { SessionService } from '../shared/session.service';
 
 import { environment } from '../../../environments/environment';
@@ -19,13 +19,13 @@ export class ListIndexComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private apiService: ApiService,
+    private alveoClientService: AlveoClientService,
     private sessionService: SessionService,
   ) {}
 
   private async dataSetup() {
     try {
-      const lists = await this.apiService.getListDirectory(true, false);
+      const lists = await this.alveoClientService.getListDirectory(true, false);
       this.lists = lists['own'].concat(lists['shared']);
       this.ready = true;
     } catch(error) {

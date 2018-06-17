@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 
-import { ApiService } from './api.service';
+import { AlveoClientService } from '../../alveo-client/alveo-client.service';
 
 import { environment } from '../../../environments/environment';
 
@@ -8,13 +8,13 @@ import { environment } from '../../../environments/environment';
 export class SegmentorService {
   constructor(
     @Inject('TranscriberServices') public alveots: any,
-    private apiService: ApiService) {
+    private alveoClientService: AlveoClientService) {
     this.alveots.apiUrl = environment.alveoTranscriberServices.paths.mainUrl;
     this.alveots.apiAuth = environment.alveoTranscriberServices.auth;
   }
 
   public segment(path: string): Promise<any> {
-    this.alveots.apiKey = this.apiService.getApiKey();
+    this.alveots.apiKey = this.alveoClientService.getApiKey();
     return this.alveots.segment(path);
   }
 }

@@ -1,7 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
-import { ApiService } from './api.service';
+import { AlveoClientService } from '../../alveo-client/alveo-client.service';
 import { SessionService } from './session.service';
 
 import { AuthComponent } from '../auth/auth.component';
@@ -23,7 +23,7 @@ export class AuthService {
 
   constructor(
     private dialog: MatDialog,
-    private apiService: ApiService,
+    private alveoClientService: AlveoClientService,
     private sessionService: SessionService
   ) { }
 
@@ -73,13 +73,13 @@ export class AuthService {
   }
 
   public logout(): void {
-    this.apiService.unauthorize();
+    this.alveoClientService.unregister();
     this.onLogout.emit();
     this.loggedIn = false;
   }
 
   public authoriseApi(authCode: string): Promise<any> {
-    return this.apiService.oAuthenticate(
+    return this.alveoClientService.oAuthenticate(
       this.clientID,
       this.clientSecret,
       authCode,

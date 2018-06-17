@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
-import { ApiService } from '../shared/api.service';
+import { AlveoClientService } from '../../alveo-client/alveo-client.service';
 import { AuthService } from '../shared/auth.service';
 import { SessionService } from '../shared/session.service';
 
@@ -23,7 +23,7 @@ export class ListsComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private authService: AuthService,
-    private apiService: ApiService,
+    private alveoClientService: AlveoClientService,
     private sessionService: SessionService
   ) { }
 
@@ -42,7 +42,7 @@ export class ListsComponent implements OnInit {
 
   private async prepareData(list_id: string): Promise<any> {
     try {
-      this.list = await this.apiService.getList(list_id);
+      this.list = await this.alveoClientService.getList(list_id);
       this.ready = true;
     } catch(error) {
       if (error.statusCode === 401) {

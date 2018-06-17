@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ApiService } from '../shared/api.service';
+import { AlveoClientService } from '../../alveo-client/alveo-client.service';
 import { AnnotationService } from '../shared/annotation.service';
 import { AuthService } from '../shared/auth.service';
 import { SessionService } from '../shared/session.service';
@@ -16,7 +16,7 @@ import { Paths } from '../shared/paths';
 export class DevConsoleComponent {
   constructor(
     private authService: AuthService,
-    private apiService: ApiService,
+    private alveoClientService: AlveoClientService,
     private sessionService: SessionService,
     private annotationService: AnnotationService
   ) {}
@@ -27,7 +27,7 @@ export class DevConsoleComponent {
       this.authService.promptLogin();
     } else {
       try { 
-        await this.apiService.purgeCacheByKey('lists');
+        await this.alveoClientService.purgeCacheByKey('lists');
         this.sessionService.navigate([Paths.SelectDataSource]);
       } catch(error) {
         this.sessionService.displayError(error.message, error);
@@ -43,7 +43,7 @@ export class DevConsoleComponent {
   /* Delete cache db then redirect to index */
   public async deleteCache() {
     try {
-      await this.apiService.purgeCache();
+      await this.alveoClientService.purgeCache();
       this.sessionService.reset();
       this.sessionService.navigate([Paths.SelectDataSource]);
     } catch(error) {

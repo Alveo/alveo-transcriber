@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { AuthService } from '../shared/auth.service';
-import { ApiService } from '../shared/api.service';
+import { AlveoClientService } from '../../alveo-client/alveo-client.service';
 import { SessionService } from '../shared/session.service';
 
 import { Paths } from '../shared/paths';
@@ -23,7 +23,7 @@ export class DataSourceComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private apiService: ApiService,
+    private alveoClientService: AlveoClientService,
     private sessionService: SessionService,
   ) {}
 
@@ -43,7 +43,7 @@ export class DataSourceComponent implements OnInit {
     this.loading = true;
 
     try {
-      await this.apiService.getListDirectory(useCache, useApi);
+      await this.alveoClientService.getListDirectory(useCache, useApi);
       await this.sessionService.navigate([Paths.ListIndex]);
     } catch (error) {
       this.loading = false;

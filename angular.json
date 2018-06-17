@@ -26,7 +26,6 @@
               "src/styles.css"
             ],
             "scripts": [
-              "node_modules/@alveo-vl/jsalveo/dist/jsalveo.bundle.js"
             ]
           },
           "configurations": {

@@ -17,7 +17,7 @@ import { Annotation, ANNOTATION_CSV_FIELDS } from './shared/annotation';
 
 // Fix for module building
 import * as json2csv_ from 'json2csv';
-const json2csv = json2csv_;
+const json2csv = json2csv_.parse;
 
 @Component({
   selector: 'avl-ngt-transcriber',

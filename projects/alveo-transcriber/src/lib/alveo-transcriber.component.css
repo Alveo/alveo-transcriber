@@ -72,3 +72,9 @@ button {
   justify-content: center;
   flex-align: center;
 }
+
+@media only screen and (max-width: 40em) {
+  .container {
+    width: 100%;
+  }
+}

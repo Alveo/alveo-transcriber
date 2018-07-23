@@ -32,6 +32,9 @@ export class PlayerComponent implements OnInit {
   private player: WaveSurfer= null;
   private selectedRegion: any= null;
 
+  public audioCurrentTime: number= 0;
+  public audioDuration: number= 0;
+
   private zoom: number= 3;
   private zoom_threshold: number= 10;
 
@@ -77,6 +80,8 @@ export class PlayerComponent implements OnInit {
 
       this.setPlayerHeight(80);
 
+      this.updateAudioDuration();
+
       this.ready = true;
       this.loadingFinish.emit({});
     });
@@ -96,6 +101,10 @@ export class PlayerComponent implements OnInit {
     // When the player finishes, playing the file, reset to the beginning
     this.player.on('finish', () => {
       this.stop();
+    });
+
+    this.player.on('audioprocess', () => {
+      this.updateAudioCurrentTime();
     });
 
     this.player.on('region-update-end', (region: Region) => {
@@ -178,12 +187,12 @@ export class PlayerComponent implements OnInit {
     this.player.skip(position);
   }
 
-  public getPos(): number {
-    return Math.floor(this.player.getCurrentTime());
+  public updateAudioCurrentTime(): void {
+    this.audioCurrentTime = Math.floor(this.player.getCurrentTime());
   }
 
-  public getDuration(): number {
-    return Math.floor(this.player.getDuration());
+  private updateAudioDuration(): void {
+    this.audioDuration = Math.floor(this.player.getDuration());
   }
 
   public playing(): boolean {

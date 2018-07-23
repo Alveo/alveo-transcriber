@@ -20,6 +20,5 @@
   <mat-icon class="clickable" (click)="this.zoomIn()">zoom_in</mat-icon>
   <mat-icon class="clickable" (click)="this.zoomOut()">zoom_out</mat-icon>
 
-  <p id="duration">{{this.getPos() | durationshort}} / {{this.getDuration() | durationshort}}</p>
-
+  <p id="duration">{{this.audioCurrentTime | durationshort}} / {{this.audioDuration | durationshort}}</p>
 </div>

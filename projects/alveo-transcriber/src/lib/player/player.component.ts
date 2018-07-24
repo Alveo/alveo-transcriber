@@ -131,7 +131,7 @@ export class PlayerComponent implements OnInit {
       if (this.ready) {
         if (region.id.startsWith('wavesurfer_')) {
           // Temporarily create a one-off event handler for once we finish creating a region
-          const createFinish = this.player.on('region-update-end',
+          this.player.once('region-update-end',
             (newRegion: Region) => {
               this.annotationEvent.emit(
                 {
@@ -141,9 +141,6 @@ export class PlayerComponent implements OnInit {
                   'end': newRegion.end,
                 }
               );
-              // You'd think createFinish.un() would work, but it does not.
-              // Instead we do a slightly more roundabout approach to the intended effect.
-              this.player.un(createFinish.name, createFinish.callback);
             }
           );
         }

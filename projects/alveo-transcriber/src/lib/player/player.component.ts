@@ -45,6 +45,10 @@ export class PlayerComponent implements OnInit {
   ) { }
 
   ngOnDestroy(): void {
+    // We must unregister all events before firing off the destroy event.
+    //  Otherwise these events (such as saving) could be triggered as wavesurfer
+    //  cleans itself up.
+    this.player.unAll();
     this.player.destroy();
   }
 

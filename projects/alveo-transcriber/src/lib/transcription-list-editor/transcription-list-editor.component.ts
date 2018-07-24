@@ -15,7 +15,6 @@ export class TranscriptionListEditorComponent {
 
   private _selectedAnnotation: Annotation;
   @Input() private set selectedAnnotation(annotation: Annotation) {
-    console.log("Happening?");
     if (annotation !== this._selectedAnnotation) {
       // Allow time to re-render
       //  Only needed after region created

@@ -99,6 +99,7 @@ export class AlveoTranscriber implements OnInit {
   }
 
   public actionBack(): void {
+    this.saveAnnotations();
     this.exit.emit({});
   }
 
@@ -209,10 +210,10 @@ export class AlveoTranscriber implements OnInit {
     }
   }
 
-  private saveAnnotations(annotations: Array<Annotation>) {
+  private saveAnnotations() {
     this.save.emit(
       {
-        'annotations': annotations
+        'annotations': this.annotations
       }
     );
   }
@@ -225,7 +226,7 @@ export class AlveoTranscriber implements OnInit {
         break;
       }
       case 'edit': {
-        this.saveAnnotations(this.annotations);
+        this.saveAnnotations();
         break;
       }
       case 'resize':
@@ -233,7 +234,7 @@ export class AlveoTranscriber implements OnInit {
         annotation.start = ev['new-start'];
         annotation.end = ev['new-end'];
         this.sortAnnotations();
-        this.saveAnnotations(this.annotations);
+        this.saveAnnotations();
         this.selectAnnotation(annotation, true);
         break;
       }
@@ -247,12 +248,12 @@ export class AlveoTranscriber implements OnInit {
           );
         // Selection event made within PlayerComponent
         this.selectAnnotation(annotation, false);
-        this.saveAnnotations(this.annotations);
+        this.saveAnnotations();
         break;
       }
       case 'delete': {
         this.deleteAnnotation(annotation);
-        this.saveAnnotations(this.annotations);
+        this.saveAnnotations();
         break;
       }
     }

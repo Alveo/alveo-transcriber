@@ -114,14 +114,17 @@ export class PlayerComponent implements OnInit {
 
       let annotation = this.getAnnotationByID(region.id);
 
-      this.annotationEvent.emit(
-        {
-          'type': 'update-end',
-          'annotation': annotation,
-          'new-start': region.start,
-          'new-end': region.end
-        }
-      );
+      // Hopefully because it's still being created
+      if (annotation !== null) {
+        this.annotationEvent.emit(
+          {
+            'type': 'update-end',
+            'annotation': annotation,
+            'new-start': region.start,
+            'new-end': region.end
+          }
+        );
+      }
     });
 
     this.player.on('region-created', (region: Region) => {
@@ -339,6 +342,8 @@ export class PlayerComponent implements OnInit {
     let region = null;
     if (annotation !== null) {
       region = this.findRegion(annotation.id);
+    } else {
+      this.selectedRegion = null;
     }
 
     if (region !== null && region !== undefined) {

@@ -355,7 +355,10 @@ export class PlayerComponent implements OnInit {
         //  If we call region.play() too early, it will break the scroll
         //  for Chrome and possibly other browsers.
         setTimeout(()=>{
-          region.play();
+          // Make sure the region is still selected
+          if (region == this.selectedRegion) {
+            region.play();
+          }
         }, 1500);
       }
 

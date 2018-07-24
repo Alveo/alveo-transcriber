@@ -15,8 +15,15 @@ export class TranscriptionListEditorComponent {
 
   private _selectedAnnotation: Annotation;
   @Input() private set selectedAnnotation(annotation: Annotation) {
+    console.log("Happening?");
     if (annotation !== this._selectedAnnotation) {
-      this.scrollToAnnotation(annotation);
+      // Allow time to re-render
+      //  Only needed after region created
+      setTimeout(()=> {
+        if (annotation === this._selectedAnnotation) {
+          this.scrollToAnnotation(annotation);
+        }
+      }, 50)
     }
     this._selectedAnnotation = annotation;
   }

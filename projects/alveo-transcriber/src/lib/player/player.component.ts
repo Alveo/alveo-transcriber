@@ -351,7 +351,12 @@ export class PlayerComponent implements OnInit {
       region.update({color: SELECTED_COLOUR});
 
       if (this.autoPlay && !ignoreAutoplay) {
-        region.play();
+        // Hack: Wait for smooth scroll to finish
+        //  If we call region.play() too early, it will break the scroll
+        //  for Chrome and possibly other browsers.
+        setTimeout(()=>{
+          region.play();
+        }, 1500);
       }
 
       this.selectedRegion = region;

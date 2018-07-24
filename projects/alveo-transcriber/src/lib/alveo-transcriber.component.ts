@@ -74,7 +74,11 @@ export class AlveoTranscriber implements OnInit {
     const dialogStatus = this.dialogOpen('Warning', 'Are you sure you wish to delete this segment?');
     const confirmed = await dialogStatus.afterClosed().toPromise();
     if (confirmed) {
-      this.player.deleteAnnotation(annotation);
+      if (annotation === null) {
+        console.log("Warning: Attempting to delete invalid region. Possibly already deleted?");
+      } else {
+        this.player.deleteAnnotation(annotation);
+      }
     }
   }
 

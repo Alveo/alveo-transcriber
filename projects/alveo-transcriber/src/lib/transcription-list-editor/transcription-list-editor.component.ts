@@ -28,7 +28,7 @@ export class TranscriptionListEditorComponent {
 
   public scrollToAnnotation(annotation: Annotation) {
     if (annotation !== null) {
-      const elements = document.getElementsByClassName('annotation-forms');
+      const elements = document.getElementsByClassName('caption');
 
       for (let i = 0; i < elements.length; i++) {
         if (elements[i].id === annotation.id) {

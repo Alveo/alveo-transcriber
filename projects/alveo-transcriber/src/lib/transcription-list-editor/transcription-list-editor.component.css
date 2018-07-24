@@ -1,8 +1,9 @@
-.annotation-forms {
-  flex: 1 1 auto;
+.annotation {
   display: flex;
-  flex-wrap: nowrap;
-  flex-display: column;
+  width: 100%;
+  padding-top: 4px;
+
+  align-items: center;
 }
 
 .mat-icon {
@@ -15,12 +16,6 @@
 .mat-icon.clickable:hover {
   background: rgb(193, 236, 250);
   cursor: pointer;
-}
-
-.annotation {
-  display: flex;
-
-  align-items: center;
 }
 
 .speaker {

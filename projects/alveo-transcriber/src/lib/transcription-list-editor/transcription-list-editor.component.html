@@ -3,17 +3,16 @@
 
   <mat-icon class="clickable" (click)="this.replayAnnotationRequest(annotation)">play_arrow</mat-icon>
 
-  <div class="annotation-forms" id="{{annotation.id}}">
-    <mat-form-field class="speaker"
-      (click)="this.annotationClick(annotation)">
-      <input tabindex="-1" matInput (focus)="this.selectAnnotation(annotation)" (keyup)="this.updateAnnotation(annotation)" [(ngModel)]="annotation.speaker" placeholder="Speaker">
-    </mat-form-field>
+  <mat-form-field class="speaker"
+    (click)="this.annotationClick(annotation)">
+    <input tabindex="-1" matInput (focus)="this.selectAnnotation(annotation)" (keyup)="this.updateAnnotation(annotation)" [(ngModel)]="annotation.speaker" placeholder="Speaker">
+  </mat-form-field>
 
-    <mat-form-field class="caption"
-      (click)="this.annotationClick(annotation)">
-      <textarea matInput (focus)="this.selectAnnotation(annotation)" (keyup)="this.updateAnnotation(annotation)" [(ngModel)]="annotation.caption" placeholder="Caption"></textarea>
-    </mat-form-field>
-  </div>
+  <mat-form-field class="caption"
+    (click)="this.annotationClick(annotation)"
+    id="{{annotation.id}}">
+    <textarea matInput (focus)="this.selectAnnotation(annotation)" (keyup)="this.updateAnnotation(annotation)" [(ngModel)]="annotation.caption" placeholder="Caption"></textarea>
+  </mat-form-field>
 
   <mat-icon class="clickable" (click)="this.deleteAnnotationRequest(annotation)">delete</mat-icon>
 </div>

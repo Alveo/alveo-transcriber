@@ -12,8 +12,11 @@ Web based speech transcription tool for the Alveo service.
   - `npm start`
   - `npm test`
 
-## Production build for (GitHub pages)
+## Production build
 - `npm run build-production`
+
+## Production build (GitHub pages)
+- `npm run build-github`
 
 ## Staging build
 - `npm run build-staging`

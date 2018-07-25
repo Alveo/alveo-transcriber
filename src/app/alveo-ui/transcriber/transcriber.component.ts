@@ -171,7 +171,12 @@ export class TranscriberComponent implements OnInit {
   }
 
   public async saveAnnotations(ev: any): Promise<any> {
-    return this.annotationsService.saveAnnotations(key, transcription);
+    const key = this.getIdentifier();
+    const transcription = ev['annotations'];
+    await this.annotationsService.saveAnnotations(key, transcription);
+    if (this.authService.isLoggedIn()) {
+      await this.atsService.pushRemoteStorage(key, transcription);
+    }
   }
 
   private async autoSegment(ev: any) {

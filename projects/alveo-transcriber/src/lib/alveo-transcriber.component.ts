@@ -45,17 +45,14 @@ export class AlveoTranscriber implements OnInit, OnDestroy {
   @Input() showJSONExportButton = true;
   @Input() autoPlay = true;
 
-  private lastSave: Date;
-  private lastAction: Date;
-  public changesPending = false;
-
   private saveMonitor: any = null;
-
+  public changesPending = false;
   @Input() changesBeforeForceSave = 40;
+  @Input() secondsBeforeForceSave = 5;
   private changesSinceLastSave = 0;
+  private secondsSinceInitialAction: number;
 
   public playerReady = false;
-  
 
   @ViewChild(PlayerComponent) player: PlayerComponent;
 
@@ -68,8 +65,9 @@ export class AlveoTranscriber implements OnInit, OnDestroy {
 
     this.saveMonitor = setInterval(() => {
       if (this.changesPending) {
-        //if (lastSave > TIMENOW (10 seconds?) || this.editsSinceLastSave > this.editsBeforeForceSave) {
-        if (this.changesSinceLastSave >= this.changesBeforeForceSave) {
+        const seconds_elapsed = (Date.now() - this.secondsSinceInitialAction) / 1000;
+        console.log(seconds_elapsed);
+        if (seconds_elapsed > this.secondsBeforeForceSave || this.changesSinceLastSave >= this.changesBeforeForceSave) {
           this.save.emit({'annotations': this.annotations});
           this.changesPending = false;
           this.changesSinceLastSave = 0;
@@ -309,6 +307,7 @@ export class AlveoTranscriber implements OnInit, OnDestroy {
       return;
     }
 
+    this.secondsSinceInitialAction = Date.now();
     this.changesSinceLastSave += 1;
     this.changesPending = true;
   }

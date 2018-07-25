@@ -14,9 +14,10 @@
   <div *ngIf="this.isReady()">
     <div id="revision-status-text">
       <p>Current revision: latest (<a href="javascript:void(0)" (click)="this.promptRevisionChange()">Change</a>)</p>
-      <p id="revision-error-text" [hidden]="this.authService.isLoggedIn()">Warning: Not logged in. Changes will not be saved remotely.</p>
-      <p [hidden]="this.lastSave == null">Last save {{this.lastSave | date:'shortTime'}}<span [hidden]="this.authService.isLoggedIn()"> (Local Only)</span></p>
-      <p [hidden]="this.lastSave != null">No changes made.</p>
+      <p id="revision-error-text" [hidden]="this.authService.isLoggedIn()">Not logged in. Revisions not possible.</p>
+      <p [hidden]="this.lastSave == null && !this.isSaving">Last save {{this.lastSave | date:'shortTime'}}<span [hidden]="this.authService.isLoggedIn()"> (Local Only)</span></p>
+      <p [hidden]="this.lastSave != null && !this.isSaving">No changes made.</p>
+      <p [hidden]="!this.isSaving">Saving...</p>
     </div>
     <p id="header"><span [hidden]="!this.checkChangesPending()">*</span>Transcribing: {{ this.getIdentifier() }}</p>
     <h5 class="center">Channel: {{ this.doc_id }}</h5>

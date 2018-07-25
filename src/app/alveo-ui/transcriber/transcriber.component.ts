@@ -41,6 +41,7 @@ export class TranscriberComponent implements OnInit {
   public errorRaised = false;
 
   public lastSave: number = null;
+  public isSaving = false;
 
   @ViewChild(AlveoTranscriber) annotator: AlveoTranscriber;
 
@@ -173,6 +174,7 @@ export class TranscriberComponent implements OnInit {
   }
 
   public async saveAnnotations(ev: any): Promise<any> {
+    this.isSaving = true;
     this.lastSave = Date.now();
     const key = this.getIdentifier();
     const transcription = ev['annotations'];
@@ -180,6 +182,7 @@ export class TranscriberComponent implements OnInit {
     if (this.authService.isLoggedIn()) {
       await this.atsService.pushRemoteStorage(key, transcription);
     }
+    this.isSaving = false;
   }
 
   private async autoSegment(ev: any) {

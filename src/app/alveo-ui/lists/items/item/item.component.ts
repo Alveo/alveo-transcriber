@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 
 import { AlveoTransServClientService } from '../../../../alveo-transserv-client/alveo-transserv-client.module';
 import { AnnotationsService } from '../../../../annotations/annotations.module';
+import { AuthService } from '../../../shared/auth.service';
 
 /* Display component for showing and selecting of docs
  *   Provides route for Annotator module */
@@ -21,12 +22,15 @@ export class ItemComponent implements OnInit {
 
   constructor(
     private annotationsService: AnnotationsService,
-    private atsService: AlveoTransServClientService
+    private atsService: AlveoTransServClientService,
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
     this.processAnnotationCount();
-    this.checkRemote();
+    if (this.authService.isLoggedIn()) {
+      this.checkRemote();
+    }
 
     for (const doc of this.item['data']['alveo:documents']) {
       // Need to force lower case as some Alveo collections use titlecase at the moment

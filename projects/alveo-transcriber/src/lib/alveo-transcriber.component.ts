@@ -66,7 +66,6 @@ export class AlveoTranscriber implements OnInit, OnDestroy {
     this.saveMonitor = setInterval(() => {
       if (this.changesPending) {
         const seconds_elapsed = (Date.now() - this.secondsSinceInitialAction) / 1000;
-        console.log(seconds_elapsed);
         if (seconds_elapsed > this.secondsBeforeForceSave || this.changesSinceLastSave >= this.changesBeforeForceSave) {
           this.save.emit({'annotations': this.annotations});
           this.changesPending = false;

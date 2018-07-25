@@ -37,6 +37,7 @@ import { ItemLoaderComponent } from './lists/items/item-loader/item-loader.compo
 import { ItemsComponent } from './lists/items/items.component';
 import { SourceSelectComponent } from './lists/items/source-select/source-select.component';
 import { TranscriberComponent } from './transcriber/transcriber.component';
+import { RevisionSelectorComponent } from './transcriber/revision-selector/revision-selector.component';
 
 import { AuthService } from './shared/auth.service';
 
@@ -66,9 +67,11 @@ import { environment } from '../../environments/environment';
     OAuthCallbackComponent,
     SourceSelectComponent,
     TranscriberComponent,
+    RevisionSelectorComponent,
   ],
   entryComponents: [
-    AuthComponent
+    AuthComponent,
+    RevisionSelectorComponent
   ],
   imports: [
     BrowserAnimationsModule,

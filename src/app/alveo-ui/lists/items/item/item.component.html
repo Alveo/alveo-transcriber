@@ -14,7 +14,8 @@
 
   <div *ngIf="this.audioSources.length > 0">
     <p>Annotations: {{ this.getAnnotationCount() }}</p>
-    <p>Remotely stored: {{ this.remotelyStored }}</p>
+    <p *ngIf="this.authService.isLoggedIn()">Remotely stored: {{ this.remotelyStored }}</p>
+    <p *ngIf="!this.authService.isLoggedIn()">Remotely stored: Not authenticated</p>
 
     <div class="audio-channel">
       <p>Use audio channel: </p>

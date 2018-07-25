@@ -199,6 +199,14 @@ export class PlayerComponent implements OnInit {
     this.audioDuration = Math.floor(this.player.getDuration());
   }
 
+  public getCurrentTime(): number {
+    return this.audioCurrentTime;
+  }
+
+  public getAudioDuration(): number {
+    return this.audioDuration;
+  }
+
   public playing(): boolean {
     return this.player.isPlaying();
   }
@@ -259,69 +267,6 @@ export class PlayerComponent implements OnInit {
 
   private findRegion(id: string): Region {
     return this.player.regions.list[id];
-  }
-
-  public selectPreviousRegion(): Region {
-    let beginning = null;
-    if (this.selectedRegion === null) {
-      beginning = this.player.getCurrentTime();
-    } else {
-      beginning = this.selectedRegion.start;
-    }
-    let lower = 0;
-
-    let prevRegion = null;
-
-    // regions.list is unsorted JSON
-    for (const regionID of Object.keys(this.player.regions.list)) {
-      const region = this.player.regions.list[regionID];
-      if (region.start < beginning) {
-        if (lower < region.start) {
-          lower = region.start;
-          prevRegion = region;
-        }
-      }
-    }
-
-    if (prevRegion !== null) {
-      this.annotationEvent.emit(
-        {
-          'type': 'select',
-          'annotation': this.getAnnotationByID(prevRegion)
-        }
-      );
-    }
-  }
-
-  public selectNextRegion(): Region {
-    let beginning = null;
-    if (this.selectedRegion === null) {
-      beginning = this.player.getCurrentTime();
-    } else {
-      beginning = this.selectedRegion.start;
-    }
-    let higher = this.player.getDuration();
-
-    let nextRegion = null;
-
-    // regions.list is unsorted JSON
-    for (const regionID of Object.keys(this.player.regions.list)) {
-      const region = this.player.regions.list[regionID];
-      if (region.start > beginning) {
-        if (higher > region.start) {
-          higher = region.start;
-          nextRegion = region;
-        }
-      }
-    }
-    if (nextRegion !== null) {
-      this.annotationEvent.emit(
-        {
-          'type': 'select',
-          'annotation': this.getAnnotationByID(nextRegion)
-        }
-      );
-    }
   }
 
   public countRegions(): number {

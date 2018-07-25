@@ -38,7 +38,9 @@ export class TranscriberComponent implements OnInit {
   private isReadOnly = false;
 
   public doc_id = '';
-  public  errorRaised = false;
+  public errorRaised = false;
+
+  public lastSave: number = null;
 
   @ViewChild(AlveoTranscriber) annotator: AlveoTranscriber;
 
@@ -171,6 +173,7 @@ export class TranscriberComponent implements OnInit {
   }
 
   public async saveAnnotations(ev: any): Promise<any> {
+    this.lastSave = Date.now();
     const key = this.getIdentifier();
     const transcription = ev['annotations'];
     await this.annotationsService.saveAnnotations(key, transcription);

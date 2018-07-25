@@ -31,6 +31,7 @@ export class AlveoTranscriber implements OnInit {
   @Input() annotations: Array<any> = [];
   @Input() selectedAnnotation: Annotation = null;
   @Input() viewMode = 'list';
+  @Input() isReadOnly = true;
 
   @Input() segmentorWorking = false;
 
@@ -71,6 +72,10 @@ export class AlveoTranscriber implements OnInit {
   }
 
   private async promptDelete(annotation: Annotation): Promise<any> {
+    if (this.isReadOnly) {
+      console.log("Warning: attempting to delete annotation in readonly mode. Ignoring.");
+      return;
+    }
     const dialogStatus = this.dialogOpen('Warning', 'Are you sure you wish to delete this segment?');
     const confirmed = await dialogStatus.afterClosed().toPromise();
     if (confirmed) {
@@ -260,6 +265,10 @@ export class AlveoTranscriber implements OnInit {
   }
 
   private saveAnnotations() {
+    if (this.isReadOnly) {
+      console.log("Warning: attempting to save annotations in readonly mode. Ignoring.");
+      return;
+    }
     this.save.emit(
       {
         'annotations': this.annotations
@@ -280,29 +289,41 @@ export class AlveoTranscriber implements OnInit {
       }
       case 'resize':
       case 'update-end': {
-        annotation.start = ev['new-start'];
-        annotation.end = ev['new-end'];
-        this.sortAnnotations();
-        this.saveAnnotations();
-        this.selectAnnotation(annotation, true);
+        if (!this.isReadOnly) {
+          annotation.start = ev['new-start'];
+          annotation.end = ev['new-end'];
+          this.sortAnnotations();
+          this.saveAnnotations();
+          this.selectAnnotation(annotation, true);
+        } else {
+          console.log("Warning: attempting to resize annotation in readonly mode. Ignoring.");
+        }
         break;
       }
       case 'create': {
-        const annotation = this.createAnnotationFromSegment(
-            {
-              'id': ev.id,
-              'start': ev.start,
-              'end': ev.end
-            }
-          );
-        // Selection event made within PlayerComponent
-        this.selectAnnotation(annotation, false);
-        this.saveAnnotations();
+        if (!this.isReadOnly) {
+          const annotation = this.createAnnotationFromSegment(
+              {
+                'id': ev.id,
+                'start': ev.start,
+                'end': ev.end
+              }
+            );
+          // Selection event made within PlayerComponent
+          this.selectAnnotation(annotation, false);
+          this.saveAnnotations();
+        } else {
+          console.log("Warning: attempting to create annotation in readonly mode. Ignoring.");
+        }
         break;
       }
       case 'delete': {
-        this.deleteAnnotation(annotation);
-        this.saveAnnotations();
+        if (!this.isReadOnly) {
+          this.deleteAnnotation(annotation);
+          this.saveAnnotations();
+        } else {
+          console.log("Warning: attempting to create annotation in readonly mode. Ignoring.");
+        }
         break;
       }
     }

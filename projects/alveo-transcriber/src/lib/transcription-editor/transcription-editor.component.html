@@ -15,11 +15,13 @@
       <!-- <mat-icon class="clickable" (click)="this.loopSelectedRegion()" *ngIf="this.selectedRegion!=null">loop</mat-icon> -->
       <mat-icon class="clickable" (click)="this.backAnnotationRequest()">skip_previous</mat-icon>
       <mat-icon class="clickable" (click)="this.nextAnnotationRequest()">skip_next</mat-icon>
-      <mat-icon class="clickable" (click)="this.deleteAnnotationRequest()">delete</mat-icon>
+      <div [hidden]="this.isReadOnly"> <!-- Strangely [hidden] isn't working on mat-icon directly -->
+        <mat-icon class="clickable" (click)="this.deleteAnnotationRequest()">delete</mat-icon>
+      </div>
     </div>
   </div>
 
-  <div class="annotation-container">
+  <div class="annotation-container" [class.disabled]="this.isReadOnly">
     <mat-icon>closed_caption</mat-icon>
     <!--
     <mat-form-field id="caption-type">
@@ -30,11 +32,20 @@
     -->
 
     <mat-form-field id="speaker">
-      <input matInput (keyup)="this.updateAnnotation($event)" [(ngModel)]="this.annotation.speaker" placeholder="Speaker">
+      <input matInput
+        (keyup)="this.updateAnnotation($event)"
+        [readonly]="this.isReadOnly"
+        [(ngModel)]="this.annotation.speaker"
+        placeholder="Speaker">
     </mat-form-field>
 
     <mat-form-field id="caption">
-      <textarea matInput (keyup)="this.updateAnnotation($event)" [(ngModel)]="this.annotation.caption" placeholder="Caption"></textarea>
+      <textarea matInput
+        (keyup)="this.updateAnnotation($event)"
+        [readonly]="this.isReadOnly"
+        [(ngModel)]="this.annotation.caption"
+        placeholder="Caption">
+      </textarea>
     </mat-form-field>
   </div>
 </div>

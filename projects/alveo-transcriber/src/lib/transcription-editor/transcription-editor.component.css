@@ -27,6 +27,7 @@ mat-icon.clickable:hover {
   flex-display: column;
 
   flex-wrap: wrap;
+  padding: 10px;
 }
 
 #caption-type {
@@ -36,4 +37,8 @@ mat-icon.clickable:hover {
 
 #caption {
   flex: 1 1 100%;
+}
+
+.disabled {
+  background: lightgrey;
 }

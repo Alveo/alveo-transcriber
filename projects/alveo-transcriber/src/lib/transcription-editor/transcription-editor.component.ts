@@ -10,6 +10,7 @@ import { Annotation } from '../shared/annotation';
 
 export class TranscriptionEditorComponent {
   @Input() annotation: Annotation;
+  @Input() isReadOnly: boolean;
   @Output() annotationUpdate = new EventEmitter();
   @Output() playerControlEvent = new EventEmitter();
 

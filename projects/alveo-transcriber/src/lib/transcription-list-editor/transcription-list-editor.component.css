@@ -28,10 +28,18 @@
   flex: 1 1 100%;
 }
 
+.caption textarea {
+  height: 24px;
+}
+
+.disabled {
+  background: lightgrey;
+}
+
 .selected {
   background: lightblue;
 }
 
-.caption textarea {
-  height: 24px;
+.disabled.selected {
+  background: lightyellow;
 }

@@ -14,6 +14,7 @@ import { DialogComponent } from '../dialog/dialog.component';
 
 const BASE_COLOUR = 'rgba(0, 100, 0, 0.2)';
 const SELECTED_COLOUR = 'rgba(0, 200, 200, 0.2)';
+const SELECTED_READONLY_COLOUR = 'lightyellow';
 
 @Component({
   selector: 'avl-ngt-player',
@@ -26,6 +27,7 @@ export class PlayerComponent implements OnInit {
   @Input() annotations: Array<any>;
   @Input() clip: any;
   @Input() autoPlay = false;
+  @Input() isReadOnly: boolean;
 
   private ready: boolean= null;
 
@@ -78,9 +80,12 @@ export class PlayerComponent implements OnInit {
     this.player.on('ready', () => {
       this.loadRegions(this.annotations);
       this.player.zoom(this.zoom);
-      this.player.enableDragSelection({
-          color: BASE_COLOUR,
-      });
+
+      if (!this.isReadOnly) {
+        this.player.enableDragSelection({
+            color: BASE_COLOUR,
+        });
+      }
 
       this.setPlayerHeight(80);
 
@@ -256,6 +261,8 @@ export class PlayerComponent implements OnInit {
           start: annotation.start,
           end: annotation.end,
           color: BASE_COLOUR,
+          drag: this.isReadOnly? false: true,
+          resize: this.isReadOnly? false: true,
         });
       }
     }
@@ -299,7 +306,9 @@ export class PlayerComponent implements OnInit {
 
       this.gotoRegion(region);
 
-      region.update({color: SELECTED_COLOUR});
+      region.update({color: 
+        this.isReadOnly ? SELECTED_READONLY_COLOUR: SELECTED_COLOUR
+      });
 
       if (this.autoPlay && !ignoreAutoplay) {
         // Hack: Wait for smooth scroll to finish

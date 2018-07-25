@@ -9,6 +9,7 @@ import { Annotation } from '../shared/annotation';
 })
 
 export class TranscriptionListEditorComponent {
+  @Input() isReadOnly: boolean;
   @Input() annotations: Array<Annotation>;
   @Output() annotationUpdate = new EventEmitter();
   @Output() playerControlEvent = new EventEmitter();

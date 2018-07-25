@@ -53,6 +53,7 @@
     (annotationEvent)="this.annotationEvent($event)"
     [clip]="this.getAudioFile()"
     [annotations]="this.getAnnotations()"
+    [isReadOnly]="this.isReadOnly"
     [autoPlay]="this.autoPlay">
   </avl-ngt-player>
 
@@ -81,6 +82,7 @@
       <avl-ngt-transcription-editor
         (playerControlEvent)="this.playerControlEvent($event)"
         (annotationUpdate)="this.annotationEvent($event)"
+        [isReadOnly]="this.isReadOnly"
         [annotation]="this.getSelectedAnnotation()">
       </avl-ngt-transcription-editor>
     </div>
@@ -96,6 +98,7 @@
     <avl-ngt-transcription-list-editor
       (playerControlEvent)="this.playerControlEvent($event)"
       (annotationUpdate)="this.annotationEvent($event)"
+      [isReadOnly]="this.isReadOnly"
       [selectedAnnotation]="this.getSelectedAnnotation()"
       [annotations]="this.getAnnotations()">
     </avl-ngt-transcription-list-editor>

@@ -15,7 +15,7 @@ export class Annotation {
   caption: string;
   cap_type: string;
 
-  cap_options: Array<string>;
+  // cap_options: Array<string>;
 
   constructor(id: string,
               start: number= 0, end: number= 0,
@@ -28,9 +28,9 @@ export class Annotation {
     this.caption = caption;
     this.cap_type = cap_type;
 
-    this.cap_options = [
-      'text', 'noise'
-    ];
+    // this.cap_options = [
+    //  'text', 'noise'
+    //];
   }
 }
 

@@ -194,11 +194,11 @@ export class AlveoTranscriber implements OnInit {
         break;
       }
       case 'goBack': {
-        this.player.selectPreviousRegion();
+        this.selectPreviousAnnotation();
         break;
       }
       case 'goNext': {
-        this.player.selectNextRegion();
+        this.selectNextAnnotation();
         break;
       }
       case 'delete': {
@@ -208,6 +208,55 @@ export class AlveoTranscriber implements OnInit {
         break;
       }
     }
+  }
+
+  private selectPreviousAnnotation() {
+    let beginning = null;
+    if (this.selectedAnnotation === null) {
+      beginning = this.player.getCurrentTime();
+    } else {
+      beginning = this.selectedAnnotation.start;
+    }
+    let lower = 0;
+
+    let prevAnnotation = null;
+    if (this.annotations.length > 0) {
+      let prevAnnotation = this.annotations[0];
+    }
+
+    for (const annotation of this.annotations) {
+      if (annotation.start < beginning) {
+        if (lower < annotation.start) {
+          lower = annotation.start;
+          prevAnnotation = annotation;
+        }
+      }
+    }
+
+    this.selectAnnotation(prevAnnotation);
+  }
+
+  public selectNextAnnotation() {
+    let beginning = null;
+    if (this.selectedAnnotation === null) {
+      beginning = this.player.getCurrentTime();
+    } else {
+      beginning = this.selectedAnnotation.start;
+    }
+    let higher = this.player.getAudioDuration();
+
+    let nextAnnotation = null;
+
+    for (const annotation of this.annotations) {
+      if (annotation.start > beginning) {
+        if (higher > annotation.start) {
+          higher = annotation.start;
+          nextAnnotation = annotation;
+        }
+      }
+    }
+
+    this.selectAnnotation(nextAnnotation);
   }
 
   private saveAnnotations() {

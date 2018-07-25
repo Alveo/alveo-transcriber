@@ -3,6 +3,7 @@ import {
   HostListener,
   ViewChild,
   OnInit,
+  OnDestroy,
   Input,
   Output,
   EventEmitter
@@ -25,7 +26,7 @@ const json2csv = json2csv_.parse;
   styleUrls: ['./alveo-transcriber.component.css'],
 })
 
-export class AlveoTranscriber implements OnInit {
+export class AlveoTranscriber implements OnInit, OnDestroy {
   @Input() audioFile: any = null;
   @Input() audioFileName = 'null';
   @Input() annotations: Array<any> = [];
@@ -44,7 +45,17 @@ export class AlveoTranscriber implements OnInit {
   @Input() showJSONExportButton = true;
   @Input() autoPlay = true;
 
+  private lastSave: Date;
+  private lastAction: Date;
+  public changesPending = false;
+
+  private saveMonitor: any = null;
+
+  @Input() changesBeforeForceSave = 40;
+  private changesSinceLastSave = 0;
+
   public playerReady = false;
+  
 
   @ViewChild(PlayerComponent) player: PlayerComponent;
 
@@ -54,6 +65,21 @@ export class AlveoTranscriber implements OnInit {
 
   ngOnInit() {
     this.sortAnnotations();
+
+    this.saveMonitor = setInterval(() => {
+      if (this.changesPending) {
+        //if (lastSave > TIMENOW (10 seconds?) || this.editsSinceLastSave > this.editsBeforeForceSave) {
+        if (this.changesSinceLastSave >= this.changesBeforeForceSave) {
+          this.save.emit({'annotations': this.annotations});
+          this.changesPending = false;
+          this.changesSinceLastSave = 0;
+        }
+      }
+    }, 1000);
+  }
+
+  ngOnDestroy() {
+    clearInterval(this.saveMonitor);
   }
 
   @HostListener('document:keydown', ['$event'])
@@ -103,8 +129,21 @@ export class AlveoTranscriber implements OnInit {
     this.setViewMode('list');
   }
 
-  public actionBack(): void {
-    this.saveAnnotations();
+  public async actionBack(): Promise<any> {
+    if (this.changesPending) {
+      const dialogStatus = this.dialogOpen('Warning',
+        'There are unsaved changes. Discard them?');
+      const confirmed = await dialogStatus.afterClosed().toPromise();
+      if (confirmed) {
+        this.quit();
+      }
+    } else {
+      this.quit();
+    }
+  }
+
+  // Should only be called via actionBack()
+  private quit(): void {
     this.exit.emit({});
   }
 
@@ -269,11 +308,9 @@ export class AlveoTranscriber implements OnInit {
       console.log("Warning: attempting to save annotations in readonly mode. Ignoring.");
       return;
     }
-    this.save.emit(
-      {
-        'annotations': this.annotations
-      }
-    );
+
+    this.changesSinceLastSave += 1;
+    this.changesPending = true;
   }
 
   public annotationEvent(ev: any): void {

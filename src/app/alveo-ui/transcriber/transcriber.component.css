@@ -23,5 +23,11 @@
 #revision-status-text {
   text-align: right;
   font-size: 12px;
-  max-width: 73em;
+  max-width: 82em;
+  width: 80%;
+  margin: auto;
+}
+#revision-error-text {
+  color: red;
+  font-weight: bold;
 }

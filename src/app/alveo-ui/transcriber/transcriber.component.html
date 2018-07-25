@@ -13,7 +13,8 @@
 
   <div *ngIf="this.isReady()">
     <div id="revision-status-text">
-      Current revision: latest (<a href="javascript:void(0)" (click)="this.promptRevisionChange()">Change</a>)
+      <p>Current revision: latest (<a href="javascript:void(0)" (click)="this.promptRevisionChange()">Change</a>)</p>
+      <p id="revision-error-text" [hidden]="this.authService.isLoggedIn()">Warning: Not logged in. Changes cannot be saved remotely.</p>
     </div>
     <p id="header"><span [hidden]="!this.checkChangesPending()">*</span>Transcribing: {{ this.getIdentifier() }}</p>
     <h5 class="center">Channel: {{ this.doc_id }}</h5>

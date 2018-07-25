@@ -28,8 +28,9 @@
     <div class="button-aligner">
       <button mat-raised-button
         (click)="this.upload()"
+        [disabled]="!this.authService.isLoggedIn()"
         color="primary">
-        Upload
+        Revisions
       </button>
       <button mat-raised-button
         (click)="this.onTranscribe()"
@@ -39,4 +40,3 @@
     </div>
   </div>
 </mat-expansion-panel>
-

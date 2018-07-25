@@ -12,7 +12,10 @@
   </div>
 
   <div *ngIf="this.isReady()">
-    <p id="header">Transcribing: {{ this.getIdentifier() }}</p>
+    <div id="revision-status-text">
+      Current revision: latest (<a href="javascript:void(0)" (click)="this.promptRevisionChange()">Change</a>)
+    </div>
+    <p id="header"><span [hidden]="!this.checkChangesPending()">*</span>Transcribing: {{ this.getIdentifier() }}</p>
     <h5 class="center">Channel: {{ this.doc_id }}</h5>
     <avl-ngt-transcriber
       [audioFile]="this.getAudioFile()"
@@ -25,6 +28,7 @@
       [showCSVExportButton]="true"
       [showJSONExportButton]="true"
       [autoPlay]="true"
+      [isReadOnly]="this.isReadOnly"
 
       [segmentorWorking]="this.isSegmenting" 
 

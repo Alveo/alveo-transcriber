@@ -1,10 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
+import { MatDialog } from '@angular/material';
+
 import { AlveoTranscriber, Annotation } from 'alveo-transcriber';
 
 import { AlveoClientService } from '../../alveo-client/alveo-client.module';
 import { AlveoTransServClientService } from '../../alveo-transserv-client/alveo-transserv-client.module';
 import { AnnotationsService } from '../../annotations/annotations.module';
+import { RevisionSelectorComponent } from './revision-selector/revision-selector.component';
 import { SessionService } from '../../session/session.service';
 import { environment } from '../../../environments/environment';
 
@@ -32,6 +35,8 @@ export class TranscriberComponent implements OnInit {
   private item_id = '';
   private collection_id = '';
 
+  private isReadOnly = false;
+
   public doc_id = '';
   public  errorRaised = false;
 
@@ -44,6 +49,7 @@ export class TranscriberComponent implements OnInit {
     private sessionService: SessionService,
     private authService: AuthService,
     private activatedRoute: ActivatedRoute,
+    private dialog: MatDialog,
   ) { }
 
   ngOnInit() {
@@ -164,8 +170,8 @@ export class TranscriberComponent implements OnInit {
     return this.annotationsService.loadAnnotations(identifier);
   }
 
-  public saveAnnotations(ev: any): Promise<any> {
-    return this.annotationsService.saveAnnotations(this.getIdentifier(), ev['annotations']);
+  public async saveAnnotations(ev: any): Promise<any> {
+    return this.annotationsService.saveAnnotations(key, transcription);
   }
 
   private async autoSegment(ev: any) {
@@ -189,5 +195,22 @@ export class TranscriberComponent implements OnInit {
       this.isSegmenting = false;
     }
     this.isSegmenting = false;
+  }
+
+  private promptRevisionChange() {
+    if (this.dialog.openDialogs.length < 1) {
+      this.dialog.open(RevisionSelectorComponent, {
+        data: {
+        }
+      });
+    }
+  }
+
+  private checkChangesPending() {
+    if (this.annotator !== undefined) {
+      return this.annotator.changesPending;
+    } else {
+      return false;
+    }
   }
 }

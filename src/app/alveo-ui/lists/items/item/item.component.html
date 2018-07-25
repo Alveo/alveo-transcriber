@@ -25,10 +25,11 @@
       </source-select>
     </div>
 
+    <!--[disabled]="!this.authService.isLoggedIn()"-->
     <div class="button-aligner">
       <button mat-raised-button
         (click)="this.upload()"
-        [disabled]="!this.authService.isLoggedIn()"
+        [disabled]="true"
         color="primary">
         Revisions
       </button>

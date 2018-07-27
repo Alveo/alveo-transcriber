@@ -62,7 +62,7 @@ export class AlveoTransServClientService  {
   public listRemoteStorageByKey(key: string): Promise<any> {
     return this.http.get(
       this.atsPaths.mainUrl
-      + this.atsPaths.listSuffix
+      + this.atsPaths.listAllSuffix
       + key,
       {
         'responseType': 'json'
@@ -73,8 +73,8 @@ export class AlveoTransServClientService  {
   public getRemoteStorage(key: string): Promise<any> {
     return this.http.get(
       this.atsPaths.mainUrl
-      + this.atsPaths.storageSuffix
-      + '?store_id=' + key,
+      + this.atsPaths.objectGetSuffix
+      + key,
       {
         'responseType': 'json'
       }
@@ -84,11 +84,11 @@ export class AlveoTransServClientService  {
   public pushRemoteStorage(key: string, data: any): Promise<any> {
     return this.http.post(
       this.atsPaths.mainUrl
-      + this.atsPaths.storageSuffix
-      + '?store_id=' + key,
+      + this.atsPaths.objectPostSuffix,
       { 
         key: key,
-        value: data
+        value: data,
+        storage_spec: "1.0"
       },
       {
         'responseType': 'json'

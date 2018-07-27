@@ -15,11 +15,11 @@ export const environment = {
     paths: {
       mainUrl: 'https://segmenter.apps.alveo.edu.au/alveo',
       segmenterSuffix: '/segment',
-      storageSuffix: '/datastore/',
+      objectGetSuffix: '/datastore/objects/',
+      objectPostSuffix: '/datastore/objects',
       listSuffix: '/datastore/list/',
+      listAllSuffix: '/datastore/listall/',
       exportSuffix: '/datastore/export/',
-      userSuffix: '/datastore/user/',
-      revisionsSuffix: '/datastore/revisions/'
     },
     auth: 'app.alveo.edu.au'
   },

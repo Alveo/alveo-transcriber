@@ -379,6 +379,7 @@ export class AlveoTranscriber implements OnInit, OnDestroy {
   }
 
   public rebuild(segments: any): Array<Annotation> {
+    this.playerReady = false;
     this.annotations = [];
     let counter = 0;
 

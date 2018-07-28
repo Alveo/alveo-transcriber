@@ -3,16 +3,18 @@ import { Annotation } from 'alveo-transcriber';
 const STORAGE_VERSION = "att_1.0";
 
 export class Transcription {
-  remote_id: string;
-  storage_spec: string;
-  annotations: Array<Annotation>;
+  public remoteId: string= null;
+  public storageSpecification: string= STORAGE_VERSION;
+  public isPendingUpload: boolean= false;
+  public annotations: Array<Annotation>= [];
 
-  constructor(remote_id: string= "",
+  constructor(remoteId: string= "",
               annotations: Array<Annotation>,
              ) {
-    this.remote_id = remote_id
+    this.remoteId = remoteId;
     this.annotations = annotations;
-    this.storage_spec = "att_1.0";
+    this.storageSpecification = "att_1.0";
+    this.isPendingUpload = false;
   }
 }
 

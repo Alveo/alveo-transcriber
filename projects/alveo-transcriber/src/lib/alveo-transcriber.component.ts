@@ -30,6 +30,7 @@ export class AlveoTranscriber implements OnInit, OnDestroy {
   @Input() audioFile: any = null;
   @Input() audioFileName = 'null';
   @Input() annotations: Array<any> = [];
+  private annotationsLast: Array<any> = [];
   @Input() selectedAnnotation: Annotation = null;
   @Input() viewMode = 'list';
   @Input() isReadOnly = true;
@@ -62,12 +63,16 @@ export class AlveoTranscriber implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.sortAnnotations();
+    this.annotationsLast = this.annotations;
 
     this.saveMonitor = setInterval(() => {
       if (this.changesPending) {
         const seconds_elapsed = (Date.now() - this.secondsSinceInitialAction) / 1000;
         if (seconds_elapsed > this.secondsBeforeForceSave || this.changesSinceLastSave >= this.changesBeforeForceSave) {
-          this.save.emit({'annotations': this.annotations});
+          if (this.annotationsLast != this.annotations) {
+            this.save.emit({'annotations': this.annotations});
+            this.annotationsLast = this.annotations;
+          }
           this.changesPending = false;
           this.changesSinceLastSave = 0;
         }

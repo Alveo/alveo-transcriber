@@ -43,7 +43,7 @@ import { AuthService } from './shared/auth.service';
 
 import { AlveoClientModule } from '../alveo-client/alveo-client.module';
 import { AlveoTransServClientModule } from '../alveo-transserv-client/alveo-transserv-client.module';
-import { AnnotationsModule } from '../annotations/annotations.module';
+import { TranscriptionModule } from '../transcription/transcription.module';
 import { BrowserCacheModule } from '../browser-cache/browser-cache.module';
 import { OnlineStatusModule } from '../online-status/online-status.module';
 import { SessionModule } from '../session/session.module';
@@ -95,7 +95,7 @@ import { environment } from '../../environments/environment';
     AlveoRoutingModule,
     AlveoTranscriberModule,
     AlveoTransServClientModule,
-    AnnotationsModule,
+    TranscriptionModule,
     BrowserCacheModule,
     OnlineStatusModule,
     SessionModule

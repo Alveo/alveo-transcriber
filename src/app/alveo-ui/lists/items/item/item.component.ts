@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 
 import { AlveoTransServClientService } from '../../../../alveo-transserv-client/alveo-transserv-client.module';
-import { AnnotationsService } from '../../../../annotations/annotations.module';
+import { TranscriptionService } from '../../../../transcription/transcription.module';
 import { AuthService } from '../../../shared/auth.service';
 
 /* Display component for showing and selecting of docs
@@ -21,7 +21,7 @@ export class ItemComponent implements OnInit {
   public audioSources: any = [];
 
   constructor(
-    private annotationsService: AnnotationsService,
+    private transcriptionService: TranscriptionService,
     private atsService: AlveoTransServClientService,
     private authService: AuthService
   ) { }
@@ -42,8 +42,8 @@ export class ItemComponent implements OnInit {
 
   private async processAnnotationCount(): Promise<any> {
     try {
-      const annotations = await this.annotationsService.loadAnnotations(this.getAnnotationHandle());
-      this.annotationCount = annotations.length;
+      const transcription = await this.transcriptionService.loadTranscription(this.getAnnotationHandle());
+      this.annotationCount = transcription.annotations.length;
     } catch (error) {
       this.annotationCount = 0;
     }
@@ -68,18 +68,6 @@ export class ItemComponent implements OnInit {
       else {
         console.log(error);
       }
-    }
-  }
-
-  public async upload(): Promise<any> {
-    try {
-      const annotations = await this.annotationsService.loadAnnotations(this.getAnnotationHandle());
-      let response = await this.atsService.pushRemoteStorage(this.getAnnotationHandle(), annotations);
-      await this.processAnnotationCount();
-      await this.checkRemote();
-      console.log(response)
-    } catch(error) {
-      console.log(error);
     }
   }
 

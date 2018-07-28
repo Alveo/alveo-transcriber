@@ -6,7 +6,8 @@ import { AlveoTranscriber, Annotation } from 'alveo-transcriber';
 
 import { AlveoClientService } from '../../alveo-client/alveo-client.module';
 import { AlveoTransServClientService } from '../../alveo-transserv-client/alveo-transserv-client.module';
-import { AnnotationsService } from '../../annotations/annotations.module';
+import { Transcription } from '../../transcription/transcription';
+import { TranscriptionService } from '../../transcription/transcription.module';
 import { RevisionSelectorComponent } from './revision-selector/revision-selector.component';
 import { SessionService } from '../../session/session.service';
 import { environment } from '../../../environments/environment';
@@ -26,6 +27,7 @@ export class TranscriberComponent implements OnInit {
 
   private item: any = null;
   private audioFileData: ArrayBuffer = null;
+  private transcription: Transcription = null;
   private annotations: Array<Annotation> = [];
   private selectedAnnotation: Annotation = null;
   private defaultView = 'list';
@@ -47,7 +49,7 @@ export class TranscriberComponent implements OnInit {
 
   constructor(
     private atsService: AlveoTransServClientService,
-    private annotationsService: AnnotationsService,
+    private transcriptionService: TranscriptionService,
     private alveoClientService: AlveoClientService,
     private sessionService: SessionService,
     private authService: AuthService,
@@ -82,11 +84,13 @@ export class TranscriberComponent implements OnInit {
 
       this.loader_text = 'Checking annotations ...';
       try {
-        const annotations = await this.loadAnnotations(this.getIdentifier());
-        if (annotations === undefined) {
+        const transcription = await this.loadTranscription(this.getIdentifier());
+        if (transcription === undefined) {
           this.annotations = [];
+          this.transcription = new Transcription(null, new Array<Annotation>());
         } else {
-          this.annotations = annotations;
+          this.annotations = transcription.annotations;
+          this.transcription = transcription;
         }
         this.ready = true;
       } catch (error) {
@@ -169,18 +173,23 @@ export class TranscriberComponent implements OnInit {
     }
   }
 
-  public loadAnnotations(identifier: string): Promise<any> {
-    return this.annotationsService.loadAnnotations(identifier);
+  public loadTranscription(identifier: string): Promise<any> {
+    return this.transcriptionService.loadTranscription(identifier);
+  }
+
+  public saveTranscription(identifier: string, transcription: Transcription): Promise<any> {
+    return this.transcriptionService.saveTranscription(identifier, transcription);
   }
 
   public async saveAnnotations(ev: any): Promise<any> {
     this.isSaving = true;
     this.lastSave = Date.now();
     const key = this.getIdentifier();
-    const transcription = ev['annotations'];
-    await this.annotationsService.saveAnnotations(key, transcription);
+    const annotations = ev['annotations'];
+    this.transcription.annotations = annotations;
+    await this.saveTranscription(key, this.transcription);
     if (this.authService.isLoggedIn()) {
-      await this.atsService.pushRemoteStorage(key, transcription);
+      const response = await this.atsService.pushRemoteStorage(key, annotations);
     }
     this.isSaving = false;
   }
@@ -200,7 +209,7 @@ export class TranscriberComponent implements OnInit {
       const data = await this.atsService.autosegment(this.getAudioFileUrl());
       const annotations = await this.annotator.rebuild(data.results);
       this.annotations = annotations;
-      this.annotationsService.saveAnnotations(this.getIdentifier(), annotations);
+      this.transcriptionService.saveTranscription(this.getIdentifier(), annotations);
     } catch (error) {
       this.sessionService.displayError(error.message, error);
       this.isSegmenting = false;

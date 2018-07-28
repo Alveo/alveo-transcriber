@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { AlveoClientService } from '../../alveo-client/alveo-client.module';
-import { AnnotationsService } from '../../annotations/annotations.module';
+import { TranscriptionService } from '../../transcription/transcription.module';
 import { SessionService } from '../../session/session.module';
 
 import { AuthService } from '../shared/auth.service';
@@ -18,7 +18,7 @@ export class DevConsoleComponent {
     private authService: AuthService,
     private alveoClientService: AlveoClientService,
     private sessionService: SessionService,
-    private annotationsService: AnnotationsService
+    private transcriptionService: TranscriptionService 
   ) {}
 
   /* Attempts to set lists storage to null, then requests a refresh */
@@ -36,8 +36,8 @@ export class DevConsoleComponent {
   }
 
   /* Delete annotations db */
-  public deleteAnnotations(): void {
-    this.annotationsService.destroyData();
+  public deleteTranscriptions(): void {
+    this.transcriptionService.destroyData();
   }
 
   /* Delete cache db then redirect to index */

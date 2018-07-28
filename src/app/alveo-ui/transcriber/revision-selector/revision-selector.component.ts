@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { AuthService } from '../../shared/auth.service';
 import { AlveoTransServClientService } from '../../../alveo-transserv-client/alveo-transserv-client.service';
 import { Transcription } from '../../../transcription/transcription';
@@ -16,11 +16,13 @@ export class RevisionSelectorComponent implements OnInit {
   public transcription: Transcription= null;
 
   private revisions: any;
+  private selectedRevision: any= null;
 
   private isLoading: boolean= true;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: any,
+    private dialogRef: MatDialogRef<RevisionSelectorComponent>,
     private atsClient: AlveoTransServClientService,
     private authService: AuthService,
     private dialog: MatDialog
@@ -33,13 +35,19 @@ export class RevisionSelectorComponent implements OnInit {
 
   private async loadRevisions(): Promise<any> {
     this.revisions = new Array<Transcription>();
-    //this.addRevision(this.transcription, 'local');
+
+    this.revisions.push({
+      transcription: this.transcription,
+      selectable: false,
+      type: 'local',
+      version: undefined,
+      totalAnnotations: this.transcription.annotations.length,
+      author: undefined
+    })
 
     const remoteId = this.transcription.remoteId;
 
-    const canAccess = (remoteId !== null && this.authService.isLoggedIn());
-
-    if (canAccess) {
+    if (remoteId !== null && this.authService.isLoggedIn()) {
       const response = await this.atsClient.getRemoteStorage(remoteId);
       this.addRevision(response);
 
@@ -49,17 +57,7 @@ export class RevisionSelectorComponent implements OnInit {
         const response = await this.atsClient.getRemoteStorage(remoteId, i);
         this.addRevision(response);
       }
-    }
-
-    if (this.transcription.isPendingUpload || !canAccess) {
-      this.revisions.push({
-        transcription: this.transcription,
-        type: 'local',
-        version: undefined,
-        totalAnnotations: this.transcription.annotations.length,
-        author: undefined
-      })
-    }
+    } 
 
     this.isLoading = false;
   }
@@ -75,10 +73,24 @@ export class RevisionSelectorComponent implements OnInit {
     this.revisions.push({
       transcription: transcription,
       type: type,
+      selectable: true,
       version: response['version'],
       totalAnnotations: transcription.annotations.length,
       author: response['author']['version']['remote_id']
     })
+  }
 
+  public selectRevision(revision: any): void {
+    if (revision.selectable) {
+      this.selectedRevision = revision;
+    }
+  }
+
+  public finalizeData(): void {
+    if (this.selectedRevision != null) {
+      this.dialogRef.close({ transcription: this.selectedRevision.transcription });
+    } else {
+      console.log("Warning: No revision selected, this shouldn't occur");
+    }
   }
 }

@@ -1,6 +1,14 @@
 <div class="inner">
   <div mat-dialog-title class="header">
     <p>Revision Selector</p>
+    <button
+      id="revision-restore"
+      mat-raised-button
+      (click)="this.finalizeData()"
+      [disabled]="this.selectedRevision==null"
+      color="primary">
+      Restore
+    </button>
     <button mat-raised-button mat-dialog-close color="primary">Exit</button>
   </div>
   <mat-dialog-content>
@@ -11,7 +19,11 @@
     <div *ngIf="!this.isLoading">
       <mat-list>
         <mat-list-item *ngFor="let revision of this.revisions">
-          <div class="revision-container">
+          <div
+            class="revision-container"
+            [class.noSelect]="!revision.selectable"
+            [class.selected]="this.selectedRevision == revision"
+            (click)="this.selectRevision(revision)">
             <p matLine *ngIf="revision.type == 'local'">Local Revision</p>
             <p matLine *ngIf="revision.type == 'remote'">
               Revision

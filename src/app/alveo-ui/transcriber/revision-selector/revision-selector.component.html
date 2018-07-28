@@ -4,8 +4,12 @@
     <button mat-raised-button mat-dialog-close color="primary">Exit</button>
   </div>
   <mat-dialog-content>
+    <p [hidden]="this.authService.isLoggedIn()">Not logged in, revisions unavailable</p>
     <mat-list>
-      <mat-list-item>Test</mat-list-item>
+      <mat-list-item *ngFor="let revision of this.revisions">
+        <span *ngIf="revision.remoteId == transcription.remoteId || transcription.remoteId == null">Latest Revision</span>
+        <span *ngIf="revision.remoteId != null && revision.remoteId != transcription.remoteId">Revision {{revision.remoteId}}</span>
+      </mat-list-item>
     </mat-list>
   </mat-dialog-content>
 </div>

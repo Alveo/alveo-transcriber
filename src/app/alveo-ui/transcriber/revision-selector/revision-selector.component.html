@@ -19,7 +19,7 @@
               <span *ngIf="revision.version == undefined">Latest ({{revision.type}})</span>
             </p>
             <p matLine>Annotations {{revision.totalAnnotations}}</p>
-            <p>Committed {{revision.transcription.last_edit | date:'mediumTime'}}</p>
+            <p>Committed {{revision.transcription.lastEdit | date:'mediumTime'}}</p>
           </div>
         </mat-list-item>
       </mat-list>

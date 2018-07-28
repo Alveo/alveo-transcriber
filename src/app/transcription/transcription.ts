@@ -7,20 +7,20 @@ export class Transcription {
   public storageSpecification: string= STORAGE_VERSION;
   public isPendingUpload: boolean= false;
   public annotations: Array<Annotation>= [];
-  public last_edit: number; // Technically functions as Date
+  public lastEdit: number; // Technically functions as Date
 
   constructor(remoteId: string= "",
               annotations: Array<Annotation>,
-              last_edit: number= null
+              lastEdit: number= null
              ) {
     this.remoteId = remoteId;
     this.annotations = annotations;
     this.storageSpecification = "att_1.0";
     this.isPendingUpload = false;
 
-    this.last_edit = last_edit;
-    if (this.last_edit === null) {
-      this.last_edit = Date.now();
+    this.lastEdit = lastEdit;
+    if (this.lastEdit === null) {
+      this.lastEdit = Date.now();
     }
   }
 }

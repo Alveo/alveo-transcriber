@@ -91,7 +91,7 @@ export class TranscriberComponent implements OnInit {
         } else {
           this.annotations = transcription.annotations;
           this.transcription = transcription;
-          this.lastSave = transcription.last_edit;
+          this.lastSave = transcription.lastEdit;
 
           if (this.transcription.isPendingUpload && this.authService.isLoggedIn()) {
             await this.saveTranscription({annotations: this.annotations});
@@ -193,7 +193,7 @@ export class TranscriberComponent implements OnInit {
     const annotations = ev['annotations'];
     this.transcription.annotations = annotations;
     this.transcription.isPendingUpload = true;
-    this.transcription.last_edit = this.lastSave;
+    this.transcription.lastEdit = this.lastSave;
     if (this.authService.isLoggedIn()) {
       try {
         const response = await this.atsService.pushRemoteStorage(

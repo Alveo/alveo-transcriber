@@ -91,6 +91,10 @@ export class TranscriberComponent implements OnInit {
         } else {
           this.annotations = transcription.annotations;
           this.transcription = transcription;
+
+          if (this.transcription.isPendingUpload && this.authService.isLoggedIn()) {
+            await this.saveTranscription({annotations: this.annotations});
+          }
         }
         this.ready = true;
       } catch (error) {
@@ -177,20 +181,28 @@ export class TranscriberComponent implements OnInit {
     return this.transcriptionService.loadTranscription(identifier);
   }
 
-  public saveTranscription(identifier: string, transcription: Transcription): Promise<any> {
+  public saveTranscriptionLocal(identifier: string, transcription: Transcription): Promise<any> {
     return this.transcriptionService.saveTranscription(identifier, transcription);
   }
 
-  public async saveAnnotations(ev: any): Promise<any> {
+  public async saveTranscription(ev: any): Promise<any> {
     this.isSaving = true;
     this.lastSave = Date.now();
     const key = this.getIdentifier();
     const annotations = ev['annotations'];
     this.transcription.annotations = annotations;
-    await this.saveTranscription(key, this.transcription);
+    this.transcription.isPendingUpload = true;
     if (this.authService.isLoggedIn()) {
-      const response = await this.atsService.pushRemoteStorage(key, annotations);
+      try {
+        const response = await this.atsService.pushRemoteStorage(key, annotations);
+        this.transcription.remoteId = response.id;
+        this.transcription.isPendingUpload = false;
+      } catch(e) {
+        console.log("Error remotely saving transcriptions:", e);
+      }
     }
+    // Save locally only after saving remotely, so the remote_id is hopefully assigned
+    await this.saveTranscriptionLocal(key, this.transcription);
     this.isSaving = false;
   }
 
@@ -209,7 +221,8 @@ export class TranscriberComponent implements OnInit {
       const data = await this.atsService.autosegment(this.getAudioFileUrl());
       const annotations = await this.annotator.rebuild(data.results);
       this.annotations = annotations;
-      this.transcriptionService.saveTranscription(this.getIdentifier(), annotations);
+      this.transcription = new Transcription(null, annotations);
+      this.saveTranscriptionLocal(this.getIdentifier(), this.transcription);
     } catch (error) {
       this.sessionService.displayError(error.message, error);
       this.isSegmenting = false;
@@ -221,6 +234,7 @@ export class TranscriberComponent implements OnInit {
     if (this.dialog.openDialogs.length < 1) {
       this.dialog.open(RevisionSelectorComponent, {
         data: {
+          transcription: this.transcription
         }
       });
     }

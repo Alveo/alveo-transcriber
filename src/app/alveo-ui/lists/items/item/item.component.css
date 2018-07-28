@@ -1,7 +1,6 @@
 .button-aligner {
   display: flex;
-  justify-content: right;
-  align-items: right;
+  justify-content: flex-end;
 }
 
 button {
@@ -15,7 +14,7 @@ button:hover {
 
 .audio-channel {
   display: flex;
-  justify-content: right;
+  justify-content: flex-end;
   align-items: center;
 }
 .audio-channel p {

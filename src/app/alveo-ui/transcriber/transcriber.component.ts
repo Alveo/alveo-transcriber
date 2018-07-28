@@ -227,21 +227,45 @@ export class TranscriberComponent implements OnInit {
       const annotations = await this.annotator.rebuild(data.results);
       this.annotations = annotations;
       this.transcription = new Transcription(null, annotations);
+      this.lastSave = this.transcription.lastEdit;
       this.saveTranscriptionLocal(this.getIdentifier(), this.transcription);
     } catch (error) {
       this.sessionService.displayError(error.message, error);
       this.isSegmenting = false;
+    } finally {
+      this.isSegmenting = false;
     }
-    this.isSegmenting = false;
   }
 
-  private promptRevisionChange() {
+  private promptRevisionChange(): void {
     if (this.dialog.openDialogs.length < 1) {
-      this.dialog.open(RevisionSelectorComponent, {
+      let dialog = this.dialog.open(RevisionSelectorComponent, {
         data: {
           transcription: this.transcription
         }
       });
+      dialog.afterClosed().subscribe(
+        (response) => {
+          if (response['transcription'] !== undefined) {
+            this.selectRevision(response['transcription']);
+          }
+        }
+      );
+    }
+  }
+
+  private async selectRevision(transcription: Transcription): Promise<any> {
+    this.isSegmenting = true;
+
+    try {
+      const annotations = await this.annotator.rebuild(transcription.annotations);
+      this.annotations = transcription.annotations;
+      this.lastSave = transcription.lastEdit;
+      this.saveTranscriptionLocal(this.getIdentifier(), this.transcription);
+    } catch (error) {
+      this.sessionService.displayError(error.message, error);
+    } finally {
+      this.isSegmenting = false;
     }
   }
 

@@ -196,7 +196,10 @@ export class TranscriberComponent implements OnInit {
     this.transcription.last_edit = this.lastSave;
     if (this.authService.isLoggedIn()) {
       try {
-        const response = await this.atsService.pushRemoteStorage(key, annotations);
+        const response = await this.atsService.pushRemoteStorage(
+                                                      key,
+                                                      annotations,
+                                                      this.transcription.storageSpecification);
         this.transcription.remoteId = response.id;
         this.transcription.isPendingUpload = false;
       } catch(e) {

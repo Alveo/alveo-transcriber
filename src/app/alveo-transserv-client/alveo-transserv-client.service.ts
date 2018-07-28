@@ -70,25 +70,31 @@ export class AlveoTransServClientService  {
     ).toPromise();
   }
 
-  public getRemoteStorage(key: string): Promise<any> {
+  public getRemoteStorage(remote_id: string, revision: number= null): Promise<any> {
+    let path = this.atsPaths.mainUrl +
+      this.atsPaths.objectGetSuffix +
+      remote_id;
+
+    if (revision != null) {
+      path += '/' + revision.toString();
+    }
+
     return this.http.get(
-      this.atsPaths.mainUrl
-      + this.atsPaths.objectGetSuffix
-      + key,
+      path,
       {
         'responseType': 'json'
       }
     ).toPromise();
   }
 
-  public pushRemoteStorage(key: string, data: any): Promise<any> {
+  public pushRemoteStorage(key: string, data: string, storage_spec: string): Promise<any> {
     return this.http.post(
       this.atsPaths.mainUrl
       + this.atsPaths.objectPostSuffix,
       { 
         key: key,
         value: data,
-        storage_spec: "1.0"
+        storage_spec: storage_spec
       },
       {
         'responseType': 'json'

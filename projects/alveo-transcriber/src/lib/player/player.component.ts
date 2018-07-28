@@ -40,13 +40,24 @@ export class PlayerComponent implements OnInit {
   private zoom: number= 3;
   private zoom_threshold: number= 10;
 
-  private isRebuildingRegions: boolean= false;
 
   constructor(
     private dialog: MatDialog,
   ) { }
 
   ngOnDestroy(): void {
+    this.destroyPlayer();
+  }
+
+  ngOnInit(): void {
+    this.createPlayer();
+    this.registerPlayerHandlers();
+
+    // Do this to fix Angular redraw issues
+    setInterval(() => {}, 100);
+  }
+
+  private destroyPlayer(): void {
     // We must unregister all events before firing off the destroy event.
     //  Otherwise these events (such as saving) could be triggered as wavesurfer
     //  cleans itself up.
@@ -54,10 +65,7 @@ export class PlayerComponent implements OnInit {
     this.player.destroy();
   }
 
-  ngOnInit(): void {
-    // Do this to fix Angular redraw issues
-    setInterval(() => {}, 100);
-
+  private createPlayer(): void {
     // Initialise the player, won't be ready until it fires the 'ready' event after loading audio data
     this.player = WaveSurfer.create({
       container: '#waveform',
@@ -74,7 +82,7 @@ export class PlayerComponent implements OnInit {
     });
 
     // Begin loading audio data
-    this.player.loadArrayBuffer(this.clip);
+    this.player.loadArrayBuffer(this.clip.slice(0));
 
     // Set up deferred initialisation
     this.player.on('ready', () => {
@@ -94,7 +102,9 @@ export class PlayerComponent implements OnInit {
       this.ready = true;
       this.loadingFinish.emit({});
     });
+  }
 
+  private registerPlayerHandlers(): void {
     // On region click, we want to go to the beginning of the region, usually to play it from the start
     this.player.on('region-click', (region: Region, e: any) => {
       e.stopPropagation(); // Stop click from being overridden by mousepos
@@ -157,14 +167,12 @@ export class PlayerComponent implements OnInit {
     });
 
     this.player.on('region-removed', (region: Region) => {
-      if (!this.isRebuildingRegions) {
-        this.annotationEvent.emit(
-          {
-            'type': 'delete',
-            'annotation': this.getAnnotationByID(region.id)
-          }
-        );
-      }
+      this.annotationEvent.emit(
+        {
+          'type': 'delete',
+          'annotation': this.getAnnotationByID(region.id)
+        }
+      );
     });
   }
 
@@ -247,10 +255,20 @@ export class PlayerComponent implements OnInit {
   }
 
   public buildRegions(annotations: Array<Annotation>) {
-    this.isRebuildingRegions = true;
+    this.ready = false;
+    this.annotations = annotations;
+    this.destroyPlayer();
+    this.createPlayer();
+    this.registerPlayerHandlers();
+
+    /*
+     * Not sure what's going on, massive slowdown will occur after rebuilding.
+     * Seems easiest to just remake the player.
+    // this.player.unAll();
     this.player.clearRegions();
-    this.loadRegions(annotations);
-    this.isRebuildingRegions = false;
+    this.loadRegions(this.annotations);
+    this.registerPlayerHandlers();
+     */
   }
 
   public loadRegions(annotations: Array<Annotation>): void {

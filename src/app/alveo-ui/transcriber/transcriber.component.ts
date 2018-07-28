@@ -223,10 +223,11 @@ export class TranscriberComponent implements OnInit {
     this.isSegmenting = true;
 
     try {
+      const remoteId = this.transcription.remoteId;
       const data = await this.atsService.autosegment(this.getAudioFileUrl());
       const annotations = await this.annotator.rebuild(data.results);
       this.annotations = annotations;
-      this.transcription = new Transcription(null, annotations);
+      this.transcription = new Transcription(remoteId, annotations);
       this.lastSave = this.transcription.lastEdit;
       this.saveTranscriptionLocal(this.getIdentifier(), this.transcription);
     } catch (error) {
@@ -255,8 +256,6 @@ export class TranscriberComponent implements OnInit {
   }
 
   private async selectRevision(transcription: Transcription): Promise<any> {
-    this.isSegmenting = true;
-
     try {
       const annotations = await this.annotator.rebuild(transcription.annotations);
       this.annotations = transcription.annotations;
@@ -264,8 +263,6 @@ export class TranscriberComponent implements OnInit {
       this.saveTranscriptionLocal(this.getIdentifier(), this.transcription);
     } catch (error) {
       this.sessionService.displayError(error.message, error);
-    } finally {
-      this.isSegmenting = false;
     }
   }
 

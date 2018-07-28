@@ -15,7 +15,9 @@ export class RevisionSelectorComponent implements OnInit {
   public isRevisionWindowOpen = false;
   public transcription: Transcription= null;
 
-  private revisions: Array<Transcription>;
+  private revisions: any;
+
+  private isLoading: boolean= true;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: any,
@@ -31,16 +33,52 @@ export class RevisionSelectorComponent implements OnInit {
 
   private async loadRevisions(): Promise<any> {
     this.revisions = new Array<Transcription>();
-    this.revisions.push(this.transcription);
+    //this.addRevision(this.transcription, 'local');
 
     const remoteId = this.transcription.remoteId;
 
-    if (remoteId !== null && this.authService.isLoggedIn()) {
-      const response = await this.atsClient.getRemoteStorage(remoteId, 1);
-      const time = Date.parse(response.timestamp+UTC);
-      let transcription = new Transcription(response['remote_id'], response['annotations'], time);
+    const canAccess = (remoteId !== null && this.authService.isLoggedIn());
 
-      this.revisions.push(transcription);
+    if (canAccess) {
+      const response = await this.atsClient.getRemoteStorage(remoteId);
+      this.addRevision(response);
+
+      let total_versions = response['total_versions'] - 2;
+
+      for (let i=total_versions; i>=0; i--) {
+        const response = await this.atsClient.getRemoteStorage(remoteId, i);
+        this.addRevision(response);
+      }
     }
+
+    if (this.transcription.isPendingUpload || !canAccess) {
+      this.revisions.push({
+        transcription: this.transcription,
+        type: 'local',
+        version: undefined,
+        totalAnnotations: this.transcription.annotations.length,
+        author: undefined
+      })
+    }
+
+    this.isLoading = false;
+  }
+
+  private addRevision(response: any, type: string= "remote"): void {
+    const time = Date.parse(response['timestamp']+UTC);
+    let transcription = new Transcription(
+      response['id'],
+      response['transcription'],
+      time
+    );
+
+    this.revisions.push({
+      transcription: transcription,
+      type: type,
+      version: response['version'],
+      totalAnnotations: transcription.annotations.length,
+      author: response['author']['version']['remote_id']
+    })
+
   }
 }

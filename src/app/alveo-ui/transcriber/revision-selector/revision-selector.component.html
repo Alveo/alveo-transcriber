@@ -5,11 +5,24 @@
   </div>
   <mat-dialog-content>
     <p [hidden]="this.authService.isLoggedIn()">Not logged in, revisions unavailable</p>
-    <mat-list>
-      <mat-list-item *ngFor="let revision of this.revisions">
-        <span *ngIf="revision.remoteId == transcription.remoteId || transcription.remoteId == null">Latest Revision</span>
-        <span *ngIf="revision.remoteId != null && revision.remoteId != transcription.remoteId">Revision {{revision.remoteId}}</span>
-      </mat-list-item>
-    </mat-list>
+    <loading-spinner *ngIf="this.isLoading">
+      <p>Downloading revision information...</p>
+    </loading-spinner>
+    <div *ngIf="!this.isLoading">
+      <mat-list>
+        <mat-list-item *ngFor="let revision of this.revisions">
+          <div class="revision-container">
+            <p matLine *ngIf="revision.type == 'local'">Local Revision</p>
+            <p matLine *ngIf="revision.type == 'remote'">
+              Revision
+              <span *ngIf="revision.version != undefined">{{revision.version}}</span>
+              <span *ngIf="revision.version == undefined">Latest ({{revision.type}})</span>
+            </p>
+            <p matLine>Annotations {{revision.totalAnnotations}}</p>
+            <p>Committed {{revision.transcription.last_edit | date:'mediumTime'}}</p>
+          </div>
+        </mat-list-item>
+      </mat-list>
+    </div>
   </mat-dialog-content>
 </div>

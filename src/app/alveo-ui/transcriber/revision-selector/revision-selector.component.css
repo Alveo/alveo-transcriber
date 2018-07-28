@@ -17,3 +17,19 @@
 mat-dialog-content {
   width: 35em;
 }
+
+mat-list-item-content {
+  margin: 0;
+  padding: 0;
+}
+
+.revision-container {
+  padding: 10px;
+  background:  lightgrey;
+  width: 100%;
+}
+
+.revision-container:hover {
+  background: lightblue;
+  cursor: pointer;
+}

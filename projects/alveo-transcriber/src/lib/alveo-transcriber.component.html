@@ -48,7 +48,7 @@
 
   <!-- Must be hidden and not disabled when needing to trigger onPlayerReady -->
   <avl-ngt-player
-    [hidden]="this.segmentorWorking"
+    [hidden]="this.segmentorWorking || !this.playerReady"
     (loadingFinish)="this.onPlayerReady($event)"
     (annotationEvent)="this.annotationEvent($event)"
     [clip]="this.getAudioFile()"

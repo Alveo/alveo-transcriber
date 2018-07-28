@@ -5,6 +5,7 @@ import { AlveoTransServClientService } from '../../../alveo-transserv-client/alv
 import { Transcription } from '../../../transcription/transcription';
 
 const UTC = "+0000"; // Sync times
+const VERSION_LIMIT = 12;
 
 @Component({
   selector: 'app-revision-selector',
@@ -12,8 +13,9 @@ const UTC = "+0000"; // Sync times
   styleUrls: ['./revision-selector.component.css']
 })
 export class RevisionSelectorComponent implements OnInit {
-  public isRevisionWindowOpen = false;
+  public isRevisionWindowOpen: boolean= false;
   public transcription: Transcription= null;
+  public tooManyVersions: boolean= false;
 
   private revisions: any;
   private selectedRevision: any= null;
@@ -51,9 +53,15 @@ export class RevisionSelectorComponent implements OnInit {
       const response = await this.atsClient.getRemoteStorage(remoteId);
       this.addRevision(response);
 
-      let total_versions = response['total_versions'] - 2;
+      const total_versions = response['total_versions'] - 2;
+      let min_versions = total_versions - VERSION_LIMIT;
+      if (min_versions < 0) {
+        min_versions = 0;
+      } else {
+        this.tooManyVersions = true;
+      }
 
-      for (let i=total_versions; i>=0; i--) {
+      for (let i=total_versions; i>=min_versions; i--) {
         const response = await this.atsClient.getRemoteStorage(remoteId, i);
         this.addRevision(response);
       }

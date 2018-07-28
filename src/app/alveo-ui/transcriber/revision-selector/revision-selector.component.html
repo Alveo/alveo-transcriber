@@ -13,6 +13,7 @@
   </div>
   <mat-dialog-content>
     <p [hidden]="this.authService.isLoggedIn()">Not logged in, revisions unavailable</p>
+    <p [hidden]="!this.tooManyVersions">Only the last 12 versions are displayed</p>
     <loading-spinner *ngIf="this.isLoading">
       <p>Downloading revision information...</p>
     </loading-spinner>

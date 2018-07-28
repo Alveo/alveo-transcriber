@@ -378,29 +378,25 @@ export class AlveoTranscriber implements OnInit, OnDestroy {
     );
   }
 
-  public rebuild(segments: any): Promise<any> {
-    return new Promise(
-      (resolve, reject) => {
-        this.annotations = [];
-        let counter = 0;
+  public rebuild(segments: any): Array<Annotation> {
+    this.annotations = [];
+    let counter = 0;
 
-        for (const segment of segments) {
-          this.createAnnotationFromSegment(
-              {
-                'id': counter.toString(),
-                'start': parseFloat(segment.start),
-                'end': parseFloat(segment.end),
-              }
-            );
-          counter += 1;
-        }
+    for (const segment of segments) {
+      this.createAnnotationFromSegment(
+          {
+            'id': counter.toString(),
+            'start': parseFloat(segment.start),
+            'end': parseFloat(segment.end),
+          }
+        );
+      counter += 1;
+    }
 
-        this.player.buildRegions(this.annotations);
-        this.selectFirst();
+    this.player.buildRegions(this.annotations);
+    this.selectFirst();
 
-        resolve(this.annotations);
-      }
-    );
+    return this.annotations;
   }
 
   public selectFirst(): void {

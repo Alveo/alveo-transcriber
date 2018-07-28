@@ -18,15 +18,15 @@ export class RevisionSelectorComponent implements OnInit {
   public tooManyVersions: boolean= false;
 
   private revisions: any;
-  private selectedRevision: any= null;
+  public selectedRevision: any= null;
 
-  private isLoading: boolean= true;
+  public isLoading: boolean= true;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: any,
     private dialogRef: MatDialogRef<RevisionSelectorComponent>,
     private atsClient: AlveoTransServClientService,
-    private authService: AuthService,
+    public authService: AuthService,
     private dialog: MatDialog
   ) { }
 

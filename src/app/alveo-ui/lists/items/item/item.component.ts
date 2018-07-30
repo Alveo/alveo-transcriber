@@ -5,6 +5,8 @@ import { Transcription } from '../../../../transcription/transcription';
 import { TranscriptionService } from '../../../../transcription/transcription.module';
 import { AuthService } from '../../../shared/auth.service';
 
+const UTC = "+0000"; // TODO as environment variable, or add conversion function somewhere
+
 /* Display component for showing and selecting of docs
  *   Provides route for Annotator module */
 @Component({
@@ -28,10 +30,7 @@ export class ItemComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.processAnnotationCount();
-    if (this.authService.isLoggedIn()) {
-      this.checkRemote();
-    }
+    this.load();
 
     for (const doc of this.item['data']['alveo:documents']) {
       // Need to force lower case as some Alveo collections use titlecase at the moment
@@ -41,10 +40,16 @@ export class ItemComponent implements OnInit {
     }
   }
 
-  private async processAnnotationCount(): Promise<any> {
+  private async load(): Promise<any> {
     try {
       this.transcription = await this.transcriptionService.loadTranscription(this.getAnnotationHandle());
+      if (this.transcription === undefined) {
+        throw(404);
+      }
     } catch (error) {
+      if (this.authService.isLoggedIn()) {
+        this.fetchRemote();
+      }
     }
   }
 
@@ -52,25 +57,36 @@ export class ItemComponent implements OnInit {
     return this.annotationCount;
   }
 
-  public async checkRemote(): Promise<any> {
-    /*
+  public async fetchRemote(): Promise<any> {
     try {
+      console.log("Attempting remote object sync");
       let response = await this.atsService.listRemoteStorage(this.getAnnotationHandle());
       if (response.storage_objects.length > 0) {
-        console.log(response);
-        this.remotelyStored = true;
+        response = await this.atsService.getRemoteStorage(response.storage_objects[0]['id']);
+
+        const time = Date.parse(response['timestamp']+UTC);
+        let transcription = new Transcription(
+          response['id'],
+          response['transcription'],
+          time,
+          response['version']
+        );
+
+        this.transcription = transcription;
+
+        await this.transcriptionService.saveTranscription(this.getAnnotationHandle(), transcription);
+        console.log("Object remote sync OK");
       }
     } catch(error) {
-      this.remotelyStored = false;
-      console.log(error);
       if (error.status === 401) {
+        console.log("Can't sync, not authed");
       } else if (error.status === 404) {
+        console.log("Can't sync, not authed");
       }
       else {
         console.log(error);
       }
     }
-     */
   }
 
   private getAnnotationHandle(): string {

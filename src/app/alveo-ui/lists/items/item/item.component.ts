@@ -64,6 +64,7 @@ export class ItemComponent implements OnInit {
         if (this.transcription == null
           || (this.transcription.remoteVersion != null
               && objects[0].version > this.transcription.remoteVersion
+              && Date.parse(objects[0].timestamp+UTC) == objects[0].lastEdit
              )
           )
         {

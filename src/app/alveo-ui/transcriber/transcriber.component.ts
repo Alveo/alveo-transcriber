@@ -15,6 +15,8 @@ import { environment } from '../../../environments/environment';
 import { AuthService } from '../shared/auth.service';
 import { Paths } from '../shared/paths';
 
+const UTC = "+0000";
+
 @Component({
   selector: 'transcriber',
   templateUrl: './transcriber.component.html',
@@ -203,6 +205,8 @@ export class TranscriberComponent implements OnInit {
                                                       this.transcription.storageSpecification);
         this.transcription.remoteId = response.id;
         this.transcription.remoteVersion = response.version;
+        const time = Date.parse(response['timestamp']+UTC)
+        this.transcription.lastEdit = time;
         this.transcription.isPendingUpload = false;
       } catch(e) {
         console.log("Error remotely saving transcriptions:", e);

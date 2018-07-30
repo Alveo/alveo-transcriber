@@ -11,7 +11,7 @@ export class Transcription {
   public lastEdit: number; // Technically functions as Date
 
   constructor(remoteId: string= "",
-              annotations: Array<Annotation>,
+              annotations: Array<Annotation>= null,
               lastEdit: number= null,
               remoteVersion: number= null
              ) {
@@ -19,7 +19,7 @@ export class Transcription {
     this.annotations = annotations;
     this.storageSpecification = "att_1.0";
     this.isPendingUpload = false;
-    this.remoteVersion = null;
+    this.remoteVersion = remoteVersion;
 
     this.lastEdit = lastEdit;
     if (this.lastEdit === null) {

@@ -188,6 +188,7 @@ export class TranscriberComponent implements OnInit {
 
   public async saveTranscription(ev: any): Promise<any> {
     this.isSaving = true;
+    this.transcription.remoteVersion = null;
     this.lastSave = Date.now();
     const key = this.getIdentifier();
     const annotations = ev['annotations'];
@@ -201,6 +202,7 @@ export class TranscriberComponent implements OnInit {
                                                       annotations,
                                                       this.transcription.storageSpecification);
         this.transcription.remoteId = response.id;
+        this.transcription.remoteVersion = response.version;
         this.transcription.isPendingUpload = false;
       } catch(e) {
         console.log("Error remotely saving transcriptions:", e);
@@ -208,6 +210,7 @@ export class TranscriberComponent implements OnInit {
     }
     // Save locally only after saving remotely, so the remote_id is hopefully assigned
     await this.saveTranscriptionLocal(key, this.transcription);
+    console.log("Transcription saved.");
     this.isSaving = false;
   }
 

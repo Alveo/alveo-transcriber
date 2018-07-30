@@ -25,7 +25,11 @@
             [class.noSelect]="!revision.selectable"
             [class.selected]="this.selectedRevision == revision"
             (click)="this.selectRevision(revision)">
-            <p matLine *ngIf="revision.type == 'local'">Local Revision</p>
+            <p matLine *ngIf="revision.type == 'local'">Local Revision
+              <span *ngIf="revision.transcription.remoteVersion != null">
+                (Matches remote revision {{revision.transcription.remoteVersion}})
+              </span>
+            </p>
             <p matLine *ngIf="revision.type == 'remote'">
               Revision
               <span *ngIf="revision.version != undefined">{{revision.version}}</span>

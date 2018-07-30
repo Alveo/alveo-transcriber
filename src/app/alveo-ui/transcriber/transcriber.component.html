@@ -15,8 +15,8 @@
     <div id="revision-status-text">
       <p>Current revision: latest (<a href="javascript:void(0)" (click)="this.promptRevisionChange()">Change</a>)</p>
       <p id="revision-error-text" [hidden]="this.authService.isLoggedIn()">Not logged in. Revisions not possible.</p>
-      <p [hidden]="this.lastSave == null && !this.isSaving">Last save {{this.lastSave | date:'shortTime'}}<span [hidden]="!this.transcription.isPendingUpload"> (Local Only)</span></p>
-      <p [hidden]="this.lastSave != null && !this.isSaving">No changes made.</p>
+      <p [hidden]="this.lastEdit == null && !this.isSaving">Last save {{this.lastEdit | date:'shortTime'}}<span [hidden]="!this.transcription.isPendingUpload"> (Local Only)</span></p>
+      <p [hidden]="this.lastEdit != null && !this.isSaving">No changes made.</p>
       <p [hidden]="!this.isSaving">Saving...</p>
     </div>
     <p id="header"><span [hidden]="!this.checkChangesPending()">*</span>Transcribing: {{ this.getIdentifier() }}</p>
@@ -38,7 +38,8 @@
 
       (exit)="this.exit()"
       (autosegment)="this.autoSegment($event)"
-      (save)="this.saveTranscription($event)">
+      (save)="this.saveTranscription($event)"
+      (changes)="this.onChanges($event)">
     </avl-ngt-transcriber>
   </div>
 </div>

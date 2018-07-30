@@ -42,6 +42,7 @@ export class AlveoTranscriber implements OnInit, OnDestroy {
   @Output() exit = new EventEmitter<any>();
   @Output() autosegment = new EventEmitter<any>();
   @Output() save = new EventEmitter<any>();
+  @Output() changes = new EventEmitter<any>();
 
   @Input() showSegmentorServiceButton = false;
   @Input() showCSVExportButton = true;
@@ -312,6 +313,8 @@ export class AlveoTranscriber implements OnInit, OnDestroy {
       console.log("Warning: attempting to save annotations in readonly mode. Ignoring.");
       return;
     }
+
+    this.changes.emit({});
 
     this.secondsSinceInitialAction = Date.now();
     this.changesSinceLastSave += 1;

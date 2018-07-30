@@ -20,7 +20,7 @@ import { Annotation, ANNOTATION_CSV_FIELDS } from './shared/annotation';
 
 // Fix for module building
 import * as json2csv_ from 'json2csv';
-const json2csv = json2csv_.parse;
+const json2csv = json2csv_.Parser;
 
 @Component({
   selector: 'avl-ngt-transcriber',
@@ -174,13 +174,15 @@ export class AlveoTranscriber implements OnInit, OnDestroy {
   }
 
   public exportCSV(): void {
-    const csv = json2csv({
-      data: this.annotations,
-      fields: ANNOTATION_CSV_FIELDS
-    });
+    try {
+      const parser = new json2csv({ANNOTATION_CSV_FIELDS});
+      const csv = parser.parse(this.annotations);
 
-    const url = this.generateDownload(csv, 'text/csv'); 
-    this.downloadFile(url, this.getAudioFileName() + '.csv');
+      const url = this.generateDownload(csv, 'text/csv'); 
+      this.downloadFile(url, this.getAudioFileName() + '.csv');
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   public exportJSON(): void {

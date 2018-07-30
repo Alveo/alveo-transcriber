@@ -44,7 +44,7 @@ export class TranscriberComponent implements OnInit {
   public doc_id = '';
   public errorRaised = false;
 
-  public lastSave: number = null;
+  public lastEdit: number = null;
   public isSaving = false;
 
   @ViewChild(AlveoTranscriber) annotator: AlveoTranscriber;
@@ -93,7 +93,7 @@ export class TranscriberComponent implements OnInit {
         } else {
           this.annotations = transcription.annotations;
           this.transcription = transcription;
-          this.lastSave = transcription.lastEdit;
+          this.lastEdit = transcription.lastEdit;
 
           if (this.transcription.isPendingUpload && this.authService.isLoggedIn()) {
             await this.saveTranscription({annotations: this.annotations});
@@ -191,12 +191,12 @@ export class TranscriberComponent implements OnInit {
   public async saveTranscription(ev: any): Promise<any> {
     this.isSaving = true;
     this.transcription.remoteVersion = null;
-    this.lastSave = Date.now();
+    this.lastEdit = Date.now();
     const key = this.getIdentifier();
     const annotations = ev['annotations'];
     this.transcription.annotations = annotations;
     this.transcription.isPendingUpload = true;
-    this.transcription.lastEdit = this.lastSave;
+    this.transcription.lastEdit = this.lastEdit;
     if (this.authService.isLoggedIn()) {
       try {
         const response = await this.atsService.pushRemoteStorage(
@@ -235,7 +235,9 @@ export class TranscriberComponent implements OnInit {
       const annotations = await this.annotator.rebuild(data.results);
       this.annotations = annotations;
       this.transcription = new Transcription(remoteId, annotations);
-      this.lastSave = this.transcription.lastEdit;
+      // Not important to update this since we're technically not saving after the segmentor runs
+      //  Should we?
+      //this.lastEdit = this.transcription.lastEdit;
       this.saveTranscriptionLocal(this.getIdentifier(), this.transcription);
     } catch (error) {
       this.sessionService.displayError(error.message, error);
@@ -265,9 +267,11 @@ export class TranscriberComponent implements OnInit {
   private async selectRevision(transcription: Transcription): Promise<any> {
     try {
       const annotations = await this.annotator.rebuild(transcription.annotations);
+      this.transcription = transcription;
       this.annotations = transcription.annotations;
-      this.lastSave = transcription.lastEdit;
       this.saveTranscriptionLocal(this.getIdentifier(), this.transcription);
+
+      this.lastEdit = transcription.lastEdit;
     } catch (error) {
       this.sessionService.displayError(error.message, error);
     }
@@ -279,5 +283,8 @@ export class TranscriberComponent implements OnInit {
     } else {
       return false;
     }
+  }
+
+  private onChanges(ev: any): void {
   }
 }

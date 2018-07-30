@@ -13,9 +13,11 @@
   </div>
 
   <div *ngIf="this.audioSources.length > 0">
-    <p>Annotations: {{ this.getAnnotationCount() }}</p>
-    <p *ngIf="this.authService.isLoggedIn()">Remotely stored: {{ this.remotelyStored }}</p>
-    <p *ngIf="!this.authService.isLoggedIn()">Remotely stored: Not authenticated</p>
+    <div *ngIf="this.transcription != null">
+      <p>Transcription length: {{ this.transcription.annotations.length }}</p>
+      <p>Synched: {{ !this.transcription.isPendingUpload }}</p>
+      <p>Last edit: {{ this.transcription.lastEdit | date:'mediumTime' }}</p>
+    </div>
 
     <div class="audio-channel">
       <p>Use audio channel: </p>
@@ -31,7 +33,7 @@
         (click)="this.upload()"
         [disabled]="true"
         color="primary">
-        Download Annotations
+        Manage Transcriptions 
       </button>
       <button mat-raised-button
         (click)="this.onTranscribe()"

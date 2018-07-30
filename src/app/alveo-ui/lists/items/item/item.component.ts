@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 
 import { AlveoTransServClientService } from '../../../../alveo-transserv-client/alveo-transserv-client.module';
+import { Transcription } from '../../../../transcription/transcription';
 import { TranscriptionService } from '../../../../transcription/transcription.module';
 import { AuthService } from '../../../shared/auth.service';
 
@@ -15,8 +16,8 @@ export class ItemComponent implements OnInit {
   @Input() item: any = null;
   @Output() transcribe = new EventEmitter<any>();
   private annotationCount = 0;
-  private selectedSource: any = null;
-  private remotelyStored: boolean = false;
+  private selectedSource: any= null;
+  private transcription: Transcription= null;
 
   public audioSources: any = [];
 
@@ -42,10 +43,8 @@ export class ItemComponent implements OnInit {
 
   private async processAnnotationCount(): Promise<any> {
     try {
-      const transcription = await this.transcriptionService.loadTranscription(this.getAnnotationHandle());
-      this.annotationCount = transcription.annotations.length;
+      this.transcription = await this.transcriptionService.loadTranscription(this.getAnnotationHandle());
     } catch (error) {
-      this.annotationCount = 0;
     }
   }
 
@@ -54,9 +53,11 @@ export class ItemComponent implements OnInit {
   }
 
   public async checkRemote(): Promise<any> {
+    /*
     try {
-      let response = await this.atsService.listRemoteStorageByKey(this.getAnnotationHandle());
+      let response = await this.atsService.listRemoteStorage(this.getAnnotationHandle());
       if (response.storage_objects.length > 0) {
+        console.log(response);
         this.remotelyStored = true;
       }
     } catch(error) {
@@ -69,6 +70,7 @@ export class ItemComponent implements OnInit {
         console.log(error);
       }
     }
+     */
   }
 
   private getAnnotationHandle(): string {

@@ -197,7 +197,7 @@ export class AlveoTranscriber implements OnInit, OnDestroy {
 
   private getVTTtimestamp(time: number): string {
     let date = new Date(null); 
-    date.setSeconds(time);
+    date.setTime(time * 1000);
     return date.toISOString().substr(11, 12);
   }
 

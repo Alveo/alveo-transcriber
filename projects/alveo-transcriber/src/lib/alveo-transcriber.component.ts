@@ -47,6 +47,7 @@ export class AlveoTranscriber implements OnInit, OnDestroy {
   @Input() showSegmentorServiceButton = false;
   @Input() showCSVExportButton = true;
   @Input() showJSONExportButton = true;
+  @Input() showWebVTTExportButton = true;
   @Input() autoPlay = true;
 
   private saveMonitor: any = null;
@@ -167,28 +168,57 @@ export class AlveoTranscriber implements OnInit, OnDestroy {
     URL.revokeObjectURL(url);
   }
 
+  public generateDownload(data: any, type: string): string {
+    const blob = new Blob([data], { type: type });
+    return window.URL.createObjectURL(blob);
+  }
+
   public exportCSV(): void {
     const csv = json2csv({
       data: this.annotations,
       fields: ANNOTATION_CSV_FIELDS
     });
 
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const url = window.URL.createObjectURL(blob);
-
+    const url = this.generateDownload(csv, 'text/csv'); 
     this.downloadFile(url, this.getAudioFileName() + '.csv');
   }
 
   public exportJSON(): void {
-    const csv = JSON.stringify({
+    const json = JSON.stringify({
       'doc_id': this.getAudioFileName(),
       'annotations': this.annotations
     }, null, 2);
 
-    const blob = new Blob([csv], { type: 'application/json' });
-    const url = window.URL.createObjectURL(blob);
-
+    const url = this.generateDownload(json, 'application/json'); 
     this.downloadFile(url, this.getAudioFileName() + '.json');
+  }
+
+  private getVTTtimestamp(time: number): string {
+    let date = new Date(null); 
+    date.setSeconds(time);
+    return date.toISOString().substr(11, 12);
+  }
+
+  public exportWebVTT(): void {
+    let vtt = "WEBVTT\n\n";
+    let index = 1;
+    for (let annotation of this.annotations) {
+      vtt += index + "\n";
+      vtt += this.getVTTtimestamp(annotation['start']);
+      vtt += " --> "
+      vtt += this.getVTTtimestamp(annotation['end']);
+
+      let author = "";
+      if (annotation.speaker != "") {
+        author = "<v "+annotation.speaker+">";
+      }
+      vtt += "\n" + author + annotation.caption + "\n\n"
+
+      index = index + 1;
+    }
+
+    const url = this.generateDownload(vtt, 'application/text'); 
+    this.downloadFile(url, this.getAudioFileName() + '.vtt');
   }
 
   private dialogOpen(title: string, text: string): any {

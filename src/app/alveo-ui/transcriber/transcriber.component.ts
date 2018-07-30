@@ -197,6 +197,7 @@ export class TranscriberComponent implements OnInit {
     this.transcription.annotations = annotations;
     this.transcription.isPendingUpload = true;
     this.transcription.lastEdit = this.lastEdit;
+
     if (this.authService.isLoggedIn()) {
       try {
         const response = await this.atsService.pushRemoteStorage(

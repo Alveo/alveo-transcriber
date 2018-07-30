@@ -23,6 +23,13 @@
       </button>
 
       <button mat-raised-button
+        *ngIf="this.showWebVTTExportButton"
+        (click)="this.exportWebVTT()"
+        [color]="'primary'">
+        Export WebVTT
+      </button>
+
+      <button mat-raised-button
         (click)="this.actionBack()"
         [color]="'primary'">
         Exit

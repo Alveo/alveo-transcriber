@@ -30,8 +30,8 @@
     <!--[disabled]="!this.authService.isLoggedIn()"-->
     <div class="button-aligner">
       <button mat-raised-button
-        (click)="this.upload()"
-        [disabled]="true"
+        (click)="this.promptTranscriptionManager()"
+        [disabled]="!this.authService.isLoggedIn()"
         color="primary">
         Manage Transcriptions 
       </button>

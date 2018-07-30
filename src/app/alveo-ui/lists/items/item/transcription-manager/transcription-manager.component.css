@@ -1,0 +1,28 @@
+.header {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px rgb(230, 230, 230) solid;
+}
+
+.header p {
+  flex: 1 1 100%;
+  text-align: center;
+  font-size: 22px;
+}
+
+.header mat-icon:hover{
+  cursor: pointer;
+}
+
+#load-transcription {
+  margin-right: 5px;
+}
+
+mat-dialog-content {
+  width: 35em;
+}
+
+mat-list-item-content {
+  margin: 0;
+  padding: 0;
+}

@@ -1,8 +1,10 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material';
 
 import { AlveoTransServClientService } from '../../../../alveo-transserv-client/alveo-transserv-client.module';
 import { Transcription } from '../../../../transcription/transcription';
 import { TranscriptionService } from '../../../../transcription/transcription.module';
+import { TranscriptionManagerComponent } from './transcription-manager/transcription-manager.component';
 import { AuthService } from '../../../shared/auth.service';
 
 const UTC = "+0000"; // TODO as environment variable, or add conversion function somewhere
@@ -26,7 +28,8 @@ export class ItemComponent implements OnInit {
   constructor(
     private transcriptionService: TranscriptionService,
     private atsService: AlveoTransServClientService,
-    private authService: AuthService
+    private authService: AuthService,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -116,5 +119,20 @@ export class ItemComponent implements OnInit {
 
   public onTranscribe(): void {
     this.transcribe.emit(this.selectedSource);
+  }
+
+  public promptTranscriptionManager(): void {
+    if (this.dialog.openDialogs.length < 1) {
+      let dialog = this.dialog.open(TranscriptionManagerComponent, {
+        data: {
+        }
+      });
+      dialog.afterClosed().subscribe(
+        (response) => {
+          //if (response[''] !== undefined) {
+          //}
+        }
+      );
+    }
   }
 }

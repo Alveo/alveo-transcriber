@@ -13,7 +13,10 @@
 
   <div *ngIf="this.isReady()">
     <div id="revision-status-text">
-      <p>Current revision: latest (<a href="javascript:void(0)" (click)="this.promptRevisionChange()">Change</a>)</p>
+      <p>Current revision:
+        <span [hidden]="this.transcription.remoteVersion != null">latest</span>
+        <span [hidden]="this.transcription.remoteVersion == null">{{this.transcription.remoteVersion}}</span>
+        (<a href="javascript:void(0)" (click)="this.promptRevisionChange()">Change</a>)</p>
       <p id="revision-error-text" [hidden]="this.authService.isLoggedIn()">Not logged in. Revisions not possible.</p>
       <p [hidden]="this.lastEdit == null && !this.isSaving">Last save {{this.lastEdit | date:'shortTime'}}<span [hidden]="!this.transcription.isPendingUpload"> (Local Only)</span></p>
       <p [hidden]="this.lastEdit != null && !this.isSaving">No changes made.</p>

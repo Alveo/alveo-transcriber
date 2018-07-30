@@ -76,8 +76,8 @@ export class RevisionSelectorComponent implements OnInit {
       response['id'],
       response['transcription'],
       time,
+      response['version']
     );
-    transcription.remoteVersion = response['version'];
 
     this.revisions.push({
       transcription: transcription,

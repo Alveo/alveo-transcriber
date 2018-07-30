@@ -11,6 +11,8 @@ import {
 
 import { MatDialog } from '@angular/material';
 
+import * as _ from 'lodash';
+
 import { DialogComponent } from './dialog/dialog.component';
 import { PlayerComponent } from './player/player.component';
 
@@ -69,7 +71,7 @@ export class AlveoTranscriber implements OnInit, OnDestroy {
       if (this.changesPending) {
         const seconds_elapsed = (Date.now() - this.secondsSinceInitialAction) / 1000;
         if (seconds_elapsed > this.secondsBeforeForceSave || this.changesSinceLastSave >= this.changesBeforeForceSave) {
-          if (this.annotationsLast != this.annotations) {
+          if (_.isEqual(this.annotationsLast, this.annotations)) {
             this.save.emit({'annotations': this.annotations});
             this.annotationsLast = this.annotations;
           }

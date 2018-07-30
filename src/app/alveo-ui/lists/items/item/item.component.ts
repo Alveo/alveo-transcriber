@@ -43,13 +43,11 @@ export class ItemComponent implements OnInit {
   private async load(): Promise<any> {
     try {
       this.transcription = await this.transcriptionService.loadTranscription(this.getAnnotationHandle());
-      if (this.transcription === undefined) {
-        throw(404);
+      if (this.authService.isLoggedIn()) {
+        await this.fetchRemote();
       }
     } catch (error) {
-      if (this.authService.isLoggedIn()) {
-        this.fetchRemote();
-      }
+      console.log(error);
     }
   }
 
@@ -61,21 +59,31 @@ export class ItemComponent implements OnInit {
     try {
       console.log("Attempting remote object sync");
       let response = await this.atsService.listRemoteStorage(this.getAnnotationHandle());
-      if (response.storage_objects.length > 0) {
-        response = await this.atsService.getRemoteStorage(response.storage_objects[0]['id']);
+      const objects = response.storage_objects;
+      if (objects.length > 0) {
+        if (this.transcription == null
+          || (this.transcription.remoteVersion != null
+              && objects[0].version > this.transcription.remoteVersion
+             )
+          )
+        {
+          response = await this.atsService.getRemoteStorage(response.storage_objects[0]['id']);
 
-        const time = Date.parse(response['timestamp']+UTC);
-        let transcription = new Transcription(
-          response['id'],
-          response['transcription'],
-          time,
-          response['version']
-        );
+          const time = Date.parse(response['timestamp']+UTC);
+          let transcription = new Transcription(
+            response['id'],
+            response['transcription'],
+            time,
+            response['version']
+          );
 
-        this.transcription = transcription;
+          this.transcription = transcription;
 
-        await this.transcriptionService.saveTranscription(this.getAnnotationHandle(), transcription);
-        console.log("Object remote sync OK");
+          await this.transcriptionService.saveTranscription(this.getAnnotationHandle(), transcription);
+          console.log("Object remote sync OK");
+        } else {
+          console.log("Object auto sync declined, conditions not met");
+        }
       }
     } catch(error) {
       if (error.status === 401) {

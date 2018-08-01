@@ -1,17 +1,30 @@
-<h1 id="title" mat-dialog-title>Authentication required</h1>
-<div id="dialog" mat-dialog-content>
-  <div *ngIf="this.isFirstRun(); then authRequiredFirstRun else authRequired"> </div>
-  <div class="center">
-    <button mat-raised-button id="login-button" color="primary" (click)="this.actionLogin()">Login via Alveo</button>
+<h1 mat-dialog-title>Authentication required</h1>
+<mat-dialog-content>
+  <div *ngIf="this.isFirstRun
+    then authDialogFirstRun
+    else authDialogStandardRun">
   </div>
-</div>
 
-<ng-template #authRequiredFirstRun>
-  <h2 class="mat-h2">Welcome. This is the Alveo Transcription Tool, a web-based annotation tool. Before you begin, you require some data. In order to get some, it is best to register an Alveo account <a href="http://alveo.edu.au/">here</a>.</h2>
+  <button mat-raised-button
+          mat-dialog-close
+          color="primary"
+          (click)="this.actionLogin()">
+    Login via Alveo
+  </button>
+</mat-dialog-content>
 
+<ng-template #authDialogFirstRun>
+  <h2 class="mat-h2">
+    Welcome. This is the Alveo Transcription Tool, a transcription tool web application.
+    Before you begin, you will need some data. In order to work with some, it is best
+    to register an Alveo account <a href="http://alveo.edu.au/">here</a>.
+  </h2>
   <h2 class="mat-h2">Already have an account? Then you're just one step away!</h2>
 </ng-template>
 
-<ng-template #authRequired>
-  <h2 class="mat-h2">This data has not been downloaded yet but an active connection has been detected. Please login to Alveo in order to continue.</h2>
+<ng-template #authDialogStandardRun>
+  <h2 class="mat-h2">
+    This data has not been downloaded yet but an active connection has been detected.
+    Please log into Alveo to retrieve it.
+  </h2>
 </ng-template>

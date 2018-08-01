@@ -16,18 +16,14 @@ import * as _ from 'lodash';
 import { DialogComponent } from './dialog/dialog.component';
 import { PlayerComponent } from './player/player.component';
 
-import { Annotation, ANNOTATION_CSV_FIELDS } from './shared/annotation';
-
-// Fix for module building
-import * as json2csv_ from 'json2csv';
-const json2csv = json2csv_.Parser;
+import { Annotation } from './shared/annotation';
+import { AnnotationExporterService } from './shared/annotation-exporter.service';
 
 @Component({
   selector: 'avl-ngt-transcriber',
   templateUrl: './alveo-transcriber.component.html',
   styleUrls: ['./alveo-transcriber.component.css'],
 })
-
 export class AlveoTranscriber implements OnInit, OnDestroy {
   @Input() audioFile: any = null;
   @Input() audioFileName = 'null';
@@ -63,6 +59,7 @@ export class AlveoTranscriber implements OnInit, OnDestroy {
 
   constructor(
     private dialog: MatDialog,
+    private annotationExporter: AnnotationExporterService
   ) { }
 
   ngOnInit() {
@@ -153,74 +150,16 @@ export class AlveoTranscriber implements OnInit, OnDestroy {
     this.exit.emit({});
   }
 
-  private downloadFile(url, filename): void {
-    // Create named DL
-    const anchor = document.createElement('a');
-    anchor.download = filename;
-    anchor.href = url;
-
-    // Begin download
-    window.document.body.appendChild(anchor);
-    anchor.click();
-
-    // Cleanup
-    window.document.body.removeChild(anchor);
-    URL.revokeObjectURL(url);
-  }
-
-  public generateDownload(data: any, type: string): string {
-    const blob = new Blob([data], { type: type });
-    return window.URL.createObjectURL(blob);
-  }
-
   public exportCSV(): void {
-    try {
-      const parser = new json2csv({ANNOTATION_CSV_FIELDS});
-      const csv = parser.parse(this.annotations);
-
-      const url = this.generateDownload(csv, 'text/csv'); 
-      this.downloadFile(url, this.getAudioFileName() + '.csv');
-    } catch (error) {
-      console.log(error);
-    }
+    this.annotationExporter.asCSV(this.getAudioFileName() + '.csv', this.annotations);
   }
 
   public exportJSON(): void {
-    const json = JSON.stringify({
-      'doc_id': this.getAudioFileName(),
-      'annotations': this.annotations
-    }, null, 2);
-
-    const url = this.generateDownload(json, 'application/json'); 
-    this.downloadFile(url, this.getAudioFileName() + '.json');
-  }
-
-  private getVTTtimestamp(time: number): string {
-    let date = new Date(null); 
-    date.setTime(time * 1000);
-    return date.toISOString().substr(11, 12);
+    this.annotationExporter.asJSON(this.getAudioFileName() + '.json', this.annotations);
   }
 
   public exportWebVTT(): void {
-    let vtt = "WEBVTT\n\n";
-    let index = 1;
-    for (let annotation of this.annotations) {
-      vtt += index + "\n";
-      vtt += this.getVTTtimestamp(annotation['start']);
-      vtt += " --> "
-      vtt += this.getVTTtimestamp(annotation['end']);
-
-      let author = "";
-      if (annotation.speaker != "") {
-        author = "<v "+annotation.speaker+">";
-      }
-      vtt += "\n" + author + annotation.caption + "\n\n"
-
-      index = index + 1;
-    }
-
-    const url = this.generateDownload(vtt, 'application/text'); 
-    this.downloadFile(url, this.getAudioFileName() + '.vtt');
+    this.annotationExporter.asWebVTT(this.getAudioFileName() + '.vtt', this.annotations);
   }
 
   private dialogOpen(title: string, text: string): any {

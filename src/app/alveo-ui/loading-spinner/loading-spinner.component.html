@@ -1,6 +1,12 @@
-<div class="container" [class.pageFill]="this.usePageFill()">
-  <mat-spinner [diameter]="this.getSpinnerDiameter()"></mat-spinner>
-  <div id="content" [class.spacer]="!this.inline">
-    <ng-content ></ng-content>
+<div id="container"
+  [class.pageFill]="this.usePageFill()">
+
+  <mat-spinner
+    [diameter]="this.getSpinnerDiameter()">
+  </mat-spinner>
+
+  <div id="content"
+    [class.spacer]="!this.inline">
+    <ng-content></ng-content>
   </div>
 </div>

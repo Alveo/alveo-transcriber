@@ -1,11 +1,11 @@
-.container {
+#container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.container.pageFill {
+#container.pageFill {
   height: 80vh;
 }
 

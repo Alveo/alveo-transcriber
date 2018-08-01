@@ -1,17 +1,10 @@
-.control-panel {
-  background: #EEEEEE;
-  border: 1px solid #555555;
-  max-width: 540px;
-  margin: auto;
-  padding: 1em;
-}
-
-.control-panel p {
-  margin-bottom: 10px;
-  font-size: 18px;
-}
-
 button {
-  margin: 0.25em;
+  margin: 2px;
   font-size: 14px;
 }
+
+#control-panel {
+  margin: auto;
+  padding: 10px;
+}
+

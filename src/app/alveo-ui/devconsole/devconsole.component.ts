@@ -7,7 +7,12 @@ import { SessionService } from '../../session/session.module';
 import { AuthService } from '../shared/auth.service';
 import { Paths } from '../shared/paths';
 
-/* Development/Debug component for controlling and testing session & database storage */
+/* DevConsoleComponent was originally intended to be for development purposes.
+ * It has become useful in controlling the data stored on a browser since.
+ *
+ * At some point it would be good to move this to a menu to control more
+ * aspects, and so that the UI doesn't get cluttered with buttons.
+ */
 @Component({
   selector: 'dev-console',
   templateUrl: './devconsole.component.html',
@@ -21,28 +26,38 @@ export class DevConsoleComponent {
     private transcriptionService: TranscriptionService 
   ) {}
 
-  /* Attempts to set lists storage to null, then requests a refresh */
-  public async refreshData() {
+  public async updateItemListIndex() {
     if (!this.authService.isLoggedIn()) {
+      // Can't refresh if we're not logged in. If the user doesn't have an
+      // internet connection, they might have forgotten they'll need one
+      // in order to refresh their item lists.
       this.authService.promptLogin();
     } else {
       try {
+        // What we're actually doing here is redirecting the user to the
+        // datasource component to load it. This is preferred for when
+        // we add more datasources in, but we may need to re-explore this
+        // as there could be multiple sources of data locally cached.
         await this.alveoClientService.purgeCacheByKey('lists');
         this.sessionService.navigate([Paths.SelectDataSource]);
       } catch (error) {
+        // The cache didn't like something
         this.sessionService.displayError(error.message, error);
       }
     }
   }
 
-  /* Delete annotations db */
-  public deleteTranscriptions(): void {
-    this.transcriptionService.destroyData();
+  public deleteTranscriptions(): Promise<any> {
+    return this.transcriptionService.destroyData();
   }
 
-  /* Delete cache db then redirect to index */
-  public async deleteCache() {
+  public async deleteCache(): Promise<any> {
     try {
+      // Like in updateItemListIndex(), we will purge what we need to
+      // then redirect to the datasource component. We don't care as much
+      // in this component as to whether they have an active internet
+      // connection or not. Deleting something should be obvious enough
+      // that they will need to replace it if they want to utilise it.
       await this.alveoClientService.purgeCache();
       this.sessionService.reset();
       this.sessionService.navigate([Paths.SelectDataSource]);
@@ -51,12 +66,11 @@ export class DevConsoleComponent {
     }
   }
 
-  /* Clear session data and redirect to index */
-  public async resetSession() {
-    this.sessionService.reset();
+  public async resetSession(): Promise<any> {
     try {
-      await this.sessionService.updateStorage();
-      this.sessionService.navigate([Paths.Index]);
+      // This is a legacy function that deals with session data that
+      // we may later again make use of.
+      await this.sessionService.reset();
     } catch (error) {
       this.sessionService.displayError(error.message, error);
     }

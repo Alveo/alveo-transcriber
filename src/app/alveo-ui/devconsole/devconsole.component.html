@@ -1,9 +1,22 @@
-<div class="control-panel">
-  <p>Debug Controls</p>
-  <div id="controls">
-    <button mat-raised-button color="primary" (click)="this.refreshData()">Refresh item lists (via API)</button>
-    <button mat-raised-button color="primary" class="btn-large" (click)="this.resetSession()">Reset session</button>
-    <button mat-raised-button color="primary" class="btn-large" (click)="this.deleteCache()">Clear Alveo cache</button>
-    <button mat-raised-button color="primary" class="btn-large" (click)="this.deleteTranscriptions()">Delete Transcriptions</button>
-  </div>
+<div id="control-panel">
+  <button mat-raised-button
+    color="primary"
+    (click)="this.updateItemListIndex()">
+    Update item lists via API
+  </button>
+  <button mat-raised-button
+    color="primary"
+    (click)="this.resetSession()">
+    Reset session
+  </button>
+  <button mat-raised-button
+    color="primary" 
+    (click)="this.deleteCache()">
+    Clear Alveo cache
+  </button>
+  <button mat-raised-button
+    color="primary" 
+    (click)="this.deleteTranscriptions()">
+    Delete Transcriptions
+  </button>
 </div>

@@ -5,15 +5,18 @@
   align-items: center;
   flex-direction: column;
   text-align: center;
+
+  padding: 14px; /* Helps for small displays */
 }
 
 #data-container p {
-  font-size: 22px;
-  padding-bottom: 1em;
-  max-width: 35em;
+  font-size: 20px;
+  padding-bottom: 24px;
+  max-width: 700px;
+  text-align: justify;
 }
 
-#download-button {
-  font-size: 1.5em;
-  padding: 0.25em 0.5em 0.25em 0.5em;
+button {
+  font-size: 24px;
+  padding: 8px 16px;
 }

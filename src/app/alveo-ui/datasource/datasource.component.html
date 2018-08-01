@@ -1,11 +1,27 @@
-<div *ngIf="!this.isLoading()" id="data-container">
-  <p>
-    Great! You're all logged in. Now you need to choose a
-    source of data to load. Right now, there is only the Alveo provider. Click it to begin.
-  </p>
-  <button mat-raised-button color="primary" id="download-button" (click)="this.getData()">Download Alveo Data</button>
+<div *ngIf="this.isWorking
+  then datasourceWorking
+  else datasourceRequestDownload">
 </div>
 
-<loading-spinner *ngIf="this.isLoading()">
-  <p>Loading data ... </p>
-</loading-spinner>
+<ng-template #datasourceWorking>
+  <loading-spinner *ngIf="this.isWorking">
+    <p>Getting data ...</p>
+  </loading-spinner>
+</ng-template>
+
+<ng-template #datasourceRequestDownload>
+  <div id="data-container">
+    <p>
+      Great! You're now logged in.
+      Next you'll need to choose a source of data to load.
+      For now there is only the Alveo provider.
+      Click the button below to start the download.
+    </p>
+
+    <button mat-raised-button
+      color="primary"
+      (click)="this.loadData()">
+      Download Alveo Data
+    </button>
+  </div>
+</ng-template>

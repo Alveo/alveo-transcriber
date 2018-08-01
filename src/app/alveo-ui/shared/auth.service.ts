@@ -5,7 +5,7 @@ import { AlveoClientService } from '../../alveo-client/alveo-client.module';
 import { SessionService } from '../../session/session.module';
 import { environment } from '../../../environments/environment';
 
-import { AuthComponent } from '../auth/auth.component';
+import { LoginDialogComponent } from '../login-dialog/login-dialog.component';
 
 @Injectable()
 export class AuthService {
@@ -54,7 +54,7 @@ export class AuthService {
   public promptLogin(firstRun: boolean= false): void {
     setTimeout(() => {
       if (this.dialog.openDialogs.length < 1) {
-        this.dialog.open(AuthComponent, {
+        this.dialog.open(LoginDialogComponent, {
           disableClose: firstRun,
           data: {
             firstRun: firstRun,

@@ -23,7 +23,7 @@ import { AlveoTranscriberModule } from 'alveo-transcriber';
 import { AlveoRoutingModule } from './routing.module';
 
 import { AlveoUIComponent } from './alveo-ui.component';
-import { AuthComponent } from './auth/auth.component';
+import { LoginDialogComponent } from './login-dialog/login-dialog.component';
 import { DataSourceComponent } from './datasource/datasource.component';
 import { DevConsoleComponent } from './devconsole/devconsole.component';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
@@ -54,13 +54,13 @@ import { environment } from '../../environments/environment';
 @NgModule({
   declarations: [
     AlveoUIComponent,
-    AuthComponent,
     DataSourceComponent,
     DevConsoleComponent,
     ItemComponent,
     ItemLoaderComponent,
     ItemsComponent,
     LoadingSpinnerComponent,
+    LoginDialogComponent,
     ListIndexComponent,
     ListsComponent,
     ListTableComponent,
@@ -72,7 +72,7 @@ import { environment } from '../../environments/environment';
     TranscriptionManagerComponent
   ],
   entryComponents: [
-    AuthComponent,
+    LoginDialogComponent,
     RevisionSelectorComponent,
     TranscriptionManagerComponent
   ],

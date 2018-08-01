@@ -3,6 +3,7 @@ import { TestBed, inject } from '@angular/core/testing';
 import { Annotation } from './annotation';
 import { AnnotationExporterService } from './annotation-exporter.service';
 
+import * as _ from 'lodash';
 
 describe('AnnotationExporterService', () => {
   function generateAnnotations(): Array<Annotation> {
@@ -54,5 +55,32 @@ describe('AnnotationExporterService', () => {
     let a = service.asCSV("test.csv", annotations);
   }));
 
-  //JSON.parse
+  it('should create a valid json download', inject([AnnotationExporterService], (service: AnnotationExporterService) => {
+    const annotations = generateAnnotations();
+
+    let urlCreateObjectSpy = spyOn(URL, 'createObjectURL').and.callFake(
+      (blob) => {
+        expect(blob.type).toBe("application/json");
+
+        let reader = new FileReader();
+        reader.onload = () => {
+          const json = JSON.parse(reader.result);
+          const expAnnotations = json.annotations;
+
+          // This is done because lodash will fail the isEqual check
+          //  as `annotations` is Array<Annotations> but expAnnotations
+          //  is a flat JSON dict
+          const annotationsSimple = JSON.parse(JSON.stringify(annotations));
+
+          expect(_.isEqual(expAnnotations, annotationsSimple)).toBe(true);
+        }
+        reader.readAsText(blob);
+      }
+    );
+
+    // TODO filename?
+    
+    let a = service.asJSON("test.json", annotations);
+  }));
+
 });

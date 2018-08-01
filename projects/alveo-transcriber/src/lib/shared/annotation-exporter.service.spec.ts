@@ -53,7 +53,7 @@ describe('AnnotationExporterService', () => {
 
     // TODO test filename?
     
-    let a = service.asCSVAttachment("test.csv", annotations);
+    service.asCSVAttachment("test.csv", annotations);
   })));
 
   it('should create a valid json download', async(inject([AnnotationExporterService], (service: AnnotationExporterService) => {
@@ -80,6 +80,38 @@ describe('AnnotationExporterService', () => {
 
     // TODO test filename?
     
-    let a = service.asJSONAttachment("test.json", annotations);
+    service.asJSONAttachment("test.json", annotations);
+  })));
+
+  it('should create a valid webVTT download', async(inject([AnnotationExporterService], (service: AnnotationExporterService) => {
+    const annotations = generateAnnotations();
+
+    let urlCreateObjectSpy = spyOn(URL, 'createObjectURL').and.callFake(
+      (blob) => {
+        expect(blob.type).toBe("application/text");
+
+        let reader = new FileReader();
+        reader.onload = () => {
+          const vttRaw = reader.result;
+          let vtt = vttRaw.split("\n");
+          vtt = vtt.filter((vtt) => vtt);
+          expect(vtt[0]).toBe('WEBVTT');
+
+          //for (const vttLine in vtt) {
+          //}
+          
+          // For now we'll prioritise other tasks and just
+          //  compare the rest of the VTT to the regular export.
+          //
+          // We can't trust this so it should be implemented properly when possible
+          expect(vttRaw).toBe(service.asWebVTT(annotations));
+        }
+        reader.readAsText(blob);
+      }
+    );
+
+    // TODO test filename?
+    
+    service.asWebVTTAttachment("test.vtt", annotations);
   })));
 });

@@ -13,22 +13,21 @@ const json2csv = json2csv_.Parser;
 export class AnnotationExporterService {
   constructor() { }
 
-  public asCSV(filename: string, annotations: Array<Annotation>): void {
+  public asCSV(annotations: Array<Annotation>): string {
     const parser = new json2csv({ANNOTATION_CSV_FIELDS});
-    const csv = parser.parse(annotations);
-
-    const url = this.generateDownload(csv, 'text/csv'); 
-    this.downloadFile(url, filename);
+    return parser.parse(annotations);
   }
 
-  public asJSON(filename: string, annotations: Array<Annotation>): void {
-    const json = JSON.stringify({
-      'doc_id': filename,
-      'annotations': annotations,
-    }, null, 2);
+  public asCSVAttachment(filename: string, annotations: Array<Annotation>): void {
+    this.downloadAttachment(this.asCSV(annotations), 'text/csv', filename);
+  }
 
-    const url = this.generateDownload(json, 'application/json'); 
-    this.downloadFile(url, filename);
+  public asJSON(annotations: Array<Annotation>): string {
+    return JSON.stringify(annotations, null, 2);
+  }
+
+  public asJSONAttachment(filename: string, annotations: Array<Annotation>): void {
+    this.downloadAttachment(this.asJSON(annotations), 'application/json', filename);
   }
 
   private getVTTtimestamp(time: number): string {
@@ -37,7 +36,7 @@ export class AnnotationExporterService {
     return date.toISOString().substr(11, 12);
   }
 
-  public asWebVTT(filename: string, annotations: Array<Annotation>): void {
+  public asWebVTT(annotations: Array<Annotation>): string {
     let vtt = "WEBVTT\n\n";
     let index = 1;
     for (let annotation of annotations) {
@@ -54,12 +53,17 @@ export class AnnotationExporterService {
 
       index = index + 1;
     }
-
-    const url = this.generateDownload(vtt, 'application/text'); 
-    this.downloadFile(url, filename);
+    return vtt;
   }
 
-  private downloadFile(url, filename): void {
+  public asWebVTTAttachment(filename: string, annotations: Array<Annotation>): void {
+    this.downloadAttachment(this.asWebVTT(annotations), 'application/text', filename);
+  }
+
+  public downloadAttachment(data: string, dataType: any, filename: string): void {
+    const blob = new Blob([data], { type: dataType });
+    const url = window.URL.createObjectURL(blob);
+
     // Create named DL
     const anchor = document.createElement('a');
     anchor.download = filename;
@@ -72,10 +76,5 @@ export class AnnotationExporterService {
     // Cleanup
     window.document.body.removeChild(anchor);
     URL.revokeObjectURL(url);
-  }
-
-  private generateDownload(data: any, type: string): string {
-    const blob = new Blob([data], { type: type });
-    return window.URL.createObjectURL(blob);
   }
 }

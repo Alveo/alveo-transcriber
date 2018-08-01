@@ -151,15 +151,15 @@ export class AlveoTranscriber implements OnInit, OnDestroy {
   }
 
   public exportCSV(): void {
-    this.annotationExporter.asCSV(this.getAudioFileName() + '.csv', this.annotations);
+    this.annotationExporter.asCSVAttachment(this.getAudioFileName() + '.csv', this.annotations);
   }
 
   public exportJSON(): void {
-    this.annotationExporter.asJSON(this.getAudioFileName() + '.json', this.annotations);
+    this.annotationExporter.asJSONAttachment(this.getAudioFileName() + '.json', this.annotations);
   }
 
   public exportWebVTT(): void {
-    this.annotationExporter.asWebVTT(this.getAudioFileName() + '.vtt', this.annotations);
+    this.annotationExporter.asWebVTTAttachment(this.getAudioFileName() + '.vtt', this.annotations);
   }
 
   private dialogOpen(title: string, text: string): any {

@@ -1,40 +1,35 @@
-import { Component, ViewChild, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 
 @Component({
-  selector: 'listtable',
+  selector: 'app-listindex-listtable',
   templateUrl: './listtable.component.html',
   styleUrls: ['./listtable.component.css'],
 })
 
-export class ListTableComponent implements AfterViewInit {
+export class ListTableComponent implements OnInit {
   @Input() tableData: any;
-  @Output() listSelect = new EventEmitter<any>();
+  @Output() itemListSelect = new EventEmitter<any>();
 
   public displayedColumns = ['listName', 'items', 'shared'];
   public dataSource = new MatTableDataSource<Element>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  ngAfterViewInit() {
+  ngOnInit() {
+    // Create a new datasource
     this.dataSource = new MatTableDataSource<Element>(this.tableData);
+
+    // Let the table datasource know of our paginator object
+    // so that it can automatically handle it for us
     this.dataSource.paginator = this.paginator;
   }
 
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim();
-    filterValue = filterValue.toLowerCase(); // MatTable filters by lowercase
-    this.dataSource.filter = filterValue;
-  }
-
-  public onSelect(item): void {
-    this.listSelect.emit(item);
-  }
-
-  public getDataCount(): number {
-    if (this.tableData !== null) {
-      return this.tableData.length;
-    }
-    return 0;
+  /* Narrows down the table to results matching the searchQuery */
+  public applySearchFilter(searchQuery: string): void {
+    // Remove white space and convert to lower case as
+    // material only filters by lower case, then set it
+    // as our data source.
+    this.dataSource.filter = searchQuery.trim().toLowerCase();
   }
 }

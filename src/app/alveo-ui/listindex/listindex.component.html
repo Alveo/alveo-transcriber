@@ -1,13 +1,18 @@
-<div *ngIf="this.isReady()" class="center">
-  <ng-template #devConsoleTemplate [ngIf]="this.isDevMode()">
-    <dev-console></dev-console>
-  </ng-template>
-
-  <h2>Your item lists</h2>
-
-  <listtable [tableData]="this.getLists()" (listSelect)="onSelection($event)"></listtable>
+<div *ngIf="this.isLoading
+  then listindexLoading
+  else listindexMain">
 </div>
 
-<loading-spinner *ngIf="!this.isReady()">
-  <p>Loading lists ... </p>
-</loading-spinner>
+<ng-template #listindexLoading>
+  <loading-spinner>
+    <p>Loading lists ...</p>
+  </loading-spinner>
+</ng-template>
+
+<ng-template #listindexMain class="center">
+  <div class="center">
+    <h1 class="mat-h1">Item lists [Server: {{ this.sourceUrl }}]</h1>
+    <app-dev-console></app-dev-console>
+  </div>
+  <app-listindex-listtable [tableData]="this.lists" (itemListSelect)="onItemListSelect($event)"></app-listindex-listtable>
+</ng-template>

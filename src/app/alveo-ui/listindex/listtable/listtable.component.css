@@ -5,7 +5,7 @@
   margin-left: auto;
 }
 
-#conftable {
+#data-table {
   display: flex;
   flex-direction: column;
   max-width: 60em;
@@ -14,5 +14,5 @@
 
 .clickable:hover {
   cursor: pointer;
-  background: #EEEEEE;
+  background: #ffda7c;
 }

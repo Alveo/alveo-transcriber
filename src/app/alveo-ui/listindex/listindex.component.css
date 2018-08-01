@@ -1,22 +1,4 @@
-h2 {
-  padding: 0.3em 0 0.2em 0;
-}
-.bodytext, .count {
-  display: inline-block;
-}
-.name {
-  font-size: 30px;
-}
-.list {
-  background: #444444;
-  padding: 1em;
-  margin: 1em;
-  width: 240px;
-  text-align: center;
-  color: #CCCCCC;
-  display: inline-block;
-}
-.list:hover {
-  background: #555555;
-  color: #DDDDDD;
+h1 {
+  margin: 20px 0 0 0;
+  padding: 0;
 }

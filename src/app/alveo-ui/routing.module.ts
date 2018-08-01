@@ -9,6 +9,11 @@ import { TranscriberComponent } from './transcriber/transcriber.component';
 
 import { Paths } from './shared/paths';
 
+/* These are the routes we utilize across the AlveoUI module.
+ * You can add, remove and modify routes by editing `./shared/paths.ts`.
+ *
+ * The advantage of having them in an enum is for change centralisation.
+ */
 const routes: Routes = [
       {
         path: Paths.SelectDataSource,
@@ -37,6 +42,9 @@ const routes: Routes = [
       },
     ];
 
+/* This module just works with the Angular Router module and provides the above
+ * routes to it. Functionally it does not extend or modify the Angular Router.
+ */
 @NgModule({
   imports: [RouterModule.forRoot(routes, {useHash: false})],
   exports: [RouterModule],

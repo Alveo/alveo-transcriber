@@ -33,11 +33,11 @@ import { SessionService } from '../../session/session.module';
  *  An exception will be thrown if null.
  */
 @Component({
-  selector: 'app-auth',
-  templateUrl: './auth.component.html',
-  styleUrls: ['./auth.component.css'],
+  selector: 'app-login-dialog',
+  templateUrl: './login-dialog.component.html',
+  styleUrls: ['./login-dialog.component.css'],
 })
-export class AuthComponent {
+export class LoginDialogComponent {
   public isFirstRun: boolean;
   private loginUrl: string;
   private callbackRoute: Array<string>;
@@ -66,7 +66,7 @@ export class AuthComponent {
       /* We can't allow a null/undefined loginUrl as we would
        * be redirecting to an undefined location.*/
       throw("loginUrl should not be null.");
-      console.log("Error for AuthComponent data: loginUrl should not be null.");
+      console.log("Error for LoginDialog data: loginUrl should not be null.");
     }
     this.loginUrl = loginUrl;
   }

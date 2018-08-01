@@ -1,6 +1,12 @@
 import { Component, ViewChild, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 
+/* ListTableComponent is a sub-component used to display data neatly in
+ * a table and emit an event when an item has been clicked.
+ *
+ * It additionally provides search functionality and in general controls
+ * the view representation through MatTable.
+ */
 @Component({
   selector: 'app-listindex-listtable',
   templateUrl: './listtable.component.html',

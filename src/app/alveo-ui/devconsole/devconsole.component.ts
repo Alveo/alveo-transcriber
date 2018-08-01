@@ -14,7 +14,7 @@ import { Paths } from '../shared/paths';
  * aspects, and so that the UI doesn't get cluttered with buttons.
  */
 @Component({
-  selector: 'dev-console',
+  selector: 'app-dev-console',
   templateUrl: './devconsole.component.html',
   styleUrls: ['./devconsole.component.css'],
 })

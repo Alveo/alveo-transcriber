@@ -182,8 +182,8 @@ export class ItemsComponent implements OnInit {
   public onTranscribe(doc: any, item: any): any {
     this.transcribeItem.emit({
       'item': {
-        'id': item['data']['alveo:metadata']['dcterms:identifier'],
-        'collection': item['data']['alveo:metadata']['dcterms:isPartOf'],
+        'id': item['data']['alveo:metadata']['dc:identifier'],
+        'collection': item['data']['alveo:metadata']['dc:isPartOf'],
       },
       'doc': {
         'id': doc['dcterms:identifier']

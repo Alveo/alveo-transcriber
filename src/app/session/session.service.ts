@@ -50,8 +50,9 @@ export class SessionService {
     }, 5);
   }
 
-  public reset() {
+  public async reset(): Promise<any> {
     this.stored_route = [''];
+    await this.updateStorage();
   }
 
   public setCallbackRoute(route: any): Promise<any> {

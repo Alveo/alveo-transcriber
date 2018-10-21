@@ -31,25 +31,25 @@ export class AnnotationExporterService {
   }
 
   private getVTTtimestamp(time: number): string {
-    let date = new Date(null); 
+    const date = new Date(null);
     date.setTime(time * 1000);
     return date.toISOString().substr(11, 12);
   }
 
   public asWebVTT(annotations: Array<Annotation>): string {
-    let vtt = "WEBVTT\n\n";
+    let vtt = 'WEBVTT\n\n';
     let index = 1;
-    for (let annotation of annotations) {
-      vtt += index + "\n";
+    for (const annotation of annotations) {
+      vtt += index + '\n';
       vtt += this.getVTTtimestamp(annotation['start']);
-      vtt += " --> "
+      vtt += ' --> ';
       vtt += this.getVTTtimestamp(annotation['end']);
 
-      let author = "";
-      if (annotation.speaker != "") {
-        author = "<v "+annotation.speaker+">";
+      let author = '';
+      if (annotation.speaker != '') {
+        author = '<v ' + annotation.speaker + '>';
       }
-      vtt += "\n" + author + annotation.caption + "\n\n"
+      vtt += '\n' + author + annotation.caption + '\n\n';
 
       index = index + 1;
     }

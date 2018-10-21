@@ -88,12 +88,12 @@ export class AlveoTranscriber implements OnInit, OnDestroy {
   @HostListener('document:keydown', ['$event'])
   hotkeys(ev: KeyboardEvent) {
     const annotation = this.getSelectedAnnotation();
-    if (ev.key === "Escape") {
+    if (ev.key === 'Escape') {
       if (annotation !== null) {
         this.player.replayAnnotation(annotation);
       }
     }
-    if (ev.key === "Delete") {
+    if (ev.key === 'Delete') {
       if (annotation !== null) {
         this.promptDelete(annotation);
       }
@@ -102,14 +102,14 @@ export class AlveoTranscriber implements OnInit, OnDestroy {
 
   private async promptDelete(annotation: Annotation): Promise<any> {
     if (this.isReadOnly) {
-      console.log("Warning: attempting to delete annotation in readonly mode. Ignoring.");
+      console.log('Warning: attempting to delete annotation in readonly mode. Ignoring.');
       return;
     }
     const dialogStatus = this.dialogOpen('Warning', 'Are you sure you wish to delete this segment?');
     const confirmed = await dialogStatus.afterClosed().toPromise();
     if (confirmed) {
       if (annotation === null) {
-        console.log("Warning: Attempting to delete invalid region. Possibly already deleted?");
+        console.log('Warning: Attempting to delete invalid region. Possibly already deleted?');
       } else {
         this.player.deleteAnnotation(annotation);
       }
@@ -241,7 +241,7 @@ export class AlveoTranscriber implements OnInit, OnDestroy {
 
     let prevAnnotation = null;
     if (this.annotations.length > 0) {
-      let prevAnnotation = this.annotations[0];
+      const prevAnnotation = this.annotations[0];
     }
 
     for (const annotation of this.annotations) {
@@ -281,7 +281,7 @@ export class AlveoTranscriber implements OnInit, OnDestroy {
 
   private saveAnnotations() {
     if (this.isReadOnly) {
-      console.log("Warning: attempting to save annotations in readonly mode. Ignoring.");
+      console.log('Warning: attempting to save annotations in readonly mode. Ignoring.');
       return;
     }
 
@@ -293,7 +293,7 @@ export class AlveoTranscriber implements OnInit, OnDestroy {
   }
 
   public annotationEvent(ev: any): void {
-    let annotation = ev['annotation']
+    const annotation = ev['annotation'];
     switch (ev['type']) {
       case 'select': {
         this.selectAnnotation(annotation);
@@ -312,7 +312,7 @@ export class AlveoTranscriber implements OnInit, OnDestroy {
           this.saveAnnotations();
           this.selectAnnotation(annotation, true);
         } else {
-          console.log("Warning: attempting to resize annotation in readonly mode. Ignoring.");
+          console.log('Warning: attempting to resize annotation in readonly mode. Ignoring.');
         }
         break;
       }
@@ -329,7 +329,7 @@ export class AlveoTranscriber implements OnInit, OnDestroy {
           this.selectAnnotation(annotation, false);
           this.saveAnnotations();
         } else {
-          console.log("Warning: attempting to create annotation in readonly mode. Ignoring.");
+          console.log('Warning: attempting to create annotation in readonly mode. Ignoring.');
         }
         break;
       }
@@ -338,7 +338,7 @@ export class AlveoTranscriber implements OnInit, OnDestroy {
           this.deleteAnnotation(annotation);
           this.saveAnnotations();
         } else {
-          console.log("Warning: attempting to create annotation in readonly mode. Ignoring.");
+          console.log('Warning: attempting to create annotation in readonly mode. Ignoring.');
         }
         break;
       }

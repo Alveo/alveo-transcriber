@@ -6,7 +6,7 @@ export class DurationPipe implements PipeTransform {
   private cachedResult: string;
 
   transform(input: number): string {
-    if(input == this.previousValue && this.cachedResult) {
+    if (input == this.previousValue && this.cachedResult) {
       return this.cachedResult;
     }
     this.previousValue = input;
@@ -28,7 +28,7 @@ export class DurationShortPipe implements PipeTransform {
   private cachedResult: string;
 
   transform(input: number): string {
-    if(input == this.previousValue && this.cachedResult) {
+    if (input == this.previousValue && this.cachedResult) {
       return this.cachedResult;
     }
     this.previousValue = input;

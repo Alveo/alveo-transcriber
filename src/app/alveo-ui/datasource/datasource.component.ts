@@ -19,7 +19,7 @@ import { Paths } from '../shared/paths';
   styleUrls: ['./datasource.component.css'],
 })
 export class DataSourceComponent implements OnInit {
-  public isWorking: boolean= true;
+  public isWorking = true;
 
   constructor(
     private authService: AuthService,

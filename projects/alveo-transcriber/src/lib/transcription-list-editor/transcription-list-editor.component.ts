@@ -19,11 +19,11 @@ export class TranscriptionListEditorComponent {
     if (annotation !== this._selectedAnnotation) {
       // Allow time to re-render
       //  Only needed after region created
-      setTimeout(()=> {
+      setTimeout(() => {
         if (annotation === this._selectedAnnotation) {
           this.scrollToAnnotation(annotation);
         }
-      }, 50)
+      }, 50);
     }
     this._selectedAnnotation = annotation;
   }

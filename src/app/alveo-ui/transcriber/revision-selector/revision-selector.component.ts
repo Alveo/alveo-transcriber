@@ -4,7 +4,7 @@ import { AuthService } from '../../shared/auth.service';
 import { AlveoTransServClientService } from '../../../alveo-transserv-client/alveo-transserv-client.service';
 import { Transcription } from '../../../transcription/transcription';
 
-const UTC = "+0000"; // Sync times
+const UTC = '+0000'; // Sync times
 const VERSION_LIMIT = 12;
 
 @Component({
@@ -13,14 +13,14 @@ const VERSION_LIMIT = 12;
   styleUrls: ['./revision-selector.component.css']
 })
 export class RevisionSelectorComponent implements OnInit {
-  public isRevisionWindowOpen: boolean= false;
-  public transcription: Transcription= null;
-  public tooManyVersions: boolean= false;
+  public isRevisionWindowOpen = false;
+  public transcription: Transcription = null;
+  public tooManyVersions = false;
 
   public revisions: any;
-  public selectedRevision: any= null;
+  public selectedRevision: any = null;
 
-  public isLoading: boolean= true;
+  public isLoading = true;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: any,
@@ -45,7 +45,7 @@ export class RevisionSelectorComponent implements OnInit {
       version: undefined,
       totalAnnotations: this.transcription.annotations.length,
       author: undefined
-    })
+    });
 
     const remoteId = this.transcription.remoteId;
 
@@ -61,18 +61,18 @@ export class RevisionSelectorComponent implements OnInit {
         this.tooManyVersions = true;
       }
 
-      for (let i=total_versions; i>=min_versions; i--) {
+      for (let i = total_versions; i >= min_versions; i--) {
         const response = await this.atsClient.getRemoteStorage(remoteId, i);
         this.addRevision(response);
       }
-    } 
+    }
 
     this.isLoading = false;
   }
 
-  private addRevision(response: any, type: string= "remote"): void {
-    const time = Date.parse(response['timestamp']+UTC);
-    let transcription = new Transcription(
+  private addRevision(response: any, type: string= 'remote'): void {
+    const time = Date.parse(response['timestamp'] + UTC);
+    const transcription = new Transcription(
       response['id'],
       response['transcription'],
       time,
@@ -86,7 +86,7 @@ export class RevisionSelectorComponent implements OnInit {
       version: response['version'],
       totalAnnotations: transcription.annotations.length,
       author: response['author']['version']['remote_id']
-    })
+    });
   }
 
   public selectRevision(revision: any): void {
@@ -99,7 +99,7 @@ export class RevisionSelectorComponent implements OnInit {
     if (this.selectedRevision != null) {
       this.dialogRef.close({ transcription: this.selectedRevision.transcription });
     } else {
-      console.log("Warning: No revision selected, this shouldn't occur");
+      console.log('Warning: No revision selected, this shouldn\'t occur');
     }
   }
 }

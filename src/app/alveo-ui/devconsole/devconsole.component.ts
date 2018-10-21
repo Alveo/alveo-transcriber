@@ -23,7 +23,7 @@ export class DevConsoleComponent {
     private authService: AuthService,
     private alveoClientService: AlveoClientService,
     private sessionService: SessionService,
-    private transcriptionService: TranscriptionService 
+    private transcriptionService: TranscriptionService
   ) {}
 
   public async updateItemListIndex() {

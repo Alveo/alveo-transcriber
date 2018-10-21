@@ -4,7 +4,7 @@ import { MatDialog, MAT_DIALOG_DATA } from '@angular/material';
 import { SessionService } from '../../session/session.module';
 
 /* Component for displaying a login dialog and explanatory message.
- * 
+ *
  * This component must be injected through MatDialog in order to
  * function properly. The AuthService has been set up to handle
  * this for you through the promptLogin() method, it also provides
@@ -49,7 +49,7 @@ export class LoginDialogComponent {
   ) { }
 
   ngOnInit(): void {
-    let isFirstRun = this.data['firstRun']; 
+    let isFirstRun = this.data['firstRun'];
     if (isFirstRun == null) {
       isFirstRun = false;
     }
@@ -61,12 +61,12 @@ export class LoginDialogComponent {
     }
     this.callbackRoute = callbackRoute;
 
-    let loginUrl = this.data['loginUrl'];
+    const loginUrl = this.data['loginUrl'];
     if (loginUrl == null) {
       /* We can't allow a null/undefined loginUrl as we would
        * be redirecting to an undefined location.*/
-      throw("loginUrl should not be null.");
-      console.log("Error for LoginDialog data: loginUrl should not be null.");
+      throw new Error(('loginUrl should not be null.'));
+      console.log('Error for LoginDialog data: loginUrl should not be null.');
     }
     this.loginUrl = loginUrl;
   }

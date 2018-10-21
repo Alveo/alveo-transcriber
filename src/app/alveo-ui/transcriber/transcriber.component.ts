@@ -16,7 +16,7 @@ import { environment } from '../../../environments/environment';
 import { AuthService } from '../shared/auth.service';
 import { Paths } from '../shared/paths';
 
-const UTC = "+0000";
+const UTC = '+0000';
 
 @Component({
   selector: 'transcriber',
@@ -207,16 +207,16 @@ export class TranscriberComponent implements OnInit {
                                                       this.transcription.storageSpecification);
         this.transcription.remoteId = response.id;
         this.transcription.remoteVersion = response.version;
-        const time = Date.parse(response['timestamp']+UTC)
+        const time = Date.parse(response['timestamp'] + UTC);
         this.transcription.lastEdit = time;
         this.transcription.isPendingUpload = false;
-      } catch(e) {
-        console.log("Error remotely saving transcriptions:", e);
+      } catch (e) {
+        console.log('Error remotely saving transcriptions:', e);
       }
     }
     // Save locally only after saving remotely, so the remote_id is hopefully assigned
     await this.saveTranscriptionLocal(key, this.transcription);
-    console.log("Transcription saved.");
+    console.log('Transcription saved.');
     this.isSaving = false;
   }
 
@@ -239,7 +239,7 @@ export class TranscriberComponent implements OnInit {
       this.transcription = new Transcription(remoteId, annotations);
       // Not important to update this since we're technically not saving after the segmentor runs
       //  Should we?
-      //this.lastEdit = this.transcription.lastEdit;
+      // this.lastEdit = this.transcription.lastEdit;
       this.saveTranscriptionLocal(this.getIdentifier(), this.transcription);
     } catch (error) {
       this.sessionService.displayError(error.message, error);
@@ -251,7 +251,7 @@ export class TranscriberComponent implements OnInit {
 
   public promptRevisionChange(): void {
     if (this.dialog.openDialogs.length < 1) {
-      let dialog = this.dialog.open(RevisionSelectorComponent, {
+      const dialog = this.dialog.open(RevisionSelectorComponent, {
         data: {
           transcription: this.transcription
         }

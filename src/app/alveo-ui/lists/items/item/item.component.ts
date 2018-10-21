@@ -7,7 +7,7 @@ import { TranscriptionService } from '../../../../transcription/transcription.mo
 import { TranscriptionManagerComponent } from './transcription-manager/transcription-manager.component';
 import { AuthService } from '../../../shared/auth.service';
 
-const UTC = "+0000"; // TODO as environment variable, or add conversion function somewhere
+const UTC = '+0000'; // TODO as environment variable, or add conversion function somewhere
 
 /* Display component for showing and selecting of docs
  *   Provides route for Annotator module */
@@ -20,8 +20,8 @@ export class ItemComponent implements OnInit {
   @Input() item: any = null;
   @Output() transcribe = new EventEmitter<any>();
   private annotationCount = 0;
-  public selectedSource: any= null;
-  public transcription: Transcription= null;
+  public selectedSource: any = null;
+  public transcription: Transcription = null;
 
   public audioSources: any = [];
 
@@ -60,21 +60,20 @@ export class ItemComponent implements OnInit {
 
   public async fetchRemote(): Promise<any> {
     try {
-      console.log("Attempting remote object sync");
+      console.log('Attempting remote object sync');
       let response = await this.atsService.listRemoteStorage(this.getAnnotationHandle());
       const objects = response.storage_objects;
       if (objects.length > 0) {
         if (this.transcription == null
           || (this.transcription.remoteVersion != null
               && objects[0].version > this.transcription.remoteVersion
-              && Date.parse(objects[0].timestamp+UTC) == objects[0].lastEdit
+              && Date.parse(objects[0].timestamp + UTC) == objects[0].lastEdit
              )
-          )
-        {
+          ) {
           response = await this.atsService.getRemoteStorage(response.storage_objects[0]['id']);
 
-          const time = Date.parse(response['timestamp']+UTC);
-          let transcription = new Transcription(
+          const time = Date.parse(response['timestamp'] + UTC);
+          const transcription = new Transcription(
             response['id'],
             response['transcription'],
             time,
@@ -84,18 +83,17 @@ export class ItemComponent implements OnInit {
           this.transcription = transcription;
 
           await this.transcriptionService.saveTranscription(this.getAnnotationHandle(), transcription);
-          console.log("Object remote sync OK");
+          console.log('Object remote sync OK');
         } else {
-          console.log("Object auto sync declined, conditions not met");
+          console.log('Object auto sync declined, conditions not met');
         }
       }
-    } catch(error) {
+    } catch (error) {
       if (error.status === 401) {
-        console.log("Can't sync, not authed");
+        console.log('Can\'t sync, not authed');
       } else if (error.status === 404) {
-        console.log("Can't sync, not authed");
-      }
-      else {
+        console.log('Can\'t sync, not authed');
+      } else {
         console.log(error);
       }
     }
@@ -123,14 +121,14 @@ export class ItemComponent implements OnInit {
 
   public promptTranscriptionManager(): void {
     if (this.dialog.openDialogs.length < 1) {
-      let dialog = this.dialog.open(TranscriptionManagerComponent, {
+      const dialog = this.dialog.open(TranscriptionManagerComponent, {
         data: {
         }
       });
       dialog.afterClosed().subscribe(
         (response) => {
-          //if (response[''] !== undefined) {
-          //}
+          // if (response[''] !== undefined) {
+          // }
         }
       );
     }

@@ -13,7 +13,7 @@ export class AlveoTransServClientService  {
   private atsPaths = environment.alveoTranscriberServices.paths;
   private atsAuthDomain = environment.alveoTranscriberServices.auth;
 
-  private apiKey: string= null;
+  private apiKey: string = null;
 
   constructor(private http: HttpClient) {
   }
@@ -50,14 +50,14 @@ export class AlveoTransServClientService  {
   }
 
   public listRemoteStorage(key: string= null, user: number= null): Promise<any> {
-    let key_query = "";
+    let key_query = '';
     if (key != null) {
-      key_query = key
+      key_query = key;
     }
 
-    let user_query = "";
+    let user_query = '';
     if (user != null) {
-      user_query = "?user_id="+user.toString();
+      user_query = '?user_id=' + user.toString();
     }
 
     return this.http.get(
@@ -92,7 +92,7 @@ export class AlveoTransServClientService  {
     return this.http.post(
       this.atsPaths.mainUrl
       + this.atsPaths.objectPostSuffix,
-      { 
+      {
         key: key,
         value: data,
         storage_spec: storage_spec

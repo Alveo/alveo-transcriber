@@ -29,16 +29,16 @@ export class PlayerComponent implements OnInit {
   @Input() autoPlay = false;
   @Input() isReadOnly: boolean;
 
-  private ready: boolean= null;
+  private ready: boolean = null;
 
-  private player: WaveSurfer= null;
-  private selectedRegion: any= null;
+  private player: WaveSurfer = null;
+  private selectedRegion: any = null;
 
-  public audioCurrentTime: number= 0;
-  public audioDuration: number= 0;
+  public audioCurrentTime = 0;
+  public audioDuration = 0;
 
-  private zoom: number= 3;
-  private zoom_threshold: number= 10;
+  private zoom = 3;
+  private zoom_threshold = 10;
 
 
   constructor(
@@ -131,7 +131,7 @@ export class PlayerComponent implements OnInit {
         return;
       }
 
-      let annotation = this.getAnnotationByID(region.id);
+      const annotation = this.getAnnotationByID(region.id);
 
       // Hopefully because it's still being created
       if (annotation !== null) {
@@ -279,8 +279,8 @@ export class PlayerComponent implements OnInit {
           start: annotation.start,
           end: annotation.end,
           color: BASE_COLOUR,
-          drag: this.isReadOnly? false: true,
-          resize: this.isReadOnly? false: true,
+          drag: this.isReadOnly ? false : true,
+          resize: this.isReadOnly ? false : true,
         });
       }
     }
@@ -324,15 +324,15 @@ export class PlayerComponent implements OnInit {
 
       this.gotoRegion(region);
 
-      region.update({color: 
-        this.isReadOnly ? SELECTED_READONLY_COLOUR: SELECTED_COLOUR
+      region.update({color:
+        this.isReadOnly ? SELECTED_READONLY_COLOUR : SELECTED_COLOUR
       });
 
       if (this.autoPlay && !ignoreAutoplay) {
         // Hack: Wait for smooth scroll to finish
         //  If we call region.play() too early, it will break the scroll
         //  for Chrome and possibly other browsers.
-        setTimeout(()=>{
+        setTimeout(() => {
           // Make sure the region is still selected
           if (region == this.selectedRegion) {
             region.play();

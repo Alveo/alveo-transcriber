@@ -21,8 +21,8 @@ import { Paths } from '../shared/paths';
   styleUrls: ['./listindex.component.css'],
 })
 export class ListIndexComponent implements OnInit {
-  public sourceUrl: string= environment.alveoPaths.mainUrl;
-  public isLoading: boolean= true;
+  public sourceUrl: string = environment.alveoPaths.mainUrl;
+  public isLoading = true;
   public lists: Array<any>;
 
   constructor(

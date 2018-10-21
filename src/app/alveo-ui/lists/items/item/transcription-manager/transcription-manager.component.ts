@@ -11,9 +11,9 @@ import { Transcription } from '../../../../../transcription/transcription';
   styleUrls: ['./transcription-manager.component.css']
 })
 export class TranscriptionManagerComponent implements OnInit {
-  public transcriptionKey: string= null;
-  public isLoading: boolean= true;
-  public selectedTranscription: Transcription= null;
+  public transcriptionKey: string = null;
+  public isLoading = true;
+  public selectedTranscription: Transcription = null;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: any,

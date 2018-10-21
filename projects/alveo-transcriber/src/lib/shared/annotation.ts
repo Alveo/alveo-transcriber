@@ -30,7 +30,7 @@ export class Annotation {
 
     // this.cap_options = [
     //  'text', 'noise'
-    //];
+    // ];
   }
 }
 

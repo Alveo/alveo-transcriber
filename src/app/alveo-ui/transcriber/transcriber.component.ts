@@ -2,7 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { MatDialog } from '@angular/material';
 
-import { AlveoTranscriber, Annotation } from 'alveo-transcriber';
+import { AlveoTranscriber } from '../../../../projects/alveo-transcriber/src/lib/alveo-transcriber.component';
+import { Annotation } from '../../../../projects/alveo-transcriber/src/lib/shared/annotation';
 
 import { AlveoClientService } from '../../alveo-client/alveo-client.module';
 import { AlveoTransServClientService } from '../../alveo-transserv-client/alveo-transserv-client.module';
@@ -29,17 +30,17 @@ export class TranscriberComponent implements OnInit {
 
   private item: any = null;
   private audioFileData: ArrayBuffer = null;
-  private transcription: Transcription = null;
+  public transcription: Transcription = null;
   private annotations: Array<Annotation> = [];
   private selectedAnnotation: Annotation = null;
   private defaultView = 'list';
 
-  private isSegmenting = false;
+  public isSegmenting = false;
 
   private item_id = '';
   private collection_id = '';
 
-  private isReadOnly = false;
+  public isReadOnly = false;
 
   public doc_id = '';
   public errorRaised = false;
@@ -54,7 +55,7 @@ export class TranscriberComponent implements OnInit {
     private transcriptionService: TranscriptionService,
     private alveoClientService: AlveoClientService,
     private sessionService: SessionService,
-    private authService: AuthService,
+    public authService: AuthService,
     private activatedRoute: ActivatedRoute,
     private dialog: MatDialog,
   ) { }
@@ -219,7 +220,7 @@ export class TranscriberComponent implements OnInit {
     this.isSaving = false;
   }
 
-  private async autoSegment(ev: any) {
+  public async autoSegment(ev: any) {
     if (!this.authService.isLoggedIn()) {
       this.authService.promptLogin();
     } else {
@@ -248,7 +249,7 @@ export class TranscriberComponent implements OnInit {
     }
   }
 
-  private promptRevisionChange(): void {
+  public promptRevisionChange(): void {
     if (this.dialog.openDialogs.length < 1) {
       let dialog = this.dialog.open(RevisionSelectorComponent, {
         data: {
@@ -278,7 +279,7 @@ export class TranscriberComponent implements OnInit {
     }
   }
 
-  private checkChangesPending() {
+  public checkChangesPending() {
     if (this.annotator !== undefined) {
       return this.annotator.changesPending;
     } else {
@@ -286,6 +287,6 @@ export class TranscriberComponent implements OnInit {
     }
   }
 
-  private onChanges(ev: any): void {
+  public onChanges(ev: any): void {
   }
 }

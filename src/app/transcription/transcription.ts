@@ -1,4 +1,4 @@
-import { Annotation } from 'alveo-transcriber';
+import { Annotation } from '../../../projects/alveo-transcriber/src/lib/shared/annotation';
 
 const STORAGE_VERSION = "att_1.0";
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { BrowserCacheDatabase } from '../browser-cache/browser-cache.module';
 import { BackendClientService } from './backend-client.service';

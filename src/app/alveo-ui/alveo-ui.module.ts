@@ -18,7 +18,7 @@ import {
 } from '@angular/material';
 import { CdkTableModule } from '@angular/cdk/table';
 
-import { AlveoTranscriberModule } from 'alveo-transcriber';
+import { AlveoTranscriberModule } from '../../../projects/alveo-transcriber/src/lib/alveo-transcriber.module';
 
 import { AlveoRoutingModule } from './routing.module';
 

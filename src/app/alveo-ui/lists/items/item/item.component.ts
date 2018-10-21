@@ -20,15 +20,15 @@ export class ItemComponent implements OnInit {
   @Input() item: any = null;
   @Output() transcribe = new EventEmitter<any>();
   private annotationCount = 0;
-  private selectedSource: any= null;
-  private transcription: Transcription= null;
+  public selectedSource: any= null;
+  public transcription: Transcription= null;
 
   public audioSources: any = [];
 
   constructor(
     private transcriptionService: TranscriptionService,
     private atsService: AlveoTransServClientService,
-    private authService: AuthService,
+    public authService: AuthService,
     private dialog: MatDialog
   ) { }
 
@@ -105,7 +105,7 @@ export class ItemComponent implements OnInit {
     return this.item['data']['alveo:metadata']['alveo:handle'];
   }
 
-  private getAudioSources(): any {
+  public getAudioSources(): any {
     return this.audioSources;
   }
 

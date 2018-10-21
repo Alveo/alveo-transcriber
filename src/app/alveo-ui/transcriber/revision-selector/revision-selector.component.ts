@@ -17,7 +17,7 @@ export class RevisionSelectorComponent implements OnInit {
   public transcription: Transcription= null;
   public tooManyVersions: boolean= false;
 
-  private revisions: any;
+  public revisions: any;
   public selectedRevision: any= null;
 
   public isLoading: boolean= true;

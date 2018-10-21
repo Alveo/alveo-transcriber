@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { AlveoClientService } from '../../alveo-client/alveo-client.module';
 import { SessionService } from '../../session/session.module';
